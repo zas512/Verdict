@@ -3,7 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
 import { PrismaService } from "./prisma/prisma.service";
-import { UserRole } from "./generated/prisma/client";
+import { UserRole } from "./generated/prisma/enums";
 
 /**
  * Covers the wiring that is easy to break and impossible to see in a unit test:

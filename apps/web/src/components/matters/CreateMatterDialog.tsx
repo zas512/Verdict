@@ -149,7 +149,7 @@ export function CreateMatterDialog({
       toast.success("New matter created successfully.");
       reset();
       onOpenChange(false);
-      queryClient.invalidateQueries({ queryKey: ["matters"] });
+      void queryClient.invalidateQueries({ queryKey: ["matters"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to create matter");

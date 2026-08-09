@@ -267,7 +267,7 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
     return (
       <div className="text-center p-8 text-sm text-destructive font-semibold">
         Failed to load timeline:{" "}
-        {error instanceof Error ? error.message : "Server error"}
+        {error.message}
       </div>
     );
   }

@@ -179,7 +179,7 @@ export function MatterParties({
       toast.success("Party successfully linked to case roster.");
       reset();
       setIsOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["matter", matter.id] });
+      void queryClient.invalidateQueries({ queryKey: ["matter", matter.id] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to link party");

@@ -107,9 +107,9 @@ export function TaskDetailDialog({
   );
 
   const invalidateTask = () => {
-    queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    void queryClient.invalidateQueries({ queryKey: ["tasks"] });
     if (localTask?.matterId) {
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: ["matter-timeline", localTask.matterId]
       });
     }
@@ -248,7 +248,7 @@ export function TaskDetailDialog({
       toast.success("Task deleted");
       setConfirmingDelete(false);
       onOpenChange(false);
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      void queryClient.invalidateQueries({ queryKey: ["tasks"] });
       onChanged();
     },
     onError: (err: Error) => toast.error(err.message || "Delete failed")

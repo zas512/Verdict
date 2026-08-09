@@ -72,7 +72,7 @@ export function AssignAssociateDialog({
       onOpenChange(false);
       setSelectedAssociateId("");
       setAssociateRole("Associate");
-      queryClient.invalidateQueries({ queryKey: ["matter", matterId] });
+      void queryClient.invalidateQueries({ queryKey: ["matter", matterId] });
     },
     onError: (err: Error) => toast.error(err.message)
   });

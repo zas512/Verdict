@@ -10,7 +10,7 @@ import {
   MaxLength,
   MinLength
 } from "class-validator";
-import { UserRole } from "../../../generated/prisma/client";
+import { UserRole } from "../../../generated/prisma/enums";
 
 /** The only roles a firm administrator may hand out. */
 export const FIRM_MEMBER_ROLES = [

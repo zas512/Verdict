@@ -10,7 +10,7 @@ import {
 import { CurrentUser } from "../auth/decorators/current-user.decorator";
 import { Roles } from "../auth/decorators/roles.decorator";
 import type { JwtPayload } from "../auth/strategies/access-token.strategy";
-import { UserRole } from "../../generated/prisma/client";
+import { UserRole } from "../../generated/prisma/enums";
 import { CreateDocumentDto } from "./dto/create-document.dto";
 import { CreateVersionDto } from "./dto/create-version.dto";
 import { CaseDocumentsService } from "./case-documents.service";

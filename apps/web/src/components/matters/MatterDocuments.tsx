@@ -174,8 +174,8 @@ export function MatterDocuments({
       toast.success("Logical document created and version #1 indexed.");
       resetCreate();
       setIsCreateOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["matter-documents", id] });
-      queryClient.invalidateQueries({ queryKey: ["matter-timeline", id] });
+      void queryClient.invalidateQueries({ queryKey: ["matter-documents", id] });
+      void queryClient.invalidateQueries({ queryKey: ["matter-timeline", id] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to upload document");
@@ -205,8 +205,8 @@ export function MatterDocuments({
       resetVersion();
       setIsVersionOpen(false);
       setSelectedDoc(null);
-      queryClient.invalidateQueries({ queryKey: ["matter-documents", id] });
-      queryClient.invalidateQueries({ queryKey: ["matter-timeline", id] });
+      void queryClient.invalidateQueries({ queryKey: ["matter-documents", id] });
+      void queryClient.invalidateQueries({ queryKey: ["matter-timeline", id] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to add revision");

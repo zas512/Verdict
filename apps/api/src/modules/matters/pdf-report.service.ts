@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import {Injectable} from "@nestjs/common";
 
 @Injectable()
 export class PdfReportService {
@@ -64,17 +64,15 @@ export class PdfReportService {
     const startXref = offset;
     const trailer = `trailer\n<< /Size ${offsets.length + 1} /Root 1 0 R >>\nstartxref\n${startXref}\n%%EOF\n`;
 
-    const pdfBuffer = Buffer.concat([
-      Buffer.from(`%PDF-1.4\n`),
-      Buffer.from(catalogObj + `\n`),
-      Buffer.from(pagesObj + `\n`),
-      Buffer.from(pageObj + `\n`),
-      Buffer.from(fontObj + `\n`),
-      Buffer.from(pageContentsObj + `\n`),
-      Buffer.from(xrefStr),
-      Buffer.from(trailer)
+    return Buffer.concat([
+        Buffer.from(`%PDF-1.4\n`),
+        Buffer.from(catalogObj + `\n`),
+        Buffer.from(pagesObj + `\n`),
+        Buffer.from(pageObj + `\n`),
+        Buffer.from(fontObj + `\n`),
+        Buffer.from(pageContentsObj + `\n`),
+        Buffer.from(xrefStr),
+        Buffer.from(trailer)
     ]);
-
-    return pdfBuffer;
   }
 }

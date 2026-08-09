@@ -196,7 +196,7 @@ export function ExpensesClient() {
         throw new Error(errorData.message || "Failed to delete expense");
       }
       toast.success("Expense deleted");
-      queryClient.invalidateQueries({ queryKey: ["expenses"] });
+      await queryClient.invalidateQueries({ queryKey: ["expenses"] });
     } catch (err) {
       toast.error(getErrorMessage(err, "Error deleting expense"));
     }
@@ -216,7 +216,7 @@ export function ExpensesClient() {
       toast.success(
         template.isActive ? "Template paused" : "Template activated"
       );
-      queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
+      await queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
     } catch (err) {
       toast.error(getErrorMessage(err, "Error updating template"));
     }
@@ -239,7 +239,7 @@ export function ExpensesClient() {
         throw new Error(errorData.message || "Failed to delete template");
       }
       toast.success("Recurring template deleted");
-      queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
+        await queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
     } catch (err) {
       toast.error(getErrorMessage(err, "Error deleting template"));
     }
@@ -261,8 +261,8 @@ export function ExpensesClient() {
           ? `Generated ${generated} expense${generated === 1 ? "" : "s"}`
           : "No recurring expenses were due"
       );
-      queryClient.invalidateQueries({ queryKey: ["expenses"] });
-      queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
+        await queryClient.invalidateQueries({ queryKey: ["expenses"] });
+        await queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
     } catch (err) {
       toast.error(getErrorMessage(err, "Error generating recurring expenses"));
     } finally {

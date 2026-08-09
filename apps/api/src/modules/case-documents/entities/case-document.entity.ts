@@ -1,5 +1,5 @@
 import { Expose, Type } from "class-transformer";
-import { DocumentCategory } from "../../../generated/prisma/client";
+import { DocumentCategory } from "../../../generated/prisma/enums";
 
 export class CaseDocumentVersionEntity {
   @Expose()

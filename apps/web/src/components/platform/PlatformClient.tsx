@@ -143,7 +143,7 @@ export function PlatformClient() {
       toast.success("Firm and owner account created successfully.");
       reset();
       setIsCreateOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["firms"] });
+      void queryClient.invalidateQueries({ queryKey: ["firms"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to create firm");
@@ -570,7 +570,7 @@ export function PlatformClient() {
         open={isInviteOwnerOpen}
         onOpenChange={setIsInviteOwnerOpen}
         onInvited={() => {
-          queryClient.invalidateQueries({ queryKey: ["firms"] });
+          void queryClient.invalidateQueries({ queryKey: ["firms"] });
         }}
       />
 
@@ -583,7 +583,7 @@ export function PlatformClient() {
         }}
         onCreated={() => {
           if (createFirm) {
-            queryClient.invalidateQueries({
+            void queryClient.invalidateQueries({
               queryKey: ["firm-members", createFirm.id]
             });
           }

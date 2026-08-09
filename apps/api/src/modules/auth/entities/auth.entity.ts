@@ -1,5 +1,5 @@
 import { Expose, Type } from "class-transformer";
-import type { UserRole } from "../../../generated/prisma/client";
+import type { UserRole } from "../../../generated/prisma/enums";
 
 export class FirmBrandEntity {
   @Expose()

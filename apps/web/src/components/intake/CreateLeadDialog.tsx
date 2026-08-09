@@ -35,7 +35,7 @@ interface Associate {
 const createLeadSchema = z.object({
   name: z.string().min(2, { message: "Lead name is required" }),
   phone: z.string().optional(),
-  email: z.string().email("Enter a valid email").optional().or(z.literal("")),
+  email: z.email("Enter a valid email").optional().or(z.literal("")),
   cnic: z.string().optional(),
   practiceArea: z
     .enum(["CIVIL", "CRIMINAL", "WRIT", "FAMILY", "SERVICE", "CORPORATE", "TAXATION"])
@@ -110,7 +110,7 @@ export function CreateLeadDialog({
       toast.success("Lead captured in the intake pipeline.");
       reset();
       onOpenChange(false);
-      queryClient.invalidateQueries({ queryKey: ["leads"] });
+      void queryClient.invalidateQueries({ queryKey: ["leads"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to create lead");

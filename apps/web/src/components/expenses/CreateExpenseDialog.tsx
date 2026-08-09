@@ -60,7 +60,7 @@ const createExpenseSchema = z.object({
   vendor: z.string().optional(),
   paymentMethod: z.string().optional(),
   receiptUrl: z
-    .union([z.literal(""), z.string().url({ message: "Enter a valid URL" })])
+    .union([z.literal(""), z.url({ message: "Enter a valid URL" })])
     .optional(),
   associateId: z.string().optional()
 });
@@ -163,7 +163,7 @@ export function CreateExpenseDialog({
       );
       reset();
       onOpenChange(false);
-      queryClient.invalidateQueries({ queryKey: ["expenses"] });
+      void queryClient.invalidateQueries({ queryKey: ["expenses"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to record expense");

@@ -6,7 +6,7 @@ import {
   Matches,
   MaxLength
 } from "class-validator";
-import { AttendanceStatus } from "../../../../generated/prisma/client";
+import { AttendanceStatus } from "../../../../generated/prisma/enums";
 
 export class CheckInDto {
   @IsString()

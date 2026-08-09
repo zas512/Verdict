@@ -14,7 +14,7 @@ import { randomBytes } from "crypto";
 import type { SignOptions } from "jsonwebtoken";
 import { toEntity } from "../../common/serialization/serialize";
 import type { EnvironmentVariables } from "../../config/env.validation";
-import { AuthProvider, UserRole } from "../../generated/prisma/client";
+import { AuthProvider, UserRole } from "../../generated/prisma/enums";
 import { MailService } from "../mail/mail.service";
 import { PrismaService } from "../../prisma/prisma.service";
 import { BCRYPT_ROUNDS } from "./auth.constants";

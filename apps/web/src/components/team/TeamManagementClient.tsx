@@ -107,7 +107,7 @@ export function TeamManagementClient() {
     onSuccess: () => {
       toast.success("Employee account created successfully.");
       reset();
-      queryClient.invalidateQueries({ queryKey: ["team-members"] });
+      void queryClient.invalidateQueries({ queryKey: ["team-members"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to create employee");

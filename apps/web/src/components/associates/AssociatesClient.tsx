@@ -186,7 +186,7 @@ export function AssociatesClient({
       toast.success("Member account created successfully.");
       reset();
       setIsCreateOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["associates"] });
+      void queryClient.invalidateQueries({ queryKey: ["associates"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to create firm member");

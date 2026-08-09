@@ -2,7 +2,7 @@ import { Expose, Type } from "class-transformer";
 import type {
   AttendanceSource,
   AttendanceStatus
-} from "../../../../generated/prisma/client";
+} from "../../../../generated/prisma/enums";
 
 export class AssociateMinEntity {
   @Expose()

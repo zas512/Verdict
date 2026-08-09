@@ -1,5 +1,5 @@
 import { Expose, Type } from "class-transformer";
-import { ClientStatus, ClientType } from "../../../generated/prisma/client";
+import { ClientStatus, ClientType } from "../../../generated/prisma/enums";
 
 export class MatterSummaryEntity {
   @Expose()

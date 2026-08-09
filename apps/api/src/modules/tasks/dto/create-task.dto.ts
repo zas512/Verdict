@@ -10,7 +10,7 @@ import {
   IsString,
   IsUUID
 } from "class-validator";
-import { TaskType, TaskPriority } from "../../../generated/prisma/client";
+import { TaskType, TaskPriority } from "../../../generated/prisma/enums";
 
 export class CreateTaskDto {
   @IsUUID()

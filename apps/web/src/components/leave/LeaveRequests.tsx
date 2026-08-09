@@ -204,7 +204,7 @@ export function LeaveRequests({
     onSuccess: () => {
       toast.success("Leave request submitted for approval");
       reset({ leaveTypeId: "", startDate: todayStr(), endDate: todayStr(), reason: "" });
-      queryClient.invalidateQueries({ queryKey: ["leave-requests"] });
+      void queryClient.invalidateQueries({ queryKey: ["leave-requests"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to submit leave request");
@@ -232,8 +232,8 @@ export function LeaveRequests({
     },
     onSuccess: () => {
       toast.success("Leave request updated");
-      queryClient.invalidateQueries({ queryKey: ["leave-requests"] });
-      queryClient.invalidateQueries({ queryKey: ["leave-balances"] });
+      void queryClient.invalidateQueries({ queryKey: ["leave-requests"] });
+      void queryClient.invalidateQueries({ queryKey: ["leave-balances"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to update leave request");

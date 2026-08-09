@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsOptional, IsString, IsISO8601, IsArray, IsUUID } from "class-validator";
-import { HearingStatus } from "../../../../generated/prisma/client";
+import { HearingStatus } from "../../../../generated/prisma/enums";
 
 export class CreateHearingDto {
   @IsISO8601()

@@ -8,7 +8,7 @@ import type { Prisma } from "../../../generated/prisma/client";
 import {
   AttendanceSource,
   AttendanceStatus
-} from "../../../generated/prisma/client";
+} from "../../../generated/prisma/enums";
 import { PrismaService } from "../../../prisma/prisma.service";
 import type { JwtPayload } from "../../auth/strategies/access-token.strategy";
 import { UsersService } from "../../users/users.service";

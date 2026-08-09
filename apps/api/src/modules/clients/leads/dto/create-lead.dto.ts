@@ -10,7 +10,7 @@ import {
   CaseType,
   LeadSource,
   LeadStatus
-} from "../../../../generated/prisma/client";
+} from "../../../../generated/prisma/enums";
 
 export class CreateLeadDto {
   @IsString()

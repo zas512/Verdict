@@ -380,8 +380,8 @@ export function MatterHearings({
       resetLog();
       setIsLogOpen(false);
       setSelectedHearing(null);
-      queryClient.invalidateQueries({ queryKey: ["matter-hearings", id] });
-      queryClient.invalidateQueries({ queryKey: ["matter-timeline", id] });
+      void queryClient.invalidateQueries({ queryKey: ["matter-hearings", id] });
+      void queryClient.invalidateQueries({ queryKey: ["matter-timeline", id] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to log outcome");
@@ -413,7 +413,7 @@ export function MatterHearings({
       toast.success("New court hearing scheduled successfully.");
       resetSched();
       setIsScheduleOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["matter-hearings", id] });
+      void queryClient.invalidateQueries({ queryKey: ["matter-hearings", id] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to schedule hearing");

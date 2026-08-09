@@ -525,7 +525,7 @@ export default function AttendancePage() {
                           "Are you sure you want to delete this attendance record?"
                         )
                       ) {
-                        deleteRecord(r.id);
+                        void deleteRecord(r.id);
                       }
                     }}
                     className="p-1.5 rounded-lg border border-border bg-card hover:bg-destructive/10 hover:text-destructive text-muted-foreground transition-colors cursor-pointer"

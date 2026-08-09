@@ -73,8 +73,8 @@ export function ConvertLeadDialog({
       setMode("create");
       setClientId("");
       onOpenChange(false);
-      queryClient.invalidateQueries({ queryKey: ["leads"] });
-      queryClient.invalidateQueries({ queryKey: ["clients"] });
+      void queryClient.invalidateQueries({ queryKey: ["leads"] });
+      void queryClient.invalidateQueries({ queryKey: ["clients"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to convert lead");

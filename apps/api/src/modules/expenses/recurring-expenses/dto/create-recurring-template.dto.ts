@@ -7,7 +7,7 @@ import {
   MaxLength,
   Min
 } from "class-validator";
-import { BillingCycle } from "../../../../generated/prisma/client";
+import { BillingCycle } from "../../../../generated/prisma/enums";
 
 export class CreateRecurringTemplateDto {
   @IsString()

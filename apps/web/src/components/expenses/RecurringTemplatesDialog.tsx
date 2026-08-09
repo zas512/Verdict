@@ -92,7 +92,7 @@ export function RecurringTemplatesDialog({
       toast.success("Recurring template created");
       reset();
       onOpenChange(false);
-      queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
+      void queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to create template");

@@ -32,7 +32,7 @@ const createClientSchema = z.object({
   cnic: z.string().optional(),
   companyRegistration: z.string().optional(),
   phone: z.string().optional(),
-  email: z.string().email("Enter a valid email").optional().or(z.literal("")),
+  email: z.email("Enter a valid email").optional().or(z.literal("")),
   address: z.string().optional(),
   notes: z.string().optional(),
   status: z.enum(["ACTIVE", "INACTIVE"])
@@ -93,7 +93,7 @@ export function CreateClientDialog({
       toast.success("Client registered successfully.");
       reset();
       onOpenChange(false);
-      queryClient.invalidateQueries({ queryKey: ["clients"] });
+      void queryClient.invalidateQueries({ queryKey: ["clients"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to create client");

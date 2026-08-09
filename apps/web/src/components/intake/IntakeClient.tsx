@@ -79,7 +79,7 @@ export function IntakeClient({ userRole }: Readonly<IntakeClientProps>) {
     },
     onSuccess: () => {
       toast.success("Lead status updated.");
-      queryClient.invalidateQueries({ queryKey: ["leads"] });
+      void queryClient.invalidateQueries({ queryKey: ["leads"] });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to update lead status");

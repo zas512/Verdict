@@ -5,7 +5,7 @@ import {
   IsOptional,
   IsString
 } from "class-validator";
-import { ClientStatus, ClientType } from "../../../generated/prisma/client";
+import { ClientStatus, ClientType } from "../../../generated/prisma/enums";
 
 export class CreateClientDto {
   @IsString()

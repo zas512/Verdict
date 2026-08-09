@@ -249,11 +249,6 @@
     0 4px 6px -1px rgba(15, 23, 42, 0.03);
 }
 
-.skeuo-sidebar {
-  background: var(--sidebar);
-  border-right: 1px solid var(--sidebar-border);
-}
-
 .skeuo-button-primary {
   background: linear-gradient(180deg, var(--primary) 0%, var(--primary) 100%);
   border: 1px solid var(--primary);

@@ -7,7 +7,7 @@ import {
   IsUUID,
   IsISO8601
 } from "class-validator";
-import { CaseType } from "../../../generated/prisma/client";
+import { CaseType } from "../../../generated/prisma/enums";
 
 export class CreateMatterDto {
   @IsString()

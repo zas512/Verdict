@@ -17,7 +17,7 @@ import type { Request, Response } from "express";
 import { Public } from "../../common/decorators/public.decorator";
 import { toEntity } from "../../common/serialization/serialize";
 import type { EnvironmentVariables } from "../../config/env.validation";
-import { UserRole } from "../../generated/prisma/client";
+import { UserRole } from "../../generated/prisma/enums";
 import type { UploadSignature } from "../cloudinary/cloudinary.service";
 import { CloudinaryService } from "../cloudinary/cloudinary.service";
 import { AuthService, type AuthTokens } from "./auth.service";

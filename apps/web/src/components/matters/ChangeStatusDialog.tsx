@@ -53,8 +53,8 @@ export function ChangeStatusDialog({
     onSuccess: () => {
       toast.success("Matter status updated.");
       onOpenChange(false);
-      queryClient.invalidateQueries({ queryKey: ["matter", matterId] });
-      queryClient.invalidateQueries({ queryKey: ["matters"] });
+      void queryClient.invalidateQueries({ queryKey: ["matter", matterId] });
+      void queryClient.invalidateQueries({ queryKey: ["matters"] });
     },
     onError: (err: Error) => toast.error(err.message)
   });

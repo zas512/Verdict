@@ -220,7 +220,7 @@ export function TasksBoard({
         onChanged={() => {
           // The dialogs already invalidate ["tasks"]; keep a fresh fetch for
           // the board so the kanban stays in sync.
-          refetch();
+          void refetch();
         }}
       />
     </div>

@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsString } from "class-validator";
-import { DocumentCategory } from "../../../generated/prisma/client";
+import { DocumentCategory } from "../../../generated/prisma/enums";
 
 export class CreateDocumentDto {
   @IsString()

@@ -209,9 +209,9 @@ export function CreateTaskDialog({
       toast.success("Task created");
       reset();
       onOpenChange(false);
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      void queryClient.invalidateQueries({ queryKey: ["tasks"] });
       if (matterId) {
-        queryClient.invalidateQueries({
+        void queryClient.invalidateQueries({
           queryKey: ["matter-timeline", matterId]
         });
       }

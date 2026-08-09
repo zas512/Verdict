@@ -74,8 +74,8 @@ export function ChangeStageDialog({
     onSuccess: () => {
       toast.success("Procedural court stage updated successfully.");
       onOpenChange(false);
-      queryClient.invalidateQueries({ queryKey: ["matter", matterId] });
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({ queryKey: ["matter", matterId] });
+      void queryClient.invalidateQueries({
         queryKey: ["matter-timeline", matterId]
       });
     },

@@ -1,5 +1,5 @@
 import { Expose, Type } from "class-transformer";
-import type { ExpenseType } from "../../../generated/prisma/client";
+import type { ExpenseType } from "../../../generated/prisma/enums";
 import { AssociateMinEntity } from "../../hr/attendance/entities/attendance.entity";
 
 export class ExpenseEntity {

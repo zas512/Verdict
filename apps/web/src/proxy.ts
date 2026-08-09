@@ -15,7 +15,6 @@ const PROTECTED_PREFIXES = [
   "/tasks",
   "/matters",
   "/clients",
-  "/intake",
   "/leave",
   "/platform"
 ];
@@ -28,7 +27,6 @@ const FIRM_SCOPED_PREFIXES = [
   "/tasks",
   "/matters",
   "/clients",
-  "/intake",
   "/leave"
 ];
 
@@ -127,7 +125,6 @@ export const config = {
     "/tasks/:path*",
     "/matters/:path*",
     "/clients/:path*",
-    "/intake/:path*",
     "/leave/:path*",
     "/platform/:path*",
     "/login",

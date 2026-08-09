@@ -1,7 +1,7 @@
 "use client";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { UserAvatar } from "@/components/branding/UserAvatar";
 import { DEFAULT_ACCENT } from "@/components/branding/PlaceholderLogo";
+import { UserAvatar } from "@/components/branding/UserAvatar";
 import { cn } from "@/lib/utils";
 import { HelpCircle, LogOut, Settings } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -216,22 +216,11 @@ export function ProfileDropdown({
         )}
         title={collapsed ? displayName : undefined}
       >
-        <div
-          className="shrink-0"
-          style={
-            firm?.accentColor
-              ? {
-                  boxShadow: `0 0 0 2px var(--brand-accent, ${firm.accentColor})`
-                }
-              : undefined
-          }
-        >
-          <UserAvatar
-            avatarUrl={avatarUrl}
-            name={displayName}
-            email={user.email}
-          />
-        </div>
+        <UserAvatar
+          avatarUrl={avatarUrl}
+          name={displayName}
+          email={user.email}
+        />
         {!collapsed && (
           <div className="flex-1 min-w-0 transition-opacity duration-300">
             <p className="text-sm font-bold text-card-foreground truncate">

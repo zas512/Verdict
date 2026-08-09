@@ -1,14 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { SearchInput } from "@/components/ui/SearchInput";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
 import type { Client } from "@/types/clientTypes";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -21,6 +11,8 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { Filters } from "../ui/filters";
+import { StatsGrid } from "../ui/stats-grid";
 import { ClientDetailDialog } from "./ClientDetailDialog";
 import { ClientsTable } from "./ClientsTable";
 import { ConflictCheckDialog } from "./ConflictCheckDialog";
@@ -67,12 +59,10 @@ export function ClientsClient({ userRole }: Readonly<ClientsClientProps>) {
     return allClients.filter((c) => {
       const matchesStatus = statusFilter === "ALL" || c.status === statusFilter;
       const matchesType = typeFilter === "ALL" || c.clientType === typeFilter;
-
       const searchStr =
         `${c.name} ${c.contactPerson ?? ""} ${c.phone ?? ""} ${c.email ?? ""} ${c.cnic ?? ""}`.toLowerCase();
       const matchesSearch =
         !globalFilter || searchStr.includes(globalFilter.toLowerCase());
-
       return matchesStatus && matchesType && matchesSearch;
     });
   }, [allClients, statusFilter, typeFilter, globalFilter]);
@@ -90,133 +80,99 @@ export function ClientsClient({ userRole }: Readonly<ClientsClientProps>) {
   return (
     <div className="space-y-6">
       {/* 1. KPI Stats Summary */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="skeuo-card bg-card text-card-foreground">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                Total Clients
-              </p>
-              <h2 className="text-2xl font-black mt-1 text-foreground">
-                {stats.total}
-              </h2>
-            </div>
-            <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
-              <Contact className="h-5 w-5" />
-            </div>
-          </CardContent>
-        </Card>
+      <StatsGrid
+        stats={[
+          {
+            title: "Total Clients",
+            value: stats.total,
+            icon: Contact,
+            color: "primary"
+          },
+          {
+            title: "Active",
+            value: stats.active,
+            icon: UserCheck,
+            color: "success"
+          },
+          {
+            title: "Inactive",
+            value: stats.inactive,
+            icon: User,
+            color: "destructive"
+          },
+          {
+            title: "Companies",
+            value: stats.companies,
+            icon: Building2,
+            color: "warning"
+          }
+        ]}
+      />
 
-        <Card className="skeuo-card bg-card text-card-foreground">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                Active
-              </p>
-              <h2 className="text-2xl font-black mt-1 text-success">
-                {stats.active}
-              </h2>
-            </div>
-            <div className="h-10 w-10 rounded-xl bg-success/10 text-success flex items-center justify-center border border-success/20">
-              <UserCheck className="h-5 w-5" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="skeuo-card bg-card text-card-foreground">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                Inactive
-              </p>
-              <h2 className="text-2xl font-black mt-1 text-destructive">
-                {stats.inactive}
-              </h2>
-            </div>
-            <div className="h-10 w-10 rounded-xl bg-destructive/10 text-destructive flex items-center justify-center border border-destructive/20">
-              <User className="h-5 w-5" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="skeuo-card bg-card text-card-foreground">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                Companies
-              </p>
-              <h2 className="text-2xl font-black mt-1 text-warning">
-                {stats.companies}
-              </h2>
-            </div>
-            <div className="h-10 w-10 rounded-xl bg-warning/10 text-warning flex items-center justify-center border border-warning/20">
-              <Building2 className="h-5 w-5" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* 2. Action & Filter Bar */}
-      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex flex-1 flex-wrap items-center gap-3">
-          <SearchInput
-            aria-label="Search clients"
-            placeholder="Search name, CNIC, contact..."
-            value={globalFilter}
-            onChange={setGlobalFilter}
-          />
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger aria-label="Filter by status" className="w-44">
-              <SelectValue placeholder="All Statuses" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="ALL">All Statuses</SelectItem>
-              <SelectItem value="ACTIVE">Active</SelectItem>
-              <SelectItem value="INACTIVE">Inactive</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger aria-label="Filter by type" className="w-44">
-              <SelectValue placeholder="All Types" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="ALL">All Types</SelectItem>
-              <SelectItem value="INDIVIDUAL">Individual</SelectItem>
-              <SelectItem value="COMPANY">Company</SelectItem>
-              <SelectItem value="GOVERNMENT">Government</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex items-center gap-2">
-          {canManage && (
-            <>
-              <Button
-                variant="outline"
-                onClick={() => setIsConflictOpen(true)}
-                className="rounded-full h-10 text-sm font-semibold border-border"
-              >
-                <ShieldAlert className="size-5" />
-                Conflict Check
-              </Button>
-              <Button
-                onClick={() => setIsCreateOpen(true)}
-                className="rounded-full text-sm font-bold h-10"
-              >
-                <Plus className="size-5" />
-                New Client
-              </Button>
-            </>
-          )}
-          <Button
-            variant="outline"
-            onClick={() => refetch()}
-            disabled={isRefetching}
-            className="rounded-full h-10 text-sm font-semibold dark:border-white/40 border-border"
-          >
-            Sync Ledger
-          </Button>
-        </div>
-      </section>
+      {/* 2. Actions & Filters */}
+      <Filters
+        search={{
+          ariaLabel: "Search clients",
+          placeholder: "Search name, CNIC, contact...",
+          value: globalFilter,
+          onChange: setGlobalFilter
+        }}
+        filters={[
+          {
+            key: "status",
+            value: statusFilter,
+            onChange: setStatusFilter,
+            ariaLabel: "Filter by status",
+            placeholder: "All Statuses",
+            options: [
+              { value: "ALL", label: "All Statuses" },
+              { value: "ACTIVE", label: "Active" },
+              { value: "INACTIVE", label: "Inactive" }
+            ]
+          },
+          {
+            key: "type",
+            value: typeFilter,
+            onChange: setTypeFilter,
+            ariaLabel: "Filter by type",
+            placeholder: "All Types",
+            options: [
+              { value: "ALL", label: "All Types" },
+              { value: "INDIVIDUAL", label: "Individual" },
+              { value: "COMPANY", label: "Company" },
+              { value: "GOVERNMENT", label: "Government" }
+            ]
+          }
+        ]}
+        actions={[
+          {
+            key: "conflict-check",
+            label: "Conflict Check",
+            icon: <ShieldAlert className="size-5" />,
+            variant: "outline",
+            onClick: () => setIsConflictOpen(true),
+            hidden: !canManage,
+            className: "rounded-full h-10 text-sm font-semibold border-border"
+          },
+          {
+            key: "new-client",
+            label: "New Client",
+            icon: <Plus className="size-5" />,
+            onClick: () => setIsCreateOpen(true),
+            hidden: !canManage,
+            className: "rounded-full text-sm font-bold h-10"
+          },
+          {
+            key: "sync-ledger",
+            label: "Sync Ledger",
+            onClick: () => refetch(),
+            disabled: isRefetching,
+            variant: "outline",
+            className:
+              "rounded-full h-10 text-sm font-semibold dark:border-white/40 border-border"
+          }
+        ]}
+      />
 
       {/* 3. Table Ledger */}
       <ClientsTable

@@ -350,28 +350,6 @@ async function main() {
     });
   }
 
-  // 6.6 Seed a sample qualified lead in the intake pipeline
-  const existingLead = await prisma.lead.findFirst({
-    where: { firmId: firm.id, name: "Sara Malik" }
-  });
-  if (!existingLead) {
-    await prisma.lead.create({
-      data: {
-        firmId: firm.id,
-        name: "Sara Malik",
-        phone: "+92 321 8877665",
-        email: "sara.malik@gmail.com",
-        cnic: "35201-8765432-1",
-        practiceArea: "FAMILY",
-        source: "REFERRAL",
-        description:
-          "Referred by Hammad Khan - seeking advice on a family settlement.",
-        status: "QUALIFIED",
-        assignedToId: associateAssoc.id
-      }
-    });
-  }
-
   // Assign Associates to Matters
   await prisma.matterAssociate.upsert({
     where: {
@@ -630,7 +608,6 @@ async function main() {
   console.log("  associate@laalglobal.com / 12345678 (ASSOCIATE)");
   console.log("  Cases Seeded: LGA-2026-CV-01, LGA-2026-CR-02");
   console.log("  Clients Seeded: M/S Pakistan Trade House, Muhammad Kamran, Zahid & Co.");
-  console.log("  Lead Seeded: Sara Malik (QUALIFIED)");
   console.log("  Invites Seeded: demo-founder-token, demo-member-token");
 }
 

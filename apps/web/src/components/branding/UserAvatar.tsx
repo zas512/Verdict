@@ -1,14 +1,11 @@
 "use client";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
 
 interface UserAvatarProps {
   avatarUrl?: string | null;
   name?: string | null;
   email?: string;
   size?: "default" | "sm" | "lg";
-  className?: string;
 }
 
 function initialsOf(name: string): string {
@@ -21,23 +18,16 @@ function initialsOf(name: string): string {
     .toUpperCase();
 }
 
-/**
- * User avatar: Google profile picture when available, initials otherwise. The
- * base-ui Avatar shows the fallback until the image loads, and on error.
- */
 export function UserAvatar({
   avatarUrl,
   name,
   email,
-  size = "default",
-  className
+  size = "default"
 }: Readonly<UserAvatarProps>) {
   const label = name?.trim() || email || "User";
   return (
-    <Avatar size={size} className={cn("shrink-0", className)}>
-      {avatarUrl ? (
-        <AvatarImage src={avatarUrl} alt={label} />
-      ) : null}
+    <Avatar size={size} className="shrink-0 border-0">
+      {avatarUrl ? <AvatarImage src={avatarUrl} alt={label} /> : null}
       <AvatarFallback>{initialsOf(label)}</AvatarFallback>
     </Avatar>
   );

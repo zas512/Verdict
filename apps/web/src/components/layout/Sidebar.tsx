@@ -13,7 +13,6 @@ import {
   ChevronRight,
   Contact,
   CreditCard,
-  Inbox,
   LayoutDashboard,
   ListChecks,
   Scale,
@@ -135,12 +134,6 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
       roles: ["OWNER", "ASSOCIATE"]
     },
     {
-      title: "Intake",
-      href: "/intake",
-      icon: Inbox,
-      roles: ["OWNER", "ASSOCIATE"]
-    },
-    {
       title: "Tasks",
       href: "/tasks",
       icon: ListChecks,
@@ -212,7 +205,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
           mobileOpen ? "translate-x-0" : "-translate-x-full",
           // Desktop: normal in-flow flex column, with the collapse behavior
           "lg:static lg:translate-x-0",
-          collapsed ? "lg:w-[4.5rem] lg:p-3" : "lg:w-64 lg:p-5"
+          collapsed ? "lg:w-18 lg:p-3" : "lg:w-64 lg:p-5"
         )}
       >
         {/* Floating Collapse Toggle Button (desktop only) */}

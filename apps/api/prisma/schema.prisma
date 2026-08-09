@@ -31,7 +31,6 @@ model Firm {
   courtStages CourtStage[]
   auditLogs   AuditLog[]
   clients     Client[]
-  leads       Lead[]
   invites     FirmInvite[]
 }
 
@@ -137,7 +136,6 @@ model Associate {
   createdTasks         Task[]            @relation("TaskCreator")
   taskNotes            TaskNote[]
   uploadedAttachments  TaskAttachment[]
-  assignedLeads        Lead[]
 }
 
 enum EmploymentType {
@@ -605,9 +603,9 @@ model CaseDocumentVersion {
 model AuditLog {
   id            String   @id @default(uuid())
   firmId        String
-  entityType    String   // "Matter" | "Task" | "Hearing" | "CaseDocument" | "Client" | "Lead"
+  entityType    String   // "Matter" | "Task" | "Hearing" | "CaseDocument" | "Client"
   entityId      String
-  action        String   // "STAGE_CHANGED" | "TASK_COMPLETED" | "DOCUMENT_VERSIONED" | "MATTER_ARCHIVED" | "CONFLICT_CHECK" | "LEAD_CONVERTED"
+  action        String   // "STAGE_CHANGED" | "TASK_COMPLETED" | "DOCUMENT_VERSIONED" | "MATTER_ARCHIVED" | "CONFLICT_CHECK"
   performedById String
   beforeState   Json?
   afterState    Json?
@@ -651,49 +649,6 @@ model Client {
 
   firm    Firm     @relation(fields: [firmId], references: [id], onDelete: Cascade)
   matters Matter[]
-  leads   Lead[]
 
   @@index([firmId, name])
-}
-
-enum LeadStatus {
-  NEW
-  CONTACTED
-  QUALIFIED
-  CONVERTED
-  REJECTED
-  ARCHIVED
-}
-
-enum LeadSource {
-  REFERRAL
-  WEBSITE
-  WALK_IN
-  SOCIAL
-  PHONE
-  OTHER
-}
-
-model Lead {
-  id                  String     @id @default(uuid())
-  firmId              String
-  name                String
-  phone               String?
-  email               String?
-  cnic                String?
-  practiceArea        CaseType?
-  source              LeadSource @default(OTHER)
-  description         String?
-  status              LeadStatus @default(NEW)
-  assignedToId        String?
-  convertedToClientId String?
-  convertedToMatterId String?
-  createdAt           DateTime   @default(now())
-  updatedAt           DateTime   @updatedAt
-
-  firm              Firm       @relation(fields: [firmId], references: [id], onDelete: Cascade)
-  assignedTo        Associate? @relation(fields: [assignedToId], references: [id])
-  convertedToClient Client?    @relation(fields: [convertedToClientId], references: [id])
-
-  @@index([firmId, status])
 }

@@ -26,47 +26,6 @@ export interface Client {
   matters?: ClientMatterSummary[];
 }
 
-export interface Lead {
-  id: string;
-  firmId: string;
-  name: string;
-  phone?: string | null;
-  email?: string | null;
-  cnic?: string | null;
-  practiceArea?: string | null;
-  source:
-    | "REFERRAL"
-    | "WEBSITE"
-    | "WALK_IN"
-    | "SOCIAL"
-    | "PHONE"
-    | "OTHER";
-  description?: string | null;
-  status:
-    | "NEW"
-    | "CONTACTED"
-    | "QUALIFIED"
-    | "CONVERTED"
-    | "REJECTED"
-    | "ARCHIVED";
-  assignedToId?: string | null;
-  convertedToClientId?: string | null;
-  convertedToMatterId?: string | null;
-  createdAt: string;
-  updatedAt: string;
-  assignedTo?: {
-    id: string;
-    fullName: string;
-    email?: string | null;
-    designation?: string | null;
-  } | null;
-  convertedToClient?: {
-    id: string;
-    name: string;
-    status: string;
-  } | null;
-}
-
 export interface ConflictCheckMatch {
   id: string;
   name: string;

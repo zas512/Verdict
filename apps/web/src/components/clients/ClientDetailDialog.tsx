@@ -1,5 +1,4 @@
 "use client";
-
 import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
@@ -20,6 +19,7 @@ import {
   User
 } from "lucide-react";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 interface ClientDetailDialogProps {
   clientId: string | null;
@@ -49,7 +49,7 @@ export function ClientDetailDialog({
     label,
     value
   }: {
-    icon: React.ReactNode;
+    icon: ReactNode;
     label: string;
     value?: string | null;
   }) => (

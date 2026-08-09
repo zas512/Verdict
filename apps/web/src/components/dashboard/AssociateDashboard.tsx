@@ -16,6 +16,7 @@ import {
   ListTodo,
   TriangleAlert
 } from "lucide-react";
+import type { ReactNode } from "react";
 
 interface AttendanceRecord {
   id: string;
@@ -38,7 +39,7 @@ function StatCard({
   sub,
   accent
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
   value: string | number;
   sub?: string;

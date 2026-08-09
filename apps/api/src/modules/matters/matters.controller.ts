@@ -14,7 +14,7 @@ import type { Response } from "express";
 import { CurrentUser } from "../auth/decorators/current-user.decorator";
 import { Roles } from "../auth/decorators/roles.decorator";
 import type { JwtPayload } from "../auth/strategies/access-token.strategy";
-import { UserRole } from "../../generated/prisma/client";
+import { UserRole } from "../../generated/prisma/enums";
 import { CreateMatterDto } from "./dto/create-matter.dto";
 import { UpdateMatterDto } from "./dto/update-matter.dto";
 import {

@@ -4,7 +4,7 @@ import {
   IsOptional,
   IsString
 } from "class-validator";
-import { TaskAttachmentKind } from "../../../generated/prisma/client";
+import { TaskAttachmentKind } from "../../../generated/prisma/enums";
 
 export class CreateTaskNoteDto {
   @IsString()

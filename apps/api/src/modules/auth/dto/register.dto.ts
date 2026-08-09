@@ -8,7 +8,7 @@ import {
   MaxLength,
   MinLength
 } from "class-validator";
-import { AuthProvider } from "../../../generated/prisma/client";
+import { AuthProvider } from "../../../generated/prisma/enums";
 
 const trim = ({ value }: { value: unknown }) =>
   typeof value === "string" ? value.trim() : value;

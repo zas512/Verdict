@@ -20,13 +20,12 @@ import {
   Loader2,
   Link2,
   MessageSquare,
-  Paperclip,
   Plus,
   Scale,
   Trash2,
   Upload
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
 import { toast } from "sonner";
 import { uploadTaskFile } from "./cloudinary";
 import {
@@ -174,7 +173,7 @@ export function TaskDetailDialog({
   const [linkLabel, setLinkLabel] = useState("");
   const [addingLink, setAddingLink] = useState(false);
 
-  const onFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileSelected = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = "";
     if (!file) return;

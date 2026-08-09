@@ -1,5 +1,5 @@
 import { Expose, Type } from "class-transformer";
-import { CaseType, LeadSource, LeadStatus } from "../../../../generated/prisma/client";
+import { CaseType, LeadSource, LeadStatus } from "../../../../generated/prisma/enums";
 
 export class AssociateSummaryEntity {
   @Expose()

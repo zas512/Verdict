@@ -1,5 +1,5 @@
 import { Expose } from "class-transformer";
-import type { InviteStatus, UserRole } from "../../../generated/prisma/client";
+import type { InviteStatus, UserRole } from "../../../generated/prisma/enums";
 
 /**
  * What a `/auth/invites/:token` consumer needs: whether the invite creates a

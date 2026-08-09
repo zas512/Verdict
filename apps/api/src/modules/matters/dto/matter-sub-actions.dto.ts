@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, IsBoolean } from "class-validator";
-import { PartyRole } from "../../../generated/prisma/client";
+import { PartyRole } from "../../../generated/prisma/enums";
 
 export class AssignAssociateDto {
   @IsUUID()

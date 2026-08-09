@@ -388,7 +388,6 @@ export function CreateTaskDialog({
               {allAssociates.map((assoc) => {
                 const name = assoc.name || assoc.email;
                 const selected = selectedAssigneeIds.includes(assoc.id);
-                const locked = !isAdmin && selected;
                 return (
                   <button
                     key={assoc.id}

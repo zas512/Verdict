@@ -10,7 +10,7 @@ import {
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { Roles } from "../../auth/decorators/roles.decorator";
 import type { JwtPayload } from "../../auth/strategies/access-token.strategy";
-import { UserRole } from "../../../generated/prisma/client";
+import { UserRole } from "../../../generated/prisma/enums";
 import { CreateLeaveDto } from "./dto/create-leave.dto";
 import { UpdateLeaveStatusDto } from "./dto/update-leave.dto";
 import {

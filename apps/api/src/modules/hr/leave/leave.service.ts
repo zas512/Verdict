@@ -8,7 +8,7 @@ import { toEntities, toEntity } from "../../../common/serialization/serialize";
 import {
   LeaveRequestStatus,
   UserRole
-} from "../../../generated/prisma/client";
+} from "../../../generated/prisma/enums";
 import { PrismaService } from "../../../prisma/prisma.service";
 import type { JwtPayload } from "../../auth/strategies/access-token.strategy";
 import { UsersService } from "../../users/users.service";

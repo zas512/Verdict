@@ -16,7 +16,7 @@ import {
   Inbox,
   Loader2
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type DragEvent } from "react";
 
 function toDisplayString(value: unknown): string {
   if (value == null) return "";
@@ -117,17 +117,17 @@ export function CustomTable<T>({
     [sortedData, pageIndex, pageSize]
   );
 
-  const handleDragStart = (colKey: string) => (e: React.DragEvent) => {
+  const handleDragStart = (colKey: string) => (e: DragEvent) => {
     setDraggedKey(colKey);
     e.dataTransfer.effectAllowed = "move";
   };
 
-  const handleDragOver = (colKey: string) => (e: React.DragEvent) => {
+  const handleDragOver = (colKey: string) => (e: DragEvent) => {
     e.preventDefault();
     if (colKey !== draggedKey) setDragOverKey(colKey);
   };
 
-  const handleDrop = (targetKey: string) => (e: React.DragEvent) => {
+  const handleDrop = (targetKey: string) => (e: DragEvent) => {
     e.preventDefault();
     if (!draggedKey || draggedKey === targetKey) {
       setDraggedKey(null);

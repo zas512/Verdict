@@ -1,7 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import type { EnvironmentVariables } from "../../config/env.validation";
-import type { UserRole } from "../../generated/prisma/client";
+import type { UserRole } from "../../generated/prisma/enums";
 
 export interface InviteEmailInput {
   to: string;
@@ -27,10 +27,7 @@ export class MailService {
     if (!apiKey) {
       return { ok: false };
     }
-
     const from = this.config.get("RESEND_FROM_EMAIL", { infer: true });
-    const roleLabel = this.roleLabel(input.role);
-
     try {
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",

@@ -11,7 +11,7 @@ import {
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { Roles } from "../../auth/decorators/roles.decorator";
 import type { JwtPayload } from "../../auth/strategies/access-token.strategy";
-import { UserRole } from "../../../generated/prisma/client";
+import { UserRole } from "../../../generated/prisma/enums";
 import { CreateHearingDto } from "./dto/create-hearing.dto";
 import { UpdateHearingDto } from "./dto/update-hearing.dto";
 import { LogAttendeesDto } from "./dto/log-attendees.dto";

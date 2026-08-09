@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { Roles } from "../auth/decorators/roles.decorator";
-import { UserRole } from "../../generated/prisma/client";
+import { UserRole } from "../../generated/prisma/enums";
 import { CreatePlatformUserDto } from "../users/dto/create-platform-user.dto";
 import { UserEntity } from "../users/entities/user.entity";
 import { CreateFirmDto } from "./dto/create-firm.dto";

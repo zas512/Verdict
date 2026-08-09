@@ -4,7 +4,7 @@ import {
   TaskStatus,
   TaskPriority,
   TaskAttachmentKind
-} from "../../../generated/prisma/client";
+} from "../../../generated/prisma/enums";
 import { AssociateMinEntity } from "../../hr/attendance/entities/attendance.entity";
 
 export class TaskNoteSummaryEntity {

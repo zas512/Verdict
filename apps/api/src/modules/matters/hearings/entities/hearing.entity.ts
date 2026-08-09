@@ -1,5 +1,5 @@
 import { Expose, Type } from "class-transformer";
-import { HearingStatus } from "../../../../generated/prisma/client";
+import { HearingStatus } from "../../../../generated/prisma/enums";
 
 export class HearingAttendeeSummaryEntity {
   @Expose()

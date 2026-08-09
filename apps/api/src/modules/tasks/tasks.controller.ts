@@ -13,7 +13,7 @@ import {
 import { CurrentUser } from "../auth/decorators/current-user.decorator";
 import { Roles } from "../auth/decorators/roles.decorator";
 import type { JwtPayload } from "../auth/strategies/access-token.strategy";
-import { TaskStatus, UserRole } from "../../generated/prisma/client.js";
+import { TaskStatus, UserRole } from "../../generated/prisma/enums";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { UpdateTaskDto } from "./dto/update-task.dto";
 import {

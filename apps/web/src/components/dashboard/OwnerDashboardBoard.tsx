@@ -1,5 +1,4 @@
 "use client";
-
 import dynamic from "next/dynamic";
 import {
   DndContext,
@@ -27,6 +26,7 @@ import {
 import { DashboardTile } from "./DashboardTile";
 import { PendingApprovals } from "./PendingApprovals";
 import { UpcomingHearings } from "./UpcomingHearings";
+import type { ReactNode } from "react";
 
 const DashboardAnalytics = dynamic(
   () =>
@@ -47,7 +47,7 @@ function StatTile({
   label,
   value
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
   value: number | null;
 }) {

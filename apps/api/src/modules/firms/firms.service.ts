@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common";
 import * as bcrypt from "bcrypt";
 import { toEntities, toEntity } from "../../common/serialization/serialize";
-import { UserRole } from "../../generated/prisma/client";
+import { UserRole } from "../../generated/prisma/enums";
 import { BCRYPT_ROUNDS } from "../auth/auth.constants";
 import { PrismaService } from "../../prisma/prisma.service";
 import { CreatePlatformUserDto } from "../users/dto/create-platform-user.dto";

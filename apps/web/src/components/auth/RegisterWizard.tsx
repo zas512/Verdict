@@ -1,5 +1,4 @@
 "use client";
-
 import { GoogleButton } from "@/components/auth/GoogleButton";
 import { FirmLogo } from "@/components/branding/FirmLogo";
 import { DEFAULT_ACCENT } from "@/components/branding/PlaceholderLogo";
@@ -38,7 +37,7 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { type UseFormRegisterReturn, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -179,7 +178,6 @@ export function RegisterWizard({
     register,
     trigger,
     getValues,
-    setValue,
     watch,
     formState: { errors }
   } = form;
@@ -237,7 +235,7 @@ export function RegisterWizard({
   });
 
   async function onContinue() {
-    let ok = false;
+    let ok: boolean;
     if (stepIndex === 0) {
       ok =
         provider === "EMAIL"
@@ -642,7 +640,7 @@ interface FirmStepProps {
   tagline: string;
   logoUrl?: string;
   uploadingLogo: boolean;
-  fileInputRef: React.RefObject<HTMLInputElement | null>;
+  fileInputRef: RefObject<HTMLInputElement | null>;
   onPickLogo: () => void;
   onLogoFile: (file: File) => void;
   onClearLogo: () => void;
@@ -655,7 +653,6 @@ function FirmStep({
   errors,
   accentColor,
   firmName,
-  tagline,
   logoUrl,
   uploadingLogo,
   fileInputRef,

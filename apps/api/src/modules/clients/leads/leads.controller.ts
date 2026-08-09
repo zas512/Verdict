@@ -10,7 +10,7 @@ import {
   Post,
   Query
 } from "@nestjs/common";
-import { LeadStatus, UserRole } from "../../../generated/prisma/client";
+import { LeadStatus, UserRole } from "../../../generated/prisma/enums";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { Roles } from "../../auth/decorators/roles.decorator";
 import type { JwtPayload } from "../../auth/strategies/access-token.strategy";

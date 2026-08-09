@@ -1,5 +1,5 @@
 import { Expose, Type } from "class-transformer";
-import type { BillingCycle } from "../../../generated/prisma/client";
+import type { BillingCycle } from "../../../generated/prisma/enums";
 
 export class RecurringTemplateEntity {
   @Expose()

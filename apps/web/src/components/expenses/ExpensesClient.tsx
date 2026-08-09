@@ -22,7 +22,7 @@ import {
   Trash2,
   Wallet
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { CreateExpenseDialog } from "./CreateExpenseDialog";
 import { RecurringTemplatesDialog } from "./RecurringTemplatesDialog";
@@ -80,7 +80,7 @@ function KpiTile({
 }: {
   label: string;
   value: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   tone: "primary" | "success" | "warning" | "violet";
 }) {
   const toneClasses: Record<typeof tone, string> = {

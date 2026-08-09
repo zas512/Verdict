@@ -1,7 +1,7 @@
 import { Expose, Type } from "class-transformer";
 import type {
   LeaveRequestStatus
-} from "../../../../generated/prisma/client";
+} from "../../../../generated/prisma/enums";
 
 export class LeaveTypeMinEntity {
   @Expose()

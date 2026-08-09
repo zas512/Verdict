@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { IS_PUBLIC_KEY } from "../../../common/decorators/public.decorator";
-import type { UserRole } from "../../../generated/prisma/client";
+import type { UserRole } from "../../../generated/prisma/enums";
 import { ROLES_KEY } from "../decorators/roles.decorator";
 import type { JwtPayload } from "../strategies/access-token.strategy";
 

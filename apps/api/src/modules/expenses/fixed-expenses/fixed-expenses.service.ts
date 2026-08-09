@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { ExpenseType } from "../../../generated/prisma/client";
+import { ExpenseType } from "../../../generated/prisma/enums";
 import type { JwtPayload } from "../../auth/strategies/access-token.strategy";
 import { ExpenseEntity } from "../entities/expense.entity";
 import { ExpensesService } from "../expenses.service";

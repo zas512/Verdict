@@ -1,5 +1,5 @@
 import { Expose, Type } from "class-transformer";
-import { CaseType, MatterStatus } from "../../../generated/prisma/client";
+import { CaseType, MatterStatus } from "../../../generated/prisma/enums";
 
 export class CourtStageSummaryEntity {
   @Expose()

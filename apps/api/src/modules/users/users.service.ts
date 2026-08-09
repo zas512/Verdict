@@ -9,7 +9,7 @@ import { PrismaService } from "../../prisma/prisma.service";
 import { toEntities, toEntity } from "../../common/serialization/serialize";
 import { BCRYPT_ROUNDS } from "../auth/auth.constants";
 import type { Prisma } from "../../generated/prisma/client";
-import { UserRole } from "../../generated/prisma/client";
+import { UserRole } from "../../generated/prisma/enums";
 import { CreatePlatformUserDto } from "./dto/create-platform-user.dto";
 import {
   CreateFirmMemberDto,

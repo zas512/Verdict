@@ -6,11 +6,15 @@ import { Suspense, useEffect, useRef, useState } from "react";
 const SEARCH_PATH = "/search";
 const NAVIGATE_DELAY_MS = 450;
 
-function SearchField() {
+interface GlobalSearchProps {
+  containerClassName?: string;
+}
+
+function SearchField({ containerClassName }: Readonly<GlobalSearchProps>) {
   return (
     <SearchInput
       variant="absolute"
-      containerClassName="sm:w-48 md:w-64"
+      containerClassName={containerClassName ?? "sm:w-48 md:w-64"}
       placeholder="Search cases, associates, expenses..."
       aria-label="Search cases, associates, expenses"
       readOnly
@@ -18,7 +22,7 @@ function SearchField() {
   );
 }
 
-function GlobalSearchInner() {
+function GlobalSearchInner({ containerClassName }: Readonly<GlobalSearchProps>) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -58,7 +62,7 @@ function GlobalSearchInner() {
   return (
     <SearchInput
       variant="absolute"
-      containerClassName="sm:w-48 md:w-64"
+      containerClassName={containerClassName ?? "sm:w-48 md:w-64"}
       value={query}
       onChange={handleChange}
       placeholder="Search cases, associates, expenses..."
@@ -69,10 +73,10 @@ function GlobalSearchInner() {
   );
 }
 
-export function GlobalSearch() {
+export function GlobalSearch({ containerClassName }: Readonly<GlobalSearchProps>) {
   return (
-    <Suspense fallback={<SearchField />}>
-      <GlobalSearchInner />
+    <Suspense fallback={<SearchField containerClassName={containerClassName} />}>
+      <GlobalSearchInner containerClassName={containerClassName} />
     </Suspense>
   );
 }

@@ -59,125 +59,90 @@
 }
 
 :root {
-  /* Very Light Blue Canvas */
-  --background: #F0F4F9;
-  --foreground: #0F172A;
-
-  /* Pure White Surface Cards */
-  --card: #FFFFFF;
-  --card-foreground: #0F172A;
-  --popover: #FFFFFF;
-  --popover-foreground: #0F172A;
-
-  /* Royal Blue Accent (identical accent in light and dark mode) */
-  --primary: #2563EB;
-  --primary-foreground: #FFFFFF;
-
-  /* Secondary: Soft Light Blue */
-  --secondary: #E2EDF8;
-  --secondary-foreground: #0F172A;
-
-  --muted: #E8EEF5;
+  --background: #f0f4f9;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #e2edf8;
+  --secondary-foreground: #0f172a;
+  --muted: #e8eef5;
   --muted-foreground: #475569;
-
-  --accent: #DBEAFE;
-  --accent-foreground: #1E40AF;
-
-  --destructive: #DC2626;
-  --destructive-foreground: #FFFFFF;
-
-  /* Semantic status colors (light mode) */
-  /* Darkened from emerald-600 to emerald-700 / amber-700 so white text on a
-     solid fill meets 4.5:1 (AA): ~5.5:1 and ~4.8:1 respectively. */
+  --accent: #dbeafe;
+  --accent-foreground: #1e40af;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
   --success: #047857;
-  --success-foreground: #FFFFFF;
-  --warning: #B45309;
-  --warning-foreground: #FFFFFF;
-  --info: #2563EB;
-  --info-foreground: #FFFFFF;
-  --violet: #7C3AED;
-  --teal: #0D9488;
-  --overlay: #0B1220;
-
-  /* Structural borders */
-  --border: #DBE3EF;
-  --input: #DBE3EF;
+  --success-foreground: #ffffff;
+  --warning: #b45309;
+  --warning-foreground: #ffffff;
+  --info: #2563eb;
+  --info-foreground: #ffffff;
+  --violet: #7c3aed;
+  --teal: #0d9488;
+  --overlay: #0b1220;
+  --border: #dbe3ef;
+  --input: #dbe3ef;
   --ring: rgba(37, 99, 235, 0.4);
-
-  /* Royal Blue Palette */
-  --chart-1: #2563EB;
-  --chart-2: #3B82F6;
-  --chart-3: #60A5FA;
-  --chart-4: #64748B;
-  --chart-5: #CBD5E1;
-
+  --chart-1: #2563eb;
+  --chart-2: #3b82f6;
+  --chart-3: #60a5fa;
+  --chart-4: #64748b;
+  --chart-5: #cbd5e1;
   --radius: 0.875rem;
-
-  /* Light Sidebar Tokens */
-  --sidebar: #E5ECF6;
-  --sidebar-foreground: #0F172A;
-  --sidebar-primary: #2563EB;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #DCE5F2;
-  --sidebar-accent-foreground: #1E40AF;
-  --sidebar-border: #D5DFED;
+  --sidebar: #e5ecf6;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #2563eb;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #dce5f2;
+  --sidebar-accent-foreground: #1e40af;
+  --sidebar-border: #d5dfed;
   --sidebar-ring: rgba(37, 99, 235, 0.3);
 }
 
 .dark {
-  /* High-Contrast Obsidian Slate Dark Canvas */
-  --background: #0B1320;
-  --foreground: #F8FAFC;
-
-  /* Elevated Slate Cards */
-  --card: #111C2E;
-  --card-foreground: #F8FAFC;
-  --popover: #111C2E;
-  --popover-foreground: #F8FAFC;
-
-  /* Royal Blue Accent (identical accent in light and dark mode) */
-  --primary: #2563EB;
-  --primary-foreground: #FFFFFF;
-
-  --secondary: #1E293B;
-  --secondary-foreground: #F8FAFC;
-
-  --muted: #1E293B;
-  --muted-foreground: #94A3B8;
-
+  --background: #090d16;
+  --foreground: #f8fafc;
+  --card: #151d2a;
+  --card-foreground: #f8fafc;
+  --popover: #151d2a;
+  --popover-foreground: #f8fafc;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #1e293b;
+  --secondary-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
   --accent: #172554;
-  --accent-foreground: #60A5FA;
-
-  --destructive: #EF4444;
-  --destructive-foreground: #FFFFFF;
-
-  /* Semantic status colors (dark mode) */
-  --success: #34D399;
-  --success-foreground: #052E16;
-  --warning: #FBBF24;
-  --warning-foreground: #451A03;
-  --info: #60A5FA;
-  --info-foreground: #0F172A;
-  --violet: #A78BFA;
-  --teal: #2DD4BF;
-  --overlay: #02060C;
-
+  --accent-foreground: #60a5fa;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --success: #34d399;
+  --success-foreground: #052e16;
+  --warning: #fbbf24;
+  --warning-foreground: #451a03;
+  --info: #60a5fa;
+  --info-foreground: #0f172a;
+  --violet: #a78bfa;
+  --teal: #2dd4bf;
+  --overlay: #02060c;
   --border: rgba(255, 255, 255, 0.1);
   --input: rgba(255, 255, 255, 0.12);
   --ring: rgba(96, 165, 250, 0.5);
-
-  --chart-1: #3B82F6;
-  --chart-2: #60A5FA;
-  --chart-3: #EF4444;
-  --chart-4: #64748B;
+  --chart-1: #3b82f6;
+  --chart-2: #60a5fa;
+  --chart-3: #93c5fd;
+  --chart-4: #64748b;
   --chart-5: #334155;
-
-  --sidebar: #0D1525;
-  --sidebar-foreground: #F8FAFC;
-  --sidebar-primary: #2563EB;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #19263D;
-  --sidebar-accent-foreground: #60A5FA;
+  --sidebar: #0d1525;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: #2563eb;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #19263d;
+  --sidebar-accent-foreground: #60a5fa;
   --sidebar-border: rgba(255, 255, 255, 0.08);
   --sidebar-ring: rgba(96, 165, 250, 0.4);
 }
@@ -192,7 +157,6 @@
   html {
     @apply font-sans tracking-tight;
   }
-  /* Headings share one editorial voice (Inter) while body copy stays DM Sans. */
   h1,
   h2,
   h3,
@@ -202,15 +166,17 @@
     font-family: var(--font-heading);
     text-wrap: balance;
   }
-  /* Keyboard fallback for interactive elements without an explicit focus style. */
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
-  /* Quiet, on-tone scrollbars. */
   * {
     scrollbar-width: thin;
-    scrollbar-color: color-mix(in oklab, var(--muted-foreground) 45%, transparent)
+    scrollbar-color: color-mix(
+        in oklab,
+        var(--muted-foreground) 45%,
+        transparent
+      )
       transparent;
   }
   ::-webkit-scrollbar {
@@ -232,11 +198,10 @@
   }
 }
 
-/* Dynamic Light/Dark Skeuomorphic Utility Classes */
 .skeuo-card {
   background: var(--card);
   border: 1px solid var(--border);
-  box-shadow: 
+  box-shadow:
     0 4px 12px -2px rgba(15, 23, 42, 0.04),
     0 1px 3px 0 rgba(15, 23, 42, 0.02);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -244,7 +209,7 @@
 
 .skeuo-card:hover {
   border-color: var(--ring);
-  box-shadow: 
+  box-shadow:
     0 10px 25px -4px rgba(15, 23, 42, 0.08),
     0 4px 6px -1px rgba(15, 23, 42, 0.03);
 }
@@ -252,7 +217,7 @@
 .skeuo-button-primary {
   background: linear-gradient(180deg, var(--primary) 0%, var(--primary) 100%);
   border: 1px solid var(--primary);
-  box-shadow: 
+  box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   color: var(--primary-foreground) !important;
@@ -266,8 +231,6 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-/* Respect users who reduce motion: collapse animation/transition durations so
-   sidebar springs and the pulsing status dot effectively stop animating. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

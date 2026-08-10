@@ -1,52 +1,29 @@
 "use client";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { FirmLogo } from "@/components/branding/FirmLogo";
-import { GlobalSearch } from "@/components/layout/GlobalSearch";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn, getErrorMessage } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 import { openSidebar } from "@/redux/ui";
 import { Bell, Menu, Play, Square } from "lucide-react";
-import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-interface HeaderProps {
-  title?: string;
-  breadcrumb?: string;
-  userRole?: string;
-}
+const DesktopThemeToggle = dynamic(
+  () =>
+    import("@/components/layout/ThemeToggle").then((mod) => mod.ThemeToggle),
+  { ssr: false }
+);
 
-// Breadcrumb parent labels, keyed by the first route segment.
-const SEGMENT_LABELS: Record<string, string> = {
-  dashboard: "Operations",
-  matters: "Matters & Cases",
-  associates: "Associates & Staff",
-  attendance: "Attendance & Leaves",
-  platform: "Platform"
-};
-
-export function Header({
-  title: propTitle,
-  breadcrumb: propBreadcrumb
-}: Readonly<HeaderProps>) {
+export function Header({ title: propTitle }: Readonly<{ title?: string }>) {
   const reduxHeader = useSelector((state: RootState) => state.header);
   const title = propTitle ?? reduxHeader.title;
-  const breadcrumb = propBreadcrumb ?? reduxHeader.breadcrumb;
-  const pathname = usePathname();
   const dispatch = useDispatch();
   const { user, refreshUser } = useAuth();
-
-  // Derive the breadcrumb parent from the active route instead of a fixed label.
-  const parentLabel = SEGMENT_LABELS[pathname?.split("/")[1] ?? ""];
-  const breadcrumbIsPath = breadcrumb.includes("/");
-
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const isCheckedIn = user?.isCheckedIn ?? false;
   const activeCheckInTime = user?.activeCheckInTime;
-
-  // Check-out is a two-step confirm: the first tap arms it, the second within
-  // 4s commits it. This stops a stray click from silently ending a shift.
   const [confirmingCheckOut, setConfirmingCheckOut] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const confirmTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -75,18 +52,15 @@ export function Header({
       const month = String(localDate.getMonth() + 1).padStart(2, "0");
       const day = String(localDate.getDate()).padStart(2, "0");
       const clientDate = `${year}-${month}-${day}`;
-
       const res = await fetch("/api/attendance/check-in", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ clientDate })
       });
-
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
         throw new Error(errorData.message || "Failed to check in");
       }
-
       toast.success("Checked in successfully!");
       await refreshUser();
     } catch (err) {
@@ -137,55 +111,32 @@ export function Header({
     });
   };
 
+  let checkOutText = "Check Out";
+  if (isSubmitting) {
+    checkOutText = "Checking out…";
+  } else if (confirmingCheckOut) {
+    checkOutText = "Confirm check out";
+  }
+
   return (
-    <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 pb-6 pt-2">
+    <nav className="flex items-center justify-between gap-4">
       {/* Left: Mobile nav toggle + Breadcrumb & Title */}
       <div className="flex items-center gap-3 min-w-0">
         <button
           type="button"
           onClick={() => dispatch(openSidebar())}
           aria-label="Open navigation menu"
-          className="lg:hidden h-9 w-9 shrink-0 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted shadow-xs transition-colors cursor-pointer"
+          className="lg:hidden size-9 shrink-0 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground transition-colors cursor-pointer"
         >
-          <Menu className="h-4 w-4" />
+          <Menu className="size-5" />
         </button>
-        <div className="min-w-0">
-          <p className="text-xs text-muted-foreground font-semibold flex items-center gap-1.5">
-            {!breadcrumbIsPath && parentLabel && (
-              <>
-                <span>{parentLabel}</span>
-                <span>/</span>
-              </>
-            )}
-            <span className="text-primary font-bold">{breadcrumb}</span>
-          </p>
-          <h1 className="text-3xl font-black tracking-tight text-foreground mt-0.5">
-            {title}
-          </h1>
-        </div>
+        <p className="text-3xl font-heading font-bold tracking-wide text-foreground mt-0.5">
+          {title}
+        </p>
       </div>
 
       {/* Center & Right: Search Bar & Actions */}
       <div className="flex items-center gap-3 flex-wrap">
-        {/* Global Search Bar — debounced navigation to /search?q=… */}
-        <GlobalSearch />
-
-        {/* Firm branding chip (hidden for SUPER_ADMIN — they have no firm) */}
-        {user?.firm && (
-          <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 shadow-xs">
-            <FirmLogo
-              logoUrl={user.firm.logoUrl}
-              name={user.firm.name}
-              accentColor={user.firm.accentColor}
-              size={22}
-              rounded="rounded-md"
-            />
-            <span className="max-w-40 truncate text-xs font-bold text-foreground">
-              {user.firm.name}
-            </span>
-          </div>
-        )}
-
         {/* Dynamic Attendance Buttons (self check-in/out for firm owner & associates) */}
         {user && (user.role === "OWNER" || user.role === "ASSOCIATE") && (
           <div className="flex items-center">
@@ -213,13 +164,7 @@ export function Header({
                   )}
                 >
                   <Square className="h-3 w-3 fill-current" />
-                  <span>
-                    {isSubmitting
-                      ? "Checking out…"
-                      : confirmingCheckOut
-                        ? "Confirm check out"
-                        : "Check Out"}
-                  </span>
+                  <span>{checkOutText}</span>
                 </button>
               </div>
             ) : (
@@ -227,9 +172,9 @@ export function Header({
                 type="button"
                 onClick={() => checkIn()}
                 disabled={isSubmitting}
-                className="flex items-center gap-1.5 h-9 px-4 rounded-xl bg-success text-success-foreground hover:bg-success/90 font-bold text-xs shadow-xs transition-all duration-200 cursor-pointer disabled:pointer-events-none disabled:opacity-50"
+                className="flex items-center gap-1 h-9 px-3 rounded-xl bg-success text-success-foreground hover:bg-success/90 font-bold text-sm cursor-pointer disabled:pointer-events-none disabled:opacity-50"
               >
-                <Play className="h-3 w-3 fill-current" />
+                <Play className="size-3 fill-current" />
                 <span>{isSubmitting ? "Checking in…" : "Check In"}</span>
               </button>
             )}
@@ -237,19 +182,21 @@ export function Header({
         )}
 
         {/* Theme Switcher Button */}
-        <ThemeToggle />
+        <div className="hidden lg:block">
+          {isDesktop && <DesktopThemeToggle />}
+        </div>
 
         {/* Notifications Icon */}
         <button
           type="button"
           aria-label="Notifications"
           title="Notifications"
-          className="h-9 w-9 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted shadow-xs transition-colors relative cursor-pointer"
+          className="size-9 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted relative cursor-pointer"
         >
-          <Bell className="h-4 w-4" />
-          <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-destructive" />
+          <Bell className="size-5" />
+          <span className="absolute top-2 right-2 size-2 rounded-full bg-destructive" />
         </button>
       </div>
-    </header>
+    </nav>
   );
 }

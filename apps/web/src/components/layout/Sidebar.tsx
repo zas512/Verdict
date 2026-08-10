@@ -153,7 +153,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
           onClick={() => setDesktopCollapsed(!desktopCollapsed)}
           aria-label={desktopCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           aria-expanded={!desktopCollapsed}
-          className="absolute top-4 -right-3 z-40 h-8 w-8 rounded-full bg-card border border-border shadow-xs items-center justify-center text-muted-foreground hover:text-foreground cursor-pointer hover:scale-105 transition-all"
+          className="absolute top-3 -right-4 z-40 size-8 rounded-full bg-card border border-border text-muted-foreground hover:text-foreground cursor-pointer"
           title={
             desktopCollapsed
               ? "Expand sidebar (Ctrl+B)"
@@ -161,9 +161,9 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
           }
         >
           {desktopCollapsed ? (
-            <ChevronRight className="h-3 w-3" />
+            <ChevronRight className="size-4 m-auto" />
           ) : (
-            <ChevronLeft className="h-3 w-3" />
+            <ChevronLeft className="size-4 m-auto" />
           )}
         </button>
 

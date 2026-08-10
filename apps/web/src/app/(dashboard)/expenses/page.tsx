@@ -1,5 +1,5 @@
-import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
 import { ExpensesClient } from "@/components/expenses/ExpensesClient";
+import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
@@ -13,11 +13,8 @@ export default async function ExpensesPage() {
   }
   return (
     <div className="space-y-6">
-      <HeaderUpdater
-        title="Expenses & Billing"
-        breadcrumb="Expenses Ledger"
-      />
-      <ExpensesClient />
+      <HeaderUpdater title="Expenses & Billing" />
+      <ExpensesClient userRole={user.role} />
     </div>
   );
 }

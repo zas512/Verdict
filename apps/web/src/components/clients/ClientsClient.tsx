@@ -5,6 +5,7 @@ import {
   Building2,
   Contact,
   Plus,
+  RefreshCw,
   ShieldAlert,
   User,
   UserCheck
@@ -149,10 +150,9 @@ export function ClientsClient({ userRole }: Readonly<ClientsClientProps>) {
             key: "conflict-check",
             label: "Conflict Check",
             icon: <ShieldAlert className="size-5" />,
-            variant: "outline",
             onClick: () => setIsConflictOpen(true),
             hidden: !canManage,
-            className: "rounded-full h-10 text-sm font-semibold border-border"
+            className: "text-warning"
           },
           {
             key: "new-client",
@@ -160,16 +160,16 @@ export function ClientsClient({ userRole }: Readonly<ClientsClientProps>) {
             icon: <Plus className="size-5" />,
             onClick: () => setIsCreateOpen(true),
             hidden: !canManage,
-            className: "rounded-full text-sm font-bold h-10"
+            className: "bg-primary text-white hover:bg-primary/90"
           },
           {
             key: "sync-ledger",
             label: "Sync Ledger",
-            onClick: () => refetch(),
-            disabled: isRefetching,
-            variant: "outline",
-            className:
-              "rounded-full h-10 text-sm font-semibold dark:border-white/40 border-border"
+            icon: <RefreshCw className="size-5" />,
+            onClick: () => {
+              void refetch();
+            },
+            loading: isRefetching,
           }
         ]}
       />

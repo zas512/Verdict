@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/search-input";
 import {
   Select,
@@ -9,8 +8,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { RotateCw } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 export interface ToolbarFilterOption {
   value: string;
@@ -21,25 +19,20 @@ export interface ToolbarFilter {
   key: string;
   value: string;
   onChange: (value: string) => void;
-  ariaLabel: string;
-  placeholder: string;
   options: ToolbarFilterOption[];
+  ariaLabel?: string;
+  placeholder?: string;
 }
 
 export interface ToolbarAction {
   key: string;
   label: string;
   icon?: ReactNode;
-  onClick: () => void;
-  variant?: "default" | "outline";
+  onClick: () => void | Promise<void>;
   disabled?: boolean;
   hidden?: boolean;
+  loading?: boolean;
   className?: string;
-}
-
-export interface ToolbarSync {
-  onSync: () => Promise<void> | void;
-  isSyncing?: boolean;
 }
 
 interface DataToolbarProps {
@@ -51,30 +44,13 @@ interface DataToolbarProps {
   };
   filters: [ToolbarFilter, ...ToolbarFilter[]];
   actions?: ToolbarAction[];
-  sync?: ToolbarSync;
 }
 
 export function Filters({
   search,
   filters,
-  actions = [],
-  sync
+  actions = []
 }: Readonly<DataToolbarProps>) {
-  const [localSyncing, setLocalSyncing] = useState(false);
-  const isSyncing = sync?.isSyncing ?? localSyncing;
-
-  const handleSync = async () => {
-    if (!sync) return;
-    setLocalSyncing(true);
-    try {
-      await sync.onSync();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setTimeout(() => setLocalSyncing(false), 800);
-    }
-  };
-
   return (
     <section className="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div className="flex flex-1 flex-wrap items-center gap-3">
@@ -93,7 +69,12 @@ export function Filters({
             onValueChange={filter.onChange}
           >
             <SelectTrigger aria-label={filter.ariaLabel} className="w-44">
-              <SelectValue placeholder={filter.placeholder} />
+              <SelectValue
+                placeholder={filter.placeholder}
+                className={
+                  filter.value === "ALL" ? "text-muted-foreground" : undefined
+                }
+              />
             </SelectTrigger>
             <SelectContent>
               {filter.options.map((option) => (
@@ -106,33 +87,26 @@ export function Filters({
         ))}
       </div>
       <div className="flex items-center gap-2">
-        {sync && (
-          <button
-            type="button"
-            onClick={handleSync}
-            disabled={isSyncing}
-            className="h-10 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted relative cursor-pointer"
-            aria-label="Sync data"
-          >
-            <RotateCw className={cn("size-5", isSyncing && "animate-spin")} />
-          </button>
-        )}
         {actions
           .filter((action) => !action.hidden)
           .map((action) => (
-            <Button
+            <button
+              type="button"
               key={action.key}
-              variant={action.variant}
               onClick={action.onClick}
-              disabled={action.disabled}
-              className={
-                action.className ??
-                "rounded-full h-10 text-sm font-semibold border-border"
-              }
+              disabled={action.disabled || action.loading}
+              className={cn(
+                "h-10 rounded-full px-3 bg-card border border-border flex items-center gap-2 justify-center text-white hover:bg-muted relative cursor-pointer",
+                action.className
+              )}
             >
-              {action.icon}
+              {action.icon && (
+                <span className={action.loading ? "animate-spin" : undefined}>
+                  {action.icon}
+                </span>
+              )}
               {action.label}
-            </Button>
+            </button>
           ))}
       </div>
     </section>

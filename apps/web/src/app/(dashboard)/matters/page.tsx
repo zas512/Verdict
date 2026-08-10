@@ -15,10 +15,7 @@ export default async function MattersPage() {
   }
   return (
     <div className="space-y-6">
-      <HeaderUpdater
-        title="Matters & Cases Dashboard"
-        breadcrumb="Matters Ledger"
-      />
+      <HeaderUpdater title="Matters & Cases Dashboard" />
       <MattersList userRole={user.role} />
     </div>
   );

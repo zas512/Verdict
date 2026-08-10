@@ -1,12 +1,7 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CustomTable } from "@/components/ui/table";
 import { formatPKR } from "@/lib/format";
 import { getErrorMessage } from "@/lib/utils";
@@ -22,8 +17,9 @@ import {
   Trash2,
   Wallet
 } from "lucide-react";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { StatsGrid } from "../ui/stats-grid";
 import { CreateExpenseDialog } from "./CreateExpenseDialog";
 import { RecurringTemplatesDialog } from "./RecurringTemplatesDialog";
 import { RecurringTemplatesSection } from "./RecurringTemplatesSection";
@@ -72,47 +68,17 @@ function formatDate(dateIso: string): string {
   });
 }
 
-function KpiTile({
-  label,
-  value,
-  icon,
-  tone
-}: {
-  label: string;
-  value: string;
-  icon: ReactNode;
-  tone: "primary" | "success" | "warning" | "violet";
-}) {
-  const toneClasses: Record<typeof tone, string> = {
-    primary: "bg-primary/10 text-primary border border-primary/20",
-    success: "bg-success/10 text-success border border-success/20",
-    warning: "bg-warning/10 text-warning border border-warning/20",
-    violet: "bg-violet/10 text-violet border border-violet/20"
-  };
-  return (
-    <Card className="skeuo-card bg-card text-card-foreground">
-      <CardContent className="p-4 flex items-center justify-between">
-        <div>
-          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-            {label}
-          </p>
-          <h2 className="text-2xl font-black mt-1 text-foreground">{value}</h2>
-        </div>
-        <div
-          className={`h-10 w-10 rounded-xl flex items-center justify-center ${toneClasses[tone]}`}
-        >
-          {icon}
-        </div>
-      </CardContent>
-    </Card>
-  );
+interface ExpensesClientProps {
+  userRole: string;
 }
 
-export function ExpensesClient() {
+export function ExpensesClient({ userRole }: Readonly<ExpensesClientProps>) {
   const queryClient = useQueryClient();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isTemplateOpen, setIsTemplateOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+
+  const isOwner = userRole === "OWNER";
 
   const expensesQuery = useQuery<ExpenseRecord[]>({
     queryKey: ["expenses"],
@@ -137,7 +103,8 @@ export function ExpensesClient() {
         );
       }
       return res.json();
-    }
+    },
+    enabled: isOwner
   });
 
   useEffect(() => {
@@ -156,8 +123,14 @@ export function ExpensesClient() {
     }
   }, [expensesQuery.error, templatesQuery.error]);
 
-  const expenses = expensesQuery.data ?? [];
-  const templates = templatesQuery.data ?? [];
+  const expenses = useMemo(
+    () => expensesQuery.data ?? [],
+    [expensesQuery.data]
+  );
+  const templates = useMemo(
+    () => templatesQuery.data ?? [],
+    [templatesQuery.data]
+  );
 
   const stats = useMemo(() => {
     const now = new Date();
@@ -239,7 +212,7 @@ export function ExpensesClient() {
         throw new Error(errorData.message || "Failed to delete template");
       }
       toast.success("Recurring template deleted");
-        await queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
+      await queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
     } catch (err) {
       toast.error(getErrorMessage(err, "Error deleting template"));
     }
@@ -256,13 +229,14 @@ export function ExpensesClient() {
         throw new Error(data.message || "Failed to generate expenses");
       }
       const generated = Number(data.generated) || 0;
-      toast.success(
-        generated > 0
-          ? `Generated ${generated} expense${generated === 1 ? "" : "s"}`
-          : "No recurring expenses were due"
-      );
-        await queryClient.invalidateQueries({ queryKey: ["expenses"] });
-        await queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
+      let message = "No recurring expenses were due";
+      if (generated > 0) {
+        const suffix = generated === 1 ? "" : "s";
+        message = `Generated ${generated} expense${suffix}`;
+      }
+      toast.success(message);
+      await queryClient.invalidateQueries({ queryKey: ["expenses"] });
+      await queryClient.invalidateQueries({ queryKey: ["recurring-expenses"] });
     } catch (err) {
       toast.error(getErrorMessage(err, "Error generating recurring expenses"));
     } finally {
@@ -369,6 +343,7 @@ export function ExpensesClient() {
       render: (e) => (
         <div className="flex items-center justify-end gap-1.5">
           <button
+            type="button"
             onClick={() => deleteExpense(e)}
             className="p-1.5 rounded-lg border border-border bg-card hover:bg-destructive/10 hover:text-destructive text-muted-foreground transition-colors cursor-pointer"
             title="Delete expense"
@@ -384,32 +359,38 @@ export function ExpensesClient() {
   return (
     <div className="space-y-6">
       {/* 1. KPI Summary */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KpiTile
-          label="This Month"
-          value={formatPKR(stats.thisMonth)}
-          icon={<CalendarDays className="h-5 w-5" />}
-          tone="primary"
-        />
-        <KpiTile
-          label="Fixed Total"
-          value={formatPKR(stats.fixed)}
-          icon={<Wallet className="h-5 w-5" />}
-          tone="success"
-        />
-        <KpiTile
-          label="Manual Total"
-          value={formatPKR(stats.manual)}
-          icon={<HandCoins className="h-5 w-5" />}
-          tone="warning"
-        />
-        <KpiTile
-          label="Active Templates"
-          value={String(stats.activeTemplates)}
-          icon={<Repeat className="h-5 w-5" />}
-          tone="violet"
-        />
-      </div>
+      <StatsGrid
+        stats={[
+          {
+            title: "This Month",
+            value: formatPKR(stats.thisMonth),
+            icon: CalendarDays,
+            color: "primary"
+          },
+          {
+            title: "Fixed Total",
+            value: formatPKR(stats.fixed),
+            icon: Wallet,
+            color: "success"
+          },
+          {
+            title: "Manual Total",
+            value: formatPKR(stats.manual),
+            icon: HandCoins,
+            color: "warning"
+          },
+          ...(isOwner
+            ? [
+                {
+                  title: "Active Templates",
+                  value: String(stats.activeTemplates),
+                  icon: Repeat,
+                  color: "destructive" as const
+                }
+              ]
+            : [])
+        ]}
+      />
 
       {/* 2. Action Bar */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -418,15 +399,17 @@ export function ExpensesClient() {
           templates for automation.
         </p>
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => runGeneration()}
-            disabled={isGenerating}
-            className="rounded-full h-10 text-sm font-semibold dark:border-white/40 border-border"
-          >
-            <RefreshCcw className="size-4" />
-            Run Recurring
-          </Button>
+          {isOwner && (
+            <Button
+              variant="outline"
+              onClick={() => runGeneration()}
+              disabled={isGenerating}
+              className="rounded-full h-10 text-sm font-semibold dark:border-white/40 border-border"
+            >
+              <RefreshCcw className="size-4" />
+              Run Recurring
+            </Button>
+          )}
           <Button
             onClick={() => setIsCreateOpen(true)}
             className="rounded-full text-sm font-bold h-10"
@@ -467,15 +450,17 @@ export function ExpensesClient() {
       </Card>
 
       {/* 4. Recurring Templates */}
-      <RecurringTemplatesSection
-        templates={templates}
-        isLoading={templatesQuery.isLoading}
-        isGenerating={isGenerating}
-        onGenerate={runGeneration}
-        onCreate={() => setIsTemplateOpen(true)}
-        onToggleActive={toggleTemplate}
-        onDelete={deleteTemplate}
-      />
+      {isOwner && (
+        <RecurringTemplatesSection
+          templates={templates}
+          isLoading={templatesQuery.isLoading}
+          isGenerating={isGenerating}
+          onGenerate={runGeneration}
+          onCreate={() => setIsTemplateOpen(true)}
+          onToggleActive={toggleTemplate}
+          onDelete={deleteTemplate}
+        />
+      )}
 
       {/* Dialogs */}
       <CreateExpenseDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />

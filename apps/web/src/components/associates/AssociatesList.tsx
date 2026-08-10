@@ -86,7 +86,7 @@ function getBadgeVariant(role: string): "navy" | "secondary" | "outline" {
   return "outline";
 }
 
-export function AssociatesClient({
+export function AssociatesList({
   userRole
 }: Readonly<AssociatesClientProps>) {
   const queryClient = useQueryClient();

@@ -190,16 +190,9 @@ export function CustomTable<T>({
       );
     }
 
-    const allColumnsHaveWidths =
-      orderedColumns.length > 0 &&
-      orderedColumns.every((col) => col.width !== undefined);
-    const tableLayoutClass = allColumnsHaveWidths
-      ? "table-fixed"
-      : "table-auto";
-
     return (
       <table
-        className={`border-collapse ${tableLayoutClass}`}
+        className="w-full border-collapse table-auto"
         aria-label={caption ?? undefined}
       >
         {caption && (
@@ -207,11 +200,6 @@ export function CustomTable<T>({
             {caption}
           </caption>
         )}
-        <colgroup>
-          {orderedColumns.map((col) => (
-            <col key={col.key} style={{ width: col.width }} />
-          ))}
-        </colgroup>
         <thead className="bg-muted/10">
           <tr className="border-b border-border">
             {orderedColumns.map((col) => {
@@ -228,7 +216,7 @@ export function CustomTable<T>({
                   onDragOver={handleDragOver(col.key)}
                   onDrop={handleDrop(col.key)}
                   onDragEnd={handleDragEnd}
-                  className={`text-sm font-bold uppercase tracking-wider text-foreground/80 py-4 px-4 select-none whitespace-nowrap transition-colors ${
+                  className={`text-[16px] font-bold uppercase tracking-wider text-foreground/90 py-6 px-4 select-none whitespace-nowrap ${
                     isDragOver ? "bg-primary/10" : ""
                   } ${isDragging ? "opacity-40" : ""}`}
                 >
@@ -236,26 +224,26 @@ export function CustomTable<T>({
                     const renderSortIcon = () => {
                       if (!isSorted) {
                         return (
-                          <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground/80 hover:cursor-pointer" />
+                          <ArrowUpDown className="size-4 text-muted-foreground/70 hover:cursor-pointer hover:text-foreground" />
                         );
                       }
                       if (sort.direction === "asc") {
                         return (
-                          <ArrowUp className="h-3.5 w-3.5 text-primary hover:cursor-pointer" />
+                          <ArrowUp className="size-4 text-green-500 hover:cursor-pointer" />
                         );
                       }
                       return (
-                        <ArrowDown className="h-3.5 w-3.5 text-primary hover:cursor-pointer" />
+                        <ArrowDown className="size-4 text-green-500 hover:cursor-pointer" />
                       );
                     };
 
                     return (
                       <div
-                        className={`flex items-center gap-1.5 ${alignClass(
+                        className={`flex items-center gap-1.5 font-heading ${alignClass(
                           col.align
                         )} ${justifyClass(col.align)}`}
                       >
-                        <GripVertical className="h-3.5 w-3.5 text-muted-foreground/40 cursor-grab shrink-0 hover:cursor-grab" />
+                        <GripVertical className="size-4 text-muted-foreground/70 cursor-grab shrink-0 hover:cursor-grab" />
                         {col.sortable ? (
                           <button
                             type="button"
@@ -293,9 +281,7 @@ export function CustomTable<T>({
               }
               tabIndex={onRowClick ? 0 : undefined}
               role={onRowClick ? "button" : undefined}
-              aria-label={
-                onRowClick ? `View row ${rowKey(row)}` : undefined
-              }
+              aria-label={onRowClick ? `View row ${rowKey(row)}` : undefined}
               className={`border-b border-border hover:bg-muted/30 transition-colors ${
                 onRowClick
                   ? "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
@@ -305,7 +291,7 @@ export function CustomTable<T>({
               {orderedColumns.map((col) => (
                 <td
                   key={col.key}
-                  className={`px-4 py-3 align-middle text-sm ${alignClass(col.align)}`}
+                  className={`pl-6 pr-1 py-4 align-middle text-sm ${alignClass(col.align)}`}
                 >
                   {col.render
                     ? col.render(row)

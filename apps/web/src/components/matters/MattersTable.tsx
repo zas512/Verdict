@@ -52,22 +52,16 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
     {
       key: "firmCaseNumber",
       header: "CASE REFERENCE",
-      width: "22%",
       sortable: true,
       accessor: (m) => m.firmCaseNumber,
       render: (m) => (
         <div>
-          <p className="font-extrabold text-foreground text-sm">
+          <p className="font-bold text-foreground text-sm">
             {m.firmCaseNumber}
           </p>
           {m.courtCaseNumber && (
             <span className="text-xs text-muted-foreground block truncate max-w-45">
               Court Case: {m.courtCaseNumber}
-            </span>
-          )}
-          {m.cnr && (
-            <span className="text-xs font-mono text-primary bg-primary/5 px-1 py-0.5 rounded border border-primary/10 inline-block mt-0.5">
-              CNR: {m.cnr}
             </span>
           )}
         </div>
@@ -76,7 +70,6 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
     {
       key: "clientName",
       header: "CLIENT NAME",
-      width: "16%",
       sortable: true,
       accessor: (m) => m.clientName,
       render: (m) => (
@@ -88,7 +81,6 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
     {
       key: "caseType",
       header: "CASE TYPE",
-      width: "12%",
       sortable: true,
       accessor: (m) => m.caseType,
       render: (m) => (
@@ -100,7 +92,6 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
     {
       key: "currentStage",
       header: "CURRENT STAGE",
-      width: "18%",
       accessor: (m) => m.currentStage?.name ?? "",
       render: (m) => (
         <span className="text-sm font-semibold text-muted-foreground truncate max-w-50 block">
@@ -111,7 +102,6 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
     {
       key: "status",
       header: "STATUS",
-      width: "12%",
       sortable: true,
       accessor: (m) => m.status,
       render: (m) => {
@@ -122,7 +112,6 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
         else if (status === "DECIDED") variant = "amber";
         else if (status === "CLOSED" || status === "ARCHIVED")
           variant = "destructive";
-
         return (
           <Badge variant={variant} className="text-xs font-bold">
             {status}
@@ -133,36 +122,14 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
     {
       key: "filingDate",
       header: "FILING DATE",
-      width: "14%",
       sortable: true,
       accessor: (m) => (m.filingDate ? new Date(m.filingDate) : null),
       render: (m) => (
-        <span className="text-sm text-muted-foreground font-medium flex items-center gap-1">
-          <Calendar className="h-3.5 w-3.5 text-primary/70" />
+        <span className="text-[16px] text-foreground/80 tracking-wider">
           {m.filingDate
             ? new Date(m.filingDate).toLocaleDateString()
             : "Not Filed"}
         </span>
-      )
-    },
-    {
-      key: "actions",
-      header: "ACTIONS",
-      width: "10%",
-      align: "center",
-      render: (m) => (
-        <div className="text-center">
-          <Link href={`/matters/${m.id}`} onClick={(e) => e.stopPropagation()}>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2.5 text-sm text-primary hover:text-primary hover:bg-primary/10 font-bold gap-1 rounded-xl"
-            >
-              <span>View Details</span>
-              <ExternalLink className="h-3.5 w-3.5" />
-            </Button>
-          </Link>
-        </div>
       )
     }
   ];

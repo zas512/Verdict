@@ -1,7 +1,7 @@
+import { AssociatesList } from "@/components/associates/AssociatesList";
+import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
-import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
-import { AssociatesClient } from "@/components/associates/AssociatesClient";
 
 export default async function AssociatesPage() {
   const { user } = await getSession();
@@ -13,11 +13,8 @@ export default async function AssociatesPage() {
   }
   return (
     <div className="space-y-6">
-      <HeaderUpdater
-        title="Law Firm Associates & Staff"
-        breadcrumb="Associates Directory"
-      />
-      <AssociatesClient userRole={user.role} />
+      <HeaderUpdater title="Law Firm Associates & Staff" />
+      <AssociatesList userRole={user.role} />
     </div>
   );
 }

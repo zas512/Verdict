@@ -15,7 +15,7 @@ export default async function ClientsPage() {
   }
   return (
     <div className="space-y-6">
-      <HeaderUpdater title="Clients Directory" breadcrumb="Client Ledger" />
+      <HeaderUpdater title="Clients Directory" />
       <ClientsClient userRole={user.role} />
     </div>
   );

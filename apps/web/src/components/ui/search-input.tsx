@@ -1,20 +1,20 @@
 import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
-import * as React from "react";
+import { forwardRef, type ChangeEvent, type ChangeEventHandler } from "react";
 
 export interface SearchInputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "onChange"
 > {
   onChange?: (value: string) => void;
-  onChangeEvent?: React.ChangeEventHandler<HTMLInputElement>;
+  onChangeEvent?: ChangeEventHandler<HTMLInputElement>;
   containerClassName?: string;
   iconClassName?: string;
   icon?: React.ComponentType<{ className?: string }>;
   variant?: "default" | "absolute";
 }
 
-export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
+export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   (
     {
       className,
@@ -30,7 +30,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
     },
     ref
   ) => {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       onChange?.(e.target.value);
       onChangeEvent?.(e);
     };

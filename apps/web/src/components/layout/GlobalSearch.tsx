@@ -1,5 +1,5 @@
 "use client";
-import { SearchInput } from "@/components/ui/SearchInput";
+import { SearchInput } from "@/components/ui/search-input";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 

@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { SearchInput } from "@/components/ui/SearchInput";
+import { SearchInput } from "@/components/ui/search-input";
 import {
   Select,
   SelectContent,
@@ -8,7 +8,9 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
+import { RotateCw } from "lucide-react";
+import { useState, type ReactNode } from "react";
 
 export interface ToolbarFilterOption {
   value: string;
@@ -35,6 +37,11 @@ export interface ToolbarAction {
   className?: string;
 }
 
+export interface ToolbarSync {
+  onSync: () => Promise<void> | void;
+  isSyncing?: boolean;
+}
+
 interface DataToolbarProps {
   search?: {
     value: string;
@@ -44,13 +51,30 @@ interface DataToolbarProps {
   };
   filters: [ToolbarFilter, ...ToolbarFilter[]];
   actions?: ToolbarAction[];
+  sync?: ToolbarSync;
 }
 
 export function Filters({
   search,
   filters,
-  actions = []
+  actions = [],
+  sync
 }: Readonly<DataToolbarProps>) {
+  const [localSyncing, setLocalSyncing] = useState(false);
+  const isSyncing = sync?.isSyncing ?? localSyncing;
+
+  const handleSync = async () => {
+    if (!sync) return;
+    setLocalSyncing(true);
+    try {
+      await sync.onSync();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setTimeout(() => setLocalSyncing(false), 800);
+    }
+  };
+
   return (
     <section className="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div className="flex flex-1 flex-wrap items-center gap-3">
@@ -82,6 +106,17 @@ export function Filters({
         ))}
       </div>
       <div className="flex items-center gap-2">
+        {sync && (
+          <button
+            type="button"
+            onClick={handleSync}
+            disabled={isSyncing}
+            className="h-10 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted relative cursor-pointer"
+            aria-label="Sync data"
+          >
+            <RotateCw className={cn("size-5", isSyncing && "animate-spin")} />
+          </button>
+        )}
         {actions
           .filter((action) => !action.hidden)
           .map((action) => (

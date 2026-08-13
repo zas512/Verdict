@@ -113,9 +113,9 @@ export function UpcomingHearings({
 
   return (
     <Card className={cn("skeuo-card bg-card text-card-foreground relative overflow-hidden", className)}>
-      <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
+
       <CardHeader className="flex flex-row items-center justify-between pb-3 pt-4">
-        <CardTitle className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+        <CardTitle className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
           <CalendarDays className="h-4 w-4 text-primary" />
           Upcoming Hearings
         </CardTitle>

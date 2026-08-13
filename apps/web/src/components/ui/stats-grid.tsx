@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { Building2, Contact, User, UserCheck } from "lucide-react";
+import Card from "@/components/ui/card-custom";
 
 type StatCard = {
   title?: string;
@@ -67,7 +68,7 @@ function StatsCard({
   const colors = colorClasses[color];
 
   return (
-    <div className="bg-card p-6 flex items-center justify-between rounded-2xl border border-border">
+    <div className="p-6 flex items-center justify-between">
       <div>
         <p className="font-bold text-lg tracking-wider text-white/90 uppercase">
           {title}
@@ -87,7 +88,9 @@ export function StatsGrid({ stats = defaultStats }: Readonly<StatsGridProps>) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {stats.map((stat, index) => (
-        <StatsCard key={`${stat.title}-${index}`} {...stat} />
+        <Card key={`${stat.title}-${index}`}>
+          <StatsCard {...stat} />
+        </Card>
       ))}
     </div>
   );

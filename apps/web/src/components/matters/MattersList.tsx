@@ -11,7 +11,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Filters } from "../ui/filters";
-import { StatsGrid } from "../ui/stats-grid";
+import { SummaryStrip } from "../ui/summary-strip";
 import { CreateMatterDialog } from "./CreateMatterDialog";
 import type { Matter } from "./MattersTable";
 import { MattersTable } from "./MattersTable";
@@ -82,31 +82,26 @@ export function MattersList({
   return (
     <div className="space-y-6">
       {/* 1. KPI Stats Summary */}
-      <StatsGrid
-        stats={[
+      <SummaryStrip
+        metrics={[
           {
-            title: "Total Matters",
-            value: stats.total,
-            icon: Briefcase,
-            color: "primary"
+            label: "Total Matters",
+            value: stats.total
           },
           {
-            title: "Active",
+            label: "Active",
             value: stats.active,
-            icon: Scale,
-            color: "success"
+            accentColor: "var(--success)"
           },
           {
-            title: "Decided",
+            label: "Decided",
             value: stats.decided,
-            icon: Gavel,
-            color: "warning"
+            accentColor: "var(--warning)"
           },
           {
-            title: "Closed",
+            label: "Closed",
             value: stats.closed,
-            icon: FolderClosed,
-            color: "destructive"
+            accentColor: "var(--destructive)"
           }
         ]}
       />

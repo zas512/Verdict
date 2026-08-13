@@ -1,4 +1,5 @@
 import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
+import { SummaryStrip } from "../ui/summary-strip";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -126,34 +127,34 @@ export async function AssociateDashboard() {
       <HeaderUpdater title="My Dashboard" breadcrumb="Overview" />
 
       {/* Personal metrics */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          icon={<ClipboardList className="h-4 w-4" />}
-          label="My Tasks"
-          value={`${openCount} open`}
-          sub={`${tasks.length} total assigned`}
-        />
-        <StatCard
-          icon={<CheckCircle2 className="h-4 w-4 text-success" />}
-          label="Completed"
-          value={completedCount}
-          sub="tasks marked done"
-          accent="text-success"
-        />
-        <StatCard
-          icon={<TriangleAlert className="h-4 w-4 text-destructive" />}
-          label="Overdue"
-          value={overdueCount}
-          sub="past their due date"
-          accent={overdueCount > 0 ? "text-destructive" : "text-foreground"}
-        />
-        <StatCard
-          icon={<CalendarCheck2 className="h-4 w-4" />}
-          label="This Month"
-          value={`${thisMonthShifts} shifts`}
-          sub={`${totalHours.toFixed(1)} hrs logged`}
-        />
-      </div>
+      <SummaryStrip
+        metrics={[
+          {
+            label: "My Tasks",
+            value: openCount,
+            indicator: `${tasks.length} total`
+          },
+          {
+            label: "Completed",
+            value: completedCount,
+            indicator: "tasks done",
+            accentColor: "var(--success)"
+          },
+          {
+            label: "Overdue",
+            value: overdueCount,
+            indicator: "past due",
+            accentColor: overdueCount > 0 ? "var(--destructive)" : undefined,
+            indicatorColor: overdueCount > 0 ? "text-destructive font-bold" : undefined
+          },
+          {
+            label: "This Month",
+            value: thisMonthShifts,
+            indicator: `${totalHours.toFixed(1)} hrs`,
+            accentColor: "var(--primary)"
+          }
+        ]}
+      />
 
       {/* Recent tasks */}
       <Card className="skeuo-card bg-card text-card-foreground">

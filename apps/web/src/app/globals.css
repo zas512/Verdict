@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -229,6 +229,295 @@
   box-shadow:
     0 4px 10px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+} */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-violet: var(--violet);
+  --color-teal: var(--teal);
+  --color-overlay: var(--overlay);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 20px;
+  --radius-4xl: 24px;
+}
+
+:root {
+  --background: #f7f5f1;
+  --foreground: #1c1a16;
+  --card: #ffffff;
+  --card-foreground: #1c1a16;
+  --popover: #ffffff;
+  --popover-foreground: #1c1a16;
+  --primary: #8a6a2f;
+  --primary-foreground: #ffffff;
+  --secondary: #eee9df;
+  --secondary-foreground: #1c1a16;
+  --muted: #efece5;
+  --muted-foreground: #6b6558;
+  --accent: #f1e8d4;
+  --accent-foreground: #7a5c22;
+  --destructive: #9c4a41;
+  --destructive-foreground: #ffffff;
+  --success: #3f6b4d;
+  --success-foreground: #ffffff;
+  --warning: #8a6a2f;
+  --warning-foreground: #ffffff;
+  --info: #45647a;
+  --info-foreground: #ffffff;
+  --violet: #6d5a7e;
+  --teal: #3d6e69;
+  --overlay: #10100d;
+  --border: #e2ddd0;
+  --input: #e2ddd0;
+  --ring: rgba(138, 106, 47, 0.4);
+  --chart-1: #8a6a2f;
+  --chart-2: #6b7d5f;
+  --chart-3: #45647a;
+  --chart-4: #6b6558;
+  --chart-5: #b8ae98;
+  --radius: 0.625rem;
+  --sidebar: #efeae0;
+  --sidebar-foreground: #1c1a16;
+  --sidebar-primary: #8a6a2f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e6ddc7;
+  --sidebar-accent-foreground: #7a5c22;
+  --sidebar-border: #ded7c6;
+  --sidebar-ring: rgba(138, 106, 47, 0.3);
+}
+
+.dark {
+  /* Warm near-black instead of default slate-900 — reads like dark walnut
+     or an evening-lit office, not "generic SaaS dark mode." */
+  --background: #15161a;
+  --foreground: #ece8df;
+  --card: #1c1d22;
+  --card-foreground: #ece8df;
+  --popover: #1c1d22;
+  --popover-foreground: #ece8df;
+  /* Brass/seal gold instead of default blue — the one accent color, used sparingly. */
+  --primary: #c9a25c;
+  --primary-foreground: #191712;
+  --secondary: #24252b;
+  --secondary-foreground: #ece8df;
+  --muted: #1f2025;
+  --muted-foreground: #9b9689;
+  --accent: #26221a;
+  --accent-foreground: #d3ac6c;
+  --destructive: #a6564f;
+  --destructive-foreground: #f7ece9;
+  --success: #5b8a6b;
+  --success-foreground: #eaf3ec;
+  --warning: #8a7a5b;
+  --warning-foreground: #f6f0e2;
+  --info: #5b7a8a;
+  --info-foreground: #e9f1f5;
+  --violet: #8a7597;
+  --teal: #4e8a85;
+  --overlay: rgba(0, 0, 0, 0.8);
+  --border: rgba(236, 232, 223, 0.08);
+  --input: rgba(236, 232, 223, 0.12);
+  --ring: rgba(201, 162, 92, 0.45);
+  --chart-1: #c9a25c;
+  --chart-2: #7d8a6b;
+  --chart-3: #5b7a8a;
+  --chart-4: #8a7a5b;
+  --chart-5: #4a4c52;
+  --sidebar: #121317;
+  --sidebar-foreground: #ece8df;
+  --sidebar-primary: #c9a25c;
+  --sidebar-primary-foreground: #191712;
+  --sidebar-accent: #1e1b14;
+  --sidebar-accent-foreground: #d3ac6c;
+  --sidebar-border: rgba(236, 232, 223, 0.06);
+  --sidebar-ring: rgba(201, 162, 92, 0.35);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
+  }
+  html {
+    @apply font-sans tracking-tight;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    text-wrap: balance;
+  }
+  /* Case references, docket numbers, dates, filing IDs should always use
+     the mono face — this is what makes the table read as a court record
+     instead of a generic data grid. Apply `font-mono` explicitly on those
+     cells (CASE REFERENCE, FILING DATE, CNR numbers, etc). */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(
+        in oklab,
+        var(--muted-foreground) 45%,
+        transparent
+      )
+      transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: color-mix(
+      in oklab,
+      var(--muted-foreground) 45%,
+      transparent
+    );
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--muted-foreground);
+  }
+}
+
+.skeuo-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 4px 12px -2px rgba(0, 0, 0, 0.16),
+    0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skeuo-card:hover {
+  border-color: var(--ring);
+  box-shadow:
+    0 10px 25px -4px rgba(0, 0, 0, 0.25),
+    0 4px 6px -1px rgba(0, 0, 0, 0.12);
+}
+
+/* Stat card left-accent variant: quieter than an icon-in-a-bubble.
+   Usage: <div class="skeuo-stat"> with a --stat-accent custom property,
+   e.g. style="--stat-accent: var(--success)" for ACTIVE. */
+.skeuo-stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--stat-accent, var(--primary));
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skeuo-stat:hover {
+  border-left-width: 3px;
+  background: color-mix(in oklab, var(--card) 92%, var(--stat-accent, var(--primary)));
+}
+
+.skeuo-button-primary {
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary) 100%);
+  border: 1px solid var(--primary);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  color: var(--primary-foreground) !important;
+  transition: all 0.15s ease;
+}
+
+.skeuo-button-primary:hover {
+  filter: brightness(1.1);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Signature element: a "stamped" status badge for DECIDED / CLOSED matters.
+   Square-ish corners (uses radius-sm), left accent bar instead of a filled
+   pill, slight rotation + dashed inner ring to suggest an ink stamp without
+   tipping into gimmick. Apply alongside the normal badge classes:
+   <span class="skeuo-stamp" style="--stamp-color: var(--warning)">DECIDED</span> */
+.skeuo-stamp {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.2em 0.6em;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in oklab, var(--stamp-color, var(--primary)) 55%, transparent);
+  color: var(--stamp-color, var(--primary));
+  background: color-mix(in oklab, var(--stamp-color, var(--primary)) 10%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transform: rotate(-1.2deg);
 }
 
 @media (prefers-reduced-motion: reduce) {

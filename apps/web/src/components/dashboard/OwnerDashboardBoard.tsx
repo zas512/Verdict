@@ -126,14 +126,10 @@ export function OwnerDashboardBoard({
       case "associates":
         return (
           <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden h-full">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
-            <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4">
-              <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <CardHeader className="pb-2 pt-4">
+              <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
                 Total Associates
               </CardTitle>
-              <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
-                <Users className="h-4 w-4" />
-              </div>
             </CardHeader>
             <CardContent className="pb-4">
               <div className="text-4xl font-black text-foreground tracking-tight">
@@ -142,28 +138,26 @@ export function OwnerDashboardBoard({
               <p className="text-xs text-muted-foreground font-semibold mt-1 mb-4">
                 Firm-wide headcount
               </p>
+              
+              <div className="border-t border-border/80 my-3" />
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <StatTile
-                  icon={<UserCheck className="h-3.5 w-3.5 text-success" />}
-                  label="Present"
-                  value={present}
-                />
-                <StatTile
-                  icon={<UserX className="h-3.5 w-3.5 text-destructive" />}
-                  label="Absent"
-                  value={absent}
-                />
-                <StatTile
-                  icon={<Palmtree className="h-3.5 w-3.5 text-warning" />}
-                  label="On Leave"
-                  value={leave}
-                />
-                <StatTile
-                  icon={<Laptop className="h-3.5 w-3.5 text-info" />}
-                  label="Remote"
-                  value={remote}
-                />
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground">Present</span>
+                  <p className="text-xl font-bold text-success mt-0.5">{present ?? 0}</p>
+                </div>
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground">Absent</span>
+                  <p className="text-xl font-bold text-destructive mt-0.5">{absent ?? 0}</p>
+                </div>
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground">On Leave</span>
+                  <p className="text-xl font-bold text-warning mt-0.5">{leave ?? 0}</p>
+                </div>
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground">Remote</span>
+                  <p className="text-xl font-bold text-info mt-0.5">{remote ?? 0}</p>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -171,45 +165,29 @@ export function OwnerDashboardBoard({
       case "expenses":
         return (
           <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden h-full">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
-            <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4">
-              <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                Total Expenses & Billings
+            <CardHeader className="pb-2 pt-4">
+              <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                Expenses & Billing
               </CardTitle>
-              <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
-                <Receipt className="h-4 w-4" />
-              </div>
             </CardHeader>
             <CardContent className="pb-4">
               <div className="text-4xl font-black text-foreground tracking-tight">
                 {expenseValue}
               </div>
               <p className="text-xs text-muted-foreground font-semibold mt-1 mb-4">
-                Fixed salaries + manual operational expenses (PKR)
+                Monthly operational expenses (PKR)
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div className="flex flex-col gap-1 rounded-lg bg-muted/50 px-3 py-2.5">
-                  <div className="flex items-center gap-1.5">
-                    <Wallet className="h-3.5 w-3.5 text-success" />
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                      Fixed Salaries
-                    </span>
-                  </div>
-                  <span className="text-lg font-bold text-foreground">
-                    {fixedValue}
-                  </span>
+              <div className="border-t border-border/80 my-3" />
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground">Fixed salaries</span>
+                  <p className="text-lg font-bold text-foreground mt-0.5">{fixedValue}</p>
                 </div>
-                <div className="flex flex-col gap-1 rounded-lg bg-muted/50 px-3 py-2.5">
-                  <div className="flex items-center gap-1.5">
-                    <Receipt className="h-3.5 w-3.5 text-destructive" />
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                      Manual Expenses
-                    </span>
-                  </div>
-                  <span className="text-lg font-bold text-foreground">
-                    {manualValue}
-                  </span>
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground">Manual expenses</span>
+                  <p className="text-lg font-bold text-foreground mt-0.5">{manualValue}</p>
                 </div>
               </div>
             </CardContent>

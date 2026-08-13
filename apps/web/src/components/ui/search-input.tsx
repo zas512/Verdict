@@ -52,7 +52,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             onChange={handleChange}
             placeholder={placeholder}
             className={cn(
-              "w-full h-9 pl-9 pr-3 text-xs bg-card border border-border rounded-xl text-foreground placeholder:text-muted-foreground transition-colors outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 disabled:pointer-events-none disabled:opacity-50",
+              "w-full h-9 pl-9 pr-3 text-xs bg-card border border-border rounded-md text-foreground placeholder:text-muted-foreground transition-colors outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 disabled:pointer-events-none disabled:opacity-50",
               className
             )}
             {...props}
@@ -64,7 +64,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     return (
       <div
         className={cn(
-          "w-full max-w-xs sm:w-80 h-10 flex items-center px-3 rounded-xl border border-border bg-card transition-colors hover:border-primary/70 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/40",
+          "w-full max-w-xs sm:w-80 h-10 flex items-center px-3 rounded-md border border-border bg-card transition-colors hover:border-primary/70 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/40",
           containerClassName
         )}
       >

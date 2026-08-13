@@ -189,7 +189,7 @@ export function SelectTrigger({
       aria-controls={ctx.listId}
       onClick={() => ctx.setOpen(!ctx.open)}
       className={cn(
-        "relative z-10 flex w-full items-center justify-between gap-2 rounded-full border border-border bg-card px-3 h-10 text-sm text-foreground outline-none transition-colors",
+        "relative z-10 flex w-full items-center justify-between gap-2 rounded-md border border-border bg-card px-3 h-10 text-sm text-foreground outline-none transition-colors",
         "hover:border-primary/70 focus:border-primary focus:ring-2 focus:ring-primary/40",
         "disabled:pointer-events-none disabled:opacity-50",
         className

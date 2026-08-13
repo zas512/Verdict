@@ -48,9 +48,9 @@ export function ClientsTable({
       sortable: true,
       accessor: (c) => CLIENT_TYPE_LABELS[c.clientType],
       render: (c) => (
-        <Badge variant="navy" className="text-xs font-bold uppercase">
+        <span className="text-xs font-semibold text-muted-foreground uppercase">
           {CLIENT_TYPE_LABELS[c.clientType]}
-        </Badge>
+        </span>
       )
     },
     {
@@ -59,14 +59,19 @@ export function ClientsTable({
       width: "12%",
       sortable: true,
       accessor: (c) => c.status,
-      render: (c) => (
-        <Badge
-          variant={c.status === "ACTIVE" ? "emerald" : "outline"}
-          className="text-xs font-bold"
-        >
-          {c.status}
-        </Badge>
-      )
+      render: (c) => {
+        const isActive = c.status === "ACTIVE";
+        const textColor = isActive ? "text-success" : "text-muted-foreground";
+        const dotColor = isActive ? "bg-success" : "bg-muted-foreground";
+        return (
+          <div
+            className={`flex items-center gap-1.5 font-semibold text-xs ${textColor}`}
+          >
+            <span className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />
+            <span>{isActive ? "Active" : "Inactive"}</span>
+          </div>
+        );
+      }
     },
     {
       key: "contact",
@@ -105,7 +110,7 @@ export function ClientsTable({
           <Button
             variant="ghost"
             size="sm"
-            className="h-8 px-2.5 text-sm text-primary hover:text-primary hover:bg-primary/10 font-bold gap-1 rounded-xl"
+            className="h-8 px-2.5 text-sm text-primary hover:text-primary hover:bg-primary/10 font-bold gap-1 rounded-md"
             onClick={(e) => {
               e.stopPropagation();
               onView(c);

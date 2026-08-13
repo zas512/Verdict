@@ -1,10 +1,8 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { CustomTable } from "@/components/ui/table";
 import type { ColumnConfig } from "@/types/tableTypes";
-import { Calendar, ExternalLink, Scale } from "lucide-react";
-import Link from "next/link";
+import { Scale } from "lucide-react";
 
 export interface Matter {
   id: string;
@@ -56,7 +54,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       accessor: (m) => m.firmCaseNumber,
       render: (m) => (
         <div>
-          <p className="font-bold text-foreground text-sm">
+          <p className="font-mono font-bold text-foreground text-sm">
             {m.firmCaseNumber}
           </p>
           {m.courtCaseNumber && (
@@ -84,9 +82,9 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       sortable: true,
       accessor: (m) => m.caseType,
       render: (m) => (
-        <Badge variant="navy" className="text-xs font-bold uppercase">
+        <span className="text-xs font-semibold text-muted-foreground uppercase">
           {m.caseType}
-        </Badge>
+        </span>
       )
     },
     {
@@ -106,16 +104,27 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       accessor: (m) => m.status,
       render: (m) => {
         const status = m.status;
-        let variant: "emerald" | "destructive" | "amber" | "outline" =
-          "outline";
-        if (status === "ACTIVE") variant = "emerald";
-        else if (status === "DECIDED") variant = "amber";
-        else if (status === "CLOSED" || status === "ARCHIVED")
-          variant = "destructive";
+        const colorMap = {
+          ACTIVE: "text-success",
+          DECIDED: "text-warning",
+          CLOSED: "text-destructive",
+          ARCHIVED: "text-muted-foreground"
+        };
+        const dotColorMap = {
+          ACTIVE: "bg-success",
+          DECIDED: "bg-warning",
+          CLOSED: "bg-destructive",
+          ARCHIVED: "bg-muted-foreground"
+        };
+        const dotColor = dotColorMap[status] ?? "bg-muted-foreground";
+        const textColor = colorMap[status] ?? "text-muted-foreground";
         return (
-          <Badge variant={variant} className="text-xs font-bold">
-            {status}
-          </Badge>
+          <div
+            className={`flex items-center gap-1.5 font-semibold text-xs ${textColor}`}
+          >
+            <span className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />
+            <span>{status.charAt(0) + status.slice(1).toLowerCase()}</span>
+          </div>
         );
       }
     },
@@ -125,9 +134,13 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       sortable: true,
       accessor: (m) => (m.filingDate ? new Date(m.filingDate) : null),
       render: (m) => (
-        <span className="text-[16px] text-foreground/80 tracking-wider">
+        <span className="font-mono text-xs text-muted-foreground">
           {m.filingDate
-            ? new Date(m.filingDate).toLocaleDateString()
+            ? new Date(m.filingDate).toLocaleDateString("en-PK", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+              })
             : "Not Filed"}
         </span>
       )

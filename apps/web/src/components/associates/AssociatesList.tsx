@@ -27,6 +27,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { CustomTable } from "@/components/ui/table";
+import { SummaryStrip } from "../ui/summary-strip";
 import type { ColumnConfig } from "@/types/tableTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -129,6 +130,34 @@ export function AssociatesList({
       toast.error(`Error loading firm roster: ${error.message}`);
     }
   }, [error]);
+
+  // Fetch attendance for "On Leave" calculations
+  const { data: attendance = [] } = useQuery<any[]>({
+    queryKey: ["attendance-firm-roster"],
+    queryFn: async () => {
+      const res = await fetch("/api/attendance/firm");
+      if (!res.ok) return [];
+      return res.json();
+    },
+    enabled: canManage
+  });
+
+  const stats = useMemo(() => {
+    const total = allMembers.length;
+    const active = allMembers.filter((m) => m.isActive).length;
+    const inactive = allMembers.filter((m) => !m.isActive).length;
+    const now = new Date();
+    const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    const onLeave = attendance.filter(
+      (r) => r.date?.startsWith(todayKey) && r.status === "LEAVE"
+    ).length;
+    return {
+      total,
+      active: Math.max(0, active - onLeave),
+      onLeave,
+      inactive
+    };
+  }, [allMembers, attendance]);
 
   // Extract Firm Owner(s) and staff members
   const ownerMember = useMemo(
@@ -241,9 +270,13 @@ export function AssociatesList({
       sortable: true,
       accessor: (m) => m.role,
       render: (m) => (
-        <Badge variant={getBadgeVariant(m.role)} className="text-xs font-bold">
-          {m.role}
-        </Badge>
+        <span className="text-xs font-semibold text-muted-foreground">
+          {m.role === "OWNER"
+            ? "Owner"
+            : m.role === "ADMIN"
+              ? "Admin"
+              : "Associate"}
+        </span>
       )
     },
     {
@@ -252,12 +285,20 @@ export function AssociatesList({
       sortable: true,
       accessor: (m) => (m.isActive ? 1 : 0),
       render: (m) => (
-        <Badge
-          variant={m.isActive ? "emerald" : "destructive"}
-          className="text-xs"
+        <div
+          className={cn(
+            "flex items-center gap-1.5 font-semibold text-xs",
+            m.isActive ? "text-success" : "text-destructive"
+          )}
         >
-          {m.isActive ? "Active" : "Inactive"}
-        </Badge>
+          <span
+            className={cn(
+              "h-1.5 w-1.5 rounded-full",
+              m.isActive ? "bg-success" : "bg-destructive"
+            )}
+          />
+          <span>{m.isActive ? "Active" : "Inactive"}</span>
+        </div>
       )
     },
     {
@@ -266,9 +307,12 @@ export function AssociatesList({
       sortable: true,
       accessor: (m) => new Date(m.createdAt),
       render: (m) => (
-        <span className="text-xs text-muted-foreground font-medium flex items-center gap-1">
-          <Calendar className="h-3.5 w-3.5 text-primary/70" />
-          {new Date(m.createdAt).toLocaleDateString()}
+        <span className="text-xs text-muted-foreground font-mono">
+          {new Date(m.createdAt).toLocaleDateString("en-PK", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+          })}
         </span>
       )
     },
@@ -285,7 +329,7 @@ export function AssociatesList({
               e.stopPropagation();
               setSelectedMember(m);
             }}
-            className="h-8 px-2.5 text-xs text-primary hover:text-primary hover:bg-primary/10 font-bold gap-1 rounded-xl"
+            className="h-8 px-2.5 text-xs text-primary hover:text-primary hover:bg-primary/10 font-bold gap-1 rounded-md"
           >
             <Eye className="h-3.5 w-3.5" />
             <span>View</span>
@@ -297,12 +341,36 @@ export function AssociatesList({
 
   return (
     <div className="space-y-6">
+      {/* Summary Roster Metrics */}
+      <SummaryStrip
+        metrics={[
+          {
+            label: "Total Roster",
+            value: stats.total
+          },
+          {
+            label: "Active",
+            value: stats.active,
+            accentColor: "var(--success)"
+          },
+          {
+            label: "On Leave",
+            value: stats.onLeave,
+            accentColor: "var(--warning)"
+          },
+          {
+            label: "Inactive",
+            value: stats.inactive,
+            accentColor: "var(--destructive)"
+          }
+        ]}
+      />
+
       {/* ========================================================= */}
       {/* TOP SECTION: FIRM OWNER LEADERSHIP CARD */}
       {/* ========================================================= */}
       {ownerMember && (
         <Card className="border-border bg-card text-card-foreground shadow-xs relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
           <CardHeader className="pb-2">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-center gap-4">

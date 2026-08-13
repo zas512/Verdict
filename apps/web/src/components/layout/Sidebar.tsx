@@ -213,7 +213,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
             onMouseLeave={() => setHoveredIndex(null)}
           >
             {!desktopCollapsed && (
-              <p className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground px-3 pb-1">
+              <p className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground px-3 pb-1">
                 Navigation
               </p>
             )}
@@ -228,12 +228,12 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                     aria-current={isActive ? "page" : undefined}
                     onMouseEnter={() => setHoveredIndex(index)}
                     className={cn(
-                      "relative flex items-center rounded-xl text-xs font-semibold outline-none transition-colors",
+                      "relative flex items-center rounded-md text-sm font-semibold outline-none transition-colors",
                       desktopCollapsed
                         ? "justify-center h-9 w-9 mx-auto"
-                        : "px-3.5 py-2.5 gap-3 w-full",
+                        : "px-3.5 py-2 gap-3 w-full",
                       isActive
-                        ? "text-sidebar-primary-foreground font-bold shadow-md shadow-primary/20"
+                        ? "text-sidebar-primary-foreground font-bold"
                         : "text-muted-foreground hover:text-sidebar-foreground"
                     )}
                     title={desktopCollapsed ? item.title : undefined}
@@ -244,7 +244,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                         layoutId="sidebar-hover-pill"
                         className={cn(
                           "absolute inset-0 bg-sidebar-accent/80",
-                          desktopCollapsed ? "rounded-full" : "rounded-xl"
+                          desktopCollapsed ? "rounded-full" : "rounded-md"
                         )}
                         transition={{
                           type: "spring",
@@ -260,7 +260,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                         layoutId="sidebar-active-pill"
                         className={cn(
                           "absolute inset-0 bg-sidebar-primary",
-                          desktopCollapsed ? "rounded-full" : "rounded-xl"
+                          desktopCollapsed ? "rounded-full" : "rounded-md"
                         )}
                         transition={{
                           type: "spring",

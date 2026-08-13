@@ -141,9 +141,9 @@ export function Header({ title: propTitle }: Readonly<{ title?: string }>) {
         {user && (user.role === "OWNER" || user.role === "ASSOCIATE") && (
           <div className="flex items-center">
             {isCheckedIn ? (
-              <div className="flex items-center gap-2 bg-card border border-border rounded-xl p-1 shadow-xs">
-                <div className="flex items-center gap-1.5 px-3 py-1 bg-warning/10 border border-warning/20 text-warning font-mono font-bold text-xs rounded-lg">
-                  <span className="h-1.5 w-1.5 rounded-full bg-warning inline-block" />
+              <div className="flex items-center gap-1.5 bg-card border border-border rounded-md p-1 shadow-none">
+                <div className="flex items-center gap-1 px-2 py-0.5 bg-warning/10 border border-warning/20 text-warning font-mono font-bold text-xs rounded-sm">
+                  <span className="h-1 w-1 rounded-full bg-warning inline-block animate-pulse" />
                   <span>In: {formatTimeFriendly(activeCheckInTime)}</span>
                 </div>
                 <button
@@ -157,13 +157,13 @@ export function Header({ title: propTitle }: Readonly<{ title?: string }>) {
                       : "Check out of today's shift"
                   }
                   className={cn(
-                    "flex items-center gap-1.5 h-7 px-3 rounded-lg text-destructive-foreground font-bold text-xs transition-all duration-200 cursor-pointer disabled:pointer-events-none disabled:opacity-50",
+                    "flex items-center gap-1 h-6 px-2.5 rounded-sm text-destructive-foreground font-bold text-xs transition-all duration-200 cursor-pointer disabled:pointer-events-none disabled:opacity-50",
                     confirmingCheckOut
-                      ? "bg-destructive ring-2 ring-destructive/40 hover:bg-destructive/90"
+                      ? "bg-destructive hover:bg-destructive/90"
                       : "bg-destructive/90 hover:bg-destructive"
                   )}
                 >
-                  <Square className="h-3 w-3 fill-current" />
+                  <Square className="h-2.5 w-2.5 fill-current" />
                   <span>{checkOutText}</span>
                 </button>
               </div>
@@ -172,7 +172,7 @@ export function Header({ title: propTitle }: Readonly<{ title?: string }>) {
                 type="button"
                 onClick={() => checkIn()}
                 disabled={isSubmitting}
-                className="flex items-center gap-1 h-9 px-3 rounded-xl bg-success text-success-foreground hover:bg-success/90 font-bold text-sm cursor-pointer disabled:pointer-events-none disabled:opacity-50"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-md bg-success text-success-foreground hover:bg-success/90 font-bold text-xs cursor-pointer disabled:pointer-events-none disabled:opacity-50"
               >
                 <Play className="size-3 fill-current" />
                 <span>{isSubmitting ? "Checking in…" : "Check In"}</span>

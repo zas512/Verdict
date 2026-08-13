@@ -33,9 +33,9 @@ export function SuperAdminDashboard() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {/* Metric 1 */}
         <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
+
           <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
               Total Tenant Firms
             </CardTitle>
             <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
@@ -57,9 +57,9 @@ export function SuperAdminDashboard() {
 
         {/* Metric 2 */}
         <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
+
           <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
               Security Boundary
             </CardTitle>
             <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
@@ -81,9 +81,9 @@ export function SuperAdminDashboard() {
 
         {/* Metric 3 */}
         <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
+
           <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
               Platform Health
             </CardTitle>
             <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
@@ -106,9 +106,9 @@ export function SuperAdminDashboard() {
 
         {/* Metric 4 */}
         <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
+
           <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
               Platform Role
             </CardTitle>
             <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
@@ -128,7 +128,7 @@ export function SuperAdminDashboard() {
 
       <div className="grid gap-6 md:grid-cols-12">
         <Card className="skeuo-card md:col-span-12 bg-card text-card-foreground relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
+
           <CardHeader>
             <CardTitle className="text-sm font-bold flex items-center gap-2">
               <Building2 className="h-4 w-4 text-primary" />

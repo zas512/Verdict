@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { StatsGrid } from "../ui/stats-grid";
+import { SummaryStrip } from "../ui/summary-strip";
 import { CreateExpenseDialog } from "./CreateExpenseDialog";
 import { RecurringTemplatesDialog } from "./RecurringTemplatesDialog";
 import { RecurringTemplatesSection } from "./RecurringTemplatesSection";
@@ -301,7 +301,7 @@ export function ExpensesClient({ userRole }: Readonly<ExpensesClientProps>) {
       sortable: true,
       accessor: (e) => e.amount,
       render: (e) => (
-        <span className="font-black text-foreground text-xs whitespace-nowrap">
+        <span className="font-mono font-bold text-foreground text-xs whitespace-nowrap">
           {formatPKR(Number(e.amount) || 0)}
         </span>
       )
@@ -359,33 +359,28 @@ export function ExpensesClient({ userRole }: Readonly<ExpensesClientProps>) {
   return (
     <div className="space-y-6">
       {/* 1. KPI Summary */}
-      <StatsGrid
-        stats={[
+      <SummaryStrip
+        metrics={[
           {
-            title: "This Month",
-            value: formatPKR(stats.thisMonth),
-            icon: CalendarDays,
-            color: "primary"
+            label: "This Month",
+            value: formatPKR(stats.thisMonth)
           },
           {
-            title: "Fixed Total",
+            label: "Fixed Total",
             value: formatPKR(stats.fixed),
-            icon: Wallet,
-            color: "success"
+            accentColor: "var(--success)"
           },
           {
-            title: "Manual Total",
+            label: "Manual Total",
             value: formatPKR(stats.manual),
-            icon: HandCoins,
-            color: "warning"
+            accentColor: "var(--warning)"
           },
           ...(isOwner
             ? [
                 {
-                  title: "Active Templates",
+                  label: "Active Templates",
                   value: String(stats.activeTemplates),
-                  icon: Repeat,
-                  color: "destructive" as const
+                  accentColor: "var(--destructive)"
                 }
               ]
             : [])

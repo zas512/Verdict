@@ -216,7 +216,7 @@ export function CustomTable<T>({
                   onDragOver={handleDragOver(col.key)}
                   onDrop={handleDrop(col.key)}
                   onDragEnd={handleDragEnd}
-                  className={`text-[16px] font-bold uppercase tracking-wider text-foreground/90 py-6 px-4 select-none whitespace-nowrap ${
+                  className={`text-xs font-semibold uppercase text-muted-foreground/90 py-3.5 px-4 select-none whitespace-nowrap ${
                     isDragOver ? "bg-primary/10" : ""
                   } ${isDragging ? "opacity-40" : ""}`}
                 >
@@ -291,7 +291,7 @@ export function CustomTable<T>({
               {orderedColumns.map((col) => (
                 <td
                   key={col.key}
-                  className={`pl-6 pr-1 py-4 align-middle text-sm ${alignClass(col.align)}`}
+                  className={`pl-6 pr-4 py-4 align-middle text-sm ${alignClass(col.align)}`}
                 >
                   {col.render
                     ? col.render(row)
@@ -323,7 +323,7 @@ export function CustomTable<T>({
               aria-label="Previous page"
               onClick={() => setPageIndex((p) => Math.max(0, p - 1))}
               disabled={pageIndex === 0}
-              className="h-8 w-8 rounded-xl"
+              className="h-8 w-8 rounded-md"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -335,7 +335,7 @@ export function CustomTable<T>({
                 setPageIndex((p) => Math.min(pageCount - 1, p + 1))
               }
               disabled={pageIndex >= pageCount - 1}
-              className="h-8 w-8 rounded-xl"
+              className="h-8 w-8 rounded-md"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>

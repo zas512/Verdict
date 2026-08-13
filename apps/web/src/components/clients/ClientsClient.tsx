@@ -13,7 +13,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Filters } from "../ui/filters";
-import { StatsGrid } from "../ui/stats-grid";
+import { SummaryStrip } from "../ui/summary-strip";
 import { ClientDetailDialog } from "./ClientDetailDialog";
 import { ClientsTable } from "./ClientsTable";
 import { ConflictCheckDialog } from "./ConflictCheckDialog";
@@ -81,31 +81,26 @@ export function ClientsClient({ userRole }: Readonly<ClientsClientProps>) {
   return (
     <div className="space-y-6">
       {/* 1. KPI Stats Summary */}
-      <StatsGrid
-        stats={[
+      <SummaryStrip
+        metrics={[
           {
-            title: "Total Clients",
-            value: stats.total,
-            icon: Contact,
-            color: "primary"
+            label: "Total Clients",
+            value: stats.total
           },
           {
-            title: "Active",
+            label: "Active",
             value: stats.active,
-            icon: UserCheck,
-            color: "success"
+            accentColor: "var(--success)"
           },
           {
-            title: "Inactive",
+            label: "Inactive",
             value: stats.inactive,
-            icon: User,
-            color: "destructive"
+            accentColor: "var(--destructive)"
           },
           {
-            title: "Companies",
+            label: "Companies",
             value: stats.companies,
-            icon: Building2,
-            color: "warning"
+            accentColor: "var(--warning)"
           }
         ]}
       />

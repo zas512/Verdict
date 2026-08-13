@@ -1,6 +1,7 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { SummaryStrip } from "../ui/summary-strip";
 import {
   Card,
   CardContent,
@@ -263,8 +264,41 @@ export function LeaveRequests({
     }));
   }, [balances, isOwner]);
 
+  const stats = useMemo(() => {
+    const total = requests.length;
+    const pending = requests.filter((r) => r.status === "PENDING").length;
+    const approved = requests.filter((r) => r.status === "APPROVED").length;
+    const rejected = requests.filter((r) => r.status === "REJECTED").length;
+    return { total, pending, approved, rejected };
+  }, [requests]);
+
   return (
     <div className="space-y-6">
+      {/* 1. Summary Metrics */}
+      <SummaryStrip
+        metrics={[
+          {
+            label: "Total Requests",
+            value: stats.total
+          },
+          {
+            label: "Pending",
+            value: stats.pending,
+            accentColor: "var(--warning)"
+          },
+          {
+            label: "Approved",
+            value: stats.approved,
+            accentColor: "var(--success)"
+          },
+          {
+            label: "Rejected",
+            value: stats.rejected,
+            accentColor: "var(--destructive)"
+          }
+        ]}
+      />
+
       {/* Apply + Balances */}
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Apply form */}

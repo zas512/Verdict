@@ -399,7 +399,7 @@ export function ExpensesClient({ userRole }: Readonly<ExpensesClientProps>) {
               variant="outline"
               onClick={() => runGeneration()}
               disabled={isGenerating}
-              className="rounded-full h-10 text-sm font-semibold dark:border-white/40 border-border"
+              className="rounded-md h-10 text-sm font-semibold dark:border-white/40 border-border"
             >
               <RefreshCcw className="size-4" />
               Run Recurring
@@ -407,7 +407,7 @@ export function ExpensesClient({ userRole }: Readonly<ExpensesClientProps>) {
           )}
           <Button
             onClick={() => setIsCreateOpen(true)}
-            className="rounded-full text-sm font-bold h-10"
+            className="rounded-md text-sm font-bold h-10"
           >
             <Plus className="size-5" />
             Record Expense

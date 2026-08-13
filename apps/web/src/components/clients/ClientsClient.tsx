@@ -1,15 +1,7 @@
 "use client";
 import type { Client } from "@/types/clientTypes";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Building2,
-  Contact,
-  Plus,
-  RefreshCw,
-  ShieldAlert,
-  User,
-  UserCheck
-} from "lucide-react";
+import { Plus, RefreshCw, ShieldAlert } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Filters } from "../ui/filters";
@@ -164,7 +156,7 @@ export function ClientsClient({ userRole }: Readonly<ClientsClientProps>) {
             onClick: () => {
               void refetch();
             },
-            loading: isRefetching,
+            loading: isRefetching
           }
         ]}
       />

@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/select";
 import { CustomTable } from "@/components/ui/table";
 import { SummaryStrip } from "../ui/summary-strip";
+import { InsetSurface } from "../ui/inset-surface";
 import type { ColumnConfig } from "@/types/tableTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -409,7 +410,7 @@ export function AssociatesList({
                   variant="outline"
                   size="sm"
                   onClick={() => setSelectedMember(ownerMember)}
-                  className="rounded-xl text-xs font-bold border-border"
+                  className="rounded-md text-xs font-bold border-border"
                 >
                   View Owner Details
                 </Button>
@@ -420,55 +421,53 @@ export function AssociatesList({
       )}
 
       {/* Action Bar & Search */}
-      <Card className="border-border bg-card text-card-foreground shadow-xs">
-        <CardContent className="p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="relative w-full md:w-96">
-            <Search className="absolute left-3.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              aria-label="Search associates"
-              placeholder="Search associates & staff by email, role..."
-              value={globalFilter ?? ""}
-              onChange={(e) => setGlobalFilter(e.target.value)}
-              className="pl-9 bg-card border-border text-xs rounded-xl focus-visible:ring-primary/40"
+      <InsetSurface className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="relative w-full md:w-96">
+          <Search className="absolute left-3.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            aria-label="Search associates"
+            placeholder="Search associates & staff by email, role..."
+            value={globalFilter ?? ""}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            className="pl-9 bg-card border-border text-xs rounded-md focus-visible:ring-primary/40"
+          />
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetch()}
+            disabled={isRefetching}
+            className="rounded-md text-xs font-semibold border-border gap-1.5"
+          >
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${isRefetching ? "animate-spin text-primary" : ""}`}
             />
-          </div>
+            <span>Refresh</span>
+          </Button>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => refetch()}
-              disabled={isRefetching}
-              className="rounded-xl text-xs font-semibold border-border gap-1.5"
-            >
-              <RefreshCw
-                className={`h-3.5 w-3.5 ${isRefetching ? "animate-spin text-primary" : ""}`}
-              />
-              <span>Refresh</span>
-            </Button>
-
-            {canManage && (
-              <>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsInviteOpen(true)}
-                  className="rounded-xl text-xs font-semibold border-border gap-1.5 h-9 px-4"
-                >
-                  <Mail className="h-4 w-4" />
-                  <span>Invite Member</span>
-                </Button>
-                <Button
-                  onClick={() => setIsCreateOpen(true)}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-xs font-bold gap-1.5 h-9 px-4 shadow-xs"
-                >
-                  <UserPlus className="h-4 w-4" />
-                  <span>Create Associate</span>
-                </Button>
-              </>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+          {canManage && (
+            <>
+              <Button
+                variant="outline"
+                onClick={() => setIsInviteOpen(true)}
+                className="rounded-md text-xs font-semibold border-border gap-1.5 h-9 px-4"
+              >
+                <Mail className="h-4 w-4" />
+                <span>Invite Member</span>
+              </Button>
+              <Button
+                onClick={() => setIsCreateOpen(true)}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-md text-xs font-bold gap-1.5 h-9 px-4 shadow-xs"
+              >
+                <UserPlus className="h-4 w-4" />
+                <span>Create Associate</span>
+              </Button>
+            </>
+          )}
+        </div>
+      </InsetSurface>
 
       {/* ========================================================= */}
       {/* ASSOCIATES & STAFF TANSTACK DATA TABLE */}

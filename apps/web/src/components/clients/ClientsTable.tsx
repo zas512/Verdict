@@ -1,9 +1,8 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CustomTable } from "@/components/ui/table";
-import type { ColumnConfig } from "@/types/tableTypes";
 import type { Client } from "@/types/clientTypes";
+import type { ColumnConfig } from "@/types/tableTypes";
 import { Contact, ExternalLink } from "lucide-react";
 
 const CLIENT_TYPE_LABELS: Record<Client["clientType"], string> = {

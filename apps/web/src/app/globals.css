@@ -349,22 +349,21 @@
 }
 
 .dark {
-  /* Warm near-black instead of default slate-900 — reads like dark walnut
-     or an evening-lit office, not "generic SaaS dark mode." */
-  --background: #15161a;
+  /* Dark Tactile Enterprise UI color variables */
+  --background: #0F1115;
   --foreground: #ece8df;
-  --card: #1c1d22;
+  --card: #16191E;
   --card-foreground: #ece8df;
-  --popover: #1c1d22;
+  --popover: #16191E;
   --popover-foreground: #ece8df;
-  /* Brass/seal gold instead of default blue — the one accent color, used sparingly. */
+  /* Brass/seal gold brand accent */
   --primary: #c9a25c;
-  --primary-foreground: #191712;
-  --secondary: #24252b;
+  --primary-foreground: #0F1115;
+  --secondary: #121419;
   --secondary-foreground: #ece8df;
-  --muted: #1f2025;
+  --muted: #121419;
   --muted-foreground: #9b9689;
-  --accent: #26221a;
+  --accent: #1e1b14;
   --accent-foreground: #d3ac6c;
   --destructive: #a6564f;
   --destructive-foreground: #f7ece9;
@@ -376,22 +375,22 @@
   --info-foreground: #e9f1f5;
   --violet: #8a7597;
   --teal: #4e8a85;
-  --overlay: rgba(0, 0, 0, 0.8);
-  --border: rgba(236, 232, 223, 0.08);
-  --input: rgba(236, 232, 223, 0.12);
+  --overlay: #20242B;
+  --border: #1C2026;
+  --input: #121419;
   --ring: rgba(201, 162, 92, 0.45);
   --chart-1: #c9a25c;
   --chart-2: #7d8a6b;
   --chart-3: #5b7a8a;
   --chart-4: #8a7a5b;
   --chart-5: #4a4c52;
-  --sidebar: #121317;
+  --sidebar: #16191E;
   --sidebar-foreground: #ece8df;
   --sidebar-primary: #c9a25c;
-  --sidebar-primary-foreground: #191712;
+  --sidebar-primary-foreground: #0F1115;
   --sidebar-accent: #1e1b14;
   --sidebar-accent-foreground: #d3ac6c;
-  --sidebar-border: rgba(236, 232, 223, 0.06);
+  --sidebar-border: #1C2026;
   --sidebar-ring: rgba(201, 162, 92, 0.35);
 }
 
@@ -454,16 +453,16 @@
   background: var(--card);
   border: 1px solid var(--border);
   box-shadow:
-    0 4px 12px -2px rgba(0, 0, 0, 0.16),
-    0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.18);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .skeuo-card:hover {
   border-color: var(--ring);
   box-shadow:
-    0 10px 25px -4px rgba(0, 0, 0, 0.25),
-    0 4px 6px -1px rgba(0, 0, 0, 0.12);
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 10px 28px rgba(0, 0, 0, 0.25);
 }
 
 /* Stat card left-accent variant: quieter than an icon-in-a-bubble.
@@ -482,20 +481,71 @@
 }
 
 .skeuo-button-primary {
-  background: linear-gradient(180deg, var(--primary) 0%, var(--primary) 100%);
+  background: var(--primary);
   border: 1px solid var(--primary);
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 1px 2px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
   color: var(--primary-foreground) !important;
-  transition: all 0.15s ease;
+  transition: all 0.12s ease;
 }
 
 .skeuo-button-primary:hover {
-  filter: brightness(1.1);
+  filter: brightness(1.08);
   box-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 2px 5px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.skeuo-button-primary:active {
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.5),
+    0 0 0 transparent;
+  transform: translateY(0.5px);
+}
+
+/* Outlined buttons */
+.dark [data-slot="button"][data-variant="outline"] {
+  background-color: #16191E;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  transition: all 0.12s ease;
+}
+
+.dark [data-slot="button"][data-variant="outline"]:hover {
+  background-color: #1C2026;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark [data-slot="button"][data-variant="outline"]:active {
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.4);
+  transform: translateY(0.5px);
+}
+
+/* Inset inputs & controls etched appearance */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark input[type="number"],
+.dark input[type="date"],
+.dark select,
+.dark textarea,
+.dark [data-slot="input"],
+.dark [data-slot="select-trigger"],
+.dark [data-slot="search-input"] {
+  background-color: #121419 !important;
+  border-color: rgba(255, 255, 255, 0.04) !important;
+  box-shadow:
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.015),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Table row hovers */
+.dark tr:hover {
+  background-color: rgba(255, 255, 255, 0.012) !important;
 }
 
 /* Signature element: a "stamped" status badge for DECIDED / CLOSED matters.

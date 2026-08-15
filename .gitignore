@@ -5,3 +5,6 @@ node_modules
 .cursor
 .claude
 .gemini
+.codex
+.agents
+.impeccable

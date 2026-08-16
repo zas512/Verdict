@@ -42,20 +42,20 @@ const defaultStats: StatCard[] = [
 
 const colorClasses = {
   primary: {
-    value: "text-primary",
-    icon: "bg-primary/10 text-primary border-primary/20"
+    value: "text-foreground",
+    icon: "text-primary"
   },
   success: {
-    value: "text-success",
-    icon: "bg-success/10 text-success border-success/20"
+    value: "text-foreground",
+    icon: "text-success"
   },
   destructive: {
-    value: "text-destructive",
-    icon: "bg-destructive/10 text-destructive border-destructive/20"
+    value: "text-foreground",
+    icon: "text-destructive"
   },
   warning: {
-    value: "text-warning",
-    icon: "bg-warning/10 text-warning border-warning/20"
+    value: "text-foreground",
+    icon: "text-warning"
   }
 };
 
@@ -68,18 +68,14 @@ function StatsCard({
   const colors = colorClasses[color];
 
   return (
-    <div className="p-6 flex items-center justify-between">
-      <div>
-        <p className="font-bold text-lg tracking-wider text-white/90 uppercase">
+    <div className="p-5">
+      <div className="flex items-center gap-2">
+        <Icon className={`size-4 ${colors.icon}`} />
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
           {title}
         </p>
-        <p className={`text-4xl font-black mt-1 ${colors.value}`}>{value}</p>
       </div>
-      <div
-        className={`size-14 rounded-full flex items-center justify-center border ${colors.icon}`}
-      >
-        <Icon className="size-7" />
-      </div>
+      <p className={`mt-3 text-2xl font-semibold tabular-nums ${colors.value}`}>{value}</p>
     </div>
   );
 }

@@ -9,7 +9,8 @@ import { NodeEnv, type EnvironmentVariables } from "./config/env.validation";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const config = app.get<ConfigService<EnvironmentVariables, true>>(ConfigService);
+  const config =
+    app.get<ConfigService<EnvironmentVariables, true>>(ConfigService);
 
   app.setGlobalPrefix("api");
   app.use(helmet());

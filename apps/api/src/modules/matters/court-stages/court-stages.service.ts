@@ -9,15 +9,9 @@ export class CourtStagesService {
   async findAll(firmId: string) {
     return this.prisma.courtStage.findMany({
       where: {
-        OR: [
-          { firmId: null },
-          { firmId }
-        ]
+        OR: [{ firmId: null }, { firmId }]
       },
-      orderBy: [
-        { caseType: "asc" },
-        { sequenceOrder: "asc" }
-      ]
+      orderBy: [{ caseType: "asc" }, { sequenceOrder: "asc" }]
     });
   }
 
@@ -25,10 +19,7 @@ export class CourtStagesService {
     return this.prisma.courtStage.findMany({
       where: {
         caseType,
-        OR: [
-          { firmId: null },
-          { firmId }
-        ]
+        OR: [{ firmId: null }, { firmId }]
       },
       orderBy: { sequenceOrder: "asc" }
     });

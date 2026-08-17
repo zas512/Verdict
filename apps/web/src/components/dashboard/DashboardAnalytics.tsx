@@ -91,23 +91,23 @@ function EmptyChartState({
   description: string;
 }) {
   return (
-    <Card className="md:col-span-12 skeuo-card bg-card text-card-foreground">
+    <Card className="skeuo-card bg-card text-card-foreground md:col-span-12">
       <CardHeader>
-        <CardTitle className="text-sm font-bold flex items-center gap-2">
-          <PieIcon className="h-4 w-4 text-primary" />
+        <CardTitle className="flex items-center gap-2 text-sm font-bold">
+          <PieIcon className="text-primary h-4 w-4" />
           {title}
         </CardTitle>
-        <CardDescription className="text-xs text-muted-foreground font-medium">
+        <CardDescription className="text-muted-foreground text-xs font-medium">
           {description}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
-          <PieIcon className="h-10 w-10 text-muted-foreground/40" />
-          <p className="text-sm font-bold text-foreground">
+        <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
+          <PieIcon className="text-muted-foreground/40 h-10 w-10" />
+          <p className="text-foreground text-sm font-bold">
             No expense records yet
           </p>
-          <p className="text-xs text-muted-foreground max-w-sm">
+          <p className="text-muted-foreground max-w-sm text-xs">
             Expense trends and allocation charts will appear here once billing
             data is recorded for this firm.
           </p>
@@ -143,14 +143,14 @@ export function DashboardAnalytics({
       {/* Charts Grid */}
       <div className="grid gap-6 md:grid-cols-12">
         {/* Left Chart: Monthly Expense Trends */}
-        <Card className="md:col-span-7 skeuo-card bg-card text-card-foreground">
+        <Card className="skeuo-card bg-card text-card-foreground md:col-span-7">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-primary" />
+              <CardTitle className="flex items-center gap-2 text-sm font-bold">
+                <TrendingUp className="text-primary h-4 w-4" />
                 Monthly Financial Overhead
               </CardTitle>
-              <CardDescription className="text-xs text-muted-foreground font-medium">
+              <CardDescription className="text-muted-foreground text-xs font-medium">
                 Fixed payroll salaries vs manual operational expenses
               </CardDescription>
             </div>
@@ -224,20 +224,20 @@ export function DashboardAnalytics({
         </Card>
 
         {/* Right Chart: Category Breakdown Donut */}
-        <Card className="md:col-span-5 skeuo-card bg-card text-card-foreground">
+        <Card className="skeuo-card bg-card text-card-foreground md:col-span-5">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
-                <PieIcon className="h-4 w-4 text-primary" />
+              <CardTitle className="flex items-center gap-2 text-sm font-bold">
+                <PieIcon className="text-primary h-4 w-4" />
                 Expense Allocation
               </CardTitle>
-              <CardDescription className="text-xs text-muted-foreground font-medium">
+              <CardDescription className="text-muted-foreground text-xs font-medium">
                 Categorical distribution of firm budget
               </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="pt-2">
-            <div className="h-52 w-full flex items-center justify-center">
+            <div className="flex h-52 w-full items-center justify-center">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -266,7 +266,7 @@ export function DashboardAnalytics({
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-border">
+            <div className="border-border grid grid-cols-2 gap-2 border-t pt-2">
               {categoryData.map((item) => (
                 <div
                   key={item.name}
@@ -276,10 +276,10 @@ export function DashboardAnalytics({
                     className="h-2.5 w-2.5 rounded-full"
                     style={{ backgroundColor: item.color }}
                   />
-                  <span className="text-muted-foreground font-semibold truncate">
+                  <span className="text-muted-foreground truncate font-semibold">
                     {item.name}:
                   </span>
-                  <span className="font-bold text-foreground">
+                  <span className="text-foreground font-bold">
                     {item.value}%
                   </span>
                 </div>

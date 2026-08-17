@@ -15,10 +15,10 @@ const Quotes = () => {
   });
   return (
     <>
-      <p className="font-serif text-3xl leading-12 tracking-wide text-primary-foreground/90 italic">
+      <p className="text-primary-foreground/90 font-serif text-3xl leading-12 tracking-wide italic">
         &quot;{quote.text}&quot;
       </p>
-      <p className="font-sans text-sm uppercase tracking-widest text-primary-foreground/70 font-bold">
+      <p className="text-primary-foreground/70 font-sans text-sm font-bold tracking-widest uppercase">
         — {quote.author}
       </p>
     </>

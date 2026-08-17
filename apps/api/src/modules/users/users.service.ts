@@ -181,7 +181,13 @@ export class UsersService {
   async resolveAssociateId(userId: string): Promise<string> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, associateId: true, email: true, name: true, firmId: true }
+      select: {
+        id: true,
+        associateId: true,
+        email: true,
+        name: true,
+        firmId: true
+      }
     });
 
     if (!user) {

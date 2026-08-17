@@ -34,8 +34,7 @@ function fmtYear(iso: string): string {
 function rangeLabel(r: LeaveRequest): string {
   const start = new Date(r.startDate);
   const end = new Date(r.endDate);
-  const days =
-    Math.round((end.getTime() - start.getTime()) / DAY_MS) + 1;
+  const days = Math.round((end.getTime() - start.getTime()) / DAY_MS) + 1;
   const range =
     start.getUTCFullYear() === end.getUTCFullYear()
       ? `${fmtDay(r.startDate)} – ${fmtDay(r.endDate)} ${fmtYear(r.endDate)}`
@@ -67,9 +66,7 @@ export function PendingApprovals({ className }: { className?: string }) {
         if (cancelled) return;
         setRequests(
           Array.isArray(data)
-            ? data.filter(
-                (r: LeaveRequest) => r.status === "PENDING"
-              )
+            ? data.filter((r: LeaveRequest) => r.status === "PENDING")
             : []
         );
       })
@@ -106,11 +103,15 @@ export function PendingApprovals({ className }: { className?: string }) {
   const pending = requests.length;
 
   return (
-    <Card className={cn("skeuo-card bg-card text-card-foreground relative overflow-hidden", className)}>
-
-      <CardHeader className="flex flex-row items-center justify-between pb-3 pt-4">
-        <CardTitle className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
-          <ClipboardCheck className="h-4 w-4 text-primary" />
+    <Card
+      className={cn(
+        "skeuo-card bg-card text-card-foreground relative overflow-hidden",
+        className
+      )}
+    >
+      <CardHeader className="flex flex-row items-center justify-between pt-4 pb-3">
+        <CardTitle className="text-muted-foreground flex items-center gap-2 text-sm font-bold tracking-wider uppercase">
+          <ClipboardCheck className="text-primary h-4 w-4" />
           Pending Approvals
         </CardTitle>
         <Badge variant={pending > 0 ? "amber" : "navy"}>
@@ -121,43 +122,43 @@ export function PendingApprovals({ className }: { className?: string }) {
         {actionError && (
           <p
             role="alert"
-            className="mb-3 text-xs font-semibold text-destructive"
+            className="text-destructive mb-3 text-xs font-semibold"
           >
             {actionError}
           </p>
         )}
         {loading ? (
-          <p className="py-6 text-center text-xs font-medium text-muted-foreground">
+          <p className="text-muted-foreground py-6 text-center text-xs font-medium">
             Loading leave requests…
           </p>
         ) : loadError ? (
-          <p className="py-6 text-center text-xs font-medium text-muted-foreground">
+          <p className="text-muted-foreground py-6 text-center text-xs font-medium">
             Couldn&apos;t load pending requests — refresh to retry.
           </p>
         ) : pending === 0 ? (
           <div className="flex flex-col items-center justify-center gap-2 py-8 text-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
+            <div className="bg-muted text-muted-foreground flex h-10 w-10 items-center justify-center rounded-2xl">
               <Inbox className="h-5 w-5" />
             </div>
-            <p className="text-sm font-bold text-foreground">All caught up</p>
-            <p className="max-w-xs text-xs font-medium text-muted-foreground">
+            <p className="text-foreground text-sm font-bold">All caught up</p>
+            <p className="text-muted-foreground max-w-xs text-xs font-medium">
               No leave requests are waiting for your decision.
             </p>
           </div>
         ) : (
-          <ul className="divide-y divide-border/60" aria-live="polite">
+          <ul className="divide-border/60 divide-y" aria-live="polite">
             {requests.map((r) => (
               <li key={r.id} className="py-2.5">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-bold text-foreground">
+                    <p className="text-foreground truncate text-sm font-bold">
                       {r.associate?.fullName ?? "Associate"}
                     </p>
-                    <p className="mt-0.5 truncate text-xs font-semibold text-muted-foreground">
+                    <p className="text-muted-foreground mt-0.5 truncate text-xs font-semibold">
                       {r.leaveType?.name ?? "Leave"} · {rangeLabel(r)}
                     </p>
                     {r.reason && (
-                      <p className="mt-0.5 truncate text-xs font-medium text-muted-foreground/80">
+                      <p className="text-muted-foreground/80 mt-0.5 truncate text-xs font-medium">
                         “{r.reason}”
                       </p>
                     )}
@@ -169,7 +170,7 @@ export function PendingApprovals({ className }: { className?: string }) {
                       disabled={busyId !== null}
                       aria-label={`Approve ${r.associate?.fullName ?? "associate"}'s leave request`}
                       title="Approve"
-                      className="flex h-8 w-8 items-center justify-center rounded-lg bg-success/10 text-success ring-1 ring-inset ring-success/25 transition-colors hover:bg-success/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-success disabled:pointer-events-none disabled:opacity-50"
+                      className="bg-success/10 text-success ring-success/25 hover:bg-success/20 focus-visible:ring-success flex h-8 w-8 items-center justify-center rounded-lg ring-1 transition-colors ring-inset focus-visible:ring-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
                     >
                       <Check className="h-4 w-4" />
                     </button>
@@ -179,7 +180,7 @@ export function PendingApprovals({ className }: { className?: string }) {
                       disabled={busyId !== null}
                       aria-label={`Reject ${r.associate?.fullName ?? "associate"}'s leave request`}
                       title="Reject"
-                      className="flex h-8 w-8 items-center justify-center rounded-lg bg-destructive/10 text-destructive ring-1 ring-inset ring-destructive/25 transition-colors hover:bg-destructive/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive disabled:pointer-events-none disabled:opacity-50"
+                      className="bg-destructive/10 text-destructive ring-destructive/25 hover:bg-destructive/20 focus-visible:ring-destructive flex h-8 w-8 items-center justify-center rounded-lg ring-1 transition-colors ring-inset focus-visible:ring-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
                     >
                       <X className="h-4 w-4" />
                     </button>

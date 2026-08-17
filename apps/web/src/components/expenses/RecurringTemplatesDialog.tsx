@@ -104,12 +104,12 @@ export function RecurringTemplatesDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg bg-card border-border rounded-2xl shadow-xl max-h-[88vh] overflow-y-auto">
+      <DialogContent className="bg-card border-border max-h-[88vh] max-w-lg overflow-y-auto rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black text-foreground">
+          <DialogTitle className="text-foreground text-lg font-black">
             Create Recurring Template
           </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
+          <DialogDescription className="text-muted-foreground text-sm">
             Automate a fixed expense that materializes on a repeating cycle.
             Leave the next-run date blank to schedule from today.
           </DialogDescription>
@@ -121,7 +121,7 @@ export function RecurringTemplatesDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="templateCategory"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Category *
               </Label>
@@ -130,7 +130,7 @@ export function RecurringTemplatesDialog({
                 name="category"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-9 font-semibold">
+                    <SelectTrigger className="h-9 rounded-xl font-semibold">
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
@@ -144,7 +144,7 @@ export function RecurringTemplatesDialog({
                 )}
               />
               {errors.category && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.category.message}
                 </p>
               )}
@@ -153,7 +153,7 @@ export function RecurringTemplatesDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="templateBillingCycle"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Billing Cycle *
               </Label>
@@ -162,7 +162,7 @@ export function RecurringTemplatesDialog({
                 name="billingCycle"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-9 font-semibold">
+                    <SelectTrigger className="h-9 rounded-xl font-semibold">
                       <SelectValue placeholder="Select billing cycle" />
                     </SelectTrigger>
                     <SelectContent>
@@ -180,7 +180,7 @@ export function RecurringTemplatesDialog({
           <div className="space-y-1">
             <Label
               htmlFor="templateDescription"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Description *
             </Label>
@@ -188,10 +188,10 @@ export function RecurringTemplatesDialog({
               id="templateDescription"
               placeholder="e.g. Monthly office rent"
               {...register("description")}
-              className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+              className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
             />
             {errors.description && (
-              <p className="text-xs text-destructive font-semibold">
+              <p className="text-destructive text-xs font-semibold">
                 {errors.description.message}
               </p>
             )}
@@ -202,7 +202,7 @@ export function RecurringTemplatesDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="templateAmount"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Amount (PKR) *
               </Label>
@@ -213,10 +213,10 @@ export function RecurringTemplatesDialog({
                 min="0.01"
                 placeholder="e.g. 150000"
                 {...register("amount", { valueAsNumber: true })}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40 font-mono"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl font-mono text-sm"
               />
               {errors.amount && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.amount.message}
                 </p>
               )}
@@ -225,7 +225,7 @@ export function RecurringTemplatesDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="templateNextRun"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Next Run Date
               </Label>
@@ -233,12 +233,12 @@ export function RecurringTemplatesDialog({
                 id="templateNextRun"
                 type="date"
                 {...register("nextRunDate")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
           </div>
 
-          <p className="text-[11px] text-muted-foreground font-medium">
+          <p className="text-muted-foreground text-[11px] font-medium">
             When due, the template generates a FIXED expense flagged as
             auto-generated and advances to the next cycle.
           </p>
@@ -258,7 +258,7 @@ export function RecurringTemplatesDialog({
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+              className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
             >
               {isSubmitting ? (
                 <>

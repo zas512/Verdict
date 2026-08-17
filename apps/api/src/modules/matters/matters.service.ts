@@ -570,15 +570,9 @@ export class MattersService {
   async findStages(firmId: string) {
     return this.prisma.courtStage.findMany({
       where: {
-        OR: [
-          { firmId: null },
-          { firmId }
-        ]
+        OR: [{ firmId: null }, { firmId }]
       },
-      orderBy: [
-        { caseType: "asc" },
-        { sequenceOrder: "asc" }
-      ]
+      orderBy: [{ caseType: "asc" }, { sequenceOrder: "asc" }]
     });
   }
 

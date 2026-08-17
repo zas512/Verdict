@@ -129,7 +129,7 @@ const EditDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-2xl max-w-md bg-card border-border">
+      <DialogContent className="bg-card border-border max-w-md rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-base font-extrabold">
             Edit Attendance Record
@@ -150,7 +150,7 @@ const EditDialog = ({
               required
               value={editDate}
               onChange={(e) => setEditDate(e.target.value)}
-              className="rounded-xl text-xs bg-muted/40 border-border text-foreground"
+              className="bg-muted/40 border-border text-foreground rounded-xl text-xs"
             />
           </div>
 
@@ -165,7 +165,7 @@ const EditDialog = ({
                 required
                 value={editCheckIn}
                 onChange={(e) => setEditCheckIn(e.target.value)}
-                className="rounded-xl text-xs bg-muted/40 border-border text-foreground font-mono"
+                className="bg-muted/40 border-border text-foreground rounded-xl font-mono text-xs"
               />
             </div>
             <div className="space-y-1.5">
@@ -178,7 +178,7 @@ const EditDialog = ({
                 placeholder="In progress..."
                 value={editCheckOut}
                 onChange={(e) => setEditCheckOut(e.target.value)}
-                className="rounded-xl text-xs bg-muted/40 border-border text-foreground font-mono"
+                className="bg-muted/40 border-border text-foreground rounded-xl font-mono text-xs"
               />
             </div>
           </div>
@@ -193,7 +193,7 @@ const EditDialog = ({
                 setEditStatus(v as AttendanceRecord["status"])
               }
             >
-              <SelectTrigger className="rounded-xl h-9 bg-muted/40 text-xs font-semibold">
+              <SelectTrigger className="bg-muted/40 h-9 rounded-xl text-xs font-semibold">
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
@@ -214,7 +214,7 @@ const EditDialog = ({
               type="text"
               value={editNotes}
               onChange={(e) => setEditNotes(e.target.value)}
-              className="rounded-xl text-xs bg-muted/40 border-border text-foreground"
+              className="bg-muted/40 border-border text-foreground rounded-xl text-xs"
             />
           </div>
 
@@ -229,7 +229,7 @@ const EditDialog = ({
             </Button>
             <Button
               type="submit"
-              className="rounded-xl text-xs bg-primary text-primary-foreground font-bold cursor-pointer"
+              className="bg-primary text-primary-foreground cursor-pointer rounded-xl text-xs font-bold"
             >
               Apply Changes
             </Button>

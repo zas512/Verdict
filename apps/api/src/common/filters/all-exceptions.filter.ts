@@ -65,7 +65,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       const { status, message } = this.mapPrismaError(exception);
-      return { ...base, statusCode: status, message, error: this.reasonFor(status) };
+      return {
+        ...base,
+        statusCode: status,
+        message,
+        error: this.reasonFor(status)
+      };
     }
 
     if (exception instanceof HttpException) {
@@ -73,7 +78,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
       const payload = exception.getResponse();
 
       if (typeof payload === "string") {
-        return { ...base, statusCode: status, message: payload, error: this.reasonFor(status) };
+        return {
+          ...base,
+          statusCode: status,
+          message: payload,
+          error: this.reasonFor(status)
+        };
       }
 
       const { message, error } = payload as {

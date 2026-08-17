@@ -3,9 +3,9 @@ import eslint from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-export default tseslint.config(
+export default [
   {
-    ignores: ["eslint.config.mjs", "prisma/**", "dist/**"]
+    ignores: ["eslint.config.mjs", "prettier.config.js", "prisma/**", "dist/**"]
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
@@ -31,4 +31,4 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-argument": "warn"
     }
   }
-);
+];

@@ -115,10 +115,9 @@ export interface InviteResult {
 }
 
 export async function validateInvite(token: string): Promise<InviteInfo> {
-  const res = await fetch(
-    `/api/auth/invites/${encodeURIComponent(token)}`,
-    { cache: "no-store" }
-  );
+  const res = await fetch(`/api/auth/invites/${encodeURIComponent(token)}`, {
+    cache: "no-store"
+  });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     throw new Error(data.message || "This invite is invalid or expired");

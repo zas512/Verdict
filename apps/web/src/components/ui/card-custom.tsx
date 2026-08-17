@@ -12,7 +12,7 @@ export default function Card({
     <div
       data-slot="card"
       className={cn(
-        "group relative rounded-lg p-6 border border-border bg-card shadow-xs",
+        "group border-border bg-card relative rounded-lg border p-6 shadow-xs",
         className
       )}
     >

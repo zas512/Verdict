@@ -1,12 +1,7 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPKR } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Loader2, Plus, RefreshCcw, Repeat, Trash2 } from "lucide-react";
@@ -49,10 +44,10 @@ export function RecurringTemplatesSection({
   onDelete
 }: Readonly<RecurringTemplatesSectionProps>) {
   return (
-    <Card className="border-border bg-card shadow-xs rounded-2xl overflow-hidden">
-      <CardHeader className="flex flex-row items-center justify-between gap-3 border-b border-border py-4 px-6 flex-wrap">
-        <CardTitle className="text-sm font-extrabold tracking-tight flex items-center gap-2">
-          <Repeat className="h-4 w-4 text-primary" />
+    <Card className="border-border bg-card overflow-hidden rounded-2xl shadow-xs">
+      <CardHeader className="border-border flex flex-row flex-wrap items-center justify-between gap-3 border-b px-6 py-4">
+        <CardTitle className="flex items-center gap-2 text-sm font-extrabold tracking-tight">
+          <Repeat className="text-primary h-4 w-4" />
           Recurring Templates
         </CardTitle>
         <div className="flex items-center gap-2">
@@ -61,7 +56,7 @@ export function RecurringTemplatesSection({
             size="sm"
             onClick={onGenerate}
             disabled={isGenerating || isLoading}
-            className="rounded-full h-8 text-xs font-semibold dark:border-white/40 border-border"
+            className="border-border h-8 rounded-full text-xs font-semibold dark:border-white/40"
           >
             {isGenerating ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -74,7 +69,7 @@ export function RecurringTemplatesSection({
             size="sm"
             onClick={onCreate}
             disabled={isLoading}
-            className="rounded-full h-8 text-xs font-bold"
+            className="h-8 rounded-full text-xs font-bold"
           >
             <Plus className="h-3.5 w-3.5" />
             Add Template
@@ -84,31 +79,31 @@ export function RecurringTemplatesSection({
 
       <CardContent className="p-0">
         {isLoading ? (
-          <div className="p-8 flex items-center justify-center gap-2 text-xs font-semibold text-muted-foreground">
+          <div className="text-muted-foreground flex items-center justify-center gap-2 p-8 text-xs font-semibold">
             <Loader2 className="h-4 w-4 animate-spin" />
             Loading templates...
           </div>
         ) : templates.length === 0 ? (
-          <div className="p-8 text-center space-y-2">
-            <Repeat className="h-10 w-10 text-muted-foreground/40 mx-auto" />
-            <p className="font-bold text-foreground text-sm">
+          <div className="space-y-2 p-8 text-center">
+            <Repeat className="text-muted-foreground/40 mx-auto h-10 w-10" />
+            <p className="text-foreground text-sm font-bold">
               No recurring templates
             </p>
-            <p className="text-xs text-muted-foreground max-w-sm mx-auto">
+            <p className="text-muted-foreground mx-auto max-w-sm text-xs">
               Set up a template to automatically generate fixed expenses on a
               monthly, quarterly or annual cycle.
             </p>
           </div>
         ) : (
-          <ul className="divide-y divide-border">
+          <ul className="divide-border divide-y">
             {templates.map((t) => (
               <li
                 key={t.id}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-4"
+                className="flex flex-col justify-between gap-3 px-6 py-4 sm:flex-row sm:items-center"
               >
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-bold text-foreground text-sm truncate">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-foreground truncate text-sm font-bold">
                       {t.category}
                     </span>
                     <Badge
@@ -119,22 +114,22 @@ export function RecurringTemplatesSection({
                     </Badge>
                   </div>
                   <p
-                    className="text-xs text-muted-foreground truncate max-w-md mt-0.5"
+                    className="text-muted-foreground mt-0.5 max-w-md truncate text-xs"
                     title={t.description}
                   >
                     {t.description}
                   </p>
-                  <p className="text-[11px] text-muted-foreground mt-1 font-mono">
+                  <p className="text-muted-foreground mt-1 font-mono text-[11px]">
                     Next run: {formatNextRun(t.nextRunDate)}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-4 shrink-0">
+                <div className="flex shrink-0 items-center gap-4">
                   <div className="text-right">
-                    <p className="font-black text-foreground text-sm whitespace-nowrap">
+                    <p className="text-foreground text-sm font-black whitespace-nowrap">
                       {formatPKR(Number(t.amount) || 0)}
                     </p>
-                    <p className="text-[11px] text-muted-foreground font-semibold uppercase">
+                    <p className="text-muted-foreground text-[11px] font-semibold uppercase">
                       {CYCLE_LABEL[t.billingCycle]}
                     </p>
                   </div>
@@ -146,7 +141,7 @@ export function RecurringTemplatesSection({
                     aria-label={`${t.isActive ? "Pause" : "Activate"} ${t.category} template`}
                     onClick={() => onToggleActive(t)}
                     className={cn(
-                      "relative h-6 w-11 shrink-0 rounded-full transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                      "focus-visible:ring-ring relative h-6 w-11 shrink-0 cursor-pointer rounded-full transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
                       t.isActive ? "bg-success" : "bg-muted-foreground/30"
                     )}
                   >
@@ -161,7 +156,7 @@ export function RecurringTemplatesSection({
                   <button
                     type="button"
                     onClick={() => onDelete(t)}
-                    className="p-1.5 rounded-lg border border-border bg-card hover:bg-destructive/10 hover:text-destructive text-muted-foreground transition-colors cursor-pointer"
+                    className="border-border bg-card hover:bg-destructive/10 hover:text-destructive text-muted-foreground cursor-pointer rounded-lg border p-1.5 transition-colors"
                     title="Delete template"
                     aria-label={`Delete ${t.category} template`}
                   >

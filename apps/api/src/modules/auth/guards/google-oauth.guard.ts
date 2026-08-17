@@ -30,9 +30,7 @@ export class GoogleOAuthGuard extends AuthGuard("google") {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     if (!this.config.get("GOOGLE_CLIENT_ID", { infer: true })) {
-      throw new ServiceUnavailableException(
-        "Google sign-in is not configured"
-      );
+      throw new ServiceUnavailableException("Google sign-in is not configured");
     }
     return (await super.canActivate(context)) as boolean;
   }

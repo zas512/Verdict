@@ -41,7 +41,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           {Icon && (
             <Icon
               className={cn(
-                "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none",
+                "text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2",
                 iconClassName
               )}
             />
@@ -52,7 +52,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             onChange={handleChange}
             placeholder={placeholder}
             className={cn(
-              "w-full h-9 pl-9 pr-3 text-xs bg-card border border-border rounded-md text-foreground placeholder:text-muted-foreground transition-colors outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 disabled:pointer-events-none disabled:opacity-50",
+              "bg-card border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary/40 h-9 w-full rounded-md border pr-3 pl-9 text-xs transition-colors outline-none focus:ring-1 disabled:pointer-events-none disabled:opacity-50",
               className
             )}
             {...props}
@@ -64,14 +64,14 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     return (
       <div
         className={cn(
-          "w-full max-w-xs sm:w-80 h-10 flex items-center px-3 rounded-md border border-border bg-card transition-colors hover:border-primary/70 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/40",
+          "border-border bg-card hover:border-primary/70 focus-within:border-primary focus-within:ring-primary/40 flex h-10 w-full max-w-xs items-center rounded-md border px-3 transition-colors focus-within:ring-2 sm:w-80",
           containerClassName
         )}
       >
         {Icon && (
           <Icon
             className={cn(
-              "size-5 text-muted-foreground shrink-0",
+              "text-muted-foreground size-5 shrink-0",
               iconClassName
             )}
           />
@@ -82,7 +82,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           onChange={handleChange}
           placeholder={placeholder}
           className={cn(
-            "flex-1 h-full w-full min-w-0 bg-transparent px-2 text-sm text-foreground placeholder:text-muted-foreground outline-none border-0 focus:ring-0 focus:outline-none disabled:pointer-events-none disabled:opacity-50",
+            "text-foreground placeholder:text-muted-foreground h-full w-full min-w-0 flex-1 border-0 bg-transparent px-2 text-sm outline-none focus:ring-0 focus:outline-none disabled:pointer-events-none disabled:opacity-50",
             className
           )}
           {...props}

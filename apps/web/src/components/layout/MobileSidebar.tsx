@@ -63,14 +63,14 @@ export function MobileSidebar({ user }: Readonly<SidebarProps>) {
       <aside
         inert={!mobileOpen}
         className={cn(
-          "flex flex-col justify-between bg-sidebar border-r border-sidebar-border text-sidebar-foreground fixed inset-y-0 left-0 z-50 w-64 p-5 transition-transform duration-300 ease-out lg:hidden",
+          "bg-sidebar border-sidebar-border text-sidebar-foreground fixed inset-y-0 left-0 z-50 flex w-64 flex-col justify-between border-r p-5 transition-transform duration-300 ease-out lg:hidden",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         {/* Top Section */}
-        <div className="space-y-6 flex flex-col">
+        <div className="flex flex-col space-y-6">
           {/* Brand Logo & Title */}
-          <div className="flex items-center border-b border-sidebar-border h-11.25 gap-3 mt-8 justify-between pb-12">
+          <div className="border-sidebar-border mt-8 flex h-11.25 items-center justify-between gap-3 border-b pb-12">
             <div className="flex min-w-0 items-center gap-3">
               <FirmLogo
                 logoUrl={firm?.logoUrl}
@@ -79,11 +79,11 @@ export function MobileSidebar({ user }: Readonly<SidebarProps>) {
                 size={40}
               />
               <div className="min-w-0">
-                <p className="truncate text-base font-black tracking-tight text-sidebar-foreground">
+                <p className="text-sidebar-foreground truncate text-base font-black tracking-tight">
                   {firm?.name ?? "Laal Global Advisory"}
                 </p>
                 {firm?.tagline && (
-                  <p className="truncate text-[10px] font-semibold text-muted-foreground">
+                  <p className="text-muted-foreground truncate text-[10px] font-semibold">
                     {firm.tagline}
                   </p>
                 )}
@@ -94,7 +94,7 @@ export function MobileSidebar({ user }: Readonly<SidebarProps>) {
               type="button"
               onClick={() => dispatch(closeSidebar())}
               aria-label="Close navigation menu"
-              className="lg:hidden h-8 w-8 rounded-lg bg-sidebar-accent/60 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-sidebar-accent transition-colors cursor-pointer"
+              className="bg-sidebar-accent/60 text-muted-foreground hover:text-foreground hover:bg-sidebar-accent flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg transition-colors lg:hidden"
             >
               <X className="h-4 w-4" />
             </button>
@@ -113,7 +113,7 @@ export function MobileSidebar({ user }: Readonly<SidebarProps>) {
             className="space-y-1.5 pt-1"
             onMouseLeave={() => setHoveredIndex(null)}
           >
-            <p className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground px-3 pb-1">
+            <p className="text-muted-foreground px-3 pb-1 text-[11px] font-extrabold tracking-wider uppercase">
               Navigation
             </p>
             <AnimatePresence>
@@ -127,9 +127,9 @@ export function MobileSidebar({ user }: Readonly<SidebarProps>) {
                     aria-current={isActive ? "page" : undefined}
                     onMouseEnter={() => setHoveredIndex(index)}
                     className={cn(
-                      "relative flex items-center rounded-xl text-xs font-semibold outline-none transition-colors px-3.5 py-2.5 gap-3 w-full",
+                      "relative flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors outline-none",
                       isActive
-                        ? "text-sidebar-primary-foreground font-bold shadow-md shadow-primary/20"
+                        ? "text-sidebar-primary-foreground shadow-primary/20 font-bold shadow-md"
                         : "text-muted-foreground hover:text-sidebar-foreground"
                     )}
                   >
@@ -137,7 +137,7 @@ export function MobileSidebar({ user }: Readonly<SidebarProps>) {
                     {hoveredIndex === index && !isActive && (
                       <motion.div
                         layoutId="mobile-sidebar-hover-pill"
-                        className="absolute inset-0 bg-sidebar-accent/80 rounded-xl"
+                        className="bg-sidebar-accent/80 absolute inset-0 rounded-xl"
                         transition={{
                           type: "spring",
                           stiffness: 360,
@@ -150,7 +150,7 @@ export function MobileSidebar({ user }: Readonly<SidebarProps>) {
                     {isActive && (
                       <motion.div
                         layoutId="mobile-sidebar-active-pill"
-                        className="absolute inset-0 bg-sidebar-primary rounded-xl"
+                        className="bg-sidebar-primary absolute inset-0 rounded-xl"
                         transition={{
                           type: "spring",
                           stiffness: 360,
@@ -162,7 +162,7 @@ export function MobileSidebar({ user }: Readonly<SidebarProps>) {
 
                     <Icon
                       className={cn(
-                        "h-4 w-4 relative z-10 shrink-0",
+                        "relative z-10 h-4 w-4 shrink-0",
                         isActive
                           ? "text-sidebar-primary-foreground"
                           : "text-muted-foreground"
@@ -184,7 +184,7 @@ export function MobileSidebar({ user }: Readonly<SidebarProps>) {
         </div>
 
         {/* Bottom Profile Section */}
-        <div className="pt-4 border-t border-sidebar-border relative">
+        <div className="border-sidebar-border relative border-t pt-4">
           <ProfileDropdown
             user={richUser}
             collapsed={false}

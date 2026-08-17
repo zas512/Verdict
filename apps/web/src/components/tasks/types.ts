@@ -4,11 +4,7 @@
  */
 
 export type TaskStatus =
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "UNDER_REVIEW"
-  | "COMPLETED"
-  | "BLOCKED";
+  "PENDING" | "IN_PROGRESS" | "UNDER_REVIEW" | "COMPLETED" | "BLOCKED";
 
 export type TaskPriority = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
 
@@ -137,7 +133,10 @@ export const PRIORITY_LABEL: Record<TaskPriority, string> = {
   CRITICAL: "Critical"
 };
 
-export const PRIORITY_BADGE: Record<TaskPriority, "secondary" | "navy" | "amber" | "destructive"> = {
+export const PRIORITY_BADGE: Record<
+  TaskPriority,
+  "secondary" | "navy" | "amber" | "destructive"
+> = {
   LOW: "secondary",
   MEDIUM: "navy",
   HIGH: "amber",
@@ -184,11 +183,7 @@ export function formatDueDate(dateIso?: string | null): string {
 
 export function isOverdue(task: Pick<Task, "status" | "dueDate">): boolean {
   if (!task.dueDate) return false;
-  const statuses: TaskStatus[] = [
-    "PENDING",
-    "IN_PROGRESS",
-    "UNDER_REVIEW"
-  ];
+  const statuses: TaskStatus[] = ["PENDING", "IN_PROGRESS", "UNDER_REVIEW"];
   if (!statuses.includes(task.status)) return false;
   return new Date(task.dueDate).getTime() < Date.now();
 }

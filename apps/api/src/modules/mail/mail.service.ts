@@ -20,7 +20,9 @@ export interface InviteEmailInput {
 export class MailService {
   private readonly logger = new Logger(MailService.name);
 
-  constructor(private readonly config: ConfigService<EnvironmentVariables, true>) {}
+  constructor(
+    private readonly config: ConfigService<EnvironmentVariables, true>
+  ) {}
 
   async sendInviteEmail(input: InviteEmailInput): Promise<{ ok: boolean }> {
     const apiKey = this.config.get("RESEND_API_KEY", { infer: true });

@@ -22,7 +22,9 @@ function SearchField({ containerClassName }: Readonly<GlobalSearchProps>) {
   );
 }
 
-function GlobalSearchInner({ containerClassName }: Readonly<GlobalSearchProps>) {
+function GlobalSearchInner({
+  containerClassName
+}: Readonly<GlobalSearchProps>) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -73,9 +75,13 @@ function GlobalSearchInner({ containerClassName }: Readonly<GlobalSearchProps>) 
   );
 }
 
-export function GlobalSearch({ containerClassName }: Readonly<GlobalSearchProps>) {
+export function GlobalSearch({
+  containerClassName
+}: Readonly<GlobalSearchProps>) {
   return (
-    <Suspense fallback={<SearchField containerClassName={containerClassName} />}>
+    <Suspense
+      fallback={<SearchField containerClassName={containerClassName} />}
+    >
       <GlobalSearchInner containerClassName={containerClassName} />
     </Suspense>
   );

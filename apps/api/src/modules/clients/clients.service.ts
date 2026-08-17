@@ -202,78 +202,79 @@ export class ClientsService {
       mode: "insensitive" as const
     });
 
-    const [clientMatches, partyMatches, legacyMatterMatches] = await Promise.all([
-      this.prisma.client.findMany({
-        where: {
-          firmId,
-          OR: [
-            { name: nameFilter("name") },
-            ...(normalizedCnic
-              ? [
-                  { cnic: { contains: normalizedCnic } },
-                  { cnic: { equals: normalizedCnic } }
-                ]
-              : [])
-          ]
-        },
-        select: {
-          id: true,
-          name: true,
-          cnic: true,
-          email: true,
-          phone: true,
-          status: true,
-          matters: {
-            select: {
-              id: true,
-              firmCaseNumber: true,
-              courtCaseNumber: true,
-              caseType: true,
-              status: true
+    const [clientMatches, partyMatches, legacyMatterMatches] =
+      await Promise.all([
+        this.prisma.client.findMany({
+          where: {
+            firmId,
+            OR: [
+              { name: nameFilter("name") },
+              ...(normalizedCnic
+                ? [
+                    { cnic: { contains: normalizedCnic } },
+                    { cnic: { equals: normalizedCnic } }
+                  ]
+                : [])
+            ]
+          },
+          select: {
+            id: true,
+            name: true,
+            cnic: true,
+            email: true,
+            phone: true,
+            status: true,
+            matters: {
+              select: {
+                id: true,
+                firmCaseNumber: true,
+                courtCaseNumber: true,
+                caseType: true,
+                status: true
+              }
             }
           }
-        }
-      }),
-      this.prisma.party.findMany({
-        where: {
-          firmId,
-          OR: [{ name: nameFilter("name") }]
-        },
-        select: {
-          id: true,
-          name: true,
-          phone: true,
-          email: true,
-          matterLinks: {
-            select: {
-              partyRole: true,
-              matter: {
-                select: {
-                  id: true,
-                  firmCaseNumber: true,
-                  caseType: true,
-                  status: true
+        }),
+        this.prisma.party.findMany({
+          where: {
+            firmId,
+            OR: [{ name: nameFilter("name") }]
+          },
+          select: {
+            id: true,
+            name: true,
+            phone: true,
+            email: true,
+            matterLinks: {
+              select: {
+                partyRole: true,
+                matter: {
+                  select: {
+                    id: true,
+                    firmCaseNumber: true,
+                    caseType: true,
+                    status: true
+                  }
                 }
               }
             }
           }
-        }
-      }),
-      this.prisma.matter.findMany({
-        where: {
-          firmId,
-          clientId: null,
-          clientName: nameFilter("clientName")
-        },
-        select: {
-          id: true,
-          firmCaseNumber: true,
-          caseType: true,
-          status: true,
-          clientName: true
-        }
-      })
-    ]);
+        }),
+        this.prisma.matter.findMany({
+          where: {
+            firmId,
+            clientId: null,
+            clientName: nameFilter("clientName")
+          },
+          select: {
+            id: true,
+            firmCaseNumber: true,
+            caseType: true,
+            status: true,
+            clientName: true
+          }
+        })
+      ]);
 
     await this.prisma.auditLog.create({
       data: {

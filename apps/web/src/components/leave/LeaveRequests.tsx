@@ -2,12 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SummaryStrip } from "../ui/summary-strip";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -126,16 +121,13 @@ function dayCount(start: string, end: string): number {
   return Math.round((e - s) / 86_400_000) + 1;
 }
 
-export function LeaveRequests({
-  userRole
-}: Readonly<{ userRole?: string }>) {
+export function LeaveRequests({ userRole }: Readonly<{ userRole?: string }>) {
   const queryClient = useQueryClient();
   const isOwner = userRole === "OWNER";
 
-  const {
-    data: leaveTypes = [],
-    isLoading: typesLoading
-  } = useQuery<LeaveType[]>({
+  const { data: leaveTypes = [], isLoading: typesLoading } = useQuery<
+    LeaveType[]
+  >({
     queryKey: ["leave-types"],
     queryFn: async () => {
       const res = await fetch("/api/leave/types");
@@ -144,10 +136,9 @@ export function LeaveRequests({
     }
   });
 
-  const {
-    data: requests = [],
-    isLoading: requestsLoading
-  } = useQuery<LeaveRequest[]>({
+  const { data: requests = [], isLoading: requestsLoading } = useQuery<
+    LeaveRequest[]
+  >({
     queryKey: ["leave-requests"],
     queryFn: async () => {
       const res = await fetch("/api/leave");
@@ -156,10 +147,9 @@ export function LeaveRequests({
     }
   });
 
-  const {
-    data: balances = [],
-    isLoading: balancesLoading
-  } = useQuery<LeaveBalance[]>({
+  const { data: balances = [], isLoading: balancesLoading } = useQuery<
+    LeaveBalance[]
+  >({
     queryKey: ["leave-balances"],
     queryFn: async () => {
       const res = await fetch("/api/leave/balances");
@@ -204,7 +194,12 @@ export function LeaveRequests({
     },
     onSuccess: () => {
       toast.success("Leave request submitted for approval");
-      reset({ leaveTypeId: "", startDate: todayStr(), endDate: todayStr(), reason: "" });
+      reset({
+        leaveTypeId: "",
+        startDate: todayStr(),
+        endDate: todayStr(),
+        reason: ""
+      });
       void queryClient.invalidateQueries({ queryKey: ["leave-requests"] });
     },
     onError: (err: Error) => {
@@ -246,7 +241,10 @@ export function LeaveRequests({
   // OWNER balances are firm-wide; aggregate by leave type.
   const balanceRows = useMemo(() => {
     if (isOwner) {
-      const map = new Map<string, { name: string; allotted: number; used: number }>();
+      const map = new Map<
+        string,
+        { name: string; allotted: number; used: number }
+      >();
       for (const b of balances) {
         const key = b.leaveTypeId;
         const name = b.leaveType?.name ?? "Leave";
@@ -303,16 +301,19 @@ export function LeaveRequests({
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Apply form */}
         <Card className="skeuo-card bg-card text-card-foreground lg:col-span-2">
-          <CardHeader className="border-b border-border pb-3">
-            <CardTitle className="text-sm font-extrabold flex items-center gap-2">
-              <CalendarDays className="h-4 w-4 text-primary" />
+          <CardHeader className="border-border border-b pb-3">
+            <CardTitle className="flex items-center gap-2 text-sm font-extrabold">
+              <CalendarDays className="text-primary h-4 w-4" />
               Apply for Leave
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-4">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-1">
-                <Label htmlFor="leaveTypeId" className="text-xs font-bold text-foreground">
+                <Label
+                  htmlFor="leaveTypeId"
+                  className="text-foreground text-xs font-bold"
+                >
                   Leave Type *
                 </Label>
                 <Controller
@@ -320,7 +321,7 @@ export function LeaveRequests({
                   name="leaveTypeId"
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="rounded-xl h-9 font-semibold">
+                      <SelectTrigger className="h-9 rounded-xl font-semibold">
                         <SelectValue placeholder="Select leave type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -334,7 +335,7 @@ export function LeaveRequests({
                   )}
                 />
                 {errors.leaveTypeId && (
-                  <p className="text-xs text-destructive font-semibold">
+                  <p className="text-destructive text-xs font-semibold">
                     {errors.leaveTypeId.message}
                   </p>
                 )}
@@ -342,33 +343,39 @@ export function LeaveRequests({
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <Label htmlFor="startDate" className="text-xs font-bold text-foreground">
+                  <Label
+                    htmlFor="startDate"
+                    className="text-foreground text-xs font-bold"
+                  >
                     Start Date *
                   </Label>
                   <Input
                     id="startDate"
                     type="date"
                     {...register("startDate")}
-                    className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                    className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
                   />
                   {errors.startDate && (
-                    <p className="text-xs text-destructive font-semibold">
+                    <p className="text-destructive text-xs font-semibold">
                       {errors.startDate.message}
                     </p>
                   )}
                 </div>
                 <div className="space-y-1">
-                  <Label htmlFor="endDate" className="text-xs font-bold text-foreground">
+                  <Label
+                    htmlFor="endDate"
+                    className="text-foreground text-xs font-bold"
+                  >
                     End Date *
                   </Label>
                   <Input
                     id="endDate"
                     type="date"
                     {...register("endDate")}
-                    className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                    className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
                   />
                   {errors.endDate && (
-                    <p className="text-xs text-destructive font-semibold">
+                    <p className="text-destructive text-xs font-semibold">
                       {errors.endDate.message}
                     </p>
                   )}
@@ -376,7 +383,10 @@ export function LeaveRequests({
               </div>
 
               <div className="space-y-1">
-                <Label htmlFor="reason" className="text-xs font-bold text-foreground">
+                <Label
+                  htmlFor="reason"
+                  className="text-foreground text-xs font-bold"
+                >
                   Reason
                 </Label>
                 <textarea
@@ -384,10 +394,10 @@ export function LeaveRequests({
                   rows={3}
                   placeholder="Optional context for the firm owner…"
                   {...register("reason")}
-                  className="w-full rounded-xl border border-border bg-card text-sm text-foreground px-3 py-2 outline-none focus:border-primary resize-none"
+                  className="border-border bg-card text-foreground focus:border-primary w-full resize-none rounded-xl border px-3 py-2 text-sm outline-none"
                 />
                 {errors.reason && (
-                  <p className="text-xs text-destructive font-semibold">
+                  <p className="text-destructive text-xs font-semibold">
                     {errors.reason.message}
                   </p>
                 )}
@@ -396,7 +406,7 @@ export function LeaveRequests({
               <Button
                 type="submit"
                 disabled={isSubmitting || typesLoading}
-                className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+                className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
               >
                 {isSubmitting ? (
                   <>
@@ -416,20 +426,20 @@ export function LeaveRequests({
 
         {/* Balances */}
         <Card className="skeuo-card bg-card text-card-foreground">
-          <CardHeader className="border-b border-border pb-3">
-            <CardTitle className="text-sm font-extrabold flex items-center gap-2">
-              <PieChart className="h-4 w-4 text-primary" />
+          <CardHeader className="border-border border-b pb-3">
+            <CardTitle className="flex items-center gap-2 text-sm font-extrabold">
+              <PieChart className="text-primary h-4 w-4" />
               {isOwner ? "Firm Leave Balances" : "My Leave Balances"}
             </CardTitle>
           </CardHeader>
-          <CardContent className="pt-4 space-y-3">
+          <CardContent className="space-y-3 pt-4">
             {balancesLoading ? (
-              <div className="flex items-center gap-2 text-xs text-muted-foreground font-semibold py-4">
+              <div className="text-muted-foreground flex items-center gap-2 py-4 text-xs font-semibold">
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
                 Loading balances...
               </div>
             ) : balanceRows.length === 0 ? (
-              <p className="text-xs text-muted-foreground font-medium py-4">
+              <p className="text-muted-foreground py-4 text-xs font-medium">
                 No leave balances have been configured for this firm yet.
               </p>
             ) : (
@@ -438,19 +448,21 @@ export function LeaveRequests({
                 return (
                   <div
                     key={b.name}
-                    className="flex items-center justify-between rounded-xl border border-border/60 bg-muted/30 px-3 py-2.5"
+                    className="border-border/60 bg-muted/30 flex items-center justify-between rounded-xl border px-3 py-2.5"
                   >
                     <div>
-                      <p className="text-sm font-bold text-foreground">{b.name}</p>
-                      <p className="text-xs text-muted-foreground font-medium">
+                      <p className="text-foreground text-sm font-bold">
+                        {b.name}
+                      </p>
+                      <p className="text-muted-foreground text-xs font-medium">
                         {b.allotted} allotted · {b.used} used
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-black text-foreground leading-none">
+                      <p className="text-foreground text-lg leading-none font-black">
                         {remaining}
                       </p>
-                      <p className="text-[11px] uppercase tracking-wide text-muted-foreground font-semibold mt-1">
+                      <p className="text-muted-foreground mt-1 text-[11px] font-semibold tracking-wide uppercase">
                         remaining
                       </p>
                     </div>
@@ -464,81 +476,96 @@ export function LeaveRequests({
 
       {/* Requests list */}
       <Card className="skeuo-card bg-card text-card-foreground">
-        <CardHeader className="flex flex-row items-center justify-between border-b border-border py-4 px-6">
-          <CardTitle className="text-sm font-extrabold flex items-center gap-2">
-            <Clock className="h-4 w-4 text-primary" />
+        <CardHeader className="border-border flex flex-row items-center justify-between border-b px-6 py-4">
+          <CardTitle className="flex items-center gap-2 text-sm font-extrabold">
+            <Clock className="text-primary h-4 w-4" />
             Leave Requests
           </CardTitle>
-          <span className="text-xs text-muted-foreground font-semibold">
+          <span className="text-muted-foreground text-xs font-semibold">
             {requests.length} total
           </span>
         </CardHeader>
         <CardContent className="p-4">
           {requestsLoading ? (
-            <div className="flex items-center justify-center gap-2 py-12 text-xs font-semibold text-muted-foreground">
+            <div className="text-muted-foreground flex items-center justify-center gap-2 py-12 text-xs font-semibold">
               <Loader2 className="h-4 w-4 animate-spin" />
               Loading requests...
             </div>
           ) : requests.length === 0 ? (
-            <div className="text-center py-12 space-y-2">
-              <CalendarDays className="h-10 w-10 text-muted-foreground/40 mx-auto" />
-              <p className="font-bold text-foreground text-sm">
+            <div className="space-y-2 py-12 text-center">
+              <CalendarDays className="text-muted-foreground/40 mx-auto h-10 w-10" />
+              <p className="text-foreground text-sm font-bold">
                 No leave requests yet
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 {isOwner
                   ? "Associates' leave applications will appear here for approval."
                   : "Your leave applications will appear here."}
               </p>
             </div>
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-border divide-y">
               {requests.map((req) => {
                 const days = dayCount(req.startDate, req.endDate);
                 return (
                   <li key={req.id} className="py-3.5">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
                       <div className="min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-sm font-black text-foreground">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-foreground text-sm font-black">
                             {req.leaveType?.name ?? "Leave"}
                           </span>
                           <Badge
                             variant={STATUS_BADGE[req.status]}
-                            className="text-xs font-bold uppercase px-2 py-0.5"
+                            className="px-2 py-0.5 text-xs font-bold uppercase"
                           >
                             {STATUS_LABEL[req.status]}
                           </Badge>
                         </div>
-                        <p className="text-xs text-muted-foreground font-medium mt-1">
-                          {formatDate(req.startDate)} → {formatDate(req.endDate)}
-                          <span className="font-bold"> · {days} day{days > 1 ? "s" : ""}</span>
-                          {req.associate?.fullName && ` · ${req.associate.fullName}`}
+                        <p className="text-muted-foreground mt-1 text-xs font-medium">
+                          {formatDate(req.startDate)} →{" "}
+                          {formatDate(req.endDate)}
+                          <span className="font-bold">
+                            {" "}
+                            · {days} day{days > 1 ? "s" : ""}
+                          </span>
+                          {req.associate?.fullName &&
+                            ` · ${req.associate.fullName}`}
                         </p>
                         {req.reason && (
-                          <p className="text-xs text-foreground font-semibold bg-card border border-border/50 rounded-lg px-2 py-1 mt-1.5 inline-block">
+                          <p className="text-foreground bg-card border-border/50 mt-1.5 inline-block rounded-lg border px-2 py-1 text-xs font-semibold">
                             {req.reason}
                           </p>
                         )}
                       </div>
 
                       {isOwner && req.status === "PENDING" && (
-                        <div className="flex items-center gap-2 shrink-0">
+                        <div className="flex shrink-0 items-center gap-2">
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => decideMutation.mutate({ id: req.id, status: "REJECTED" })}
+                            onClick={() =>
+                              decideMutation.mutate({
+                                id: req.id,
+                                status: "REJECTED"
+                              })
+                            }
                             disabled={decideMutation.isPending}
-                            className="rounded-xl text-xs font-bold border-border gap-1 h-8"
+                            className="border-border h-8 gap-1 rounded-xl text-xs font-bold"
                           >
-                            <XCircle className="h-3.5 w-3.5 text-destructive" />
+                            <XCircle className="text-destructive h-3.5 w-3.5" />
                             Reject
                           </Button>
                           <Button
                             size="sm"
-                            onClick={() => decideMutation.mutate({ id: req.id, status: "APPROVED" })}
+                            onClick={() =>
+                              decideMutation.mutate({
+                                id: req.id,
+                                status: "APPROVED"
+                              })
+                            }
                             disabled={decideMutation.isPending}
-                            className="skeuo-button-primary rounded-xl text-xs font-bold gap-1 h-8"
+                            className="skeuo-button-primary h-8 gap-1 rounded-xl text-xs font-bold"
                           >
                             <CheckCircle2 className="h-3.5 w-3.5" />
                             Approve

@@ -15,7 +15,10 @@ import { UpdateManualExpenseDto } from "./dto/update-manual-expense.dto";
 export class ManualExpensesService {
   constructor(private readonly expensesService: ExpensesService) {}
 
-  create(user: JwtPayload, dto: CreateManualExpenseDto): Promise<ExpenseEntity> {
+  create(
+    user: JwtPayload,
+    dto: CreateManualExpenseDto
+  ): Promise<ExpenseEntity> {
     return this.expensesService.createExpense(user, ExpenseType.MANUAL, dto);
   }
 

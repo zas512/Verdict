@@ -102,7 +102,9 @@ export class EnvironmentVariables {
   WEB_APP_URL: string = "http://localhost:3000";
 }
 
-export function validateEnv(raw: Record<string, unknown>): EnvironmentVariables {
+export function validateEnv(
+  raw: Record<string, unknown>
+): EnvironmentVariables {
   const config = plainToInstance(EnvironmentVariables, raw, {
     enableImplicitConversion: true,
     exposeDefaultValues: true

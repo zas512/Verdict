@@ -54,7 +54,7 @@ export default function RootLayout({
       )}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col">
         <Providers>{children}</Providers>
         {/* impeccable-live-start */}
         <script src="http://localhost:8400/live.js?token=8a56207d-7d2e-4561-98de-e0e513fc23d2"></script>

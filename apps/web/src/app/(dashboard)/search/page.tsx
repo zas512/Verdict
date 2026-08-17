@@ -50,10 +50,18 @@ const ENDPOINTS: Record<SearchKind, string> = {
 
 const KIND_META: Record<
   SearchKind,
-  { title: string; singular: string; Icon: ComponentType<{ className?: string }> }
+  {
+    title: string;
+    singular: string;
+    Icon: ComponentType<{ className?: string }>;
+  }
 > = {
   matters: { title: "Matters & Cases", singular: "Matter", Icon: Scale },
-  associates: { title: "Associates & Staff", singular: "Associate", Icon: Users },
+  associates: {
+    title: "Associates & Staff",
+    singular: "Associate",
+    Icon: Users
+  },
   expenses: { title: "Expenses & Billing", singular: "Expense", Icon: Receipt },
   tasks: { title: "Tasks", singular: "Task", Icon: ListChecks },
   firms: { title: "Firms", singular: "Firm", Icon: Building2 }
@@ -160,7 +168,8 @@ export default async function SearchPage({
       if (!Array.isArray(items)) {
         return { kind, results: [] as SearchResult[], unavailable: true };
       }
-      if (!q) return { kind, results: [] as SearchResult[], unavailable: false };
+      if (!q)
+        return { kind, results: [] as SearchResult[], unavailable: false };
       return { kind, results: resultsFor(kind, items, q), unavailable: false };
     })
   );
@@ -178,14 +187,14 @@ export default async function SearchPage({
       {q === "" ? (
         <Card className="skeuo-card bg-card text-card-foreground">
           <CardContent className="flex flex-col items-center justify-center gap-3 py-16 text-center">
-            <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+            <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-2xl">
               <Search className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-bold text-foreground">
+              <p className="text-foreground text-sm font-bold">
                 Search the firm
               </p>
-              <p className="text-xs text-muted-foreground font-medium mt-1 max-w-xs">
+              <p className="text-muted-foreground mt-1 max-w-xs text-xs font-medium">
                 Find matters, associates, expenses, and tasks by case number,
                 client, category, or keyword. Results appear as you type.
               </p>
@@ -195,14 +204,14 @@ export default async function SearchPage({
       ) : totalResults === 0 ? (
         <Card className="skeuo-card bg-card text-card-foreground">
           <CardContent className="flex flex-col items-center justify-center gap-3 py-16 text-center">
-            <div className="h-12 w-12 rounded-2xl bg-muted text-muted-foreground flex items-center justify-center">
+            <div className="bg-muted text-muted-foreground flex h-12 w-12 items-center justify-center rounded-2xl">
               <SearchX className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-bold text-foreground">
+              <p className="text-foreground text-sm font-bold">
                 No matches for “{query}”
               </p>
-              <p className="text-xs text-muted-foreground font-medium mt-1 max-w-xs">
+              <p className="text-muted-foreground mt-1 max-w-xs text-xs font-medium">
                 Try a case number, client name, or category.
               </p>
             </div>
@@ -216,49 +225,50 @@ export default async function SearchPage({
             </CardTitle>
             <CardDescription>for “{query}”</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-6 px-0 pb-0 pt-0">
+          <CardContent className="flex flex-col gap-6 px-0 pt-0 pb-0">
             {groups.map(({ kind, results, unavailable }) => {
               const { Icon, title } = KIND_META[kind];
               return (
                 (results.length > 0 || unavailable) && (
                   <section key={kind}>
                     <div className="flex items-center justify-between px-5 pb-2">
-                      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      <div className="text-muted-foreground flex items-center gap-2 text-xs font-bold tracking-wider uppercase">
                         <Icon className="h-3.5 w-3.5" />
                         {title}
                       </div>
                       {unavailable ? (
-                        <span className="text-[11px] font-semibold uppercase tracking-wide text-warning">
+                        <span className="text-warning text-[11px] font-semibold tracking-wide uppercase">
                           Unavailable
                         </span>
                       ) : (
-                        <span className="text-[11px] font-bold text-muted-foreground">
+                        <span className="text-muted-foreground text-[11px] font-bold">
                           {results.length}
                         </span>
                       )}
                     </div>
-                    <div className="divide-y divide-border/60 border-t border-border/60">
+                    <div className="divide-border/60 border-border/60 divide-y border-t">
                       {unavailable ? (
-                        <p className="px-5 py-3 text-xs font-medium text-muted-foreground">
-                          Couldn&apos;t load {KIND_META[kind].title.toLowerCase()} —
-                          refresh to retry.
+                        <p className="text-muted-foreground px-5 py-3 text-xs font-medium">
+                          Couldn&apos;t load{" "}
+                          {KIND_META[kind].title.toLowerCase()} — refresh to
+                          retry.
                         </p>
                       ) : (
                         results.map((r, i) => (
                           <Link
                             key={`${r.kind}-${i}`}
                             href={r.href}
-                            className="group flex items-center justify-between gap-3 px-5 py-3 transition-colors hover:bg-muted/60 focus-visible:bg-muted/60 focus-visible:outline-none"
+                            className="group hover:bg-muted/60 focus-visible:bg-muted/60 flex items-center justify-between gap-3 px-5 py-3 transition-colors focus-visible:outline-none"
                           >
                             <div className="min-w-0">
-                              <p className="truncate text-sm font-semibold text-foreground">
+                              <p className="text-foreground truncate text-sm font-semibold">
                                 {r.label}
                               </p>
-                              <p className="truncate text-xs text-muted-foreground font-medium">
+                              <p className="text-muted-foreground truncate text-xs font-medium">
                                 {r.meta}
                               </p>
                             </div>
-                            <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
+                            <ChevronRight className="text-muted-foreground group-hover:text-foreground h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" />
                           </Link>
                         ))
                       )}
@@ -268,8 +278,9 @@ export default async function SearchPage({
               );
             })}
             {anyUnavailable && (
-              <p className="border-t border-border/60 px-5 py-3 text-[11px] font-medium text-muted-foreground">
-                Some sections couldn&apos;t be loaded and are marked unavailable.
+              <p className="border-border/60 text-muted-foreground border-t px-5 py-3 text-[11px] font-medium">
+                Some sections couldn&apos;t be loaded and are marked
+                unavailable.
               </p>
             )}
           </CardContent>

@@ -184,10 +184,7 @@ export class AuthController {
   /** Member invite: joins this firm as ADMIN or ASSOCIATE. */
   @Roles(UserRole.OWNER, UserRole.ADMIN)
   @Post("invites")
-  createInvite(
-    @CurrentUser() user: JwtPayload,
-    @Body() dto: CreateInviteDto
-  ) {
+  createInvite(@CurrentUser() user: JwtPayload, @Body() dto: CreateInviteDto) {
     return this.authService.createInvite(user, dto);
   }
 

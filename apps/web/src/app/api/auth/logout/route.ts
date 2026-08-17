@@ -6,7 +6,9 @@ import { AUTH_COOKIE_NAMES, clearAuthCookiesFromResponse } from "@/lib/session";
 export async function POST() {
   try {
     const cookieStore = await cookies();
-    const refreshToken = cookieStore.get(AUTH_COOKIE_NAMES.REFRESH_TOKEN)?.value;
+    const refreshToken = cookieStore.get(
+      AUTH_COOKIE_NAMES.REFRESH_TOKEN
+    )?.value;
     if (refreshToken) {
       await backendFetch("/auth/logout", {
         method: "POST",

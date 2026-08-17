@@ -19,12 +19,12 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background text-foreground font-sans">
+    <div className="bg-background text-foreground flex h-screen overflow-hidden font-sans">
       {/* Fixed Left Sidebar */}
       <Sidebar user={user} />
 
       {/* Main Right Content Area */}
-      <main className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8">
+      <main className="min-w-0 flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
         <div className="space-y-6">
           <Header />
           {children}

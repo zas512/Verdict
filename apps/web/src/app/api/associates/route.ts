@@ -3,9 +3,14 @@ import { backendFetch } from "@/lib/server-api";
 
 export async function GET() {
   try {
-    console.log("[WEB GET /api/associates] Calling backendFetch('/associates')");
+    console.log(
+      "[WEB GET /api/associates] Calling backendFetch('/associates')"
+    );
     const res = await backendFetch("/associates");
-    console.log("[WEB GET /api/associates] Backend response status:", res.status);
+    console.log(
+      "[WEB GET /api/associates] Backend response status:",
+      res.status
+    );
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
       console.error("[WEB GET /api/associates] Error from backend:", errorData);
@@ -15,7 +20,10 @@ export async function GET() {
       );
     }
     const data = await res.json();
-    console.log(`[WEB GET /api/associates] Received ${data?.length} members from backend:`, data);
+    console.log(
+      `[WEB GET /api/associates] Received ${data?.length} members from backend:`,
+      data
+    );
     return NextResponse.json(data);
   } catch (err) {
     console.error("GET /api/associates error:", err);
@@ -29,7 +37,10 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    console.log("[WEB POST /api/associates] Creating associate with body:", body);
+    console.log(
+      "[WEB POST /api/associates] Creating associate with body:",
+      body
+    );
     const res = await backendFetch("/associates", {
       method: "POST",
       body: JSON.stringify(body)

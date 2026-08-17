@@ -97,14 +97,14 @@ export function AccountSetup() {
 
   return (
     <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden py-4">
-      <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
+      <div className="from-primary via-primary/80 to-chart-2 absolute top-0 right-0 left-0 h-1 bg-linear-to-r" />
       <h1 className="sr-only">Set your password</h1>
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-black tracking-tight text-foreground flex items-center gap-2">
-          <ShieldCheck className="h-6 w-6 text-primary" />
+        <CardTitle className="text-foreground flex items-center gap-2 text-2xl font-black tracking-tight">
+          <ShieldCheck className="text-primary h-6 w-6" />
           Set Your Password
         </CardTitle>
-        <CardDescription className="text-xs text-muted-foreground font-medium">
+        <CardDescription className="text-muted-foreground text-xs font-medium">
           This is a provisioned account — choose a password you&apos;ll keep.
         </CardDescription>
       </CardHeader>
@@ -113,7 +113,7 @@ export function AccountSetup() {
           <div className="space-y-2">
             <Label
               htmlFor="current-password"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Current Password
             </Label>
@@ -127,7 +127,7 @@ export function AccountSetup() {
               className="bg-card border-border text-foreground focus-visible:ring-primary/40 rounded-xl"
             />
             {errors.currentPassword && (
-              <p className="text-xs text-destructive font-semibold">
+              <p className="text-destructive text-xs font-semibold">
                 {errors.currentPassword.message}
               </p>
             )}
@@ -136,7 +136,7 @@ export function AccountSetup() {
           <div className="space-y-2">
             <Label
               htmlFor="new-password"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               New Password
             </Label>
@@ -150,7 +150,7 @@ export function AccountSetup() {
               className="bg-card border-border text-foreground focus-visible:ring-primary/40 rounded-xl"
             />
             {errors.newPassword && (
-              <p className="text-xs text-destructive font-semibold">
+              <p className="text-destructive text-xs font-semibold">
                 {errors.newPassword.message}
               </p>
             )}
@@ -159,7 +159,7 @@ export function AccountSetup() {
           <div className="space-y-2">
             <Label
               htmlFor="confirm-password"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Confirm New Password
             </Label>
@@ -173,7 +173,7 @@ export function AccountSetup() {
               className="bg-card border-border text-foreground focus-visible:ring-primary/40 rounded-xl"
             />
             {errors.confirmPassword && (
-              <p className="text-xs text-destructive font-semibold">
+              <p className="text-destructive text-xs font-semibold">
                 {errors.confirmPassword.message}
               </p>
             )}
@@ -181,7 +181,7 @@ export function AccountSetup() {
 
           <Button
             type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-bold text-sm tracking-tight h-10 mt-2 shadow-xs gap-1.5"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground mt-2 h-10 w-full gap-1.5 rounded-xl text-sm font-bold tracking-tight shadow-xs"
             disabled={changePasswordMutation.isPending}
           >
             {changePasswordMutation.isPending ? (
@@ -201,14 +201,14 @@ export function AccountSetup() {
         {process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && (
           <>
             <div className="flex items-center gap-3 pt-4">
-              <span className="h-px flex-1 bg-border" />
-              <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+              <span className="bg-border h-px flex-1" />
+              <span className="text-muted-foreground text-[11px] font-bold tracking-wider uppercase">
                 or
               </span>
-              <span className="h-px flex-1 bg-border" />
+              <span className="bg-border h-px flex-1" />
             </div>
             <GoogleButton href={googleAuthUrl()} />
-            <p className="pt-2 text-[11px] font-medium text-muted-foreground text-center">
+            <p className="text-muted-foreground pt-2 text-center text-[11px] font-medium">
               Signing in with Google links this account to your email
               automatically.
             </p>

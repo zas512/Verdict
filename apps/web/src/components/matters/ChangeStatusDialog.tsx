@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
 } from "@/components/ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
@@ -61,12 +61,12 @@ export function ChangeStatusDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-card border-border rounded-2xl shadow-xl">
+      <DialogContent className="bg-card border-border max-w-md rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black text-foreground">
+          <DialogTitle className="text-foreground text-lg font-black">
             Change Case Lifecycle Status
           </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
+          <DialogDescription className="text-muted-foreground text-sm">
             Archived matters are soft-deleted and hidden from standard rosters.
             Decided/Closed status reserves the record.
           </DialogDescription>
@@ -76,12 +76,12 @@ export function ChangeStatusDialog({
           <div className="space-y-1">
             <Label
               htmlFor="statusSelect"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Lifecycle Status
             </Label>
             <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-              <SelectTrigger className="rounded-xl h-8 font-semibold">
+              <SelectTrigger className="h-8 rounded-xl font-semibold">
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>

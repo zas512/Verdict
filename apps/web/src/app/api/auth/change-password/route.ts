@@ -28,9 +28,12 @@ export async function POST(request: Request) {
     );
     const user = accessToken ? decodeJwt(accessToken) : null;
 
-    return NextResponse.json({ success: true, user }, {
-      headers: nextResponse.headers
-    });
+    return NextResponse.json(
+      { success: true, user },
+      {
+        headers: nextResponse.headers
+      }
+    );
   } catch (err) {
     console.error("POST /api/auth/change-password error:", err);
     return NextResponse.json(

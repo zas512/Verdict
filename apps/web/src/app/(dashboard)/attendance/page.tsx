@@ -356,25 +356,25 @@ export default function AttendancePage() {
     switch (status) {
       case "PRESENT":
         return (
-          <Badge className="bg-success/10 text-success border border-success/20">
+          <Badge className="bg-success/10 text-success border-success/20 border">
             Present
           </Badge>
         );
       case "HALF_DAY":
         return (
-          <Badge className="bg-warning/10 text-warning border border-warning/20">
+          <Badge className="bg-warning/10 text-warning border-warning/20 border">
             Half Day
           </Badge>
         );
       case "ABSENT":
         return (
-          <Badge className="bg-destructive/10 text-destructive border border-destructive/25">
+          <Badge className="bg-destructive/10 text-destructive border-destructive/25 border">
             Absent
           </Badge>
         );
       case "LEAVE":
         return (
-          <Badge className="bg-info/10 text-info border border-info/20">
+          <Badge className="bg-info/10 text-info border-info/20 border">
             On Leave
           </Badge>
         );
@@ -386,19 +386,19 @@ export default function AttendancePage() {
     switch (source) {
       case "BIOMETRIC_IMPORT":
         return (
-          <span className="text-xs font-bold text-violet bg-violet/10 border border-violet/20 px-2 py-0.5 rounded-full">
+          <span className="text-violet bg-violet/10 border-violet/20 rounded-full border px-2 py-0.5 text-xs font-bold">
             Biometric Sync
           </span>
         );
       case "REMOTE_CHECKIN":
         return (
-          <span className="text-xs font-bold text-teal bg-teal/10 border border-teal/20 px-2 py-0.5 rounded-full">
+          <span className="text-teal bg-teal/10 border-teal/20 rounded-full border px-2 py-0.5 text-xs font-bold">
             Web Portal
           </span>
         );
       case "MANUAL":
         return (
-          <span className="text-xs font-bold text-muted-foreground bg-muted border border-border px-2 py-0.5 rounded-full">
+          <span className="text-muted-foreground bg-muted border-border rounded-full border px-2 py-0.5 text-xs font-bold">
             Manual Log
           </span>
         );
@@ -428,11 +428,11 @@ export default function AttendancePage() {
         accessor: (r) => r.associate?.fullName ?? "Unknown",
         render: (r) => (
           <div className="flex flex-col">
-            <span className="font-bold text-foreground text-xs leading-tight">
+            <span className="text-foreground text-xs leading-tight font-bold">
               {r.associate?.fullName ?? "System / Unknown"}
             </span>
             {r.associate?.email && (
-              <span className="text-xs text-muted-foreground truncate max-w-40">
+              <span className="text-muted-foreground max-w-40 truncate text-xs">
                 {r.associate.email}
               </span>
             )}
@@ -456,7 +456,7 @@ export default function AttendancePage() {
         header: "Check In",
         width: "12%",
         render: (r) => (
-          <span className="font-mono text-xs text-foreground">
+          <span className="text-foreground font-mono text-xs">
             {formatTimeFriendly(r.checkIn)}
           </span>
         )
@@ -466,7 +466,7 @@ export default function AttendancePage() {
         header: "Check Out",
         width: "12%",
         render: (r) => (
-          <span className="font-mono text-xs text-foreground">
+          <span className="text-foreground font-mono text-xs">
             {formatTimeFriendly(r.checkOut)}
           </span>
         )
@@ -476,7 +476,7 @@ export default function AttendancePage() {
         header: "Duration",
         width: "12%",
         render: (r) => (
-          <span className="font-semibold text-xs text-foreground">
+          <span className="text-foreground text-xs font-semibold">
             {getDurationString(r.checkIn, r.checkOut)}
           </span>
         )
@@ -495,7 +495,7 @@ export default function AttendancePage() {
         width: "12%",
         render: (r) => (
           <span
-            className="text-xs text-muted-foreground truncate max-w-50 block"
+            className="text-muted-foreground block max-w-50 truncate text-xs"
             title={r.notes ?? ""}
           >
             {r.notes || "-"}
@@ -513,7 +513,7 @@ export default function AttendancePage() {
                 <div className="flex items-center justify-end gap-1.5">
                   <button
                     onClick={() => handleOpenEdit(r)}
-                    className="p-1.5 rounded-lg border border-border bg-card hover:bg-muted hover:text-foreground text-muted-foreground transition-colors cursor-pointer"
+                    className="border-border bg-card hover:bg-muted hover:text-foreground text-muted-foreground cursor-pointer rounded-lg border p-1.5 transition-colors"
                     title="Edit Record"
                   >
                     <Edit2 className="h-3.5 w-3.5" />
@@ -528,7 +528,7 @@ export default function AttendancePage() {
                         void deleteRecord(r.id);
                       }
                     }}
-                    className="p-1.5 rounded-lg border border-border bg-card hover:bg-destructive/10 hover:text-destructive text-muted-foreground transition-colors cursor-pointer"
+                    className="border-border bg-card hover:bg-destructive/10 hover:text-destructive text-muted-foreground cursor-pointer rounded-lg border p-1.5 transition-colors"
                     title="Delete Record"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -550,35 +550,35 @@ export default function AttendancePage() {
       {/* Top dashboard section */}
       <div className="grid gap-6 md:grid-cols-3">
         {/* Active Shift Card */}
-        <Card className="md:col-span-1 border-border bg-card shadow-xs relative overflow-hidden flex flex-col justify-between">
+        <Card className="border-border bg-card relative flex flex-col justify-between overflow-hidden shadow-xs md:col-span-1">
           <div
-            className={`absolute top-0 left-0 right-0 h-1.5 ${isCheckedIn ? "bg-warning" : "bg-success"}`}
+            className={`absolute top-0 right-0 left-0 h-1.5 ${isCheckedIn ? "bg-warning" : "bg-success"}`}
           />
           <CardHeader className="pt-5 pb-2">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
+            <CardTitle className="text-muted-foreground flex items-center justify-between text-xs font-bold tracking-wider uppercase">
               <span>Active Clock Status</span>
               {isCheckedIn ? (
-                <span className="text-xs text-warning border border-warning/20 bg-warning/5 px-2 py-0.5 rounded-full lowercase font-bold font-mono">
+                <span className="text-warning border-warning/20 bg-warning/5 rounded-full border px-2 py-0.5 font-mono text-xs font-bold lowercase">
                   On Duty
                 </span>
               ) : (
-                <span className="text-xs text-success border border-success/20 bg-success/5 px-2 py-0.5 rounded-full lowercase font-bold font-mono">
+                <span className="text-success border-success/20 bg-success/5 rounded-full border px-2 py-0.5 font-mono text-xs font-bold lowercase">
                   Off Duty
                 </span>
               )}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6 flex-1 flex flex-col justify-between pt-0 pb-5">
+          <CardContent className="flex flex-1 flex-col justify-between space-y-6 pt-0 pb-5">
             <div>
               {isCheckedIn ? (
-                <div className="space-y-2 mt-2">
-                  <div className="text-2xl font-black text-foreground tracking-tight flex items-center gap-2">
-                    <span className="inline-block h-3.5 w-3.5 rounded-full bg-warning animate-pulse" />
+                <div className="mt-2 space-y-2">
+                  <div className="text-foreground flex items-center gap-2 text-2xl font-black tracking-tight">
+                    <span className="bg-warning inline-block h-3.5 w-3.5 animate-pulse rounded-full" />
                     <span>ON DUTY</span>
                   </div>
-                  <div className="text-xs text-muted-foreground font-semibold">
+                  <div className="text-muted-foreground text-xs font-semibold">
                     Shift started at:{" "}
-                    <span className="text-foreground font-bold font-mono">
+                    <span className="text-foreground font-mono font-bold">
                       {activeCheckInTime
                         ? formatTimeFriendly(activeCheckInTime)
                         : "Loading..."}
@@ -586,12 +586,12 @@ export default function AttendancePage() {
                   </div>
                 </div>
               ) : (
-                <div className="space-y-2 mt-2">
-                  <div className="text-2xl font-black text-muted-foreground tracking-tight flex items-center gap-2">
-                    <span className="inline-block h-3.5 w-3.5 rounded-full bg-muted" />
+                <div className="mt-2 space-y-2">
+                  <div className="text-muted-foreground flex items-center gap-2 text-2xl font-black tracking-tight">
+                    <span className="bg-muted inline-block h-3.5 w-3.5 rounded-full" />
                     <span>OFF DUTY</span>
                   </div>
-                  <p className="text-xs text-muted-foreground font-semibold leading-relaxed">
+                  <p className="text-muted-foreground text-xs leading-relaxed font-semibold">
                     Ready to start your shift? Clock in to log your working
                     hours.
                   </p>
@@ -604,7 +604,7 @@ export default function AttendancePage() {
                 <Button
                   onClick={() => checkOut()}
                   variant="destructive"
-                  className="w-full rounded-xl py-5 text-xs font-bold shadow-md cursor-pointer flex items-center justify-center gap-2"
+                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl py-5 text-xs font-bold shadow-md"
                 >
                   <Square className="h-3.5 w-3.5 fill-current" />
                   Check Out & Finish Shift
@@ -612,7 +612,7 @@ export default function AttendancePage() {
               ) : (
                 <Button
                   onClick={() => checkIn()}
-                  className="w-full bg-success text-success-foreground hover:bg-success/90 rounded-xl py-5 text-xs font-bold shadow-md cursor-pointer flex items-center justify-center gap-2"
+                  className="bg-success text-success-foreground hover:bg-success/90 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl py-5 text-xs font-bold shadow-md"
                 >
                   <Play className="h-3.5 w-3.5 fill-current" />
                   Clock In & Start Shift
@@ -623,56 +623,56 @@ export default function AttendancePage() {
         </Card>
 
         {/* Stats Metrics Cards */}
-        <div className="md:col-span-2 grid gap-4 grid-cols-1 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:col-span-2">
           {/* Card 1: Hours worked */}
-          <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden flex flex-col justify-between">
-            <CardHeader className="pb-2 pt-4">
-              <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
+          <Card className="skeuo-card bg-card text-card-foreground relative flex flex-col justify-between overflow-hidden">
+            <CardHeader className="pt-4 pb-2">
+              <CardTitle className="text-muted-foreground flex items-center justify-between text-xs font-bold tracking-wider uppercase">
                 <span>Working Hours Logged</span>
-                <Clock className="h-4 w-4 text-primary" />
+                <Clock className="text-primary h-4 w-4" />
               </CardTitle>
             </CardHeader>
             <CardContent className="pb-4">
-              <div className="text-3xl font-black text-foreground tracking-tight">
+              <div className="text-foreground text-3xl font-black tracking-tight">
                 {stats.totalHours} hrs
               </div>
-              <p className="text-xs text-muted-foreground font-semibold mt-1">
+              <p className="text-muted-foreground mt-1 text-xs font-semibold">
                 Accumulated across {stats.totalCompleted} completed shifts
               </p>
             </CardContent>
           </Card>
 
           {/* Card 2: Attendance Rate / Present count */}
-          <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden flex flex-col justify-between">
-            <CardHeader className="pb-2 pt-4">
-              <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
+          <Card className="skeuo-card bg-card text-card-foreground relative flex flex-col justify-between overflow-hidden">
+            <CardHeader className="pt-4 pb-2">
+              <CardTitle className="text-muted-foreground flex items-center justify-between text-xs font-bold tracking-wider uppercase">
                 <span>Days Accounted</span>
-                <UserCheck className="h-4 w-4 text-success" />
+                <UserCheck className="text-success h-4 w-4" />
               </CardTitle>
             </CardHeader>
             <CardContent className="pb-4">
-              <div className="text-3xl font-black text-foreground tracking-tight">
+              <div className="text-foreground text-3xl font-black tracking-tight">
                 {stats.presentCount} days
               </div>
-              <p className="text-xs text-success font-semibold mt-1">
+              <p className="text-success mt-1 text-xs font-semibold">
                 Active in-office or remote logs
               </p>
             </CardContent>
           </Card>
 
           {/* Card 3: Avg shift duration */}
-          <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden flex flex-col justify-between">
-            <CardHeader className="pb-2 pt-4">
-              <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
+          <Card className="skeuo-card bg-card text-card-foreground relative flex flex-col justify-between overflow-hidden">
+            <CardHeader className="pt-4 pb-2">
+              <CardTitle className="text-muted-foreground flex items-center justify-between text-xs font-bold tracking-wider uppercase">
                 <span>Avg. Shift Duration</span>
-                <TrendingUp className="h-4 w-4 text-teal" />
+                <TrendingUp className="text-teal h-4 w-4" />
               </CardTitle>
             </CardHeader>
             <CardContent className="pb-4">
-              <div className="text-3xl font-black text-foreground tracking-tight">
+              <div className="text-foreground text-3xl font-black tracking-tight">
                 {stats.avgDuration} hrs
               </div>
-              <p className="text-xs text-muted-foreground font-semibold mt-1">
+              <p className="text-muted-foreground mt-1 text-xs font-semibold">
                 Standard shift target: 8.0 hrs
               </p>
             </CardContent>
@@ -680,31 +680,32 @@ export default function AttendancePage() {
 
           {/* Card 4: Action Card */}
           {user?.role === "OWNER" ? (
-            <Card className="border border-primary/20 bg-primary/5 shadow-xs flex flex-col justify-between items-start p-5 rounded-2xl">
+            <Card className="border-primary/20 bg-primary/5 flex flex-col items-start justify-between rounded-2xl border p-5 shadow-xs">
               <div className="space-y-1">
-                <h2 className="font-extrabold text-sm text-foreground">
+                <h2 className="text-foreground text-sm font-extrabold">
                   Missed checking in?
                 </h2>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Log attendance manually for past shifts or offsite assignments.
+                <p className="text-muted-foreground text-xs leading-relaxed">
+                  Log attendance manually for past shifts or offsite
+                  assignments.
                 </p>
               </div>
               <Button
                 onClick={() => setIsAddOpen(true)}
                 size="sm"
-                className="mt-3 bg-primary text-primary-foreground text-xs font-bold rounded-xl shadow-xs cursor-pointer flex items-center gap-1.5"
+                className="bg-primary text-primary-foreground mt-3 flex cursor-pointer items-center gap-1.5 rounded-xl text-xs font-bold shadow-xs"
               >
                 <Plus className="h-3.5 w-3.5" />
                 Add Record Manually
               </Button>
             </Card>
           ) : (
-            <Card className="border border-primary/20 bg-primary/5 shadow-xs flex flex-col justify-between items-start p-5 rounded-2xl">
+            <Card className="border-primary/20 bg-primary/5 flex flex-col items-start justify-between rounded-2xl border p-5 shadow-xs">
               <div className="space-y-1">
-                <h2 className="font-extrabold text-sm text-foreground">
+                <h2 className="text-foreground text-sm font-extrabold">
                   Track your shifts
                 </h2>
-                <p className="text-xs text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground text-xs leading-relaxed">
                   Use the Check In / Check Out buttons in the top bar to clock
                   your in-office or remote shifts.
                 </p>
@@ -715,13 +716,13 @@ export default function AttendancePage() {
       </div>
 
       {/* History Log Section */}
-      <Card className="border-border bg-card shadow-xs rounded-2xl overflow-hidden">
-        <CardHeader className="flex flex-row items-center justify-between border-b border-border py-4 px-6">
-          <CardTitle className="text-sm font-extrabold tracking-tight flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-primary" />
+      <Card className="border-border bg-card overflow-hidden rounded-2xl shadow-xs">
+        <CardHeader className="border-border flex flex-row items-center justify-between border-b px-6 py-4">
+          <CardTitle className="flex items-center gap-2 text-sm font-extrabold tracking-tight">
+            <Calendar className="text-primary h-4 w-4" />
             Attendance History Log
           </CardTitle>
-          <div className="text-xs text-muted-foreground font-semibold">
+          <div className="text-muted-foreground text-xs font-semibold">
             {filteredHistory.length !== history.length
               ? `Filtered: ${filteredHistory.length} of ${history.length} records`
               : `${history.length} total records`}
@@ -729,13 +730,13 @@ export default function AttendancePage() {
         </CardHeader>
 
         {/* Filter controls bar */}
-        <div className="px-6 py-4 border-b border-border bg-muted/20 flex flex-wrap gap-4 items-end">
+        <div className="border-border bg-muted/20 flex flex-wrap items-end gap-4 border-b px-6 py-4">
           {/* Associate Selector (Owner only) */}
           {user?.role === "OWNER" && (
-            <div className="space-y-1.5 min-w-40">
+            <div className="min-w-40 space-y-1.5">
               <Label
                 htmlFor="filter-associate"
-                className="text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                className="text-muted-foreground text-xs font-bold tracking-wider uppercase"
               >
                 Associate
               </Label>
@@ -743,7 +744,7 @@ export default function AttendancePage() {
                 value={selectedAssociateId}
                 onValueChange={setSelectedAssociateId}
               >
-                <SelectTrigger className="rounded-lg h-8 text-xs">
+                <SelectTrigger className="h-8 rounded-lg text-xs">
                   <SelectValue placeholder="All Associates" />
                 </SelectTrigger>
                 <SelectContent>
@@ -759,15 +760,15 @@ export default function AttendancePage() {
           )}
 
           {/* Time Range Selector */}
-          <div className="space-y-1.5 min-w-32.5">
+          <div className="min-w-32.5 space-y-1.5">
             <Label
               htmlFor="filter-range"
-              className="text-xs font-bold uppercase tracking-wider text-muted-foreground"
+              className="text-muted-foreground text-xs font-bold tracking-wider uppercase"
             >
               Time Range
             </Label>
             <Select value={timeRange} onValueChange={setTimeRange}>
-              <SelectTrigger className="rounded-lg h-8 text-xs">
+              <SelectTrigger className="h-8 rounded-lg text-xs">
                 <SelectValue placeholder="All Time" />
               </SelectTrigger>
               <SelectContent>
@@ -783,15 +784,15 @@ export default function AttendancePage() {
 
           {/* Month Selector (Custom only) */}
           {timeRange === "custom" && (
-            <div className="space-y-1.5 min-w-32.5">
+            <div className="min-w-32.5 space-y-1.5">
               <Label
                 htmlFor="filter-month"
-                className="text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                className="text-muted-foreground text-xs font-bold tracking-wider uppercase"
               >
                 Month
               </Label>
               <Select value={filterMonth} onValueChange={setFilterMonth}>
-                <SelectTrigger className="rounded-lg h-8 text-xs">
+                <SelectTrigger className="h-8 rounded-lg text-xs">
                   <SelectValue placeholder="All Months" />
                 </SelectTrigger>
                 <SelectContent>
@@ -815,15 +816,15 @@ export default function AttendancePage() {
 
           {/* Year Selector (Custom only) */}
           {timeRange === "custom" && (
-            <div className="space-y-1.5 min-w-25">
+            <div className="min-w-25 space-y-1.5">
               <Label
                 htmlFor="filter-year"
-                className="text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                className="text-muted-foreground text-xs font-bold tracking-wider uppercase"
               >
                 Year
               </Label>
               <Select value={filterYear} onValueChange={setFilterYear}>
-                <SelectTrigger className="rounded-lg h-8 text-xs">
+                <SelectTrigger className="h-8 rounded-lg text-xs">
                   <SelectValue placeholder="All Years" />
                 </SelectTrigger>
                 <SelectContent>
@@ -838,10 +839,10 @@ export default function AttendancePage() {
 
           {/* Start Date (Custom only) */}
           {timeRange === "custom" && (
-            <div className="space-y-1.5 min-w-30">
+            <div className="min-w-30 space-y-1.5">
               <Label
                 htmlFor="filter-start-date"
-                className="text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                className="text-muted-foreground text-xs font-bold tracking-wider uppercase"
               >
                 Start Date
               </Label>
@@ -850,17 +851,17 @@ export default function AttendancePage() {
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="h-8 text-xs bg-card border-border rounded-lg text-foreground"
+                className="bg-card border-border text-foreground h-8 rounded-lg text-xs"
               />
             </div>
           )}
 
           {/* End Date (Custom only) */}
           {timeRange === "custom" && (
-            <div className="space-y-1.5 min-w-30">
+            <div className="min-w-30 space-y-1.5">
               <Label
                 htmlFor="filter-end-date"
-                className="text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                className="text-muted-foreground text-xs font-bold tracking-wider uppercase"
               >
                 End Date
               </Label>
@@ -869,7 +870,7 @@ export default function AttendancePage() {
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="h-8 text-xs bg-card border-border rounded-lg text-foreground"
+                className="bg-card border-border text-foreground h-8 rounded-lg text-xs"
               />
             </div>
           )}
@@ -892,7 +893,7 @@ export default function AttendancePage() {
                 setStartDate("");
                 setEndDate("");
               }}
-              className="h-8 text-xs rounded-lg px-3 hover:bg-muted font-bold cursor-pointer"
+              className="hover:bg-muted h-8 cursor-pointer rounded-lg px-3 text-xs font-bold"
             >
               Clear
             </Button>
@@ -900,7 +901,10 @@ export default function AttendancePage() {
 
           {/* Page Size Selector */}
           <div className="ml-auto space-y-1.5">
-            <Label htmlFor="attendancePageSize" className="text-xs font-bold uppercase tracking-wider text-muted-foreground block text-right">
+            <Label
+              htmlFor="attendancePageSize"
+              className="text-muted-foreground block text-right text-xs font-bold tracking-wider uppercase"
+            >
               Show
             </Label>
             <Select
@@ -908,7 +912,7 @@ export default function AttendancePage() {
               value={String(pageSize)}
               onValueChange={(v) => setPageSize(Number(v))}
             >
-              <SelectTrigger className="rounded-lg h-8 text-xs">
+              <SelectTrigger className="h-8 rounded-lg text-xs">
                 <SelectValue placeholder="5 / page" />
               </SelectTrigger>
               <SelectContent>
@@ -926,7 +930,7 @@ export default function AttendancePage() {
             data={filteredHistory}
             rowKey={(r) => r.id}
             emptyIcon={
-              <AlertCircle className="h-12 w-12 text-muted-foreground/60 mx-auto" />
+              <AlertCircle className="text-muted-foreground/60 mx-auto h-12 w-12" />
             }
             emptyTitle="No matching attendance records found."
             emptyDescription="Log a new shift or adjust your date filters."

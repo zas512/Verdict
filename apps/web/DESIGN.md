@@ -98,6 +98,7 @@ LGA is the internal operations terminal for a Pakistani law firm — the profess
 The system is shadcn/New-York on Tailwind v4 (CSS-first tokens). Surface treatment is a **soft skeuomorphism**: cards are elevated, gently shadowed panels floating on the canvas, with 1px `ring-foreground/5` hairlines and rounded corners capped at 24px. Depth comes from layering (canvas → card → ring → shadow), not from heavy shadows. The accent is used sparingly and purposefully: primary actions, the active nav state, and one highlight color per data point.
 
 **Key Characteristics:**
+
 - Soft-light "studio" canvas (`#F0F4F9`) under pure-white cards; deep obsidian-slate inverse in dark mode.
 - Single royal-blue accent (`#2563EB`) that stays identical across light and dark.
 - Generous rounded geometry (14px base radius, 24px cap) — never pill-heavy, never harsh.
@@ -109,9 +110,11 @@ The system is shadcn/New-York on Tailwind v4 (CSS-first tokens). Surface treatme
 The palette is a cool, slate-and-royal-blue corporate system. Light mode is a pale-blue canvas with pure-white surfaces; dark mode is high-contrast obsidian slate with the same royal-blue accent held constant. Blue carries all "live/action/active" meaning; green/amber/red are reserved strictly for status (success, warning, destructive).
 
 ### Primary
+
 - **Royal Blue** (#2563EB): The one and only accent. Primary buttons, active sidebar pill, focus rings, info status, chart-series leader, links. Identical value in light and dark — it is the constant of the system. Never duplicated into a second accent.
 
 ### Neutral
+
 - **Very Light Blue Canvas** (#F0F4F9): App background. Cooler and slightly deeper than white so white cards read as raised panels.
 - **Pure White Card** (#FFFFFF): Card / popover / input surface in light mode.
 - **Slate Ink** (#0F172A): Primary text and headings in light mode.
@@ -122,12 +125,14 @@ The palette is a cool, slate-and-royal-blue corporate system. Light mode is a pa
 - **Secondary Tint** (#E2EDF8) and **Accent Tint** (#DBEAFE): soft blue fills for hover states, secondary buttons, and selected backgrounds.
 
 ### Status (semantic, not decorative)
+
 - **Success Green** (#047857), **Warning Amber** (#B45309), **Destructive Red** (#DC2626): status badges, check-in/check-out, error states only. The light-mode values are one step darker than the classic emerald/amber so white text on a solid fill clears 4.5:1 (AA). Dark-mode variants brighten (#34D399 / #FBBF24 / #EF4444) against dark foreground text.
 
 ### Named Rules
+
 **The One-Accent Rule.** Royal Blue is the only hue that carries "action/active." Everything else is neutral or semantic. A screen with blue on blue fills and colorful cards has lost the accent.
 
-**The Go/Stop Exception.** Check-in and check-out are the one sanctioned use of semantic color as an *action* fill: green = start the shift (go), red = end it (stop). They read as universal transport affordances, not decoration. Any new green/red action button must be cleared against this exception.
+**The Go/Stop Exception.** Check-in and check-out are the one sanctioned use of semantic color as an _action_ fill: green = start the shift (go), red = end it (stop). They read as universal transport affordances, not decoration. Any new green/red action button must be cleared against this exception.
 
 **The Status-Only Rule.** Green, amber, and red mean approved/pending/rejected, in/out, success/error — never decoration. If a color isn't telling the user something, it shouldn't be on screen.
 
@@ -140,6 +145,7 @@ The palette is a cool, slate-and-royal-blue corporate system. Light mode is a pa
 **Character:** An editorial-for-operations pairing — Inter carries the titles with tight tracking and strong weights, while DM Sans handles body text with a slightly wider, airier cut that keeps long tables and lists comfortable. Mono appears only where a value wants to feel machine-precise: timecodes, case IDs, check-in clocks.
 
 ### Hierarchy
+
 - **Display** (Inter, black 900, `text-2xl`, tracking `-0.025em`): Page titles in the header. One per screen, loud and short.
 - **Title** (Inter, medium 500, `text-base`, `font-heading`): Card titles and section headers.
 - **Body** (DM Sans, regular 400, `text-sm`, `text-muted-foreground` for secondary): Card body, descriptions, table cells.
@@ -148,6 +154,7 @@ The palette is a cool, slate-and-royal-blue corporate system. Light mode is a pa
 - **Mono** (Geist Mono, `text-xs`): Check-in/out times, IDs, timecodes.
 
 ### Named Rules
+
 **The Heading Voice Rule.** `h1`–`h6` always use `--font-heading` (Inter); body always uses `--font-sans` (DM Sans). The split is load-bearing — never run headings in DM Sans or body in Inter.
 
 ## Layout
@@ -165,11 +172,13 @@ The dashboard shell is a two-pane application frame: a **fixed sidebar** (naviga
 A **soft-skeuomorphic** system: depth is communicated by layering raised white panels over the tinted canvas, each panel wearing a 1px `ring-foreground/5` hairline plus a diffuse drop shadow. Shadows are ambient, not structural — nothing floats hard or casts deep casts.
 
 ### Shadow Vocabulary
+
 - **Rest** (`0 4px 12px -2px rgba(15,23,42,0.04), 0 1px 3px 0 rgba(15,23,42,0.02)`): default card surface.
 - **Hover** (`0 10px 25px -4px rgba(15,23,42,0.08), 0 4px 6px -1px rgba(15,23,42,0.03)`): a card lifts on interaction; the hairline warms to the ring color.
 - **Accent** (primary-tinted): only the active sidebar pill and primary buttons, which read as the one raised, live element of a screen.
 
 ### Named Rules
+
 **The Raise-on-Touch Rule.** Cards rest flat and lift on hover; buttons press down 1px on active. Depth is a response to the cursor, never a permanent state.
 
 ## Shapes
@@ -179,6 +188,7 @@ Rounded, friendly, never pill-shaped at scale. Base radius is 14px (`--radius: 0
 ## Components
 
 ### Buttons
+
 - **Shape:** `rounded-2xl` (16px), `text-sm font-medium`, tight padding, `gap-1.5` with icons.
 - **Primary:** Royal Blue fill, white text, `hover:bg-primary/80`. Reserved for the single main action on a surface.
 - **Outline:** white/`bg-background` fill, hairline border, `hover:bg-muted`. Secondary actions.
@@ -188,6 +198,7 @@ Rounded, friendly, never pill-shaped at scale. Base radius is 14px (`--radius: 0
 - **Sizes:** `h-7` (xs) → `h-8` (sm/default) → `h-10` (lg); icon buttons `size-8/9/10`. Focus = 3px `ring-ring/30`; active presses down 1px.
 
 ### Cards / Containers
+
 - **Corner Style:** 24px rounded cap (`min(var(--radius-4xl), 24px)`).
 - **Background:** Pure white (light) / Elevated Slate (dark); the app canvas never appears inside a card.
 - **Shadow Strategy:** 1px `ring-foreground/5` hairline + ambient rest shadow; lifts on hover (see Elevation).
@@ -196,22 +207,26 @@ Rounded, friendly, never pill-shaped at scale. Base radius is 14px (`--radius: 0
 - **Signature accent bar:** executive metric cards may wear a 1px royal-blue gradient hairline across their top edge (`from-primary via-primary/80 to-chart-2`). It is the one sanctioned decorative gradient; it stays inside the blue family so it never reads as a second accent hue.
 
 ### Inputs / Fields
+
 - **Style:** pure-white fill, hairline `--border` stroke, `rounded-xl` (14px), `text-xs`–`text-sm` with `placeholder:text-muted-foreground`.
 - **Focus:** `ring-primary/40` + `focus-visible:ring`; search fields carry a leading icon inside the field.
 - **Error:** destructive hairline + soft red ring (`ring-destructive/20`).
 
 ### Navigation (Sidebar)
+
 - **Style:** Ice-blue (light) / Midnight Slate (dark) surface, hairline right border. Collapses to an icon rail on desktop (`lg`, 4.5rem) with a floating chevron toggle; becomes an off-canvas overlay drawer below `lg`.
 - **Items:** `text-xs font-semibold`, `rounded-xl`, idle = muted-foreground; hover = soft `sidebar-accent` pill with a spring `motion.div`; active = Royal Blue pill (`sidebar-primary`) with white text — the single raised element in the rail.
 - **Brand:** LGA wordmark (light/dark variants) at top; profile block pinned at bottom with initials avatar and role caption.
 
 ### Status Badges / Pills
+
 - **Shape:** `rounded-lg`/`rounded-full`, `text-xs font-semibold`/`font-mono`, tinted fills (`bg-warning/10 text-warning`, `bg-success/10 text-success`, `bg-destructive/10 text-destructive`).
 - **Live clock pill:** the header's check-in status renders as an amber-mono pill (`bg-warning/10 border-warning/20 text-warning`) with a pulsing dot — the one persistent status read on every screen.
 
 ## Do's and Don'ts
 
 ### Do:
+
 - **Do** keep one accent (Royal Blue) per screen, used for the active nav pill and primary actions.
 - **Do** use Inter for every heading and DM Sans for every body line — the split is the brand.
 - **Do** rest cards on the tinted canvas with a 1px hairline + quiet shadow; raise them on hover only.
@@ -221,6 +236,7 @@ Rounded, friendly, never pill-shaped at scale. Base radius is 14px (`--radius: 0
 - **Do** collapse the sidebar to an icon rail on desktop and an overlay drawer on mobile.
 
 ### Don't:
+
 - **Don't** add a second accent hue, gradient fills outside the primary button and the card's blue accent hairline, or colorful card fills — the blue loses its authority.
 - **Don't** set headings in DM Sans or body in Inter.
 - **Don't** use sharp corners (0 radius) or pill everything; stay inside the 14→24px radius ladder.

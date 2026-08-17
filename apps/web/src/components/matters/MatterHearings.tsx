@@ -135,7 +135,7 @@ export function MatterHearings({
       sortable: true,
       accessor: (h) => new Date(h.hearingDate),
       render: (h) => (
-        <span className="font-bold text-foreground">
+        <span className="text-foreground font-bold">
           {new Date(h.hearingDate).toLocaleString(undefined, {
             month: "short",
             day: "numeric",
@@ -152,7 +152,7 @@ export function MatterHearings({
       sortable: true,
       accessor: (h) => h.purpose,
       render: (h) => (
-        <span className="font-semibold text-muted-foreground">{h.purpose}</span>
+        <span className="text-muted-foreground font-semibold">{h.purpose}</span>
       )
     },
     {
@@ -161,7 +161,7 @@ export function MatterHearings({
       sortable: true,
       accessor: (h) => h.presidingJudge ?? "",
       render: (h) => (
-        <span className="font-semibold text-muted-foreground">
+        <span className="text-muted-foreground font-semibold">
           {h.presidingJudge || "N/A"}
         </span>
       )
@@ -170,18 +170,18 @@ export function MatterHearings({
       key: "attendees",
       header: "Attendees",
       render: (h) => (
-        <div className="flex flex-wrap gap-1 max-w-50">
+        <div className="flex max-w-50 flex-wrap gap-1">
           {h.attendees.map((att) => (
             <Badge
               key={att.id}
               variant="outline"
-              className="text-xs py-0 px-1.5 font-semibold"
+              className="px-1.5 py-0 text-xs font-semibold"
             >
               {associateMap.get(att.associateId) || "Counsel"}
             </Badge>
           ))}
           {h.attendees.length === 0 && (
-            <span className="text-xs text-muted-foreground">None</span>
+            <span className="text-muted-foreground text-xs">None</span>
           )}
         </div>
       )
@@ -198,7 +198,7 @@ export function MatterHearings({
                   variant="default"
                   size="xs"
                   onClick={() => openLogDialog(h)}
-                  className="rounded-xl text-xs font-bold px-2 py-1"
+                  className="rounded-xl px-2 py-1 text-xs font-bold"
                 >
                   Log Outcome
                 </Button>
@@ -216,7 +216,7 @@ export function MatterHearings({
       sortable: true,
       accessor: (h) => new Date(h.hearingDate),
       render: (h) => (
-        <span className="font-semibold text-foreground">
+        <span className="text-foreground font-semibold">
           {new Date(h.hearingDate).toLocaleDateString()}
         </span>
       )
@@ -227,7 +227,7 @@ export function MatterHearings({
       sortable: true,
       accessor: (h) => h.purpose,
       render: (h) => (
-        <span className="font-semibold text-muted-foreground">{h.purpose}</span>
+        <span className="text-muted-foreground font-semibold">{h.purpose}</span>
       )
     },
     {
@@ -255,7 +255,7 @@ export function MatterHearings({
       header: "Proceedings Summary",
       render: (h) => (
         <span
-          className="font-medium italic text-muted-foreground max-w-62.5 truncate block"
+          className="text-muted-foreground block max-w-62.5 truncate font-medium italic"
           title={h.proceedingsSummary ?? ""}
         >
           {h.proceedingsSummary || "N/A"}
@@ -270,11 +270,11 @@ export function MatterHearings({
       render: (h) =>
         h.nextDate ? (
           <div className="flex items-center gap-1">
-            <span className="font-bold text-primary">
+            <span className="text-primary font-bold">
               {new Date(h.nextDate).toLocaleDateString()}
             </span>
             {h.nextPurpose && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-muted-foreground text-xs">
                 ({h.nextPurpose})
               </span>
             )}
@@ -295,13 +295,13 @@ export function MatterHearings({
             href={h.orderSheetUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center h-8 w-8 text-primary hover:bg-primary/10 rounded-full border border-border"
+            className="text-primary hover:bg-primary/10 border-border inline-flex h-8 w-8 items-center justify-center rounded-full border"
             title="View Order Sheet"
           >
             <FileText className="h-3.5 w-3.5" />
           </a>
         ) : (
-          <span className="text-sm text-muted-foreground/60 font-bold">-</span>
+          <span className="text-muted-foreground/60 text-sm font-bold">-</span>
         )
     }
   ];
@@ -484,10 +484,10 @@ export function MatterHearings({
       {/* Action Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">
+          <h3 className="text-muted-foreground text-sm font-bold tracking-wider uppercase">
             Court Hearings Ledger
           </h3>
-          <p className="text-sm text-muted-foreground font-medium">
+          <p className="text-muted-foreground text-sm font-medium">
             Log courtroom proceedings outcome and maintain next-date
             (Tareekh-e-Pesh) updates.
           </p>
@@ -496,7 +496,7 @@ export function MatterHearings({
           {canEdit && (
             <Button
               onClick={() => setIsScheduleOpen(true)}
-              className="skeuo-button-primary rounded-xl text-sm font-bold gap-1"
+              className="skeuo-button-primary gap-1 rounded-xl text-sm font-bold"
             >
               <Plus className="h-4 w-4" />
               <span>Schedule Hearing</span>
@@ -507,7 +507,7 @@ export function MatterHearings({
             size="sm"
             onClick={() => refetch()}
             disabled={isRefetching}
-            className="rounded-xl text-sm font-semibold border-border"
+            className="border-border rounded-xl text-sm font-semibold"
           >
             Refresh Ledger
           </Button>
@@ -516,8 +516,8 @@ export function MatterHearings({
 
       {/* Upcoming Hearings */}
       <Card className="skeuo-card bg-card text-card-foreground">
-        <CardHeader className="pb-3 border-b border-border/60">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-2">
+        <CardHeader className="border-border/60 border-b pb-3">
+          <CardTitle className="text-primary flex items-center gap-2 text-sm font-bold tracking-wider uppercase">
             <Clock className="h-4 w-4" />
             <span>Upcoming Scheduled Hearings</span>
           </CardTitle>
@@ -539,8 +539,8 @@ export function MatterHearings({
 
       {/* Past Hearings */}
       <Card className="skeuo-card bg-card text-card-foreground">
-        <CardHeader className="pb-3 border-b border-border/60">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+        <CardHeader className="border-border/60 border-b pb-3">
+          <CardTitle className="text-muted-foreground flex items-center gap-2 text-sm font-bold tracking-wider uppercase">
             <Gavel className="h-4 w-4" />
             <span>Past Hearings Proceedings History</span>
           </CardTitle>
@@ -562,12 +562,12 @@ export function MatterHearings({
 
       {/* Log Outcome Dialog */}
       <Dialog open={isLogOpen} onOpenChange={setIsLogOpen}>
-        <DialogContent className="max-w-xl bg-card border-border rounded-2xl shadow-xl max-h-[85vh] overflow-y-auto">
+        <DialogContent className="bg-card border-border max-h-[85vh] max-w-xl overflow-y-auto rounded-2xl shadow-xl">
           <DialogHeader>
-            <DialogTitle className="text-lg font-black text-foreground">
+            <DialogTitle className="text-foreground text-lg font-black">
               Log Proceedings & Outcomes
             </DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">
+            <DialogDescription className="text-muted-foreground text-sm">
               Submit courtroom outcomes. Entering a next date will auto-schedule
               the next date (Tareekh-e-Pesh).
             </DialogDescription>
@@ -581,7 +581,7 @@ export function MatterHearings({
             <div className="space-y-1">
               <Label
                 htmlFor="status"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Hearing Outcome Status *
               </Label>
@@ -590,7 +590,7 @@ export function MatterHearings({
                 name="status"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-8 font-semibold">
+                    <SelectTrigger className="h-8 rounded-xl font-semibold">
                       <SelectValue placeholder="Select outcome" />
                     </SelectTrigger>
                     <SelectContent>
@@ -614,7 +614,7 @@ export function MatterHearings({
             <div className="space-y-1">
               <Label
                 htmlFor="proceedingsSummary"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Proceedings Summary *
               </Label>
@@ -623,10 +623,10 @@ export function MatterHearings({
                 placeholder="Log details of argument, witness statement, issues framed..."
                 rows={3}
                 {...registerLog("proceedingsSummary")}
-                className="w-full text-sm p-3 rounded-xl border border-border bg-card text-foreground font-medium outline-none focus:border-primary focus-visible:ring-primary/40 resize-none"
+                className="border-border bg-card text-foreground focus:border-primary focus-visible:ring-primary/40 w-full resize-none rounded-xl border p-3 text-sm font-medium outline-none"
               />
               {errorsLog.proceedingsSummary && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errorsLog.proceedingsSummary.message}
                 </p>
               )}
@@ -636,7 +636,7 @@ export function MatterHearings({
             <div className="space-y-1">
               <Label
                 htmlFor="orderSheetUrl"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Court Order Sheet Link (URL)
               </Label>
@@ -644,16 +644,16 @@ export function MatterHearings({
                 id="orderSheetUrl"
                 placeholder="e.g. https://storage.lga.dev/orders/order-sheet.pdf"
                 {...registerLog("orderSheetUrl")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
 
             {/* Next Date & Purpose (Tareekh-e-Pesh Engine) */}
-            <div className="grid grid-cols-2 gap-4 border border-border/80 rounded-xl p-3 bg-muted/10">
+            <div className="border-border/80 bg-muted/10 grid grid-cols-2 gap-4 rounded-xl border p-3">
               <div className="space-y-1">
                 <Label
                   htmlFor="nextDate"
-                  className="text-xs font-bold text-foreground"
+                  className="text-foreground text-xs font-bold"
                 >
                   Next Court Date (Tareekh)
                 </Label>
@@ -661,13 +661,13 @@ export function MatterHearings({
                   id="nextDate"
                   type="date"
                   {...registerLog("nextDate")}
-                  className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                  className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
                 />
               </div>
               <div className="space-y-1">
                 <Label
                   htmlFor="nextPurpose"
-                  className="text-xs font-bold text-foreground"
+                  className="text-foreground text-xs font-bold"
                 >
                   Next Date Purpose
                 </Label>
@@ -675,7 +675,7 @@ export function MatterHearings({
                   id="nextPurpose"
                   placeholder="e.g. Replication / Arguments"
                   {...registerLog("nextPurpose")}
-                  className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                  className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
                 />
               </div>
             </div>
@@ -684,15 +684,15 @@ export function MatterHearings({
             <div className="space-y-2">
               <p
                 id="logAttendeesLabel"
-                className="text-xs font-bold text-foreground flex items-center gap-1"
+                className="text-foreground flex items-center gap-1 text-xs font-bold"
               >
-                <Users className="h-3.5 w-3.5 text-primary" />
+                <Users className="text-primary h-3.5 w-3.5" />
                 <span>Log Attending Associates</span>
               </p>
               <div
                 role="group"
                 aria-labelledby="logAttendeesLabel"
-                className="border border-border rounded-xl p-3 bg-muted/20 grid grid-cols-2 gap-2 max-h-30 overflow-y-auto"
+                className="border-border bg-muted/20 grid max-h-30 grid-cols-2 gap-2 overflow-y-auto rounded-xl border p-3"
               >
                 {associates.map((assoc) => {
                   const isChecked = selectedLogAttendees.includes(assoc.id);
@@ -710,7 +710,7 @@ export function MatterHearings({
                           handleAttendeeToggleLog(assoc.id);
                         }
                       }}
-                      className={`flex items-center gap-2 p-2 rounded-lg border text-sm font-semibold cursor-pointer select-none transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                      className={`focus-visible:ring-ring flex cursor-pointer items-center gap-2 rounded-lg border p-2 text-sm font-semibold transition-all select-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${
                         isChecked
                           ? "bg-primary/10 border-primary/40 text-primary"
                           : "bg-card border-border hover:bg-muted/50"
@@ -722,7 +722,7 @@ export function MatterHearings({
                         onChange={() => {}}
                         tabIndex={-1}
                         aria-hidden="true"
-                        className="pointer-events-none rounded text-primary"
+                        className="text-primary pointer-events-none rounded"
                       />
                       <span className="truncate leading-tight">
                         {assoc.name || assoc.email}
@@ -748,7 +748,7 @@ export function MatterHearings({
               <Button
                 type="submit"
                 disabled={isSubmittingLog}
-                className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+                className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
               >
                 {isSubmittingLog ? (
                   <>
@@ -766,12 +766,12 @@ export function MatterHearings({
 
       {/* Schedule Hearing Dialog */}
       <Dialog open={isScheduleOpen} onOpenChange={setIsScheduleOpen}>
-        <DialogContent className="max-w-xl bg-card border-border rounded-2xl shadow-xl max-h-[85vh] overflow-y-auto">
+        <DialogContent className="bg-card border-border max-h-[85vh] max-w-xl overflow-y-auto rounded-2xl shadow-xl">
           <DialogHeader>
-            <DialogTitle className="text-lg font-black text-foreground">
+            <DialogTitle className="text-foreground text-lg font-black">
               Schedule Court Hearing
             </DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">
+            <DialogDescription className="text-muted-foreground text-sm">
               Formally schedule an upcoming hearing date in the court ledger.
             </DialogDescription>
           </DialogHeader>
@@ -785,7 +785,7 @@ export function MatterHearings({
               <div className="space-y-1">
                 <Label
                   htmlFor="hearingDate"
-                  className="text-xs font-bold text-foreground"
+                  className="text-foreground text-xs font-bold"
                 >
                   Hearing Date & Time *
                 </Label>
@@ -793,10 +793,10 @@ export function MatterHearings({
                   id="hearingDate"
                   type="datetime-local"
                   {...registerSched("hearingDate")}
-                  className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                  className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
                 />
                 {errorsSched.hearingDate && (
-                  <p className="text-xs text-destructive font-semibold">
+                  <p className="text-destructive text-xs font-semibold">
                     {errorsSched.hearingDate.message}
                   </p>
                 )}
@@ -806,7 +806,7 @@ export function MatterHearings({
               <div className="space-y-1">
                 <Label
                   htmlFor="presidingJudge"
-                  className="text-xs font-bold text-foreground"
+                  className="text-foreground text-xs font-bold"
                 >
                   Presiding Judge
                 </Label>
@@ -814,24 +814,24 @@ export function MatterHearings({
                   id="presidingJudge"
                   placeholder="e.g. Judge West Division"
                   {...registerSched("presidingJudge")}
-                  className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                  className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
                 />
               </div>
             </div>
 
             {/* Purpose */}
             <div className="space-y-1">
-              <Label className="text-xs font-bold text-foreground">
+              <Label className="text-foreground text-xs font-bold">
                 Hearing Purpose *
               </Label>
               <Input
                 id="purpose"
                 placeholder="e.g. Replication / Framing of Issues / Cross Exam"
                 {...registerSched("purpose")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errorsSched.purpose && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errorsSched.purpose.message}
                 </p>
               )}
@@ -839,11 +839,11 @@ export function MatterHearings({
 
             {/* Assign Attendees checklist */}
             <div className="space-y-2">
-              <Label className="text-xs font-bold text-foreground flex items-center gap-1">
-                <Users className="h-3.5 w-3.5 text-primary" />
+              <Label className="text-foreground flex items-center gap-1 text-xs font-bold">
+                <Users className="text-primary h-3.5 w-3.5" />
                 <span>Assign Counsel to Attend</span>
               </Label>
-              <div className="border border-border rounded-xl p-3 bg-muted/20 grid grid-cols-2 gap-2 max-h-30 overflow-y-auto">
+              <div className="border-border bg-muted/20 grid max-h-30 grid-cols-2 gap-2 overflow-y-auto rounded-xl border p-3">
                 {associates.map((assoc) => {
                   const isChecked = selectedSchedAttendees.includes(assoc.id);
                   return (
@@ -860,7 +860,7 @@ export function MatterHearings({
                           handleAttendeeToggleSched(assoc.id);
                         }
                       }}
-                      className={`flex items-center gap-2 p-2 rounded-lg border text-sm font-semibold cursor-pointer select-none transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                      className={`focus-visible:ring-ring flex cursor-pointer items-center gap-2 rounded-lg border p-2 text-sm font-semibold transition-all select-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${
                         isChecked
                           ? "bg-primary/10 border-primary/40 text-primary"
                           : "bg-card border-border hover:bg-muted/50"
@@ -872,7 +872,7 @@ export function MatterHearings({
                         onChange={() => {}}
                         tabIndex={-1}
                         aria-hidden="true"
-                        className="pointer-events-none rounded text-primary"
+                        className="text-primary pointer-events-none rounded"
                       />
                       <span className="truncate leading-tight">
                         {assoc.name || assoc.email}
@@ -898,7 +898,7 @@ export function MatterHearings({
               <Button
                 type="submit"
                 disabled={isSubmittingSched}
-                className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+                className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
               >
                 {isSubmittingSched ? (
                   <>

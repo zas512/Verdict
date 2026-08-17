@@ -53,34 +53,15 @@ export function Filters({
   filters,
   actions = []
 }: Readonly<DataToolbarProps>) {
-  const visibleActions = actions.filter(
-    (action) => !action.hidden
-  );
+  const visibleActions = actions.filter((action) => !action.hidden);
 
   return (
-    <div
-      className="
-        flex
-        w-full
-        items-center
-        justify-between
-        gap-4
-      "
-    >
+    <div className="flex w-full items-center justify-between gap-4">
       {/* ============================================================
           FILTERS
           ============================================================ */}
 
-      <div
-        className="
-          flex
-          min-w-0
-          flex-1
-          flex-wrap
-          items-center
-          gap-2
-        "
-      >
+      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
         {/* Search */}
 
         {search && (
@@ -89,41 +70,7 @@ export function Filters({
             placeholder={search.placeholder ?? "Search..."}
             value={search.value}
             onChange={search.onChange}
-            className="
-              h-10
-              w-full
-              sm:w-[320px]
-
-              rounded-md
-
-              border
-              border-border/70
-
-              bg-card
-
-              text-sm
-              text-foreground
-
-              shadow-[
-                inset_0_2px_4px_rgba(0,0,0,0.30),
-                inset_0_1px_0_rgba(255,255,255,0.025)
-              ]
-
-              transition-all
-              duration-150
-
-              placeholder:text-muted-foreground/55
-
-              hover:border-border
-
-              focus-within:border-primary/35
-
-              focus-within:shadow-[
-                inset_0_2px_4px_rgba(0,0,0,0.30),
-                inset_0_1px_0_rgba(255,255,255,0.025),
-                0_0_0_1px_rgba(212,169,79,0.08)
-              ]
-            "
+            className="border-border/70 bg-card text-foreground shadow-[ inset_0_2px_4px_rgba(0,0,0,0.30), inset_0_1px_0_rgba(255,255,255,0.025) ] placeholder:text-muted-foreground/55 hover:border-border focus-within:border-primary/35 focus-within:shadow-[ inset_0_2px_4px_rgba(0,0,0,0.30), inset_0_1px_0_rgba(255,255,255,0.025), 0_0_0_1px_rgba(212,169,79,0.08) ] h-10 w-full rounded-md border text-sm transition-all duration-150 sm:w-[320px]"
           />
         )}
 
@@ -137,75 +84,17 @@ export function Filters({
           >
             <SelectTrigger
               aria-label={filter.ariaLabel}
-              className="
-                h-10
-                w-[145px]
-
-                rounded-md
-
-                border
-                border-border/70
-
-                bg-card
-
-                text-sm
-                font-medium
-                text-muted-foreground
-
-                shadow-[
-                  inset_0_2px_4px_rgba(0,0,0,0.30),
-                  inset_0_1px_0_rgba(255,255,255,0.025)
-                ]
-
-                transition-all
-                duration-150
-
-                hover:border-border
-                hover:bg-card
-                hover:text-foreground
-
-                focus:ring-1
-                focus:ring-primary/30
-                focus:ring-offset-0
-
-                active:translate-y-px
-
-                data-[placeholder]:text-muted-foreground/60
-              "
+              className="border-border/70 bg-card text-muted-foreground shadow-[ inset_0_2px_4px_rgba(0,0,0,0.30), inset_0_1px_0_rgba(255,255,255,0.025) ] hover:border-border hover:bg-card hover:text-foreground focus:ring-primary/30 data-[placeholder]:text-muted-foreground/60 h-10 w-[145px] rounded-md border text-sm font-medium transition-all duration-150 focus:ring-1 focus:ring-offset-0 active:translate-y-px"
             >
-              <SelectValue
-                placeholder={
-                  filter.placeholder ?? "Select..."
-                }
-              />
+              <SelectValue placeholder={filter.placeholder ?? "Select..."} />
             </SelectTrigger>
 
-            <SelectContent
-              className="
-                min-w-[145px]
-
-                border-border/80
-                bg-popover
-
-                shadow-[
-                  0_10px_25px_rgba(0,0,0,0.45),
-                  0_2px_6px_rgba(0,0,0,0.30)
-                ]
-              "
-            >
+            <SelectContent className="border-border/80 bg-popover shadow-[ 0_10px_25px_rgba(0,0,0,0.45), 0_2px_6px_rgba(0,0,0,0.30) ] min-w-[145px]">
               {filter.options.map((option) => (
                 <SelectItem
                   key={option.value}
                   value={option.value}
-                  className="
-                    text-sm
-
-                    focus:bg-muted/40
-                    focus:text-foreground
-
-                    data-[state=checked]:bg-primary/[0.08]
-                    data-[state=checked]:text-foreground
-                  "
+                  className="focus:bg-muted/40 focus:text-foreground data-[state=checked]:bg-primary/[0.08] data-[state=checked]:text-foreground text-sm"
                 >
                   {option.label}
                 </SelectItem>
@@ -220,14 +109,7 @@ export function Filters({
           ============================================================ */}
 
       {visibleActions.length > 0 && (
-        <div
-          className="
-            flex
-            shrink-0
-            items-center
-            gap-2
-          "
-        >
+        <div className="flex shrink-0 items-center gap-2">
           {visibleActions.map((action) => {
             const isPrimary =
               action.key === "add" ||
@@ -239,84 +121,20 @@ export function Filters({
                 key={action.key}
                 type="button"
                 onClick={action.onClick}
-                disabled={
-                  action.disabled ||
-                  action.loading
-                }
+                disabled={action.disabled || action.loading}
                 className={cn(
-                  `
-                    inline-flex
-                    h-10
-                    items-center
-                    justify-center
-                    gap-2
-
-                    rounded-md
-
-                    border
-
-                    px-4
-
-                    text-sm
-                    font-medium
-
-                    transition-all
-                    duration-150
-
-                    disabled:pointer-events-none
-                    disabled:opacity-40
-
-                    active:translate-y-px
-                  `,
+                  `inline-flex h-10 items-center justify-center gap-2 rounded-md border px-4 text-sm font-medium transition-all duration-150 active:translate-y-px disabled:pointer-events-none disabled:opacity-40`,
 
                   isPrimary
-                    ? `
-                      border-primary/30
-
-                      bg-primary
-                      text-primary-foreground
-
-                      shadow-[
-                        0_1px_0_rgba(255,255,255,0.12),
-                        0_2px_4px_rgba(0,0,0,0.35),
-                        0_5px_10px_rgba(0,0,0,0.18)
-                      ]
-
-                      hover:bg-primary/90
-
-                      active:shadow-[
-                        inset_0_2px_4px_rgba(0,0,0,0.25)
-                      ]
-                    `
-                    : `
-                      border-border/70
-
-                      bg-card
-                      text-foreground
-
-                      shadow-[
-                        0_1px_0_rgba(255,255,255,0.04),
-                        0_2px_3px_rgba(0,0,0,0.28),
-                        inset_0_1px_0_rgba(255,255,255,0.02)
-                      ]
-
-                      hover:border-border
-                      hover:bg-muted/20
-
-                      active:shadow-[
-                        inset_0_2px_4px_rgba(0,0,0,0.30)
-                      ]
-                    `,
+                    ? `border-primary/30 bg-primary text-primary-foreground shadow-[ 0_1px_0_rgba(255,255,255,0.12), 0_2px_4px_rgba(0,0,0,0.35), 0_5px_10px_rgba(0,0,0,0.18) ] hover:bg-primary/90 active:shadow-[ inset_0_2px_4px_rgba(0,0,0,0.25) ]`
+                    : `border-border/70 bg-card text-foreground shadow-[ 0_1px_0_rgba(255,255,255,0.04), 0_2px_3px_rgba(0,0,0,0.28), inset_0_1px_0_rgba(255,255,255,0.02) ] hover:border-border hover:bg-muted/20 active:shadow-[ inset_0_2px_4px_rgba(0,0,0,0.30) ]`,
 
                   action.className
                 )}
               >
                 {action.icon && (
                   <span
-                    className={cn(
-                      "shrink-0",
-                      action.loading && "animate-spin"
-                    )}
+                    className={cn("shrink-0", action.loading && "animate-spin")}
                   >
                     {action.loading ? (
                       <Loader2 className="size-4" />

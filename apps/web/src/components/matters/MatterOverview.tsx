@@ -72,24 +72,24 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
       {/* Primary Details Column */}
-      <div className="lg:col-span-2 space-y-6">
+      <div className="space-y-6 lg:col-span-2">
         <Card className="skeuo-card bg-card text-card-foreground">
-          <CardHeader className="pb-3 border-b border-border/60">
-            <CardTitle className="text-base font-bold uppercase tracking-wider text-primary">
+          <CardHeader className="border-border/60 border-b pb-3">
+            <CardTitle className="text-primary text-base font-bold tracking-wider uppercase">
               Case Information
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <CardContent className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2">
             {/* Client Name */}
             <div className="flex items-start gap-3">
-              <User className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <User className="text-primary mt-0.5 h-5 w-5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Client Name
                 </p>
-                <p className="text-base font-bold text-foreground mt-0.5">
+                <p className="text-foreground mt-0.5 text-base font-bold">
                   {matter.client?.name || matter.clientName}
                 </p>
               </div>
@@ -97,9 +97,9 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
 
             {/* Case Type */}
             <div className="flex items-start gap-3">
-              <Briefcase className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <Briefcase className="text-primary mt-0.5 h-5 w-5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Case Classification
                 </p>
                 <div className="mt-0.5">
@@ -112,12 +112,12 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
 
             {/* Internal Ref */}
             <div className="flex items-start gap-3">
-              <Scale className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <Scale className="text-primary mt-0.5 h-5 w-5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Firm Reference #
                 </p>
-                <p className="text-base font-bold text-foreground mt-0.5">
+                <p className="text-foreground mt-0.5 text-base font-bold">
                   {matter.firmCaseNumber}
                 </p>
               </div>
@@ -125,9 +125,9 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
 
             {/* Status */}
             <div className="flex items-start gap-3">
-              <ShieldAlert className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <ShieldAlert className="text-primary mt-0.5 h-5 w-5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Matter Status
                 </p>
                 <div className="mt-0.5">{getStatusBadge(matter.status)}</div>
@@ -136,12 +136,12 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
 
             {/* Filing Date */}
             <div className="flex items-start gap-3">
-              <Calendar className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <Calendar className="text-primary mt-0.5 h-5 w-5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Filing Date
                 </p>
-                <p className="text-base font-semibold text-foreground mt-0.5">
+                <p className="text-foreground mt-0.5 text-base font-semibold">
                   {formatDate(matter.filingDate)}
                 </p>
               </div>
@@ -149,12 +149,12 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
 
             {/* Current Stage */}
             <div className="flex items-start gap-3">
-              <Clock className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <Clock className="text-primary mt-0.5 h-5 w-5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Current Stage
                 </p>
-                <p className="text-base font-semibold text-foreground mt-0.5">
+                <p className="text-foreground mt-0.5 text-base font-semibold">
                   {matter.currentStage?.name || "No procedural stage assigned"}
                 </p>
               </div>
@@ -164,20 +164,20 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
 
         {/* Court Information Card */}
         <Card className="skeuo-card bg-card text-card-foreground">
-          <CardHeader className="pb-3 border-b border-border/60">
-            <CardTitle className="text-base font-bold uppercase tracking-wider text-primary">
+          <CardHeader className="border-border/60 border-b pb-3">
+            <CardTitle className="text-primary text-base font-bold tracking-wider uppercase">
               Court Jurisdiction & Bench Details
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <CardContent className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2">
             {/* Court */}
             <div className="flex items-start gap-3">
-              <Building className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <Building className="text-primary mt-0.5 h-5 w-5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Court Venue
                 </p>
-                <p className="text-base font-semibold text-foreground mt-0.5">
+                <p className="text-foreground mt-0.5 text-base font-semibold">
                   {matter.court || "Not specified / Pending"}
                 </p>
               </div>
@@ -185,12 +185,12 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
 
             {/* Bench */}
             <div className="flex items-start gap-3">
-              <Scale className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <Scale className="text-primary mt-0.5 h-5 w-5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Bench Reference
                 </p>
-                <p className="text-base font-semibold text-foreground mt-0.5">
+                <p className="text-foreground mt-0.5 text-base font-semibold">
                   {matter.bench || "Not specified"}
                 </p>
               </div>
@@ -198,12 +198,12 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
 
             {/* Presiding Judge */}
             <div className="flex items-start gap-3">
-              <User className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <User className="text-primary mt-0.5 h-5 w-5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Presiding Judge
                 </p>
-                <p className="text-base font-semibold text-foreground mt-0.5">
+                <p className="text-foreground mt-0.5 text-base font-semibold">
                   {matter.presidingJudge || "Not specified / Honorable Judge"}
                 </p>
               </div>
@@ -211,12 +211,12 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
 
             {/* Court Case Number */}
             <div className="flex items-start gap-3">
-              <Briefcase className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+              <Briefcase className="text-primary mt-0.5 h-5 w-5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Court Case ID
                 </p>
-                <p className="text-base font-semibold text-foreground mt-0.5">
+                <p className="text-foreground mt-0.5 text-base font-semibold">
                   {matter.courtCaseNumber || "Not registered yet"}
                 </p>
               </div>
@@ -228,17 +228,17 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
       {/* Legal Team Column */}
       <div className="space-y-6">
         <Card className="skeuo-card bg-card text-card-foreground h-full">
-          <CardHeader className="pb-3 border-b border-border/60">
-            <CardTitle className="text-base font-bold uppercase tracking-wider text-primary flex items-center gap-2">
+          <CardHeader className="border-border/60 border-b pb-3">
+            <CardTitle className="text-primary flex items-center gap-2 text-base font-bold tracking-wider uppercase">
               <Users className="h-4 w-4" />
               <span>Assigned Legal Team</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-6 space-y-4">
+          <CardContent className="space-y-4 p-6">
             {matter.associates.length === 0 ? (
-              <div className="text-center py-8">
-                <Users className="h-8 w-8 text-muted-foreground/50 mx-auto" />
-                <p className="text-sm font-semibold text-muted-foreground mt-2">
+              <div className="py-8 text-center">
+                <Users className="text-muted-foreground/50 mx-auto h-8 w-8" />
+                <p className="text-muted-foreground mt-2 text-sm font-semibold">
                   No counsel assigned
                 </p>
               </div>
@@ -257,23 +257,23 @@ export function MatterOverview({ matter }: Readonly<MatterOverviewProps>) {
                 return (
                   <div
                     key={item.id}
-                    className="flex items-center gap-3 p-3 rounded-xl border border-border bg-muted/10 hover:bg-muted/20 transition-all shadow-2xs"
+                    className="border-border bg-muted/10 hover:bg-muted/20 flex items-center gap-3 rounded-xl border p-3 shadow-2xs transition-all"
                   >
-                    <div className="h-9 w-9 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-sm border border-primary/20 shrink-0">
+                    <div className="bg-primary/10 text-primary border-primary/20 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-sm font-bold">
                       {initials}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-extrabold text-foreground truncate">
+                      <p className="text-foreground truncate text-sm font-extrabold">
                         {name}
                       </p>
-                      <p className="text-xs text-muted-foreground truncate">
+                      <p className="text-muted-foreground truncate text-xs">
                         {email}
                       </p>
-                      <div className="flex items-center gap-1.5 mt-1">
-                        <span className="text-xs font-extrabold text-primary bg-primary/10 border border-primary/15 px-1.5 py-0.5 rounded-full uppercase">
+                      <div className="mt-1 flex items-center gap-1.5">
+                        <span className="text-primary bg-primary/10 border-primary/15 rounded-full border px-1.5 py-0.5 text-xs font-extrabold uppercase">
                           {item.role || "Counsel"}
                         </span>
-                        <span className="text-xs text-muted-foreground truncate">
+                        <span className="text-muted-foreground truncate text-xs">
                           {designation}
                         </span>
                       </div>

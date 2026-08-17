@@ -91,31 +91,31 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
     switch (type) {
       case "HEARING":
         return (
-          <div className="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0">
+          <div className="bg-primary/10 border-primary/20 text-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full border">
             <Gavel className="h-4 w-4" />
           </div>
         );
       case "TASK_COMPLETED":
         return (
-          <div className="h-8 w-8 rounded-full bg-success/10 border border-success/20 text-success flex items-center justify-center shrink-0">
+          <div className="bg-success/10 border-success/20 text-success flex h-8 w-8 shrink-0 items-center justify-center rounded-full border">
             <CheckCircle2 className="h-4 w-4" />
           </div>
         );
       case "DOCUMENT_UPLOADED":
         return (
-          <div className="h-8 w-8 rounded-full bg-violet/10 border border-violet/20 text-violet flex items-center justify-center shrink-0">
+          <div className="bg-violet/10 border-violet/20 text-violet flex h-8 w-8 shrink-0 items-center justify-center rounded-full border">
             <FileText className="h-4 w-4" />
           </div>
         );
       case "STAGE_CHANGE":
         return (
-          <div className="h-8 w-8 rounded-full bg-warning/10 border border-warning/20 text-warning flex items-center justify-center shrink-0">
+          <div className="bg-warning/10 border-warning/20 text-warning flex h-8 w-8 shrink-0 items-center justify-center rounded-full border">
             <GitBranch className="h-4 w-4" />
           </div>
         );
       default:
         return (
-          <div className="h-8 w-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center shrink-0">
+          <div className="bg-muted text-muted-foreground flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
             <Calendar className="h-4 w-4" />
           </div>
         );
@@ -129,16 +129,16 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
       case "HEARING":
         return (
           <div className="space-y-1">
-            <p className="text-sm font-bold text-foreground">
+            <p className="text-foreground text-sm font-bold">
               Hearing Outcome Logged:{" "}
               <span className="text-primary">{data.purpose}</span>
             </p>
             {data.proceedingsSummary && (
-              <p className="text-sm text-muted-foreground bg-muted/30 border border-border/50 p-2 rounded-lg mt-1 italic">
+              <p className="text-muted-foreground bg-muted/30 border-border/50 mt-1 rounded-lg border p-2 text-sm italic">
                 &ldquo;{data.proceedingsSummary}&rdquo;
               </p>
             )}
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground pt-1">
+            <div className="text-muted-foreground flex flex-wrap items-center gap-x-4 gap-y-1 pt-1 text-xs">
               <span>
                 Status:{" "}
                 <strong className="text-foreground uppercase">
@@ -157,7 +157,7 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
                   href={data.orderSheetUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-0.5 text-primary hover:underline"
+                  className="text-primary inline-flex items-center gap-0.5 hover:underline"
                 >
                   <span>Order Sheet</span>
                   <ExternalLink className="h-2.5 w-2.5" />
@@ -170,19 +170,16 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
       case "TASK_COMPLETED":
         return (
           <div className="space-y-1">
-            <p className="text-sm font-bold text-foreground">
-              Task Completed:{" "}
-              <span className="text-success">
-                {data.title}
-              </span>
+            <p className="text-foreground text-sm font-bold">
+              Task Completed: <span className="text-success">{data.title}</span>
             </p>
             {data.completionNotes && (
-              <p className="text-sm text-muted-foreground bg-success/5 border border-success/10 p-2 rounded-lg mt-1 italic">
+              <p className="text-muted-foreground bg-success/5 border-success/10 mt-1 rounded-lg border p-2 text-sm italic">
                 Notes: &ldquo;{data.completionNotes}&rdquo;
               </p>
             )}
-            <div className="flex items-center gap-2 text-xs text-muted-foreground pt-1">
-              <span className="bg-muted px-1.5 py-0.5 rounded uppercase font-semibold">
+            <div className="text-muted-foreground flex items-center gap-2 pt-1 text-xs">
+              <span className="bg-muted rounded px-1.5 py-0.5 font-semibold uppercase">
                 {data.taskType || "TASK"}
               </span>
               <span>
@@ -196,14 +193,12 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
       case "DOCUMENT_UPLOADED":
         return (
           <div className="space-y-1">
-            <p className="text-sm font-bold text-foreground">
+            <p className="text-foreground text-sm font-bold">
               Document Version Uploaded:{" "}
-              <span className="text-violet">
-                v{data.versionNumber}
-              </span>
+              <span className="text-violet">v{data.versionNumber}</span>
             </p>
             {data.changeNotes && (
-              <p className="text-sm text-muted-foreground mt-0.5">
+              <p className="text-muted-foreground mt-0.5 text-sm">
                 Notes: {data.changeNotes}
               </p>
             )}
@@ -212,7 +207,7 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
                 href={data.fileUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-primary hover:underline font-bold"
+                className="text-primary inline-flex items-center gap-1 text-xs font-bold hover:underline"
               >
                 <span>Download / Preview File</span>
                 <ExternalLink className="h-3 w-3" />
@@ -231,15 +226,15 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
           (newStageId ? stageMap.get(newStageId) : undefined) || "Decided";
         return (
           <div className="space-y-1">
-            <p className="text-sm font-bold text-foreground">
+            <p className="text-foreground text-sm font-bold">
               Procedural Stage Transitioned
             </p>
-            <div className="flex items-center gap-2 text-sm py-1">
-              <span className="text-muted-foreground bg-muted/40 px-2 py-1 rounded-lg border border-border/40 max-w-50 truncate">
+            <div className="flex items-center gap-2 py-1 text-sm">
+              <span className="text-muted-foreground bg-muted/40 border-border/40 max-w-50 truncate rounded-lg border px-2 py-1">
                 {oldName}
               </span>
-              <ArrowRight className="h-3.5 w-3.5 text-primary shrink-0 animate-pulse" />
-              <span className="text-primary bg-primary/5 px-2 py-1 rounded-lg border border-primary/10 font-bold max-w-50 truncate">
+              <ArrowRight className="text-primary h-3.5 w-3.5 shrink-0 animate-pulse" />
+              <span className="text-primary bg-primary/5 border-primary/10 max-w-50 truncate rounded-lg border px-2 py-1 font-bold">
                 {newName}
               </span>
             </div>
@@ -254,9 +249,9 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center p-12 space-y-3">
-        <Loader2 className="h-8 w-8 text-primary animate-spin" />
-        <p className="text-sm text-muted-foreground font-bold uppercase tracking-wider">
+      <div className="flex flex-col items-center justify-center space-y-3 p-12">
+        <Loader2 className="text-primary h-8 w-8 animate-spin" />
+        <p className="text-muted-foreground text-sm font-bold tracking-wider uppercase">
           Aggregating timeline events...
         </p>
       </div>
@@ -265,21 +260,20 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
 
   if (error) {
     return (
-      <div className="text-center p-8 text-sm text-destructive font-semibold">
-        Failed to load timeline:{" "}
-        {error.message}
+      <div className="text-destructive p-8 text-center text-sm font-semibold">
+        Failed to load timeline: {error.message}
       </div>
     );
   }
 
   if (events.length === 0) {
     return (
-      <Card className="border-dashed border-2 border-border p-12 text-center bg-card text-card-foreground">
-        <GitBranch className="h-10 w-10 text-muted-foreground/60 mx-auto" />
-        <p className="font-bold text-foreground mt-2 text-base">
+      <Card className="border-border bg-card text-card-foreground border-2 border-dashed p-12 text-center">
+        <GitBranch className="text-muted-foreground/60 mx-auto h-10 w-10" />
+        <p className="text-foreground mt-2 text-base font-bold">
           No activity recorded
         </p>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-muted-foreground mt-1 text-sm">
           This matter does not have any log events yet.
         </p>
       </Card>
@@ -290,19 +284,19 @@ export function MatterTimeline({ id }: Readonly<MatterTimelineProps>) {
   const sortedEvents = [...events].reverse();
 
   return (
-    <div className="relative border-l border-border/80 pl-6 ml-4 space-y-6 py-2">
+    <div className="border-border/80 relative ml-4 space-y-6 border-l py-2 pl-6">
       {sortedEvents.map((event, index) => (
         <div key={index} className="relative">
           {/* Dot Indicator */}
-          <div className="absolute -left-9.75 top-1.5 shrink-0 bg-background px-1 py-0.5">
+          <div className="bg-background absolute top-1.5 -left-9.75 shrink-0 px-1 py-0.5">
             {getEventIcon(event.type)}
           </div>
 
           {/* Card Wrapper */}
           <Card className="skeuo-card bg-card text-card-foreground">
             <CardContent className="p-4">
-              <div className="flex items-center justify-between text-xs text-muted-foreground pb-2 border-b border-border/40 mb-2">
-                <span className="font-bold uppercase tracking-wider text-primary">
+              <div className="text-muted-foreground border-border/40 mb-2 flex items-center justify-between border-b pb-2 text-xs">
+                <span className="text-primary font-bold tracking-wider uppercase">
                   {event.type.replace("_", " ")}
                 </span>
                 <span className="font-semibold">

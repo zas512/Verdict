@@ -91,7 +91,10 @@ export class FirmsService {
    * UsersService (the single owner of firm-scoped accounts) so the create,
    * duplicate-email and first-login rules stay in one place.
    */
-  async createUser(firmId: string, dto: CreatePlatformUserDto): Promise<UserEntity> {
+  async createUser(
+    firmId: string,
+    dto: CreatePlatformUserDto
+  ): Promise<UserEntity> {
     await this.requireFirm(firmId);
     return this.usersService.createPlatformUser(firmId, dto);
   }

@@ -13,10 +13,7 @@ import {
 import { UserRole } from "../../../generated/prisma/enums";
 
 /** The only roles a firm administrator may hand out. */
-export const FIRM_MEMBER_ROLES = [
-  UserRole.ADMIN,
-  UserRole.ASSOCIATE
-] as const;
+export const FIRM_MEMBER_ROLES = [UserRole.ADMIN, UserRole.ASSOCIATE] as const;
 
 export type FirmMemberRole = (typeof FIRM_MEMBER_ROLES)[number];
 

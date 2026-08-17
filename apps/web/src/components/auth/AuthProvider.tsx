@@ -67,9 +67,7 @@ export function AuthProvider({
 
           // First login: force the password-setup screen before anything else.
           if (activeUser.mustChangePassword && pathname !== "/setup") {
-            console.log(
-              `[AuthProvider] 🔒 First login — routing to /setup`
-            );
+            console.log(`[AuthProvider] 🔒 First login — routing to /setup`);
             router.replace("/setup");
           } else if (pathname === "/login" || pathname === "/register") {
             const targetPath =

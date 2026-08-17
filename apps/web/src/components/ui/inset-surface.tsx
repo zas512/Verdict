@@ -6,11 +6,14 @@ interface InsetSurfaceProps {
   className?: string;
 }
 
-export function InsetSurface({ children, className }: Readonly<InsetSurfaceProps>) {
+export function InsetSurface({
+  children,
+  className
+}: Readonly<InsetSurfaceProps>) {
   return (
     <div
       className={cn(
-        "rounded-lg border border-border/80 bg-muted/10 p-3.5 dark:bg-[#121419] dark:border-[rgba(255,255,255,0.035)] shadow-[inset_0_1px_2px_rgba(0,0,0,0.1),inset_0_-1px_0_rgba(255,255,255,0.05)] dark:shadow-[inset_0_1px_2px_rgba(0,0,0,0.45),inset_0_-1px_0_rgba(255,255,255,0.018)]",
+        "border-border/80 bg-muted/10 rounded-lg border p-3.5 shadow-[inset_0_1px_2px_rgba(0,0,0,0.1),inset_0_-1px_0_rgba(255,255,255,0.05)] dark:border-[rgba(255,255,255,0.035)] dark:bg-[#121419] dark:shadow-[inset_0_1px_2px_rgba(0,0,0,0.45),inset_0_-1px_0_rgba(255,255,255,0.018)]",
         className
       )}
     >

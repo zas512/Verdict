@@ -8,8 +8,14 @@ import { MailModule } from "../mail/mail.module";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { GoogleOAuthGuard } from "./guards/google-oauth.guard";
-import { AccessTokenStrategy, ACCESS_TOKEN_STRATEGY } from "./strategies/access-token.strategy";
-import { buildGoogleStrategy, GoogleStrategy } from "./strategies/google.strategy";
+import {
+  AccessTokenStrategy,
+  ACCESS_TOKEN_STRATEGY
+} from "./strategies/access-token.strategy";
+import {
+  buildGoogleStrategy,
+  GoogleStrategy
+} from "./strategies/google.strategy";
 import { RefreshTokenStrategy } from "./strategies/refresh-token.strategy";
 
 @Module({
@@ -35,9 +41,8 @@ import { RefreshTokenStrategy } from "./strategies/refresh-token.strategy";
       // placeholder strategy; the guard 503s before it is ever invoked.
       provide: GoogleStrategy,
       inject: [ConfigService],
-      useFactory: (
-        config: ConfigService<EnvironmentVariables, true>
-      ) => buildGoogleStrategy(config)
+      useFactory: (config: ConfigService<EnvironmentVariables, true>) =>
+        buildGoogleStrategy(config)
     },
     GoogleOAuthGuard
   ],

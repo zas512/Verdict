@@ -118,13 +118,10 @@ async function loadFirmStats(): Promise<FirmStats> {
     const totalAssociates = associatesOk ? associates.length : null;
 
     const now = new Date();
-    const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}-${String(now.getDate()).padStart(2, "0")}`;
-    const todayRecords = attendance.filter((r) =>
-      r.date?.startsWith(todayKey)
-    );
+    const todayKey = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    const todayRecords = attendance.filter((r) => r.date?.startsWith(todayKey));
 
     const presentSet = new Set(
       todayRecords
@@ -132,9 +129,7 @@ async function loadFirmStats(): Promise<FirmStats> {
         .map((r) => r.associateId)
     );
     const leaveSet = new Set(
-      todayRecords
-        .filter((r) => r.status === "LEAVE")
-        .map((r) => r.associateId)
+      todayRecords.filter((r) => r.status === "LEAVE").map((r) => r.associateId)
     );
     // Remote = distinct associates whose only presence today came from a remote
     // check-in. Someone with a biometric PRESENT record is present, not remote,
@@ -142,8 +137,7 @@ async function loadFirmStats(): Promise<FirmStats> {
     const remoteSet = new Set(
       todayRecords
         .filter(
-          (r) =>
-            r.source === "REMOTE_CHECKIN" && !presentSet.has(r.associateId)
+          (r) => r.source === "REMOTE_CHECKIN" && !presentSet.has(r.associateId)
         )
         .map((r) => r.associateId)
     );
@@ -250,20 +244,20 @@ export default async function DashboardPage() {
       {failedSources.length > 0 && (
         <div
           role="alert"
-          className="flex items-start gap-3 rounded-xl border border-warning/25 bg-warning/10 px-4 py-3"
+          className="border-warning/25 bg-warning/10 flex items-start gap-3 rounded-xl border px-4 py-3"
         >
-          <AlertTriangle className="h-4 w-4 mt-0.5 text-warning shrink-0" />
+          <AlertTriangle className="text-warning mt-0.5 h-4 w-4 shrink-0" />
           <div className="text-sm">
-            <p className="font-bold text-warning-foreground">
+            <p className="text-warning-foreground font-bold">
               Some data couldn&apos;t be loaded
             </p>
-            <p className="text-xs text-muted-foreground font-medium mt-0.5">
+            <p className="text-muted-foreground mt-0.5 text-xs font-medium">
               {failedSources.join(", ")}{" "}
               {failedSources.length === 1 ? "is" : "are"} unavailable — showing
               a partial overview.{" "}
               <a
                 href="/dashboard"
-                className="font-bold text-warning-foreground underline underline-offset-2 hover:opacity-80"
+                className="text-warning-foreground font-bold underline underline-offset-2 hover:opacity-80"
               >
                 Retry
               </a>

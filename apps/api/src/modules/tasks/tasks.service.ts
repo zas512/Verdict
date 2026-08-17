@@ -508,8 +508,7 @@ export class TasksService {
       throw new NotFoundException("Task not found");
     }
 
-    const isAdmin =
-      role === UserRole.OWNER || role === UserRole.ADMIN;
+    const isAdmin = role === UserRole.OWNER || role === UserRole.ADMIN;
     const isCreator = task.createdById === callerAssociateId;
     if (!isAdmin && !isCreator) {
       throw new ForbiddenException(

@@ -13,7 +13,7 @@ const DashboardAnalytics = dynamic(
     ),
   {
     loading: () => (
-      <div className="flex items-center justify-center py-16 text-xs font-semibold text-muted-foreground">
+      <div className="text-muted-foreground flex items-center justify-center py-16 text-xs font-semibold">
         Loading analytics...
       </div>
     )
@@ -75,29 +75,37 @@ export async function AdminDashboard() {
 
       {/* Expense summary */}
       <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden">
-        <CardHeader className="pb-2 pt-4">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+        <CardHeader className="pt-4 pb-2">
+          <CardTitle className="text-muted-foreground text-sm font-bold tracking-wider uppercase">
             Expenses & Billing
           </CardTitle>
         </CardHeader>
         <CardContent className="pb-4">
-          <div className="text-4xl font-black text-foreground tracking-tight">
+          <div className="text-foreground text-4xl font-black tracking-tight">
             {formatPKR(expensesTotal)}
           </div>
-          <p className="text-xs text-muted-foreground font-semibold mt-1 mb-4">
+          <p className="text-muted-foreground mt-1 mb-4 text-xs font-semibold">
             Monthly operational expenses (PKR)
           </p>
 
-          <div className="border-t border-border/80 my-3" />
+          <div className="border-border/80 my-3 border-t" />
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground">Fixed salaries</span>
-              <p className="text-lg font-bold text-foreground mt-0.5">{formatPKR(fixedTotal)}</p>
+              <span className="text-muted-foreground text-xs font-extrabold tracking-wider uppercase">
+                Fixed salaries
+              </span>
+              <p className="text-foreground mt-0.5 text-lg font-bold">
+                {formatPKR(fixedTotal)}
+              </p>
             </div>
             <div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground">Manual expenses</span>
-              <p className="text-lg font-bold text-foreground mt-0.5">{formatPKR(manualTotal)}</p>
+              <span className="text-muted-foreground text-xs font-extrabold tracking-wider uppercase">
+                Manual expenses
+              </span>
+              <p className="text-foreground mt-0.5 text-lg font-bold">
+                {formatPKR(manualTotal)}
+              </p>
             </div>
           </div>
         </CardContent>

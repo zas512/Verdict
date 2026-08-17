@@ -74,7 +74,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
     <>
       <aside
         className={cn(
-          "hidden lg:flex flex-col justify-between bg-sidebar border-r border-sidebar-border text-sidebar-foreground relative overflow-visible",
+          "bg-sidebar border-sidebar-border text-sidebar-foreground relative hidden flex-col justify-between overflow-visible border-r lg:flex",
           "min-h-screen shrink-0 transition-[transform,width,padding] duration-300 ease-out",
           desktopCollapsed ? "w-18 p-3" : "w-64 p-5"
         )}
@@ -85,7 +85,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
           onClick={() => setDesktopCollapsed(!desktopCollapsed)}
           aria-label={desktopCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           aria-expanded={!desktopCollapsed}
-          className="absolute top-3 -right-4 z-40 size-8 rounded-full bg-card border border-border text-muted-foreground hover:text-foreground cursor-pointer"
+          className="bg-card border-border text-muted-foreground hover:text-foreground absolute top-3 -right-4 z-40 size-8 cursor-pointer rounded-full border"
           title={
             desktopCollapsed
               ? "Expand sidebar (Ctrl+B)"
@@ -93,21 +93,21 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
           }
         >
           {desktopCollapsed ? (
-            <ChevronRight className="size-4 m-auto" />
+            <ChevronRight className="m-auto size-4" />
           ) : (
-            <ChevronLeft className="size-4 m-auto" />
+            <ChevronLeft className="m-auto size-4" />
           )}
         </button>
 
         {/* Top Section */}
-        <div className="space-y-6 flex flex-col">
+        <div className="flex flex-col space-y-6">
           {/* Brand Logo & Title */}
           <div
             className={cn(
-              "flex items-center border-b border-sidebar-border h-11.25",
+              "border-sidebar-border flex h-11.25 items-center border-b",
               desktopCollapsed
-                ? "justify-center pb-6 mt-6"
-                : "gap-3 mt-8 justify-between pb-12"
+                ? "mt-6 justify-center pb-6"
+                : "mt-8 justify-between gap-3 pb-12"
             )}
           >
             {desktopCollapsed ? (
@@ -115,7 +115,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
             ) : (
               <div className="flex min-w-0 items-center gap-3">
                 <Image src="/logo.png" alt="" width={100} height={40} />
-                <p className="truncate text-lg font-garamond font-bold tracking-tight text-sidebar-foreground">
+                <p className="font-garamond text-sidebar-foreground truncate text-lg font-bold tracking-tight">
                   VERDICT
                 </p>
               </div>
@@ -128,7 +128,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
             onMouseLeave={() => setHoveredIndex(null)}
           >
             {!desktopCollapsed && (
-              <p className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground px-3 pb-1">
+              <p className="text-muted-foreground px-3 pb-1 text-xs font-extrabold tracking-wider uppercase">
                 Navigation
               </p>
             )}
@@ -143,10 +143,10 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                     aria-current={isActive ? "page" : undefined}
                     onMouseEnter={() => setHoveredIndex(index)}
                     className={cn(
-                      "relative flex items-center rounded-md text-sm font-semibold outline-none transition-colors",
+                      "relative flex items-center rounded-md text-sm font-semibold transition-colors outline-none",
                       desktopCollapsed
-                        ? "justify-center h-9 w-9 mx-auto"
-                        : "px-3.5 py-2 gap-3 w-full",
+                        ? "mx-auto h-9 w-9 justify-center"
+                        : "w-full gap-3 px-3.5 py-2",
                       isActive
                         ? "text-sidebar-primary-foreground font-bold"
                         : "text-muted-foreground hover:text-sidebar-foreground"
@@ -158,7 +158,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                       <motion.div
                         layoutId="sidebar-hover-pill"
                         className={cn(
-                          "absolute inset-0 bg-sidebar-accent/80",
+                          "bg-sidebar-accent/80 absolute inset-0",
                           desktopCollapsed ? "rounded-full" : "rounded-md"
                         )}
                         transition={{
@@ -174,7 +174,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                       <motion.div
                         layoutId="sidebar-active-pill"
                         className={cn(
-                          "absolute inset-0 bg-sidebar-primary",
+                          "bg-sidebar-primary absolute inset-0",
                           desktopCollapsed ? "rounded-full" : "rounded-md"
                         )}
                         transition={{
@@ -188,7 +188,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
 
                     <Icon
                       className={cn(
-                        "h-4 w-4 relative z-10 shrink-0",
+                        "relative z-10 h-4 w-4 shrink-0",
                         isActive
                           ? "text-sidebar-primary-foreground"
                           : "text-muted-foreground"
@@ -212,7 +212,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
         </div>
 
         {/* Bottom Section */}
-        <div className="pt-4 border-t border-sidebar-border relative">
+        <div className="border-sidebar-border relative border-t pt-4">
           <ProfileDropdown
             user={richUser}
             collapsed={desktopCollapsed}

@@ -31,7 +31,8 @@ describe("API security wiring", () => {
     // during module construction. `require` rather than `import` so it is not
     // hoisted above the assignment above.
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { AppModule } = require("./app.module") as typeof import("./app.module");
+    const { AppModule } =
+      require("./app.module") as typeof import("./app.module");
 
     const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(PrismaService)

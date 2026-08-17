@@ -181,12 +181,12 @@ export function CreateMatterDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-card border-border rounded-2xl shadow-xl max-h-[85vh] overflow-y-auto">
+      <DialogContent className="bg-card border-border max-h-[85vh] max-w-2xl overflow-y-auto rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black text-foreground">
+          <DialogTitle className="text-foreground text-lg font-black">
             Initiate New Matter / Case
           </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
+          <DialogDescription className="text-muted-foreground text-sm">
             Set up a legal matter. This will suggest a starting court stage
             dynamically based on the CPC/CrPC type.
           </DialogDescription>
@@ -197,12 +197,12 @@ export function CreateMatterDialog({
           <div className="space-y-1">
             <Label
               htmlFor="clientId"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Link Client Record (optional)
             </Label>
             <Select value={selectedClientId} onValueChange={handleClientSelect}>
-              <SelectTrigger className="rounded-xl h-8 font-semibold">
+              <SelectTrigger className="h-8 rounded-xl font-semibold">
                 <SelectValue placeholder="— Standalone (no client record) —" />
               </SelectTrigger>
               <SelectContent>
@@ -213,7 +213,7 @@ export function CreateMatterDialog({
                 ))}
               </SelectContent>
             </Select>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Selecting a client pre-fills the display name below. Convert a
               lead first to make it selectable here.
             </p>
@@ -224,7 +224,7 @@ export function CreateMatterDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="clientName"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Client Name *
               </Label>
@@ -232,10 +232,10 @@ export function CreateMatterDialog({
                 id="clientName"
                 placeholder="Enter litigant name"
                 {...register("clientName")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errors.clientName && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.clientName.message}
                 </p>
               )}
@@ -245,7 +245,7 @@ export function CreateMatterDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="firmCaseNumber"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Firm Reference # *
               </Label>
@@ -253,10 +253,10 @@ export function CreateMatterDialog({
                 id="firmCaseNumber"
                 placeholder="e.g. LGA-2026-CV-04"
                 {...register("firmCaseNumber")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errors.firmCaseNumber && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.firmCaseNumber.message}
                 </p>
               )}
@@ -268,7 +268,7 @@ export function CreateMatterDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="caseType"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Case Classification *
               </Label>
@@ -277,7 +277,7 @@ export function CreateMatterDialog({
                 name="caseType"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-8 font-semibold">
+                    <SelectTrigger className="h-8 rounded-xl font-semibold">
                       <SelectValue placeholder="Select case type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -293,7 +293,7 @@ export function CreateMatterDialog({
                 )}
               />
               {errors.caseType && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.caseType.message}
                 </p>
               )}
@@ -303,7 +303,7 @@ export function CreateMatterDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="filingDate"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Filing Date
               </Label>
@@ -311,10 +311,10 @@ export function CreateMatterDialog({
                 id="filingDate"
                 type="date"
                 {...register("filingDate")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errors.filingDate && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.filingDate.message}
                 </p>
               )}
@@ -326,7 +326,7 @@ export function CreateMatterDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="courtCaseNumber"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Court Case #
               </Label>
@@ -334,7 +334,7 @@ export function CreateMatterDialog({
                 id="courtCaseNumber"
                 placeholder="e.g. Civil Suit 124/2026"
                 {...register("courtCaseNumber")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
 
@@ -342,7 +342,7 @@ export function CreateMatterDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="cnr"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 CNR Number
               </Label>
@@ -350,7 +350,7 @@ export function CreateMatterDialog({
                 id="cnr"
                 placeholder="e.g. ISB-Civil-1002"
                 {...register("cnr")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
 
@@ -358,7 +358,7 @@ export function CreateMatterDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="presidingJudge"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Presiding Judge
               </Label>
@@ -366,7 +366,7 @@ export function CreateMatterDialog({
                 id="presidingJudge"
                 placeholder="e.g. Justice Mansoor"
                 {...register("presidingJudge")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
           </div>
@@ -376,7 +376,7 @@ export function CreateMatterDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="court"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Court Jurisdiction
               </Label>
@@ -384,7 +384,7 @@ export function CreateMatterDialog({
                 id="court"
                 placeholder="e.g. District Court Islamabad West"
                 {...register("court")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
 
@@ -392,7 +392,7 @@ export function CreateMatterDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="bench"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Bench Reference
               </Label>
@@ -400,7 +400,7 @@ export function CreateMatterDialog({
                 id="bench"
                 placeholder="e.g. Single Bench - I"
                 {...register("bench")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
           </div>
@@ -409,17 +409,17 @@ export function CreateMatterDialog({
           <div className="space-y-2">
             <Label
               id="assignAssociatesLabel"
-              className="text-xs font-bold text-foreground block"
+              className="text-foreground block text-xs font-bold"
             >
               Assign Associates to Matter
             </Label>
             <div
               role="group"
               aria-labelledby="assignAssociatesLabel"
-              className="border border-border rounded-xl p-3 bg-muted/20 grid grid-cols-2 gap-2 max-h-[140px] overflow-y-auto"
+              className="border-border bg-muted/20 grid max-h-[140px] grid-cols-2 gap-2 overflow-y-auto rounded-xl border p-3"
             >
               {allAssociates.length === 0 ? (
-                <span className="text-sm text-muted-foreground col-span-2">
+                <span className="text-muted-foreground col-span-2 text-sm">
                   No active associates found in firm roster.
                 </span>
               ) : (
@@ -439,7 +439,7 @@ export function CreateMatterDialog({
                           handleAssociateToggle(assoc.id);
                         }
                       }}
-                      className={`flex items-center gap-2 p-2 rounded-lg border text-sm font-semibold cursor-pointer select-none transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                      className={`focus-visible:ring-ring flex cursor-pointer items-center gap-2 rounded-lg border p-2 text-sm font-semibold transition-all select-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${
                         isChecked
                           ? "bg-primary/10 border-primary/40 text-primary"
                           : "bg-card border-border hover:bg-muted/50"
@@ -451,13 +451,13 @@ export function CreateMatterDialog({
                         onChange={() => {}} // handled by click
                         tabIndex={-1}
                         aria-hidden="true"
-                        className="pointer-events-none rounded text-primary"
+                        className="text-primary pointer-events-none rounded"
                       />
                       <div className="truncate">
-                        <p className="leading-tight truncate">
+                        <p className="truncate leading-tight">
                           {assoc.name || assoc.email}
                         </p>
-                        <span className="text-xs text-muted-foreground uppercase">
+                        <span className="text-muted-foreground text-xs uppercase">
                           {assoc.role}
                         </span>
                       </div>
@@ -483,7 +483,7 @@ export function CreateMatterDialog({
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+              className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
             >
               {isSubmitting ? (
                 <>

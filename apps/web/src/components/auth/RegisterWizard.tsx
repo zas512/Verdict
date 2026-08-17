@@ -148,9 +148,7 @@ export function RegisterWizard({
     setAvatarUrl(googleProfile.picture ?? undefined);
     form.setValue(
       "name",
-      googleProfile.name?.trim() ||
-        googleProfile.email.split("@")[0] ||
-        "",
+      googleProfile.name?.trim() || googleProfile.email.split("@")[0] || "",
       { shouldValidate: true }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -158,7 +156,8 @@ export function RegisterWizard({
 
   const isFounder = invite?.type === "FOUNDER";
   const steps = useMemo(
-    () => (isFounder ? ["Account", "Firm setup", "Review"] : ["Account", "Review"]),
+    () =>
+      isFounder ? ["Account", "Firm setup", "Review"] : ["Account", "Review"],
     [isFounder]
   );
   const [stepIndex, setStepIndex] = useState(0);
@@ -259,8 +258,8 @@ export function RegisterWizard({
     return (
       <Card className="skeuo-card bg-card text-card-foreground py-8">
         <CardContent className="flex flex-col items-center gap-3 py-8 text-center">
-          <Loader2 className="h-6 w-6 animate-spin text-primary" />
-          <p className="text-xs font-semibold text-muted-foreground">
+          <Loader2 className="text-primary h-6 w-6 animate-spin" />
+          <p className="text-muted-foreground text-xs font-semibold">
             Validating your invitation...
           </p>
         </CardContent>
@@ -272,17 +271,17 @@ export function RegisterWizard({
     return (
       <Card className="skeuo-card bg-card text-card-foreground">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-xl font-black tracking-tight text-foreground flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-destructive" />
+          <CardTitle className="text-foreground flex items-center gap-2 text-xl font-black tracking-tight">
+            <AlertTriangle className="text-destructive h-5 w-5" />
             Invitation unavailable
           </CardTitle>
-          <CardDescription className="text-xs text-muted-foreground font-medium">
+          <CardDescription className="text-muted-foreground text-xs font-medium">
             {(inviteQuery.error as Error)?.message ||
               "This invite could not be found."}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Invites are required to create an account — please ask the firm
             admin who invited you to resend a fresh link.
           </p>
@@ -301,25 +300,25 @@ export function RegisterWizard({
 
   return (
     <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden py-4">
-      <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
+      <div className="from-primary via-primary/80 to-chart-2 absolute top-0 right-0 left-0 h-1 bg-linear-to-r" />
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-black tracking-tight text-foreground">
+        <CardTitle className="text-foreground text-2xl font-black tracking-tight">
           {isFounder ? "Create your firm" : "Join your firm"}
         </CardTitle>
-        <CardDescription className="text-xs text-muted-foreground font-medium">
+        <CardDescription className="text-muted-foreground text-xs font-medium">
           {isFounder
             ? "You've been invited to found a new firm on LGA"
             : `You've been invited to join ${invite.firmName ?? "your firm"}`}
         </CardDescription>
 
         {/* Invite summary chip */}
-        <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/40 px-3 py-2">
-          <Building2 className="h-4 w-4 shrink-0 text-primary" />
+        <div className="border-border bg-muted/40 flex items-center gap-2 rounded-xl border px-3 py-2">
+          <Building2 className="text-primary h-4 w-4 shrink-0" />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-xs font-bold text-foreground">
+            <p className="text-foreground truncate text-xs font-bold">
               {isFounder ? "New Firm Registration" : invite.firmName}
             </p>
-            <p className="truncate text-[11px] font-medium text-muted-foreground">
+            <p className="text-muted-foreground truncate text-[11px] font-medium">
               {invite.email} · {roleLabel[invite.role] ?? invite.role}
             </p>
           </div>
@@ -329,18 +328,18 @@ export function RegisterWizard({
       <CardContent>
         {/* Google no-account notice */}
         {googleError && (
-          <div className="mb-4 flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-xs font-semibold text-destructive">
+          <div className="border-destructive/30 bg-destructive/10 text-destructive mb-4 flex items-start gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
             <span>
-              No account was found for that Google profile. Please ask your
-              firm admin to invite you before signing up.
+              No account was found for that Google profile. Please ask your firm
+              admin to invite you before signing up.
             </span>
           </div>
         )}
 
         {/* Profile-code failure (expired 5-min code) */}
         {code && profileQuery.isError && (
-          <div className="mb-4 flex items-start gap-2 rounded-xl border border-warning/30 bg-warning/10 px-3 py-2.5 text-xs font-semibold text-warning">
+          <div className="border-warning/30 bg-warning/10 text-warning mb-4 flex items-start gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
             <span>
               Your Google sign-in session expired. Please try again, or sign up
@@ -428,7 +427,7 @@ export function RegisterWizard({
               type="button"
               onClick={onSubmit}
               disabled={registerMutation.isPending || registered}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-xs font-bold h-10 px-5 shadow-xs"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground h-10 rounded-xl px-5 text-xs font-bold shadow-xs"
             >
               {registerMutation.isPending ? (
                 <>
@@ -446,7 +445,7 @@ export function RegisterWizard({
             <Button
               type="button"
               onClick={onContinue}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-xs font-bold h-10 px-5 shadow-xs"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground h-10 rounded-xl px-5 text-xs font-bold shadow-xs"
             >
               Continue
               <ArrowRight className="h-4 w-4" />
@@ -455,7 +454,7 @@ export function RegisterWizard({
         </div>
 
         {registered && (
-          <div className="mt-4 flex items-center gap-2 rounded-xl border border-success/30 bg-success/10 px-3 py-2.5 text-xs font-bold text-success">
+          <div className="border-success/30 bg-success/10 text-success mt-4 flex items-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-bold">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
             Account created — taking you to your dashboard...
           </div>
@@ -469,9 +468,15 @@ export function RegisterWizard({
 // Sub-components
 // ---------------------------------------------------------------------------
 
-function Stepper({ steps, current }: Readonly<{ steps: string[]; current: number }>) {
+function Stepper({
+  steps,
+  current
+}: Readonly<{ steps: string[]; current: number }>) {
   return (
-    <ol className="flex items-center gap-1.5" aria-label="Registration progress">
+    <ol
+      className="flex items-center gap-1.5"
+      aria-label="Registration progress"
+    >
       {steps.map((label, i) => {
         const done = i < current;
         const active = i === current;
@@ -482,7 +487,9 @@ function Stepper({ steps, current }: Readonly<{ steps: string[]; current: number
                 "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[11px] font-black transition-colors",
                 done && "border-success bg-success text-success-foreground",
                 active && "border-primary bg-primary text-primary-foreground",
-                !done && !active && "border-border bg-muted text-muted-foreground"
+                !done &&
+                  !active &&
+                  "border-border bg-muted text-muted-foreground"
               )}
             >
               {done ? <Check className="h-3 w-3" /> : i + 1}
@@ -498,7 +505,7 @@ function Stepper({ steps, current }: Readonly<{ steps: string[]; current: number
             <span
               className={cn(
                 "sr-only",
-                active && "not-sr-only text-[11px] font-bold text-foreground"
+                active && "text-foreground not-sr-only text-[11px] font-bold"
               )}
             >
               {label}
@@ -512,7 +519,12 @@ function Stepper({ steps, current }: Readonly<{ steps: string[]; current: number
 
 interface AccountStepProps {
   provider: Provider;
-  googleProfile?: { googleId: string; email: string; name: string | null; picture: string | null };
+  googleProfile?: {
+    googleId: string;
+    email: string;
+    name: string | null;
+    picture: string | null;
+  };
   email: string;
   name: string;
   avatarUrl?: string;
@@ -539,21 +551,26 @@ function AccountStep({
   if (provider === "GOOGLE" && googleProfile) {
     return (
       <div className="space-y-4">
-        <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/40 p-3">
-          <UserAvatar avatarUrl={avatarUrl} name={name || googleProfile.name} email={googleProfile.email} size="lg" />
+        <div className="border-border bg-muted/40 flex items-center gap-3 rounded-xl border p-3">
+          <UserAvatar
+            avatarUrl={avatarUrl}
+            name={name || googleProfile.name}
+            email={googleProfile.email}
+            size="lg"
+          />
           <div className="min-w-0">
-            <p className="truncate text-sm font-bold text-foreground">
+            <p className="text-foreground truncate text-sm font-bold">
               {name || googleProfile.name || "Google account"}
             </p>
-            <p className="truncate text-xs font-medium text-muted-foreground">
+            <p className="text-muted-foreground truncate text-xs font-medium">
               {email}
             </p>
-            <p className="mt-0.5 text-[11px] font-semibold text-success">
+            <p className="text-success mt-0.5 text-[11px] font-semibold">
               ✓ Verified Google account — no password needed
             </p>
           </div>
         </div>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-muted-foreground text-xs">
           Your name and photo come from Google. You&apos;ll sign in with Google
           from now on.
         </p>
@@ -568,27 +585,30 @@ function AccountStep({
           <GoogleButton href={googleAuthUrl(inviteToken)} />
 
           <div className="flex items-center gap-3">
-            <span className="h-px flex-1 bg-border" />
-            <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+            <span className="bg-border h-px flex-1" />
+            <span className="text-muted-foreground text-[11px] font-bold tracking-wider uppercase">
               or sign up manually
             </span>
-            <span className="h-px flex-1 bg-border" />
+            <span className="bg-border h-px flex-1" />
           </div>
         </>
       )}
 
       <div className="space-y-1.5">
-        <Label htmlFor="reg-email" className="text-xs font-bold text-foreground">
+        <Label
+          htmlFor="reg-email"
+          className="text-foreground text-xs font-bold"
+        >
           Invited Email
         </Label>
-        <div className="flex h-9 items-center gap-2 rounded-xl border border-border bg-input/50 px-3 text-xs font-semibold text-muted-foreground">
+        <div className="border-border bg-input/50 text-muted-foreground flex h-9 items-center gap-2 rounded-xl border px-3 text-xs font-semibold">
           <Mail className="h-3.5 w-3.5 shrink-0" />
           <span className="truncate">{email}</span>
         </div>
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="reg-name" className="text-xs font-bold text-foreground">
+        <Label htmlFor="reg-name" className="text-foreground text-xs font-bold">
           Full Name <span className="text-destructive">*</span>
         </Label>
         <Input
@@ -596,17 +616,20 @@ function AccountStep({
           type="text"
           placeholder="Jane Doe"
           {...onRegisterName}
-          className="bg-card border-border text-xs rounded-xl"
+          className="bg-card border-border rounded-xl text-xs"
         />
         {errors.name && (
-          <p className="text-xs text-destructive font-semibold">
+          <p className="text-destructive text-xs font-semibold">
             {errors.name.message}
           </p>
         )}
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="reg-password" className="text-xs font-bold text-foreground">
+        <Label
+          htmlFor="reg-password"
+          className="text-foreground text-xs font-bold"
+        >
           Password <span className="text-destructive">*</span>
         </Label>
         <Input
@@ -614,10 +637,10 @@ function AccountStep({
           type="password"
           placeholder="At least 8 characters"
           {...onRegisterPassword}
-          className="bg-card border-border text-xs rounded-xl"
+          className="bg-card border-border rounded-xl text-xs"
         />
         {errors.password && (
-          <p className="text-xs text-destructive font-semibold">
+          <p className="text-destructive text-xs font-semibold">
             {errors.password.message}
           </p>
         )}
@@ -664,7 +687,10 @@ function FirmStep({
     <div className="space-y-4">
       {/* Firm name */}
       <div className="space-y-1.5">
-        <Label htmlFor="firm-name" className="text-xs font-bold text-foreground">
+        <Label
+          htmlFor="firm-name"
+          className="text-foreground text-xs font-bold"
+        >
           Firm Name <span className="text-destructive">*</span>
         </Label>
         <Input
@@ -672,10 +698,10 @@ function FirmStep({
           type="text"
           placeholder="e.g. Sterling & Associates LLP"
           {...onRegisterFirmName}
-          className="bg-card border-border text-xs rounded-xl"
+          className="bg-card border-border rounded-xl text-xs"
         />
         {errors.firmName && (
-          <p className="text-xs text-destructive font-semibold">
+          <p className="text-destructive text-xs font-semibold">
             {errors.firmName.message}
           </p>
         )}
@@ -683,7 +709,10 @@ function FirmStep({
 
       {/* Brand accent */}
       <div className="space-y-1.5">
-        <Label htmlFor="accent-color" className="text-xs font-bold text-foreground">
+        <Label
+          htmlFor="accent-color"
+          className="text-foreground text-xs font-bold"
+        >
           Brand Accent Color
         </Label>
         <div className="flex items-center gap-2">
@@ -699,7 +728,8 @@ function FirmStep({
                 }
                 className={cn(
                   "h-7 w-7 rounded-full border-2 border-transparent transition-transform hover:scale-105",
-                  accentColor === color && "border-foreground ring-2 ring-primary/30"
+                  accentColor === color &&
+                    "border-foreground ring-primary/30 ring-2"
                 )}
                 style={{ backgroundColor: color }}
               />
@@ -710,11 +740,11 @@ function FirmStep({
             type="text"
             placeholder="#2563EB"
             {...onRegisterAccentColor}
-            className="w-24 bg-card border-border text-xs rounded-xl text-center font-mono uppercase"
+            className="bg-card border-border w-24 rounded-xl text-center font-mono text-xs uppercase"
           />
         </div>
         {errors.accentColor && (
-          <p className="text-xs text-destructive font-semibold">
+          <p className="text-destructive text-xs font-semibold">
             {errors.accentColor.message}
           </p>
         )}
@@ -722,7 +752,7 @@ function FirmStep({
 
       {/* Logo upload */}
       <div className="space-y-1.5">
-        <Label className="text-xs font-bold text-foreground">Firm Logo</Label>
+        <Label className="text-foreground text-xs font-bold">Firm Logo</Label>
         <div className="flex items-center gap-3">
           <FirmLogo
             logoUrl={logoUrl}
@@ -750,14 +780,18 @@ function FirmStep({
               size="sm"
               onClick={onPickLogo}
               disabled={uploadingLogo}
-              className="flex-1 rounded-xl text-xs font-bold gap-1.5"
+              className="flex-1 gap-1.5 rounded-xl text-xs font-bold"
             >
               {uploadingLogo ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
               ) : (
                 <UploadCloud className="h-3.5 w-3.5" />
               )}
-              {uploadingLogo ? "Uploading..." : logoUrl ? "Replace logo" : "Upload logo"}
+              {uploadingLogo
+                ? "Uploading..."
+                : logoUrl
+                  ? "Replace logo"
+                  : "Upload logo"}
             </Button>
             {logoUrl && (
               <Button
@@ -765,14 +799,14 @@ function FirmStep({
                 variant="ghost"
                 size="sm"
                 onClick={onClearLogo}
-                className="rounded-xl text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
+                className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-xl text-xs"
               >
                 Remove
               </Button>
             )}
           </div>
         </div>
-        <p className="text-[11px] font-medium text-muted-foreground">
+        <p className="text-muted-foreground text-[11px] font-medium">
           Square PNG or JPG. If you skip this, we&apos;ll use your initials on
           the accent color.
         </p>
@@ -780,18 +814,22 @@ function FirmStep({
 
       {/* Tagline */}
       <div className="space-y-1.5">
-        <Label htmlFor="firm-tagline" className="text-xs font-bold text-foreground">
-          Tagline <span className="font-medium text-muted-foreground">(optional)</span>
+        <Label
+          htmlFor="firm-tagline"
+          className="text-foreground text-xs font-bold"
+        >
+          Tagline{" "}
+          <span className="text-muted-foreground font-medium">(optional)</span>
         </Label>
         <Input
           id="firm-tagline"
           type="text"
           placeholder="e.g. Justice, delivered with precision"
           {...onRegisterTagline}
-          className="bg-card border-border text-xs rounded-xl"
+          className="bg-card border-border rounded-xl text-xs"
         />
         {errors.tagline && (
-          <p className="text-xs text-destructive font-semibold">
+          <p className="text-destructive text-xs font-semibold">
             {errors.tagline.message}
           </p>
         )}
@@ -826,13 +864,17 @@ function ReviewStep({
   return (
     <div className="space-y-3">
       {/* Account summary */}
-      <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/40 p-3">
+      <div className="border-border bg-muted/40 flex items-center gap-3 rounded-xl border p-3">
         <UserAvatar avatarUrl={avatarUrl} name={name} email={email} size="lg" />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-bold text-foreground">{name || "—"}</p>
-          <p className="truncate text-xs font-medium text-muted-foreground">{email}</p>
+          <p className="text-foreground truncate text-sm font-bold">
+            {name || "—"}
+          </p>
+          <p className="text-muted-foreground truncate text-xs font-medium">
+            {email}
+          </p>
         </div>
-        <span className="text-[11px] font-bold text-success">
+        <span className="text-success text-[11px] font-bold">
           {provider === "GOOGLE" ? "Google" : "Email"}
         </span>
       </div>
@@ -851,24 +893,24 @@ function ReviewStep({
             rounded="rounded-lg"
           />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-bold text-foreground">
+            <p className="text-foreground truncate text-sm font-bold">
               {firmName || "Your Firm"}
             </p>
             {tagline && (
-              <p className="truncate text-xs font-medium text-muted-foreground">
+              <p className="text-muted-foreground truncate text-xs font-medium">
                 {tagline}
               </p>
             )}
           </div>
           <span
-            className="h-2.5 w-2.5 shrink-0 rounded-full ring-2 ring-border"
+            className="ring-border h-2.5 w-2.5 shrink-0 rounded-full ring-2"
             style={{ backgroundColor: accentColor }}
             title={accentColor}
           />
         </div>
       )}
 
-      <p className="text-[11px] font-medium text-muted-foreground">
+      <p className="text-muted-foreground text-[11px] font-medium">
         Review your details, then create your account. You can change all of
         this later from your profile.
       </p>

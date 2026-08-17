@@ -8,11 +8,7 @@ import { useState } from "react";
 import { CreateTaskDialog } from "./CreateTaskDialog";
 import { TaskCard } from "./TaskCard";
 import { TaskDetailDialog } from "./TaskDetailDialog";
-import {
-  isOverdue,
-  STATUS_COLUMNS,
-  type Task
-} from "./types";
+import { isOverdue, STATUS_COLUMNS, type Task } from "./types";
 
 interface TasksBoardProps {
   matterId?: string | null;
@@ -29,8 +25,8 @@ function KpiCard({
   tone: "neutral" | "accent" | "warning" | "danger";
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card px-3 py-2.5 flex items-center justify-between">
-      <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">
+    <div className="border-border bg-card flex items-center justify-between rounded-xl border px-3 py-2.5">
+      <span className="text-muted-foreground text-[11px] font-bold tracking-wide uppercase">
         {label}
       </span>
       <span
@@ -88,18 +84,18 @@ export function TasksBoard({
       {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         {isStandalone && (
-          <h2 className="text-base font-black text-foreground">
-            Task Board
-          </h2>
+          <h2 className="text-foreground text-base font-black">Task Board</h2>
         )}
-        <div className={cn("flex items-center gap-2", !isStandalone && "ml-auto")}>
+        <div
+          className={cn("flex items-center gap-2", !isStandalone && "ml-auto")}
+        >
           <Button
             type="button"
             variant="outline"
             size="sm"
             disabled={isFetching}
             onClick={() => refetch()}
-            className="rounded-xl text-xs font-bold gap-1.5"
+            className="gap-1.5 rounded-xl text-xs font-bold"
             aria-label="Refresh tasks"
           >
             <RefreshCw
@@ -111,7 +107,7 @@ export function TasksBoard({
             type="button"
             size="sm"
             onClick={() => setCreateOpen(true)}
-            className="skeuo-button-primary rounded-xl text-xs font-bold gap-1.5"
+            className="skeuo-button-primary gap-1.5 rounded-xl text-xs font-bold"
           >
             <Plus className="h-3.5 w-3.5" />
             {matterId ? "Delegate Task" : "New Task"}
@@ -131,14 +127,12 @@ export function TasksBoard({
 
       {/* Kanban columns */}
       {tasks.length === 0 && isStandalone ? (
-        <div className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-border bg-card/40 px-6 py-14 text-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+        <div className="border-border bg-card/40 flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed px-6 py-14 text-center">
+          <span className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-2xl">
             <ListChecks className="h-6 w-6" />
           </span>
-          <p className="text-sm font-black text-foreground">
-            No tasks yet
-          </p>
-          <p className="max-w-sm text-xs font-medium text-muted-foreground">
+          <p className="text-foreground text-sm font-black">No tasks yet</p>
+          <p className="text-muted-foreground max-w-sm text-xs font-medium">
             Create an independent task or link one to a matter, then assign it
             to an associate.
           </p>
@@ -146,7 +140,7 @@ export function TasksBoard({
             type="button"
             size="sm"
             onClick={() => setCreateOpen(true)}
-            className="skeuo-button-primary rounded-xl text-xs font-bold gap-1.5 mt-1"
+            className="skeuo-button-primary mt-1 gap-1.5 rounded-xl text-xs font-bold"
           >
             <Plus className="h-3.5 w-3.5" />
             New Task
@@ -162,20 +156,20 @@ export function TasksBoard({
               <section
                 key={col.key}
                 aria-label={col.label}
-                className="flex min-h-[180px] flex-col rounded-2xl border border-border bg-muted/25 p-2"
+                className="border-border bg-muted/25 flex min-h-[180px] flex-col rounded-2xl border p-2"
               >
-                <header className="flex items-center gap-2 px-1.5 pb-2 pt-1">
+                <header className="flex items-center gap-2 px-1.5 pt-1 pb-2">
                   <span className={cn("h-2 w-2 rounded-full", col.dot)} />
-                  <h3 className="text-xs font-black uppercase tracking-wide text-foreground">
+                  <h3 className="text-foreground text-xs font-black tracking-wide uppercase">
                     {col.label}
                   </h3>
-                  <span className="ml-auto rounded-full bg-card px-2 py-0.5 text-[10px] font-bold text-muted-foreground border border-border tabular-nums">
+                  <span className="bg-card text-muted-foreground border-border ml-auto rounded-full border px-2 py-0.5 text-[10px] font-bold tabular-nums">
                     {colTasks.length}
                   </span>
                 </header>
                 <div className="flex-1 space-y-2 overflow-y-auto pb-1">
                   {colTasks.length === 0 && (
-                    <p className="rounded-xl border border-dashed border-border/70 px-3 py-4 text-center text-[11px] font-semibold text-muted-foreground/70">
+                    <p className="border-border/70 text-muted-foreground/70 rounded-xl border border-dashed px-3 py-4 text-center text-[11px] font-semibold">
                       Drop tasks here
                     </p>
                   )}
@@ -195,7 +189,7 @@ export function TasksBoard({
       )}
 
       {isFetching && tasks.length > 0 && (
-        <div className="flex items-center justify-center gap-2 text-xs font-semibold text-muted-foreground">
+        <div className="text-muted-foreground flex items-center justify-center gap-2 text-xs font-semibold">
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
           Syncing…
         </div>

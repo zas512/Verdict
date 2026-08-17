@@ -125,7 +125,7 @@ export function TeamManagementClient() {
       sortable: true,
       accessor: (m) => m.email,
       render: (m) => (
-        <span className="font-bold text-foreground">{m.email}</span>
+        <span className="text-foreground font-bold">{m.email}</span>
       )
     },
     {
@@ -134,8 +134,8 @@ export function TeamManagementClient() {
       sortable: true,
       accessor: (m) => new Date(m.createdAt),
       render: (m) => (
-        <span className="text-muted-foreground font-medium flex items-center gap-1">
-          <Shield className="h-3 w-3 text-primary" />
+        <span className="text-muted-foreground flex items-center gap-1 font-medium">
+          <Shield className="text-primary h-3 w-3" />
           {new Date(m.createdAt).toLocaleDateString()}
         </span>
       )
@@ -171,13 +171,13 @@ export function TeamManagementClient() {
   return (
     <div className="grid gap-6 md:grid-cols-12">
       {/* Create Member Form Card */}
-      <Card className="md:col-span-5 border-border bg-card text-card-foreground shadow-xs">
+      <Card className="border-border bg-card text-card-foreground shadow-xs md:col-span-5">
         <CardHeader>
-          <CardTitle className="text-lg font-bold flex items-center gap-2">
-            <UserPlus className="h-5 w-5 text-primary" />
+          <CardTitle className="flex items-center gap-2 text-lg font-bold">
+            <UserPlus className="text-primary h-5 w-5" />
             Create Firm Employee
           </CardTitle>
-          <CardDescription className="text-xs text-muted-foreground">
+          <CardDescription className="text-muted-foreground text-xs">
             Register a new associate or admin under your firm. All created
             employees share your firm identity.
           </CardDescription>
@@ -197,7 +197,7 @@ export function TeamManagementClient() {
                 className="bg-card border-border text-foreground focus-visible:ring-primary/40 rounded-xl"
               />
               {errors.email && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.email.message}
                 </p>
               )}
@@ -216,7 +216,7 @@ export function TeamManagementClient() {
                 className="bg-card border-border text-foreground focus-visible:ring-primary/40 rounded-xl"
               />
               {errors.password && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.password.message}
                 </p>
               )}
@@ -235,7 +235,7 @@ export function TeamManagementClient() {
                     onValueChange={field.onChange}
                     disabled={createMutation.isPending}
                   >
-                    <SelectTrigger className="rounded-xl h-10 text-xs shadow-xs">
+                    <SelectTrigger className="h-10 rounded-xl text-xs shadow-xs">
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                     <SelectContent>
@@ -250,7 +250,7 @@ export function TeamManagementClient() {
                 )}
               />
               {errors.role && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.role.message}
                 </p>
               )}
@@ -258,7 +258,7 @@ export function TeamManagementClient() {
 
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs h-10 rounded-xl mt-2"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground mt-2 h-10 w-full rounded-xl text-xs font-bold"
               disabled={createMutation.isPending}
             >
               {createMutation.isPending
@@ -270,14 +270,14 @@ export function TeamManagementClient() {
       </Card>
 
       {/* Team Members List Card */}
-      <Card className="md:col-span-7 border-border bg-card text-card-foreground shadow-xs">
+      <Card className="border-border bg-card text-card-foreground shadow-xs md:col-span-7">
         <CardHeader className="flex flex-row items-center justify-between pb-3">
           <div>
-            <CardTitle className="text-lg font-bold flex items-center gap-2">
-              <Users className="h-5 w-5 text-primary" />
+            <CardTitle className="flex items-center gap-2 text-lg font-bold">
+              <Users className="text-primary h-5 w-5" />
               Firm Team Roster
             </CardTitle>
-            <CardDescription className="text-xs text-muted-foreground">
+            <CardDescription className="text-muted-foreground text-xs">
               All active associates and staff under your firm tenant
             </CardDescription>
           </div>
@@ -288,10 +288,10 @@ export function TeamManagementClient() {
             disabled={isRefetching}
             aria-label="Refresh team list"
             title="Refresh team list"
-            className="rounded-xl text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground rounded-xl"
           >
             <RefreshCw
-              className={`h-4 w-4 ${isRefetching ? "animate-spin text-primary" : ""}`}
+              className={`h-4 w-4 ${isRefetching ? "text-primary animate-spin" : ""}`}
             />
           </Button>
         </CardHeader>

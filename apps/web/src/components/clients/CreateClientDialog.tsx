@@ -106,12 +106,12 @@ export function CreateClientDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-card border-border rounded-2xl shadow-xl max-h-[85vh] overflow-y-auto">
+      <DialogContent className="bg-card border-border max-h-[85vh] max-w-2xl overflow-y-auto rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black text-foreground">
+          <DialogTitle className="text-foreground text-lg font-black">
             Register New Client
           </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
+          <DialogDescription className="text-muted-foreground text-sm">
             Create a client record. Run a conflict check first to make sure the
             matter can be accepted.
           </DialogDescription>
@@ -122,7 +122,7 @@ export function CreateClientDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="name"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Client / Organization Name *
               </Label>
@@ -130,10 +130,10 @@ export function CreateClientDialog({
                 id="name"
                 placeholder="e.g. M/S Pakistan Trade House"
                 {...register("name")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errors.name && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.name.message}
                 </p>
               )}
@@ -142,7 +142,7 @@ export function CreateClientDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="clientType"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Client Type
               </Label>
@@ -151,7 +151,7 @@ export function CreateClientDialog({
                 name="clientType"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-8 font-semibold">
+                    <SelectTrigger className="h-8 rounded-xl font-semibold">
                       <SelectValue placeholder="Select client type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -169,7 +169,7 @@ export function CreateClientDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="contactPerson"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Contact Person
               </Label>
@@ -177,14 +177,14 @@ export function CreateClientDialog({
                 id="contactPerson"
                 placeholder="Authorized representative"
                 {...register("contactPerson")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
 
             <div className="space-y-1">
               <Label
                 htmlFor="cnic"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 CNIC / NTN
               </Label>
@@ -192,7 +192,7 @@ export function CreateClientDialog({
                 id="cnic"
                 placeholder="e.g. 35202-1234567-1"
                 {...register("cnic")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
           </div>
@@ -201,7 +201,7 @@ export function CreateClientDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="companyRegistration"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Company Registration
               </Label>
@@ -209,14 +209,14 @@ export function CreateClientDialog({
                 id="companyRegistration"
                 placeholder="e.g. SECP Reg. 0045122"
                 {...register("companyRegistration")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
 
             <div className="space-y-1">
               <Label
                 htmlFor="phone"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Phone
               </Label>
@@ -224,7 +224,7 @@ export function CreateClientDialog({
                 id="phone"
                 placeholder="e.g. +92 300 1234567"
                 {...register("phone")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
           </div>
@@ -233,7 +233,7 @@ export function CreateClientDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="email"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Email
               </Label>
@@ -242,10 +242,10 @@ export function CreateClientDialog({
                 type="email"
                 placeholder="client@example.com"
                 {...register("email")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errors.email && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.email.message}
                 </p>
               )}
@@ -254,7 +254,7 @@ export function CreateClientDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="status"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Status
               </Label>
@@ -263,7 +263,7 @@ export function CreateClientDialog({
                 name="status"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-8 font-semibold">
+                    <SelectTrigger className="h-8 rounded-xl font-semibold">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
@@ -279,7 +279,7 @@ export function CreateClientDialog({
           <div className="space-y-1">
             <Label
               htmlFor="address"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Address
             </Label>
@@ -287,14 +287,14 @@ export function CreateClientDialog({
               id="address"
               placeholder="Registered office / residence"
               {...register("address")}
-              className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+              className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
             />
           </div>
 
           <div className="space-y-1">
             <Label
               htmlFor="notes"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Notes
             </Label>
@@ -303,7 +303,7 @@ export function CreateClientDialog({
               rows={3}
               placeholder="Matter context, engagement terms, etc."
               {...register("notes")}
-              className="w-full text-sm rounded-xl border border-border bg-card text-foreground p-3 outline-none focus:border-primary resize-none"
+              className="border-border bg-card text-foreground focus:border-primary w-full resize-none rounded-xl border p-3 text-sm outline-none"
             />
           </div>
 
@@ -322,7 +322,7 @@ export function CreateClientDialog({
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+              className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
             >
               {isSubmitting ? (
                 <>

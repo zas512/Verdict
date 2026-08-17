@@ -33,10 +33,7 @@ export class CloudinaryService {
     return { cloudName, apiKey, apiSecret };
   }
 
-  signUpload(params: {
-    timestamp: number;
-    folder: string;
-  }): UploadSignature {
+  signUpload(params: { timestamp: number; folder: string }): UploadSignature {
     const { cloudName, apiKey, apiSecret } = this.assertConfigured();
     const signature = cloudinary.utils.api_sign_request(params, apiSecret);
     return {

@@ -215,7 +215,7 @@ export function MatterParties({
           .toUpperCase();
         return (
           <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+            <div className="bg-primary/10 text-primary flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold">
               {initials}
             </div>
             <span>{name}</span>
@@ -231,7 +231,7 @@ export function MatterParties({
       render: (lnk) => (
         <Badge
           variant={getRoleBadgeVariant(lnk.partyRole)}
-          className="text-xs font-bold uppercase tracking-wide"
+          className="text-xs font-bold tracking-wide uppercase"
         >
           {lnk.partyRole.replace("_", " ")}
         </Badge>
@@ -252,8 +252,8 @@ export function MatterParties({
       key: "phone",
       header: "Phone",
       render: (lnk) => (
-        <span className="flex items-center gap-1 text-muted-foreground font-semibold">
-          <Phone className="h-3 w-3 text-primary/70" />
+        <span className="text-muted-foreground flex items-center gap-1 font-semibold">
+          <Phone className="text-primary/70 h-3 w-3" />
           {lnk.party?.phone || "N/A"}
         </span>
       )
@@ -262,8 +262,8 @@ export function MatterParties({
       key: "email",
       header: "Email Address",
       render: (lnk) => (
-        <span className="flex items-center gap-1 text-muted-foreground font-semibold">
-          <Mail className="h-3 w-3 text-primary/70" />
+        <span className="text-muted-foreground flex items-center gap-1 font-semibold">
+          <Mail className="text-primary/70 h-3 w-3" />
           {lnk.party?.email || "N/A"}
         </span>
       )
@@ -275,10 +275,10 @@ export function MatterParties({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">
+          <h3 className="text-muted-foreground text-sm font-bold tracking-wider uppercase">
             Litigants & Contacts Roster
           </h3>
-          <p className="text-sm text-muted-foreground font-medium">
+          <p className="text-muted-foreground text-sm font-medium">
             Manage opposing counsels, witnesses, plaintiffs, defendants, and
             clerks associated with this case.
           </p>
@@ -287,7 +287,7 @@ export function MatterParties({
           {canEdit && (
             <Button
               onClick={() => setIsOpen(true)}
-              className="skeuo-button-primary rounded-xl text-sm font-bold gap-1"
+              className="skeuo-button-primary gap-1 rounded-xl text-sm font-bold"
             >
               <Plus className="h-4 w-4" />
               <span>Link Litigant / Party</span>
@@ -304,7 +304,7 @@ export function MatterParties({
             data={matter.parties}
             rowKey={(lnk) => lnk.id}
             emptyIcon={
-              <Users className="h-12 w-12 text-muted-foreground/60 mx-auto" />
+              <Users className="text-muted-foreground/60 mx-auto h-12 w-12" />
             }
             emptyTitle="No linked parties"
             emptyDescription="Link litigants, counsel or witnesses to list them here."
@@ -316,12 +316,12 @@ export function MatterParties({
 
       {/* Add Party Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-md bg-card border-border rounded-2xl shadow-xl max-h-[85vh] overflow-y-auto">
+        <DialogContent className="bg-card border-border max-h-[85vh] max-w-md overflow-y-auto rounded-2xl shadow-xl">
           <DialogHeader>
-            <DialogTitle className="text-lg font-black text-foreground">
+            <DialogTitle className="text-foreground text-lg font-black">
               Link Litigant / Opposing Counsel
             </DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">
+            <DialogDescription className="text-muted-foreground text-sm">
               Add litigants, witnesses, opposing counsels or judicial clerks to
               the case.
             </DialogDescription>
@@ -332,7 +332,7 @@ export function MatterParties({
             <div className="space-y-1">
               <Label
                 htmlFor="partyRole"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Case Association Role *
               </Label>
@@ -341,7 +341,7 @@ export function MatterParties({
                 name="partyRole"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-8 font-semibold">
+                    <SelectTrigger className="h-8 rounded-xl font-semibold">
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                     <SelectContent>
@@ -379,7 +379,7 @@ export function MatterParties({
             <div className="space-y-2">
               <Label
                 id="contactSourceLabel"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Contact Source
               </Label>
@@ -388,7 +388,7 @@ export function MatterParties({
                 aria-labelledby="contactSourceLabel"
                 className="flex gap-4"
               >
-                <label className="flex items-center gap-1.5 text-sm font-semibold cursor-pointer">
+                <label className="flex cursor-pointer items-center gap-1.5 text-sm font-semibold">
                   <input
                     type="radio"
                     value="NEW"
@@ -398,7 +398,7 @@ export function MatterParties({
                   />
                   <span>Create new contact inline</span>
                 </label>
-                <label className="flex items-center gap-1.5 text-sm font-semibold cursor-pointer">
+                <label className="flex cursor-pointer items-center gap-1.5 text-sm font-semibold">
                   <input
                     type="radio"
                     value="EXISTING"
@@ -416,13 +416,13 @@ export function MatterParties({
               <div className="space-y-1">
                 <Label
                   htmlFor="partyId"
-                  className="text-xs font-bold text-foreground"
+                  className="text-foreground text-xs font-bold"
                 >
                   Select Firm Contact *
                 </Label>
                 {isLoadingContacts ? (
-                  <div className="flex items-center text-sm text-muted-foreground gap-1.5 py-1">
-                    <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
+                  <div className="text-muted-foreground flex items-center gap-1.5 py-1 text-sm">
+                    <Loader2 className="text-primary h-3.5 w-3.5 animate-spin" />
                     <span>Fetching contacts roster...</span>
                   </div>
                 ) : (
@@ -434,7 +434,7 @@ export function MatterParties({
                         value={field.value}
                         onValueChange={field.onChange}
                       >
-                        <SelectTrigger className="rounded-xl h-8 font-semibold">
+                        <SelectTrigger className="h-8 rounded-xl font-semibold">
                           <SelectValue placeholder="Choose contact" />
                         </SelectTrigger>
                         <SelectContent>
@@ -454,11 +454,11 @@ export function MatterParties({
 
             {/* Form Fields: Create Inline */}
             {selectType === "NEW" && (
-              <div className="space-y-3 p-3 border border-border/80 rounded-xl bg-muted/10">
+              <div className="border-border/80 bg-muted/10 space-y-3 rounded-xl border p-3">
                 <div className="space-y-1">
                   <Label
                     htmlFor="name"
-                    className="text-xs font-bold text-foreground"
+                    className="text-foreground text-xs font-bold"
                   >
                     Full Name *
                   </Label>
@@ -466,10 +466,10 @@ export function MatterParties({
                     id="name"
                     placeholder="Enter name"
                     {...register("name")}
-                    className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                    className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
                   />
                   {errors.name && (
-                    <p className="text-xs text-destructive font-semibold">
+                    <p className="text-destructive text-xs font-semibold">
                       {errors.name.message}
                     </p>
                   )}
@@ -479,7 +479,7 @@ export function MatterParties({
                   <div className="space-y-1">
                     <Label
                       htmlFor="phone"
-                      className="text-xs font-bold text-foreground"
+                      className="text-foreground text-xs font-bold"
                     >
                       Phone Number
                     </Label>
@@ -487,13 +487,13 @@ export function MatterParties({
                       id="phone"
                       placeholder="e.g. +923001234567"
                       {...register("phone")}
-                      className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                      className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
                     />
                   </div>
                   <div className="space-y-1">
                     <Label
                       htmlFor="email"
-                      className="text-xs font-bold text-foreground"
+                      className="text-foreground text-xs font-bold"
                     >
                       Email Address
                     </Label>
@@ -501,7 +501,7 @@ export function MatterParties({
                       id="email"
                       placeholder="e.g. litigant@gmail.com"
                       {...register("email")}
-                      className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                      className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
                     />
                   </div>
                 </div>
@@ -511,11 +511,11 @@ export function MatterParties({
                     type="checkbox"
                     id="isExternal"
                     {...register("isExternal")}
-                    className="rounded text-primary focus:ring-primary/40 h-4 w-4"
+                    className="text-primary focus:ring-primary/40 h-4 w-4 rounded"
                   />
                   <Label
                     htmlFor="isExternal"
-                    className="text-sm font-semibold cursor-pointer select-none"
+                    className="cursor-pointer text-sm font-semibold select-none"
                   >
                     External entity (Opponent / Opposing Counsel / Clerk)
                   </Label>
@@ -538,7 +538,7 @@ export function MatterParties({
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+                className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
               >
                 {isSubmitting ? (
                   <>

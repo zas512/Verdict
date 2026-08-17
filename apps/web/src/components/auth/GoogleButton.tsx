@@ -54,8 +54,8 @@ export function GoogleButton({
     <Link
       href={href}
       className={cn(
-        "flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-border bg-background px-3 text-sm font-bold text-foreground shadow-xs transition-colors",
-        "hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary/40 outline-none",
+        "border-border bg-background text-foreground flex h-10 w-full items-center justify-center gap-2 rounded-xl border px-3 text-sm font-bold shadow-xs transition-colors",
+        "hover:bg-muted hover:text-foreground focus-visible:ring-primary/40 outline-none focus-visible:ring-2",
         className
       )}
     >

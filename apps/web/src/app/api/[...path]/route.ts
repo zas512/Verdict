@@ -16,7 +16,9 @@ async function handleProxy(
     const headers: Record<string, string> = {};
     request.headers.forEach((value, key) => {
       // Avoid forwarding host or node-specific headers that might confuse NestJS
-      if (!["host", "content-length", "connection"].includes(key.toLowerCase())) {
+      if (
+        !["host", "content-length", "connection"].includes(key.toLowerCase())
+      ) {
         headers[key] = value;
       }
     });
@@ -60,9 +62,14 @@ async function handleProxy(
 
     const data = await res.json().catch(() => null);
     if (!res.ok) {
-      console.error(`[WEB PROXY ${method}] Backend error response for /${subPath}:`, data);
+      console.error(
+        `[WEB PROXY ${method}] Backend error response for /${subPath}:`,
+        data
+      );
       return NextResponse.json(
-        { message: data?.message || `Failed to perform ${method} on ${subPath}` },
+        {
+          message: data?.message || `Failed to perform ${method} on ${subPath}`
+        },
         { status: res.status }
       );
     }
@@ -71,10 +78,7 @@ async function handleProxy(
   } catch (err) {
     console.error(`[WEB PROXY] Catch-all proxy error:`, err);
     const errMsg = err instanceof Error ? err.message : "Internal server error";
-    return NextResponse.json(
-      { message: errMsg },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: errMsg }, { status: 500 });
   }
 }
 

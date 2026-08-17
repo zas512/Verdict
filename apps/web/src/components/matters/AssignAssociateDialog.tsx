@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
 } from "@/components/ui/dialog";
 import type { Associate } from "@/types/matterTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -79,12 +79,12 @@ export function AssignAssociateDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-card border-border rounded-2xl shadow-xl">
+      <DialogContent className="bg-card border-border max-w-md rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black text-foreground">
+          <DialogTitle className="text-foreground text-lg font-black">
             Assign Counsel / Associate
           </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
+          <DialogDescription className="text-muted-foreground text-sm">
             Add an associate to the legal defense team and define their case
             role.
           </DialogDescription>
@@ -94,7 +94,7 @@ export function AssignAssociateDialog({
           <div className="space-y-1">
             <Label
               htmlFor="assocSelect"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Legal Staff
             </Label>
@@ -102,7 +102,7 @@ export function AssignAssociateDialog({
               value={selectedAssociateId}
               onValueChange={setSelectedAssociateId}
             >
-              <SelectTrigger className="rounded-xl h-8 font-semibold">
+              <SelectTrigger className="h-8 rounded-xl font-semibold">
                 <SelectValue placeholder="Select associate" />
               </SelectTrigger>
               <SelectContent>
@@ -118,21 +118,19 @@ export function AssignAssociateDialog({
           <div className="space-y-1">
             <Label
               htmlFor="roleInput"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Case Role Label
             </Label>
             <Select value={associateRole} onValueChange={setAssociateRole}>
-              <SelectTrigger className="rounded-xl h-8 font-semibold">
+              <SelectTrigger className="h-8 rounded-xl font-semibold">
                 <SelectValue placeholder="Select role" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Lead Counsel">Lead Counsel</SelectItem>
                 <SelectItem value="Associate">Associate Counsel</SelectItem>
                 <SelectItem value="Co-Counsel">Co-Counsel</SelectItem>
-                <SelectItem value="Legal Assistant">
-                  Legal Assistant
-                </SelectItem>
+                <SelectItem value="Legal Assistant">Legal Assistant</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -159,7 +157,7 @@ export function AssignAssociateDialog({
               })
             }
             disabled={assignAssociateMutation.isPending || !selectedAssociateId}
-            className="skeuo-button-primary rounded-xl text-sm font-bold gap-1"
+            className="skeuo-button-primary gap-1 rounded-xl text-sm font-bold"
           >
             {assignAssociateMutation.isPending ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />

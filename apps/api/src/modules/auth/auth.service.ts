@@ -65,7 +65,9 @@ export class AuthService {
     });
 
     if (!invite) {
-      throw new NotFoundException("Invite token is invalid or has been revoked");
+      throw new NotFoundException(
+        "Invite token is invalid or has been revoked"
+      );
     }
     if (invite.status === "REVOKED" || invite.status === "ACCEPTED") {
       throw new ConflictException(
@@ -372,7 +374,9 @@ export class AuthService {
         name: string | null;
         picture: string | null;
         purpose: string;
-      }>(code, { secret: this.config.get("JWT_ACCESS_SECRET", { infer: true }) });
+      }>(code, {
+        secret: this.config.get("JWT_ACCESS_SECRET", { infer: true })
+      });
 
       if (payload.purpose !== "google-profile") {
         throw new BadRequestException("Invalid Google profile code");
@@ -412,9 +416,7 @@ export class AuthService {
       id: invite.id,
       email: invite.email,
       type:
-        invite.role === UserRole.OWNER && !invite.firmId
-          ? "FOUNDER"
-          : "MEMBER",
+        invite.role === UserRole.OWNER && !invite.firmId ? "FOUNDER" : "MEMBER",
       role: invite.role,
       status: invite.status,
       expiresAt: invite.expiresAt,

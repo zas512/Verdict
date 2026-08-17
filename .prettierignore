@@ -1,0 +1,16 @@
+# Build directories
+apps/api/dist
+apps/web/.next
+dist
+.next
+out
+build
+
+# Dependencies
+node_modules
+package-lock.json
+
+# Cache and logs
+.npm
+.eslintcache
+*.log

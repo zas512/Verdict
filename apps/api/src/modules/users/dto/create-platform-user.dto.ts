@@ -8,10 +8,7 @@ import {
   MaxLength,
   MinLength
 } from "class-validator";
-import {
-  PLATFORM_ROLES,
-  type PlatformRole
-} from "./firm-member.dto";
+import { PLATFORM_ROLES, type PlatformRole } from "./firm-member.dto";
 
 const trim = ({ value }: { value: unknown }) =>
   typeof value === "string" ? value.trim() : value;

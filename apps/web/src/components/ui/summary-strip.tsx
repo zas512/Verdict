@@ -37,7 +37,7 @@ export function SummaryStrip({
       {/* Bottom / right dark edge */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] border-b border-r border-black/70"
+        className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] border-r border-b border-black/70"
       />
 
       {/* Inner embossed edge */}
@@ -54,16 +54,16 @@ export function SummaryStrip({
             "flex flex-col justify-center",
             "bg-[#171A20]",
             "divide-border/50",
-            i % 2 === 0 ? "border-r border-border/50 md:border-r-0" : "",
-            i >= 2 ? "border-t border-border/50 md:border-t-0" : "",
-            "md:border-r md:border-border/50",
+            i % 2 === 0 ? "border-border/50 border-r md:border-r-0" : "",
+            i >= 2 ? "border-border/50 border-t md:border-t-0" : "",
+            "md:border-border/50 md:border-r",
             i === metrics.length - 1 && "md:border-r-0"
           )}
         >
           {/* Metric-specific accent */}
           {m.accentColor && (
             <div
-              className="absolute left-0 top-3 bottom-3 w-0.5 rounded-r-full opacity-80"
+              className="absolute top-3 bottom-3 left-0 w-0.5 rounded-r-full opacity-80"
               style={{
                 backgroundColor: m.accentColor,
                 boxShadow: `0 0 8px ${m.accentColor}40`
@@ -71,12 +71,12 @@ export function SummaryStrip({
             />
           )}
 
-          <span className="text-sm font-semibold uppercase tracking-[0.16em] text-foreground/70">
+          <span className="text-foreground/70 text-sm font-semibold tracking-[0.16em] uppercase">
             {m.label}
           </span>
 
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-3xl font-semibold leading-none tracking-tight text-foreground">
+            <span className="text-foreground text-3xl leading-none font-semibold tracking-tight">
               {m.value}
             </span>
 

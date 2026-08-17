@@ -1,4 +1,10 @@
-import { Matches, IsOptional, IsString, IsUUID, MaxLength } from "class-validator";
+import {
+  Matches,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength
+} from "class-validator";
 
 export class CreateLeaveDto {
   @IsUUID()

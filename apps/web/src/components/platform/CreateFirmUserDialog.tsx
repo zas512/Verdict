@@ -156,19 +156,19 @@ export function CreateFirmUserDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold flex items-center gap-2">
-            <UserPlus className="h-5 w-5 text-primary" />
+          <DialogTitle className="flex items-center gap-2 text-xl font-bold">
+            <UserPlus className="text-primary h-5 w-5" />
             Create User in {firm.name}
           </DialogTitle>
           <DialogDescription className="text-xs">
-            Create the account directly. They sign in with these credentials
-            and are asked to set a new password on first login.
+            Create the account directly. They sign in with these credentials and
+            are asked to set a new password on first login.
           </DialogDescription>
         </DialogHeader>
 
         {result ? (
           <div className="space-y-3 pt-2">
-            <div className="flex items-start gap-2 rounded-xl border border-success/30 bg-success/10 px-3 py-2.5 text-xs font-semibold text-success">
+            <div className="border-success/30 bg-success/10 text-success flex items-start gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold">
               <Check className="mt-0.5 h-4 w-4 shrink-0" />
               <span>
                 Account created for {result.email}. Hand over the credentials —
@@ -182,7 +182,7 @@ export function CreateFirmUserDialog({
                 <Input
                   readOnly
                   value={result.email}
-                  className="bg-card border-border text-xs rounded-xl font-mono"
+                  className="bg-card border-border rounded-xl font-mono text-xs"
                   onFocus={(e) => e.target.select()}
                 />
                 <Button
@@ -191,10 +191,10 @@ export function CreateFirmUserDialog({
                   size="icon"
                   onClick={() => copyValue(result.email, "email")}
                   aria-label="Copy email"
-                  className="rounded-xl shrink-0"
+                  className="shrink-0 rounded-xl"
                 >
                   {copiedField === "email" ? (
-                    <Check className="h-4 w-4 text-success" />
+                    <Check className="text-success h-4 w-4" />
                   ) : (
                     <Copy className="h-4 w-4" />
                   )}
@@ -206,7 +206,7 @@ export function CreateFirmUserDialog({
                   readOnly
                   type="text"
                   value={createdPassword}
-                  className="bg-card border-border text-xs rounded-xl font-mono"
+                  className="bg-card border-border rounded-xl font-mono text-xs"
                   onFocus={(e) => e.target.select()}
                 />
                 <Button
@@ -215,10 +215,10 @@ export function CreateFirmUserDialog({
                   size="icon"
                   onClick={() => copyValue(createdPassword, "password")}
                   aria-label="Copy initial password"
-                  className="rounded-xl shrink-0"
+                  className="shrink-0 rounded-xl"
                 >
                   {copiedField === "password" ? (
-                    <Check className="h-4 w-4 text-success" />
+                    <Check className="text-success h-4 w-4" />
                   ) : (
                     <Copy className="h-4 w-4" />
                   )}
@@ -253,7 +253,7 @@ export function CreateFirmUserDialog({
             <div className="space-y-1.5">
               <Label
                 htmlFor="create-user-name"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Full Name <span className="text-destructive">*</span>
               </Label>
@@ -262,10 +262,10 @@ export function CreateFirmUserDialog({
                 placeholder="Jane Doe"
                 {...register("name")}
                 disabled={createMutation.isPending}
-                className="bg-card border-border text-xs rounded-xl"
+                className="bg-card border-border rounded-xl text-xs"
               />
               {errors.name && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.name.message}
                 </p>
               )}
@@ -274,7 +274,7 @@ export function CreateFirmUserDialog({
             <div className="space-y-1.5">
               <Label
                 htmlFor="create-user-email"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Email Address <span className="text-destructive">*</span>
               </Label>
@@ -284,10 +284,10 @@ export function CreateFirmUserDialog({
                 placeholder="associate@laalglobal.com"
                 {...register("email")}
                 disabled={createMutation.isPending}
-                className="bg-card border-border text-xs rounded-xl"
+                className="bg-card border-border rounded-xl text-xs"
               />
               {errors.email && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.email.message}
                 </p>
               )}
@@ -296,7 +296,7 @@ export function CreateFirmUserDialog({
             <div className="space-y-1.5">
               <Label
                 htmlFor="create-user-role"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Assigned Role <span className="text-destructive">*</span>
               </Label>
@@ -309,7 +309,7 @@ export function CreateFirmUserDialog({
                     onValueChange={field.onChange}
                     disabled={createMutation.isPending}
                   >
-                    <SelectTrigger className="rounded-xl h-9 text-xs shadow-xs">
+                    <SelectTrigger className="h-9 rounded-xl text-xs shadow-xs">
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                     <SelectContent>
@@ -323,7 +323,7 @@ export function CreateFirmUserDialog({
                 )}
               />
               {errors.role && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.role.message}
                 </p>
               )}
@@ -332,7 +332,7 @@ export function CreateFirmUserDialog({
             <div className="space-y-1.5">
               <Label
                 htmlFor="create-user-password"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Initial Password <span className="text-destructive">*</span>
               </Label>
@@ -342,14 +342,14 @@ export function CreateFirmUserDialog({
                 placeholder="At least 8 characters"
                 {...register("password")}
                 disabled={createMutation.isPending}
-                className="bg-card border-border text-xs rounded-xl"
+                className="bg-card border-border rounded-xl text-xs"
               />
-              <p className="text-[11px] text-muted-foreground font-medium">
+              <p className="text-muted-foreground text-[11px] font-medium">
                 They must replace this on first login (or can sign in with
                 Google).
               </p>
               {errors.password && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.password.message}
                 </p>
               )}
@@ -368,7 +368,7 @@ export function CreateFirmUserDialog({
               <Button
                 type="submit"
                 disabled={createMutation.isPending}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-xs font-bold gap-1.5"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground gap-1.5 rounded-xl text-xs font-bold"
               >
                 {createMutation.isPending ? (
                   <>

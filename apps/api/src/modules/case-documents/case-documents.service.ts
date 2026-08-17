@@ -3,7 +3,10 @@ import { PrismaService } from "../../prisma/prisma.service";
 import { toEntities, toEntity } from "../../common/serialization/serialize";
 import { CreateDocumentDto } from "./dto/create-document.dto";
 import { CreateVersionDto } from "./dto/create-version.dto";
-import { CaseDocumentEntity, CaseDocumentVersionEntity } from "./entities/case-document.entity";
+import {
+  CaseDocumentEntity,
+  CaseDocumentVersionEntity
+} from "./entities/case-document.entity";
 import { UserRole, Prisma } from "../../generated/prisma/client";
 import { MattersService } from "../matters/matters.service";
 import { JwtPayload } from "../auth/strategies/access-token.strategy";
@@ -152,7 +155,10 @@ export class CaseDocumentsService {
           entityId: documentId,
           action: "DOCUMENT_VERSIONED",
           performedById: user.sub,
-          beforeState: { isCurrent: true, versionNumber: nextVersionNum - 1 } as any,
+          beforeState: {
+            isCurrent: true,
+            versionNumber: nextVersionNum - 1
+          } as any,
           afterState: { isCurrent: true, versionNumber: nextVersionNum } as any
         }
       });

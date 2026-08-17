@@ -37,10 +37,14 @@ export async function backendFetch(
 
   // Intercept 401 Unauthorized responses to perform automatic token refreshing on the server side
   if (res.status === 401 && refreshToken) {
-    console.log("[server-api:backendFetch] ⚠️ 401 Unauthorized from backend. Attempting to refresh tokens...");
+    console.log(
+      "[server-api:backendFetch] ⚠️ 401 Unauthorized from backend. Attempting to refresh tokens..."
+    );
     const tokens = await refreshAuthTokens(refreshToken);
     if (tokens) {
-      console.log("[server-api:backendFetch] ✅ Tokens refreshed successfully. Retrying request...");
+      console.log(
+        "[server-api:backendFetch] ✅ Tokens refreshed successfully. Retrying request..."
+      );
       try {
         cookieStore.set(
           "access_token",
@@ -53,7 +57,10 @@ export async function backendFetch(
           getCookieOptions(7 * 24 * 60 * 60)
         );
       } catch (cookieErr) {
-        console.warn("[server-api:backendFetch] ⚠️ Failed to write cookies on response (expected in some contexts):", cookieErr);
+        console.warn(
+          "[server-api:backendFetch] ⚠️ Failed to write cookies on response (expected in some contexts):",
+          cookieErr
+        );
       }
 
       // Re-create headers with the new token
@@ -72,6 +79,8 @@ export async function backendFetch(
     }
   }
 
-  console.log(`[server-api:backendFetch] 📥 Status: ${res.status} for ${targetUrl}`);
+  console.log(
+    `[server-api:backendFetch] 📥 Status: ${res.status} for ${targetUrl}`
+  );
   return res;
 }

@@ -9,7 +9,7 @@ export function formatPKR(
   return new Intl.NumberFormat("en-PK", {
     style: "currency",
     currency: "PKR",
-    maximumFractionDigits: options?.maximumFractionDigits ?? 0,
+    maximumFractionDigits: options?.maximumFractionDigits ?? 0
   }).format(amount);
 }
 

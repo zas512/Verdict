@@ -174,7 +174,9 @@ export function MatterDocuments({
       toast.success("Logical document created and version #1 indexed.");
       resetCreate();
       setIsCreateOpen(false);
-      void queryClient.invalidateQueries({ queryKey: ["matter-documents", id] });
+      void queryClient.invalidateQueries({
+        queryKey: ["matter-documents", id]
+      });
       void queryClient.invalidateQueries({ queryKey: ["matter-timeline", id] });
     },
     onError: (err: Error) => {
@@ -205,7 +207,9 @@ export function MatterDocuments({
       resetVersion();
       setIsVersionOpen(false);
       setSelectedDoc(null);
-      void queryClient.invalidateQueries({ queryKey: ["matter-documents", id] });
+      void queryClient.invalidateQueries({
+        queryKey: ["matter-documents", id]
+      });
       void queryClient.invalidateQueries({ queryKey: ["matter-timeline", id] });
     },
     onError: (err: Error) => {
@@ -236,7 +240,7 @@ export function MatterDocuments({
 
   // Group by folders
   const getCategoryIcon = () => {
-    return <FolderClosed className="h-10 w-10 text-primary/80 shrink-0" />;
+    return <FolderClosed className="text-primary/80 h-10 w-10 shrink-0" />;
   };
 
   return (
@@ -244,10 +248,10 @@ export function MatterDocuments({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">
+          <h3 className="text-muted-foreground text-sm font-bold tracking-wider uppercase">
             Case Documents Directory
           </h3>
-          <p className="text-sm text-muted-foreground font-medium">
+          <p className="text-muted-foreground text-sm font-medium">
             Manage version-controlled petitions, evidentiary scans, and court
             order sheets.
           </p>
@@ -256,7 +260,7 @@ export function MatterDocuments({
           {canEdit && (
             <Button
               onClick={() => setIsCreateOpen(true)}
-              className="skeuo-button-primary rounded-xl text-sm font-bold gap-1"
+              className="skeuo-button-primary gap-1 rounded-xl text-sm font-bold"
             >
               <Plus className="h-4 w-4" />
               <span>Add Document</span>
@@ -267,7 +271,7 @@ export function MatterDocuments({
             size="sm"
             onClick={() => refetch()}
             disabled={isRefetching}
-            className="rounded-xl text-sm font-semibold border-border"
+            className="border-border rounded-xl text-sm font-semibold"
           >
             Sync Files
           </Button>
@@ -276,19 +280,19 @@ export function MatterDocuments({
 
       {/* Grid of Documents */}
       {isLoading ? (
-        <div className="flex items-center justify-center p-16 space-y-2">
-          <Loader2 className="h-6 w-6 text-primary animate-spin" />
-          <span className="text-sm text-muted-foreground font-bold uppercase tracking-wider ml-2">
+        <div className="flex items-center justify-center space-y-2 p-16">
+          <Loader2 className="text-primary h-6 w-6 animate-spin" />
+          <span className="text-muted-foreground ml-2 text-sm font-bold tracking-wider uppercase">
             Loading case file indexes...
           </span>
         </div>
       ) : documents.length === 0 ? (
-        <div className="text-center p-16 space-y-2 border-2 border-dashed border-border rounded-2xl bg-card">
-          <FolderClosed className="h-12 w-12 text-muted-foreground/60 mx-auto" />
-          <p className="font-bold text-foreground text-base">
+        <div className="border-border bg-card space-y-2 rounded-2xl border-2 border-dashed p-16 text-center">
+          <FolderClosed className="text-muted-foreground/60 mx-auto h-12 w-12" />
+          <p className="text-foreground text-base font-bold">
             No documents uploaded
           </p>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Upload lawsuit file scans, pleading drafts, or evidence PDFs.
           </p>
         </div>
@@ -305,23 +309,23 @@ export function MatterDocuments({
                 className="skeuo-card bg-card text-card-foreground overflow-hidden"
               >
                 <CardContent className="p-4">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                     {/* Icon & Title */}
-                    <div className="flex items-center gap-4 flex-1">
+                    <div className="flex flex-1 items-center gap-4">
                       {getCategoryIcon()}
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                          <h4 className="text-sm font-black text-foreground truncate max-w-[200px] sm:max-w-[280px]">
+                          <h4 className="text-foreground max-w-[200px] truncate text-sm font-black sm:max-w-[280px]">
                             {doc.title}
                           </h4>
                           <Badge
                             variant="navy"
-                            className="text-xs font-bold uppercase py-0.5 px-2"
+                            className="px-2 py-0.5 text-xs font-bold uppercase"
                           >
                             {doc.category}
                           </Badge>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-0.5">
+                        <p className="text-muted-foreground mt-0.5 text-xs">
                           Uploaded:{" "}
                           {new Date(doc.createdAt).toLocaleDateString()}
                           {currentVersion &&
@@ -331,13 +335,13 @@ export function MatterDocuments({
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-3 shrink-0">
+                    <div className="flex shrink-0 items-center gap-3">
                       {currentVersion && (
                         <a
                           href={currentVersion.fileUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline font-bold bg-primary/5 border border-primary/10 rounded-xl px-3 py-2 h-8"
+                          className="text-primary bg-primary/5 border-primary/10 inline-flex h-8 items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-bold hover:underline"
                         >
                           <span>Open File</span>
                           <ExternalLink className="h-3.5 w-3.5" />
@@ -349,7 +353,7 @@ export function MatterDocuments({
                           variant="outline"
                           size="sm"
                           onClick={() => openVersionDialog(doc)}
-                          className="rounded-xl text-sm font-bold gap-1 border-border h-8"
+                          className="border-border h-8 gap-1 rounded-xl text-sm font-bold"
                         >
                           <UploadCloud className="h-3.5 w-3.5" />
                           <span>Revise</span>
@@ -360,9 +364,9 @@ export function MatterDocuments({
                         variant="ghost"
                         size="sm"
                         onClick={() => toggleExpandDoc(doc.id)}
-                        className="rounded-xl text-sm font-bold gap-1 h-8"
+                        className="h-8 gap-1 rounded-xl text-sm font-bold"
                       >
-                        <History className="h-3.5 w-3.5 text-muted-foreground" />
+                        <History className="text-muted-foreground h-3.5 w-3.5" />
                         <span>Revisions</span>
                         {isExpanded ? (
                           <ChevronDown className="h-3 w-3" />
@@ -375,8 +379,8 @@ export function MatterDocuments({
 
                   {/* Expanded Revisions history */}
                   {isExpanded && (
-                    <div className="mt-4 pt-3 border-t border-border/40 pl-14 space-y-2 bg-muted/10 p-3 rounded-xl border">
-                      <h5 className="text-xs font-black uppercase tracking-wider text-muted-foreground pb-1">
+                    <div className="border-border/40 bg-muted/10 mt-4 space-y-2 rounded-xl border border-t p-3 pt-3 pl-14">
+                      <h5 className="text-muted-foreground pb-1 text-xs font-black tracking-wider uppercase">
                         Version History Ledger
                       </h5>
 
@@ -385,29 +389,29 @@ export function MatterDocuments({
                         .map((ver) => (
                           <div
                             key={ver.id}
-                            className="flex items-start justify-between text-sm py-1.5 border-b border-border/20 last:border-b-0"
+                            className="border-border/20 flex items-start justify-between border-b py-1.5 text-sm last:border-b-0"
                           >
                             <div className="space-y-0.5">
                               <div className="flex items-center gap-2">
-                                <span className="font-extrabold text-foreground flex items-center gap-1">
-                                  <GitCommit className="h-3.5 w-3.5 text-primary" />
+                                <span className="text-foreground flex items-center gap-1 font-extrabold">
+                                  <GitCommit className="text-primary h-3.5 w-3.5" />
                                   <span>Version {ver.versionNumber}</span>
                                 </span>
                                 {ver.isCurrent && (
                                   <Badge
                                     variant="emerald"
-                                    className="text-xs py-0.5 px-2 uppercase font-bold"
+                                    className="px-2 py-0.5 text-xs font-bold uppercase"
                                   >
                                     Current Active
                                   </Badge>
                                 )}
                               </div>
-                              <p className="text-xs text-muted-foreground">
+                              <p className="text-muted-foreground text-xs">
                                 Uploaded on{" "}
                                 {new Date(ver.createdAt).toLocaleString()}
                               </p>
                               {ver.changeNotes && (
-                                <p className="text-xs text-foreground font-semibold bg-card px-2 py-1 rounded border border-border/50 mt-1 italic inline-block">
+                                <p className="text-foreground bg-card border-border/50 mt-1 inline-block rounded border px-2 py-1 text-xs font-semibold italic">
                                   Change note: &ldquo;{ver.changeNotes}&rdquo;
                                 </p>
                               )}
@@ -417,7 +421,7 @@ export function MatterDocuments({
                               href={ver.fileUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-xs text-primary hover:underline font-bold flex items-center gap-0.5 border border-border bg-card hover:bg-muted px-2 py-1 rounded-lg"
+                              className="text-primary border-border bg-card hover:bg-muted flex items-center gap-0.5 rounded-lg border px-2 py-1 text-xs font-bold hover:underline"
                             >
                               <span>Download</span>
                               <ExternalLink className="h-2.5 w-2.5" />
@@ -435,12 +439,12 @@ export function MatterDocuments({
 
       {/* Add Logical Document Dialog */}
       <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-        <DialogContent className="max-w-md bg-card border-border rounded-2xl shadow-xl">
+        <DialogContent className="bg-card border-border max-w-md rounded-2xl shadow-xl">
           <DialogHeader>
-            <DialogTitle className="text-lg font-black text-foreground">
+            <DialogTitle className="text-foreground text-lg font-black">
               Add Document Folder Node
             </DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">
+            <DialogDescription className="text-muted-foreground text-sm">
               Define a logical lawsuit document container and index its first
               file URL.
             </DialogDescription>
@@ -454,7 +458,7 @@ export function MatterDocuments({
             <div className="space-y-1">
               <Label
                 htmlFor="title"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Document Title *
               </Label>
@@ -462,10 +466,10 @@ export function MatterDocuments({
                 id="title"
                 placeholder="e.g. Settlement Agreement / Written Plaint"
                 {...registerCreate("title")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errorsCreate.title && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errorsCreate.title.message}
                 </p>
               )}
@@ -475,7 +479,7 @@ export function MatterDocuments({
             <div className="space-y-1">
               <Label
                 htmlFor="category"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Document Category *
               </Label>
@@ -484,7 +488,7 @@ export function MatterDocuments({
                 name="category"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-8 font-semibold">
+                    <SelectTrigger className="h-8 rounded-xl font-semibold">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
@@ -514,7 +518,7 @@ export function MatterDocuments({
             <div className="space-y-1">
               <Label
                 htmlFor="fileUrl"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Indexed File Link (URL) *
               </Label>
@@ -522,10 +526,10 @@ export function MatterDocuments({
                 id="fileUrl"
                 placeholder="e.g. https://storage.lga.dev/docs/plaint-v1.pdf"
                 {...registerCreate("fileUrl")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errorsCreate.fileUrl && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errorsCreate.fileUrl.message}
                 </p>
               )}
@@ -543,7 +547,7 @@ export function MatterDocuments({
               <Button
                 type="submit"
                 disabled={isSubmittingCreate}
-                className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+                className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
               >
                 {isSubmittingCreate ? (
                   <>
@@ -561,12 +565,12 @@ export function MatterDocuments({
 
       {/* Upload Revision Dialog */}
       <Dialog open={isVersionOpen} onOpenChange={setIsVersionOpen}>
-        <DialogContent className="max-w-md bg-card border-border rounded-2xl shadow-xl">
+        <DialogContent className="bg-card border-border max-w-md rounded-2xl shadow-xl">
           <DialogHeader>
-            <DialogTitle className="text-lg font-black text-foreground">
+            <DialogTitle className="text-foreground text-lg font-black">
               Upload Document Revision
             </DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">
+            <DialogDescription className="text-muted-foreground text-sm">
               Revise logical file &ldquo;{selectedDoc?.title}&rdquo;. This will
               set all other versions to inactive.
             </DialogDescription>
@@ -580,7 +584,7 @@ export function MatterDocuments({
             <div className="space-y-1">
               <Label
                 htmlFor="fileUrlRev"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Revised File Link (URL) *
               </Label>
@@ -588,10 +592,10 @@ export function MatterDocuments({
                 id="fileUrlRev"
                 placeholder="e.g. https://storage.lga.dev/docs/plaint-v2.pdf"
                 {...registerVersion("fileUrl")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errorsVersion.fileUrl && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errorsVersion.fileUrl.message}
                 </p>
               )}
@@ -601,7 +605,7 @@ export function MatterDocuments({
             <div className="space-y-1">
               <Label
                 htmlFor="changeNotes"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Revision Change Notes *
               </Label>
@@ -610,10 +614,10 @@ export function MatterDocuments({
                 placeholder="Describe what edits were made (e.g. corrected typing, added Annexure A...)"
                 rows={3}
                 {...registerVersion("changeNotes")}
-                className="w-full text-sm p-3 rounded-xl border border-border bg-card text-foreground font-medium outline-none focus:border-primary focus-visible:ring-primary/40 resize-none"
+                className="border-border bg-card text-foreground focus:border-primary focus-visible:ring-primary/40 w-full resize-none rounded-xl border p-3 text-sm font-medium outline-none"
               />
               {errorsVersion.changeNotes && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errorsVersion.changeNotes.message}
                 </p>
               )}
@@ -634,7 +638,7 @@ export function MatterDocuments({
               <Button
                 type="submit"
                 disabled={isSubmittingVersion}
-                className="skeuo-button-primary rounded-xl text-sm font-bold gap-1"
+                className="skeuo-button-primary gap-1 rounded-xl text-sm font-bold"
               >
                 {isSubmittingVersion ? (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />

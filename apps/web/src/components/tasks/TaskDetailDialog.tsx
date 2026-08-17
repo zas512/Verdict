@@ -99,7 +99,7 @@ export function TaskDetailDialog({
 
   const isAssignee = Boolean(
     currentUserId &&
-      localTask?.assignees.some((a) => a.associateId === currentUserId)
+    localTask?.assignees.some((a) => a.associateId === currentUserId)
   );
   const isCreator = Boolean(
     currentUserId && localTask?.createdById === currentUserId
@@ -197,9 +197,7 @@ export function TaskDetailDialog({
       toast.success("File attached");
       applyResult(data as Task);
     } catch (err) {
-      toast.error(
-        err instanceof Error ? err.message : "Upload failed"
-      );
+      toast.error(err instanceof Error ? err.message : "Upload failed");
     } finally {
       setUploading(false);
     }
@@ -263,7 +261,7 @@ export function TaskDetailDialog({
       type="button"
       onClick={action}
       disabled={busy}
-      className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+      className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
     >
       {busy && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
       {label}
@@ -301,7 +299,7 @@ export function TaskDetailDialog({
           statusMutation.isPending
         )
       ) : (
-        <p className="text-xs font-semibold text-muted-foreground">
+        <p className="text-muted-foreground text-xs font-semibold">
           Under review — awaiting approval to complete.
         </p>
       )
@@ -320,15 +318,15 @@ export function TaskDetailDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-card border-border rounded-2xl shadow-xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-card border-border max-h-[90vh] max-w-2xl overflow-y-auto rounded-2xl shadow-xl">
         <DialogHeader>
           <div className="flex flex-wrap items-center gap-2">
-            <DialogTitle className="text-lg font-black text-foreground">
+            <DialogTitle className="text-foreground text-lg font-black">
               {localTask.title}
             </DialogTitle>
             <Badge
               variant={PRIORITY_BADGE[localTask.priority]}
-              className="text-[10px] px-2"
+              className="px-2 text-[10px]"
             >
               {PRIORITY_LABEL[localTask.priority]}
             </Badge>
@@ -345,9 +343,9 @@ export function TaskDetailDialog({
 
         <div className="space-y-4 py-2">
           {/* Meta */}
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-muted-foreground">
+          <div className="text-muted-foreground flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold">
             {localTask.matter && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-2.5 py-1">
+              <span className="border-border bg-muted/60 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1">
                 <Scale className="h-3 w-3" />
                 {localTask.matter.firmCaseNumber}
               </span>
@@ -376,19 +374,19 @@ export function TaskDetailDialog({
 
           {/* Assignees */}
           <div className="space-y-1.5">
-            <Label className="text-xs font-bold text-foreground">
+            <Label className="text-foreground text-xs font-bold">
               Assignees
             </Label>
             <div className="flex flex-wrap gap-2">
               {localTask.assignees.length === 0 && (
-                <p className="text-xs text-muted-foreground font-medium">
+                <p className="text-muted-foreground text-xs font-medium">
                   Unassigned
                 </p>
               )}
               {localTask.assignees.map((a) => (
                 <span
                   key={a.id}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-2.5 py-1 text-xs font-bold text-foreground"
+                  className="border-border bg-card text-foreground inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold"
                 >
                   <Avatar size="sm" title={a.associate?.fullName ?? "?"}>
                     <AvatarFallback>
@@ -404,10 +402,10 @@ export function TaskDetailDialog({
           {/* Description */}
           {localTask.description && (
             <div className="space-y-1.5">
-              <Label className="text-xs font-bold text-foreground">
+              <Label className="text-foreground text-xs font-bold">
                 Description
               </Label>
-              <p className="whitespace-pre-wrap rounded-xl border border-border bg-muted/40 px-3 py-2.5 text-sm text-foreground leading-relaxed">
+              <p className="border-border bg-muted/40 text-foreground rounded-xl border px-3 py-2.5 text-sm leading-relaxed whitespace-pre-wrap">
                 {localTask.description}
               </p>
             </div>
@@ -415,7 +413,7 @@ export function TaskDetailDialog({
 
           {/* Status actions */}
           {(canAct || isAssignee) && primaryAction && (
-            <div className="flex flex-wrap items-center gap-2 rounded-xl border border-border bg-muted/30 px-3 py-2.5">
+            <div className="border-border bg-muted/30 flex flex-wrap items-center gap-2 rounded-xl border px-3 py-2.5">
               {primaryAction}
             </div>
           )}
@@ -423,7 +421,7 @@ export function TaskDetailDialog({
           {/* Attachments */}
           <div className="space-y-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <Label className="text-xs font-bold text-foreground">
+              <Label className="text-foreground text-xs font-bold">
                 Attachments ({localTask.attachments.length})
               </Label>
               <div className="flex items-center gap-2">
@@ -439,7 +437,7 @@ export function TaskDetailDialog({
                   size="sm"
                   disabled={uploading}
                   onClick={() => fileInputRef.current?.click()}
-                  className="rounded-xl text-xs font-bold gap-1.5"
+                  className="gap-1.5 rounded-xl text-xs font-bold"
                 >
                   {uploading ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -453,7 +451,7 @@ export function TaskDetailDialog({
                   variant="outline"
                   size="sm"
                   onClick={() => setShowLinkForm((v) => !v)}
-                  className="rounded-xl text-xs font-bold gap-1.5"
+                  className="gap-1.5 rounded-xl text-xs font-bold"
                 >
                   <Link2 className="h-3.5 w-3.5" />
                   Add link
@@ -462,11 +460,11 @@ export function TaskDetailDialog({
             </div>
 
             {showLinkForm && (
-              <div className="flex flex-wrap items-end gap-2 rounded-xl border border-border bg-muted/30 p-2.5">
+              <div className="border-border bg-muted/30 flex flex-wrap items-end gap-2 rounded-xl border p-2.5">
                 <div className="min-w-[180px] flex-1 space-y-1">
                   <Label
                     htmlFor="linkUrl"
-                    className="text-[10px] font-bold text-foreground"
+                    className="text-foreground text-[10px] font-bold"
                   >
                     URL *
                   </Label>
@@ -476,13 +474,13 @@ export function TaskDetailDialog({
                     placeholder="https://…"
                     value={linkUrl}
                     onChange={(e) => setLinkUrl(e.target.value)}
-                    className="h-8 rounded-lg text-xs bg-card"
+                    className="bg-card h-8 rounded-lg text-xs"
                   />
                 </div>
                 <div className="min-w-[140px] flex-1 space-y-1">
                   <Label
                     htmlFor="linkLabel"
-                    className="text-[10px] font-bold text-foreground"
+                    className="text-foreground text-[10px] font-bold"
                   >
                     Label
                   </Label>
@@ -491,7 +489,7 @@ export function TaskDetailDialog({
                     placeholder="e.g. Case brief"
                     value={linkLabel}
                     onChange={(e) => setLinkLabel(e.target.value)}
-                    className="h-8 rounded-lg text-xs bg-card"
+                    className="bg-card h-8 rounded-lg text-xs"
                   />
                 </div>
                 <Button
@@ -504,7 +502,7 @@ export function TaskDetailDialog({
                       onSettled: () => setAddingLink(false)
                     });
                   }}
-                  className="rounded-lg text-xs font-bold gap-1"
+                  className="gap-1 rounded-lg text-xs font-bold"
                 >
                   {addingLink ? (
                     <Loader2 className="h-3 w-3 animate-spin" />
@@ -517,7 +515,7 @@ export function TaskDetailDialog({
             )}
 
             {localTask.attachments.length === 0 && (
-              <p className="text-xs text-muted-foreground font-medium">
+              <p className="text-muted-foreground text-xs font-medium">
                 No attachments yet.
               </p>
             )}
@@ -529,13 +527,13 @@ export function TaskDetailDialog({
                     href={att.fileUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:border-primary/40 hover:bg-muted/30 transition-colors"
+                    className="border-border bg-card text-foreground hover:border-primary/40 hover:bg-muted/30 flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors"
                   >
-                    <FileText className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                    <FileText className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
                     <span className="truncate">
                       {att.fileName || "Attachment"}
                     </span>
-                    <span className="ml-auto shrink-0 text-[10px] text-muted-foreground">
+                    <span className="text-muted-foreground ml-auto shrink-0 text-[10px]">
                       {att.uploadedBy?.fullName ?? ""} ·{" "}
                       {formatDate(att.createdAt)}
                     </span>
@@ -546,13 +544,11 @@ export function TaskDetailDialog({
                     href={att.fileUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:border-primary/40 hover:bg-muted/30 transition-colors"
+                    className="border-border bg-card text-foreground hover:border-primary/40 hover:bg-muted/30 flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors"
                   >
-                    <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                    <span className="truncate">
-                      {att.label || att.fileUrl}
-                    </span>
-                    <span className="ml-auto shrink-0 text-[10px] text-muted-foreground">
+                    <ExternalLink className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
+                    <span className="truncate">{att.label || att.fileUrl}</span>
+                    <span className="text-muted-foreground ml-auto shrink-0 text-[10px]">
                       {att.uploadedBy?.fullName ?? ""} ·{" "}
                       {formatDate(att.createdAt)}
                     </span>
@@ -564,26 +560,23 @@ export function TaskDetailDialog({
 
           {/* Comments */}
           <div className="space-y-2">
-            <Label className="text-xs font-bold text-foreground flex items-center gap-1.5">
+            <Label className="text-foreground flex items-center gap-1.5 text-xs font-bold">
               <MessageSquare className="h-3.5 w-3.5" />
               Comments ({localTask.notes.length})
             </Label>
             <div className="space-y-2">
               {localTask.notes.length === 0 && (
-                <p className="text-xs text-muted-foreground font-medium">
+                <p className="text-muted-foreground text-xs font-medium">
                   No comments yet. Start the discussion.
                 </p>
               )}
               {localTask.notes.map((n) => (
                 <div
                   key={n.id}
-                  className="rounded-xl border border-border bg-muted/30 px-3 py-2.5"
+                  className="border-border bg-muted/30 rounded-xl border px-3 py-2.5"
                 >
-                  <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground">
-                    <Avatar
-                      size="sm"
-                      title={n.author?.fullName ?? "?"}
-                    >
+                  <div className="text-muted-foreground flex items-center gap-2 text-[10px] font-bold">
+                    <Avatar size="sm" title={n.author?.fullName ?? "?"}>
                       <AvatarFallback>
                         {getInitials(n.author?.fullName ?? "?")}
                       </AvatarFallback>
@@ -594,7 +587,7 @@ export function TaskDetailDialog({
                     <span>·</span>
                     <span>{formatDateTime(n.createdAt)}</span>
                   </div>
-                  <p className="mt-1.5 whitespace-pre-wrap text-sm text-foreground leading-relaxed">
+                  <p className="text-foreground mt-1.5 text-sm leading-relaxed whitespace-pre-wrap">
                     {n.note}
                   </p>
                 </div>
@@ -612,14 +605,14 @@ export function TaskDetailDialog({
                   }
                 }}
                 placeholder="Add a comment… (Ctrl/⌘ + Enter to post)"
-                className="w-full flex-1 resize-none rounded-xl border border-border bg-card text-sm text-foreground px-3 py-2 outline-none focus:border-primary"
+                className="border-border bg-card text-foreground focus:border-primary w-full flex-1 resize-none rounded-xl border px-3 py-2 text-sm outline-none"
               />
               <Button
                 type="button"
                 size="sm"
                 disabled={!noteText.trim() || addingNote}
                 onClick={submitNote}
-                className="rounded-xl text-sm font-bold gap-1.5"
+                className="gap-1.5 rounded-xl text-sm font-bold"
               >
                 {addingNote ? (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -633,7 +626,7 @@ export function TaskDetailDialog({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between gap-2 border-t border-border pt-4">
+        <div className="border-border flex items-center justify-between gap-2 border-t pt-4">
           {canDelete ? (
             <Button
               type="button"
@@ -649,9 +642,9 @@ export function TaskDetailDialog({
                 }
               }}
               className={cn(
-                "rounded-xl text-xs font-bold gap-1.5 text-destructive hover:text-destructive",
+                "text-destructive hover:text-destructive gap-1.5 rounded-xl text-xs font-bold",
                 confirmingDelete &&
-                  "bg-destructive/10 border border-destructive/30"
+                  "bg-destructive/10 border-destructive/30 border"
               )}
             >
               {deleteMutation.isPending ? (

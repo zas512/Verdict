@@ -12,6 +12,7 @@ replaced it. Scope was the NestJS API only; `apps/web` was not modified.
 ## 1. Blocked the build entirely
 
 ### Prisma client was never generated
+
 `prisma/schema.prisma` outputs to `src/generated/prisma`, which is `.gitignore`d
 and did not exist. Every file importing `../generated/prisma/client` failed to
 resolve, so nothing compiled.
@@ -25,6 +26,7 @@ run after `npm install` and after any schema change. Worth adding to a
 ## 2. Security
 
 ### 2.1 Anyone could create a platform SUPER_ADMIN — critical
+
 `AuthService.register` rejected `ADMIN` and `ASSOCIATE`, handled `OWNER`, then
 **fell through** to an unguarded `// SUPER_ADMIN` branch:
 
@@ -42,6 +44,7 @@ Now: registration is OWNER-only. SUPER_ADMIN accounts are provisioned out of
 band via `prisma/seed.ts`. Covered by a test.
 
 ### 2.2 Three controllers had no guards at all
+
 `/leave`, `/fixed-expenses` and `/manual-expenses` carried no `@UseGuards()`,
 making them reachable without a token. `GET /api` also served an unauthenticated
 `"Hello World!"`.
@@ -54,6 +57,7 @@ routes are **authenticated by default** and must opt out with the new
 `@Public()` decorator. `GET /api` became `GET /api/health`.
 
 ### 2.3 Any associate could read the whole firm roster
+
 `AssociatesController.findAll` / `findOne` had no `@Roles()`, and `RolesGuard`
 allows any authenticated user when no roles are declared. An ASSOCIATE could
 list every colleague's account and email — while the web sidebar already
@@ -62,22 +66,26 @@ restricted that page to OWNER/ADMIN.
 Now: `@Roles(OWNER)` at class level, matching the frontend's intent.
 
 ### 2.4 JWTs and password hashes written to stdout
+
 ```ts
-console.log("login tokens: ", tokens);      // access + refresh JWTs
-console.log("user in backend: ", user);     // passwordHash, refreshTokenHash
+console.log("login tokens: ", tokens); // access + refresh JWTs
+console.log("user in backend: ", user); // passwordHash, refreshTokenHash
 ```
+
 Plus a dozen more `console.log` calls across the services.
 
 Now: all removed, replaced by a `LoggingInterceptor` that logs method, URL,
 status, duration and user id — and nothing else.
 
 ### 2.5 Role escalation caught too late
+
 `CreateTeamMemberDto` accepted `@IsEnum(UserRole)`, i.e. any role including
 SUPER_ADMIN, and relied on the service to reject it.
 
 Now: `@IsIn([ADMIN, ASSOCIATE])` rejects at validation with a 400.
 
 ### 2.6 Deactivating a user did not revoke their session
+
 Setting `isActive: false` left `refreshTokenHash` intact, so the user could keep
 exchanging it for fresh access tokens.
 
@@ -85,6 +93,7 @@ Now: deactivation clears `refreshTokenHash`, and `refresh()` re-checks
 `isActive`.
 
 ### 2.7 Login leaked which emails exist
+
 `login` returned early when no user matched, skipping bcrypt entirely. The
 response-time difference distinguished registered from unregistered emails.
 
@@ -92,10 +101,12 @@ Now: unknown emails are compared against a fixed dummy hash so both paths do the
 same work.
 
 ### 2.8 Credential endpoints shared the global rate limit
+
 Only the app-wide 50 req/min applied. `/auth/login` and `/auth/register` now
 carry `@Throttle({ default: { limit: 5, ttl: 60_000 } })`.
 
 ### 2.9 Cookies had no `sameSite`, and outlived their tokens
+
 Four copies of the same cookie block, none setting `sameSite`, all with
 `maxAge: 24h` while the access token expires in 15m — so a cookie was usually
 present but carrying a dead token.
@@ -108,6 +119,7 @@ and lifetimes that mirror the JWT TTLs.
 ## 3. Correctness bugs
 
 ### 3.1 Attendance dates were off by one day
+
 `Attendance.date` is `@db.Date`, which needs an exact UTC midnight. The code
 built it from local components:
 
@@ -115,21 +127,23 @@ built it from local components:
 const dateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 ```
 
-At UTC+5 that is `19:00` the *previous* day in UTC. Manual entries had the same
+At UTC+5 that is `19:00` the _previous_ day in UTC. Manual entries had the same
 flaw via `new Date(body.date + "T00:00:00")`.
 
 Now: a `toDateOnly()` helper using `Date.UTC(...)`, and `parseDateOnly()`
 appending `T00:00:00.000Z`.
 
 ### 3.2 Checking in twice in one day returned a 500
+
 The schema has `@@unique([associateId, date])`, but `checkIn` only looked for an
-*open* shift (`checkOut: null`). After checking out, a second check-in the same
+_open_ shift (`checkOut: null`). After checking out, a second check-in the same
 day hit the constraint as an unhandled `P2002`.
 
 Now: the day's row is looked up by its unique key, giving a 400 ("already
 checked in") or a 409 ("already recorded today").
 
 ### 3.3 Attendance endpoints were completely unvalidated
+
 The payloads were declared inline:
 
 ```ts
@@ -145,16 +159,19 @@ with `@IsISO8601`, `@Matches`, `@IsEnum`; `Prisma.AttendanceUpdateInput`
 replaces `any`. Covered by a test.
 
 ### 3.4 `firmName` was never actually required
+
 ```ts
 @ValidateIf((dto) => dto.role === UserRole.OWNER)
 @IsString()
 @IsOptional()          // cancels the ValidateIf
 firmName?: string;
 ```
+
 `@IsOptional()` skipped the check whenever the value was absent, pushing the
 requirement into the service. Now a plain `@IsNotEmpty()`.
 
 ### 3.5 Misconfiguration reported as 401
+
 `AuthService.getEnv` threw `UnauthorizedException` for a missing JWT secret — a
 server misconfiguration surfacing to the client as an auth failure. The
 strategies separately read `process.env.JWT_ACCESS_SECRET!` at construction.
@@ -164,10 +181,12 @@ via class-validator, so a bad deployment fails immediately with a precise
 message. Everything reads through `ConfigService`.
 
 ### 3.6 Wrong default port
+
 `main.ts` fell back to `3001`; `.env.example` and the web client both use
 `4000`. Now `4000`, from validated config.
 
 ### 3.7 Prisma connected lazily, and never shut down cleanly
+
 A bad `DATABASE_URL` first appeared as a failed request rather than a failed
 boot, and there were no shutdown hooks, so SIGTERM dropped the pool mid-query.
 
@@ -178,32 +197,34 @@ Now: `onModuleInit` calls `$connect()`, and `main.ts` calls
 
 ## 4. Missing NestJS building blocks
 
-| Piece | Before | Now |
-| --- | --- | --- |
-| Interceptors | none | `LoggingInterceptor`, `ClassSerializerInterceptor` (global) |
-| Exception filters | none | `AllExceptionsFilter` (global), maps Prisma errors |
-| `PassportModule` | never imported | registered with `session: false` |
-| Guard binding | per-controller, opt-in | global `APP_GUARD` chain + `@Public()` |
-| Serialization | raw Prisma objects | entities + `plainToInstance` |
-| Env validation | none | `validateEnv` at boot |
-| Tests | none | 27 |
+| Piece             | Before                 | Now                                                         |
+| ----------------- | ---------------------- | ----------------------------------------------------------- |
+| Interceptors      | none                   | `LoggingInterceptor`, `ClassSerializerInterceptor` (global) |
+| Exception filters | none                   | `AllExceptionsFilter` (global), maps Prisma errors          |
+| `PassportModule`  | never imported         | registered with `session: false`                            |
+| Guard binding     | per-controller, opt-in | global `APP_GUARD` chain + `@Public()`                      |
+| Serialization     | raw Prisma objects     | entities + `plainToInstance`                                |
+| Env validation    | none                   | `validateEnv` at boot                                       |
+| Tests             | none                   | 27                                                          |
 
 ### 4.1 Exception filter
+
 A single `@Catch()` filter rather than a chain, because ordering for globally
 bound filters is easy to get subtly wrong. Precedence is explicit:
 Prisma → `HttpException` → unknown. Prisma mappings:
 
-| Code | Status | Meaning |
-| --- | --- | --- |
-| `P2002` | 409 | unique constraint |
-| `P2025` | 404 | record not found |
-| `P2003` | 400 | foreign key violation |
-| `P2014` | 400 | required relation violated |
+| Code    | Status | Meaning                    |
+| ------- | ------ | -------------------------- |
+| `P2002` | 409    | unique constraint          |
+| `P2025` | 404    | record not found           |
+| `P2003` | 400    | foreign key violation      |
+| `P2014` | 400    | required relation violated |
 
 The response body keeps Nest's `{ statusCode, message, error }` shape, which the
 Next.js BFF already reads via `errorData.message`.
 
 ### 4.2 Serialization
+
 Services now return entity instances built with
 `plainToInstance(cls, data, { excludeExtraneousValues: true })`. Only
 `@Expose()`d properties survive, so `passwordHash` and `refreshTokenHash` cannot
@@ -214,6 +235,7 @@ Entities: `UserEntity`, `AttendanceEntity`, `FirmEntity`, `AuthUserEntity`.
 Response shapes are unchanged, so the web app needed no edits.
 
 ### 4.3 Guard order
+
 Declared in `AppModule` and executed in this order:
 
 1. `ThrottlerGuard` — rate limit
@@ -221,6 +243,7 @@ Declared in `AppModule` and executed in this order:
 3. `RolesGuard` — authorize (honours `@Roles()`)
 
 ### 4.4 JWT transport mismatch
+
 The API set httpOnly cookies on login/refresh but the strategies extracted from
 the `Authorization` header only — so a browser talking to the API directly could
 never authenticate. It worked solely because the Next.js BFF reads the cookie
@@ -245,7 +268,7 @@ both routes validate identically.
 Also: `FirmsModule` was importing the `@Global()` `PrismaModule` redundantly;
 empty placeholder entities (`export class Auth {}`) became real entities.
 
-> **Naming caveat:** `AssociatesService` manages *user accounts*, but Prisma also
+> **Naming caveat:** `AssociatesService` manages _user accounts_, but Prisma also
 > has an `Associate` model — the HR record attendance hangs off. They are
 > different things. `UsersService.resolveAssociateId` links a user to its
 > Associate row, creating it on first use inside a transaction so concurrent

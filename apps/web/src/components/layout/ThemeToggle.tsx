@@ -10,16 +10,16 @@ export function ThemeToggle() {
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
-    () => false
+    () => false,
   );
 
   if (!mounted) {
     return (
       <button
         type="button"
-        className="size-9 rounded-md bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted relative cursor-pointer"
+        className="bg-card border-border text-muted-foreground hover:text-foreground hover:bg-muted relative flex size-9 cursor-pointer items-center justify-center rounded-md border"
       >
-        <Sun className="size-5 text-muted-foreground" />
+        <Sun className="text-muted-foreground size-5" />
       </button>
     );
   }
@@ -30,13 +30,13 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="size-9 rounded-md bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted relative cursor-pointer"
+      className="bg-card border-border text-muted-foreground hover:text-foreground hover:bg-muted relative flex size-9 cursor-pointer items-center justify-center rounded-md border"
       title="Toggle Light / Dark theme"
     >
       {isDark ? (
-        <Sun className="size-5 text-warning transition-transform duration-200 rotate-0 scale-100" />
+        <Sun className="text-warning size-5 scale-100 rotate-0 transition-transform duration-200" />
       ) : (
-        <Moon className="size-5 text-primary transition-transform duration-200 rotate-0 scale-100" />
+        <Moon className="text-primary size-5 scale-100 rotate-0 transition-transform duration-200" />
       )}
     </button>
   );

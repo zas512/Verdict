@@ -92,10 +92,7 @@ export class ExpensesService {
     return toEntities(ExpenseEntity, expenses);
   }
 
-  async findOneForFirm(
-    user: JwtPayload,
-    id: string
-  ): Promise<ExpenseEntity> {
+  async findOneForFirm(user: JwtPayload, id: string): Promise<ExpenseEntity> {
     const firmId = this.requireFirm(user);
     const expense = await this.prisma.expense.findFirst({
       where: { id, firmId },

@@ -8,7 +8,10 @@ let inMemoryToken: string | null = null;
 export function setAccessToken(token: string | null) {
   inMemoryToken = token;
   if (typeof window !== "undefined" && token) {
-    console.log("[Centralized TokenHandler] 🔑 Token set in Axios handler:", token.slice(0, 15) + "...");
+    console.log(
+      "[Centralized TokenHandler] 🔑 Token set in Axios handler:",
+      token.slice(0, 15) + "..."
+    );
   }
 }
 
@@ -25,7 +28,9 @@ export function getAccessToken(): string | null {
 export function clearTokens() {
   inMemoryToken = null;
   if (typeof window !== "undefined") {
-    console.log("[Centralized TokenHandler] 🧹 Tokens cleared from Axios handler");
+    console.log(
+      "[Centralized TokenHandler] 🧹 Tokens cleared from Axios handler"
+    );
   }
 }
 
@@ -47,7 +52,9 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     config.withCredentials = true;
-    console.log(`[Centralized Axios] 🚀 ${config.method?.toUpperCase()} ${config.url} (Bearer attached: ${Boolean(token)})`);
+    console.log(
+      `[Centralized Axios] 🚀 ${config.method?.toUpperCase()} ${config.url} (Bearer attached: ${Boolean(token)})`
+    );
     return config;
   },
   (error) => Promise.reject(error)
@@ -62,7 +69,9 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      console.log("[Centralized Axios] ⚠️ 401 Unauthorized encountered. Attempting automatic token refresh...");
+      console.log(
+        "[Centralized Axios] ⚠️ 401 Unauthorized encountered. Attempting automatic token refresh..."
+      );
       try {
         const refreshResponse = await axios.post(
           `${api.defaults.baseURL}/auth/refresh`,
@@ -76,13 +85,21 @@ api.interceptors.response.use(
           if (originalRequest.headers) {
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           }
-          console.log("[Centralized Axios] ✅ Token refresh successful. Retrying original request.");
+          console.log(
+            "[Centralized Axios] ✅ Token refresh successful. Retrying original request."
+          );
           return api(originalRequest);
         }
       } catch (refreshErr) {
-        console.error("[Centralized Axios] ❌ Automatic token refresh failed. Clearing session.", refreshErr);
+        console.error(
+          "[Centralized Axios] ❌ Automatic token refresh failed. Clearing session.",
+          refreshErr
+        );
         clearTokens();
-        if (typeof window !== "undefined" && !window.location.pathname.startsWith("/login")) {
+        if (
+          typeof window !== "undefined" &&
+          !window.location.pathname.startsWith("/login")
+        ) {
           window.location.href = "/login";
         }
         return Promise.reject(refreshErr);

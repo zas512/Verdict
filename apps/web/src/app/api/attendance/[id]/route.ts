@@ -24,7 +24,10 @@ export async function PATCH(
     return NextResponse.json(data);
   } catch (err) {
     console.error(`PATCH /api/attendance/[id] error:`, err);
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
 
@@ -49,6 +52,9 @@ export async function DELETE(
     return NextResponse.json(data);
   } catch (err) {
     console.error(`DELETE /api/attendance/[id] error:`, err);
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

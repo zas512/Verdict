@@ -37,7 +37,11 @@ export function DashboardTile({
         transform: CSS.Transform.toString(transform),
         transition
       }}
-      className={cn("group/tile relative h-full", isDragging && "z-50", className)}
+      className={cn(
+        "group/tile relative h-full",
+        isDragging && "z-50",
+        className
+      )}
     >
       <button
         type="button"
@@ -45,14 +49,14 @@ export function DashboardTile({
         {...listeners}
         aria-label="Drag to reorder card"
         title="Drag to reorder"
-        className="absolute right-2 top-2 z-30 flex h-7 w-7 cursor-grab items-center justify-center rounded-lg text-muted-foreground/40 opacity-0 transition-opacity hover:bg-muted hover:text-foreground focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 active:cursor-grabbing group-hover/tile:opacity-100"
+        className="text-muted-foreground/40 hover:bg-muted hover:text-foreground focus-visible:ring-primary/40 absolute top-2 right-2 z-30 flex h-7 w-7 cursor-grab items-center justify-center rounded-lg opacity-0 transition-opacity group-hover/tile:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:outline-none active:cursor-grabbing"
       >
         <GripVertical className="h-4 w-4" />
       </button>
       {isDragging && (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-20 rounded-[1.5rem] ring-2 ring-primary/50 shadow-2xl"
+          className="ring-primary/50 pointer-events-none absolute inset-0 z-20 rounded-[1.5rem] shadow-2xl ring-2"
         />
       )}
       {children}

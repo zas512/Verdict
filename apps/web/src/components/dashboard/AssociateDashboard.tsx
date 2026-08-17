@@ -47,9 +47,9 @@ function StatCard({
   accent?: string;
 }) {
   return (
-    <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden flex flex-col justify-between">
-      <CardHeader className="pb-2 pt-4">
-        <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
+    <Card className="skeuo-card bg-card text-card-foreground relative flex flex-col justify-between overflow-hidden">
+      <CardHeader className="pt-4 pb-2">
+        <CardTitle className="text-muted-foreground flex items-center justify-between text-xs font-bold tracking-wider uppercase">
           <span>{label}</span>
           <span className="text-primary">{icon}</span>
         </CardTitle>
@@ -61,7 +61,7 @@ function StatCard({
           {value}
         </div>
         {sub && (
-          <p className="text-xs text-muted-foreground font-semibold mt-1">
+          <p className="text-muted-foreground mt-1 text-xs font-semibold">
             {sub}
           </p>
         )}
@@ -145,7 +145,8 @@ export async function AssociateDashboard() {
             value: overdueCount,
             indicator: "past due",
             accentColor: overdueCount > 0 ? "var(--destructive)" : undefined,
-            indicatorColor: overdueCount > 0 ? "text-destructive font-bold" : undefined
+            indicatorColor:
+              overdueCount > 0 ? "text-destructive font-bold" : undefined
           },
           {
             label: "This Month",
@@ -158,44 +159,47 @@ export async function AssociateDashboard() {
 
       {/* Recent tasks */}
       <Card className="skeuo-card bg-card text-card-foreground">
-        <CardHeader className="border-b border-border pb-3">
-          <CardTitle className="text-sm font-extrabold flex items-center gap-2">
-            <ListTodo className="h-4 w-4 text-primary" />
+        <CardHeader className="border-border border-b pb-3">
+          <CardTitle className="flex items-center gap-2 text-sm font-extrabold">
+            <ListTodo className="text-primary h-4 w-4" />
             Recent Tasks
           </CardTitle>
         </CardHeader>
         <CardContent className="p-4">
           {recent.length === 0 ? (
-            <div className="text-center py-10 space-y-2">
-              <Clock className="h-10 w-10 text-muted-foreground/40 mx-auto" />
-              <p className="font-bold text-foreground text-sm">
+            <div className="space-y-2 py-10 text-center">
+              <Clock className="text-muted-foreground/40 mx-auto h-10 w-10" />
+              <p className="text-foreground text-sm font-bold">
                 No tasks assigned yet
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Tasks assigned to you will appear here.
               </p>
             </div>
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-border divide-y">
               {recent.map((task) => (
-                <li key={task.id} className="flex items-center justify-between gap-4 py-2.5">
+                <li
+                  key={task.id}
+                  className="flex items-center justify-between gap-4 py-2.5"
+                >
                   <div className="min-w-0">
-                    <p className="text-sm font-bold text-foreground truncate">
+                    <p className="text-foreground truncate text-sm font-bold">
                       {task.title}
                     </p>
-                    <p className="text-xs text-muted-foreground font-medium mt-0.5">
+                    <p className="text-muted-foreground mt-0.5 text-xs font-medium">
                       {formatDueDate(task.dueDate)}
                       {task.matter && ` • ${task.matter.firmCaseNumber}`}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex shrink-0 items-center gap-2">
                     <Badge
                       variant={PRIORITY_BADGE[task.priority]}
-                      className="text-xs font-bold uppercase px-2 py-0.5"
+                      className="px-2 py-0.5 text-xs font-bold uppercase"
                     >
                       {task.priority}
                     </Badge>
-                    <span className="text-xs font-semibold text-muted-foreground w-20 text-right">
+                    <span className="text-muted-foreground w-20 text-right text-xs font-semibold">
                       {STATUS_LABEL[task.status]}
                     </span>
                   </div>

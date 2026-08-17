@@ -2,12 +2,7 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import {
-  CalendarDays,
-  MessageSquare,
-  Paperclip,
-  Scale
-} from "lucide-react";
+import { CalendarDays, MessageSquare, Paperclip, Scale } from "lucide-react";
 import {
   getInitials,
   isOverdue,
@@ -27,7 +22,7 @@ function AssigneeStack({ task }: { task: Task }) {
           key={a.associateId}
           size="sm"
           title={a.associate?.fullName ?? a.associateId}
-          className="ring-2 ring-card"
+          className="ring-card ring-2"
         >
           <AvatarFallback>
             {getInitials(a.associate?.fullName ?? "?")}
@@ -35,12 +30,12 @@ function AssigneeStack({ task }: { task: Task }) {
         </Avatar>
       ))}
       {overflow > 0 && (
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-[10px] font-bold text-muted-foreground ring-2 ring-card">
+        <span className="bg-muted text-muted-foreground ring-card flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold ring-2">
           +{overflow}
         </span>
       )}
       {task.assignees.length === 0 && (
-        <span className="text-[10px] font-semibold text-muted-foreground">
+        <span className="text-muted-foreground text-[10px] font-semibold">
           Unassigned
         </span>
       )}
@@ -54,7 +49,11 @@ interface TaskCardProps {
   showMatter?: boolean;
 }
 
-export function TaskCard({ task, onClick, showMatter }: Readonly<TaskCardProps>) {
+export function TaskCard({
+  task,
+  onClick,
+  showMatter
+}: Readonly<TaskCardProps>) {
   const overdue = isOverdue(task);
   const commentCount = task.notes?.length ?? 0;
   const attachmentCount = task.attachments?.length ?? 0;
@@ -64,9 +63,9 @@ export function TaskCard({ task, onClick, showMatter }: Readonly<TaskCardProps>)
       type="button"
       onClick={onClick}
       className={cn(
-        "w-full rounded-xl border border-border bg-card p-3 text-left shadow-xs transition-colors",
+        "border-border bg-card w-full rounded-xl border p-3 text-left shadow-xs transition-colors",
         "hover:border-primary/40 hover:bg-card hover:shadow-sm",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+        "focus-visible:ring-primary/40 focus-visible:ring-2 focus-visible:outline-none",
         "cursor-pointer",
         task.status === "COMPLETED" && "opacity-70"
       )}
@@ -74,7 +73,7 @@ export function TaskCard({ task, onClick, showMatter }: Readonly<TaskCardProps>)
       <div className="flex items-start justify-between gap-2">
         <p
           className={cn(
-            "text-xs font-bold leading-snug text-foreground line-clamp-2",
+            "text-foreground line-clamp-2 text-xs leading-snug font-bold",
             task.status === "COMPLETED" && "line-through"
           )}
         >
@@ -82,20 +81,20 @@ export function TaskCard({ task, onClick, showMatter }: Readonly<TaskCardProps>)
         </p>
         <Badge
           variant={PRIORITY_BADGE[task.priority]}
-          className="shrink-0 text-[10px] px-2"
+          className="shrink-0 px-2 text-[10px]"
         >
           {PRIORITY_LABEL[task.priority]}
         </Badge>
       </div>
 
       {task.status === "BLOCKED" && (
-        <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-bold text-destructive">
+        <span className="bg-destructive/10 text-destructive mt-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold">
           Blocked
         </span>
       )}
 
       {showMatter && task.matter && (
-        <span className="mt-2 inline-flex items-center gap-1 rounded-full border border-border bg-muted/60 px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
+        <span className="border-border bg-muted/60 text-muted-foreground mt-2 inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold">
           <Scale className="h-3 w-3" />
           {task.matter.firmCaseNumber}
         </span>
@@ -103,9 +102,9 @@ export function TaskCard({ task, onClick, showMatter }: Readonly<TaskCardProps>)
 
       <div className="mt-2.5 flex items-center justify-between gap-2">
         <AssigneeStack task={task} />
-        <div className="flex items-center gap-2.5 text-[10px] font-semibold text-muted-foreground">
+        <div className="text-muted-foreground flex items-center gap-2.5 text-[10px] font-semibold">
           {overdue ? (
-            <span className="flex items-center gap-1 font-bold text-destructive">
+            <span className="text-destructive flex items-center gap-1 font-bold">
               <CalendarDays className="h-3 w-3" />
               Overdue
             </span>

@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
 } from "@/components/ui/dialog";
 import type { CourtStage } from "@/types/matterTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -84,12 +84,12 @@ export function ChangeStageDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-card border-border rounded-2xl shadow-xl">
+      <DialogContent className="bg-card border-border max-w-md rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black text-foreground">
+          <DialogTitle className="text-foreground text-lg font-black">
             Transition Procedural Stage
           </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
+          <DialogDescription className="text-muted-foreground text-sm">
             Update the case stage according to the civil/criminal lawsuit
             sequence. This writes to the audit log.
           </DialogDescription>
@@ -99,12 +99,12 @@ export function ChangeStageDialog({
           <div className="space-y-1">
             <Label
               htmlFor="stageSelect"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Choose Legal Stage
             </Label>
             <Select value={selectedStageId} onValueChange={setSelectedStageId}>
-              <SelectTrigger className="rounded-xl h-8 font-semibold">
+              <SelectTrigger className="h-8 rounded-xl font-semibold">
                 <SelectValue placeholder="Select Stage" />
               </SelectTrigger>
               <SelectContent>
@@ -132,7 +132,7 @@ export function ChangeStageDialog({
               selectedStageId && changeStageMutation.mutate(selectedStageId)
             }
             disabled={changeStageMutation.isPending || !selectedStageId}
-            className="skeuo-button-primary rounded-xl text-sm font-bold gap-1"
+            className="skeuo-button-primary gap-1 rounded-xl text-sm font-bold"
           >
             {changeStageMutation.isPending ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />

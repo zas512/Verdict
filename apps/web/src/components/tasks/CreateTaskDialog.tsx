@@ -25,11 +25,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import {
-  TASK_TYPE_LABEL,
-  type AssociateOption,
-  type TaskType
-} from "./types";
+import { TASK_TYPE_LABEL, type AssociateOption, type TaskType } from "./types";
 
 const createTaskSchema = z.object({
   title: z
@@ -225,14 +221,14 @@ export function CreateTaskDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl bg-card border-border rounded-2xl shadow-xl max-h-[88vh] overflow-y-auto">
+      <DialogContent className="bg-card border-border max-h-[88vh] max-w-xl overflow-y-auto rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black text-foreground">
+          <DialogTitle className="text-foreground text-lg font-black">
             {matterId ? "Delegate a Task" : "Create a Task"}
           </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
-            Assign work to one or more associates — standalone or tied to a
-            case or matter.
+          <DialogDescription className="text-muted-foreground text-sm">
+            Assign work to one or more associates — standalone or tied to a case
+            or matter.
           </DialogDescription>
         </DialogHeader>
 
@@ -240,22 +236,22 @@ export function CreateTaskDialog({
           {/* Independent / Matter-linked toggle (hidden when locked to a matter) */}
           {!matterId && (
             <div className="space-y-1.5">
-              <Label className="text-xs font-bold text-foreground">
+              <Label className="text-foreground text-xs font-bold">
                 Task Type *
               </Label>
               <div
                 role="group"
                 aria-label="Task type"
-                className="grid grid-cols-2 gap-1 rounded-xl bg-muted/40 p-1"
+                className="bg-muted/40 grid grid-cols-2 gap-1 rounded-xl p-1"
               >
                 <button
                   type="button"
                   aria-pressed={!linkedToMatter}
                   onClick={() => setLinkedToMatter(false)}
                   className={cn(
-                    "h-9 rounded-lg text-xs font-bold transition-colors cursor-pointer",
+                    "h-9 cursor-pointer rounded-lg text-xs font-bold transition-colors",
                     !linkedToMatter
-                      ? "bg-card text-foreground shadow-sm border border-border"
+                      ? "bg-card text-foreground border-border border shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -266,9 +262,9 @@ export function CreateTaskDialog({
                   aria-pressed={linkedToMatter}
                   onClick={() => setLinkedToMatter(true)}
                   className={cn(
-                    "h-9 rounded-lg text-xs font-bold transition-colors cursor-pointer",
+                    "h-9 cursor-pointer rounded-lg text-xs font-bold transition-colors",
                     linkedToMatter
-                      ? "bg-card text-foreground shadow-sm border border-border"
+                      ? "bg-card text-foreground border-border border shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -278,7 +274,7 @@ export function CreateTaskDialog({
                   </span>
                 </button>
               </div>
-              <p className="text-[11px] text-muted-foreground font-medium">
+              <p className="text-muted-foreground text-[11px] font-medium">
                 {linkedToMatter
                   ? "The task will appear on the matter's task board."
                   : "A standalone task not tied to any case."}
@@ -291,12 +287,12 @@ export function CreateTaskDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="taskMatter"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Related Matter *
               </Label>
               {matterId ? (
-                <p className="text-sm h-9 px-3 rounded-xl border border-border bg-muted/40 text-muted-foreground font-semibold flex items-center">
+                <p className="border-border bg-muted/40 text-muted-foreground flex h-9 items-center rounded-xl border px-3 text-sm font-semibold">
                   This task is locked to this matter.
                 </p>
               ) : (
@@ -307,7 +303,7 @@ export function CreateTaskDialog({
                   >
                     <SelectTrigger
                       className={cn(
-                        "rounded-xl h-9 font-semibold",
+                        "h-9 rounded-xl font-semibold",
                         matterError && "border-destructive"
                       )}
                     >
@@ -322,7 +318,7 @@ export function CreateTaskDialog({
                     </SelectContent>
                   </Select>
                   {matterError && (
-                    <p className="text-xs text-destructive font-semibold">
+                    <p className="text-destructive text-xs font-semibold">
                       {matterError}
                     </p>
                   )}
@@ -335,7 +331,7 @@ export function CreateTaskDialog({
           <div className="space-y-1">
             <Label
               htmlFor="taskTitle"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Title *
             </Label>
@@ -343,10 +339,10 @@ export function CreateTaskDialog({
               id="taskTitle"
               placeholder="e.g. Draft the appeal grounds"
               {...register("title")}
-              className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+              className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
             />
             {errors.title && (
-              <p className="text-xs text-destructive font-semibold">
+              <p className="text-destructive text-xs font-semibold">
                 {errors.title.message}
               </p>
             )}
@@ -356,7 +352,7 @@ export function CreateTaskDialog({
           <div className="space-y-1">
             <Label
               htmlFor="taskDescription"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Description
             </Label>
@@ -365,10 +361,10 @@ export function CreateTaskDialog({
               rows={3}
               placeholder="Context, deliverables, or acceptance criteria…"
               {...register("description")}
-              className="w-full rounded-xl border border-border bg-card text-sm text-foreground px-3 py-2 outline-none focus:border-primary resize-none"
+              className="border-border bg-card text-foreground focus:border-primary w-full resize-none rounded-xl border px-3 py-2 text-sm outline-none"
             />
             {errors.description && (
-              <p className="text-xs text-destructive font-semibold">
+              <p className="text-destructive text-xs font-semibold">
                 {errors.description.message}
               </p>
             )}
@@ -376,12 +372,12 @@ export function CreateTaskDialog({
 
           {/* Assignees */}
           <div className="space-y-1.5">
-            <Label className="text-xs font-bold text-foreground">
+            <Label className="text-foreground text-xs font-bold">
               Assignees *
             </Label>
             <div className="flex flex-wrap gap-2">
               {allAssociates.length === 0 && (
-                <p className="text-xs text-muted-foreground font-medium">
+                <p className="text-muted-foreground text-xs font-medium">
                   No associates in the firm roster.
                 </p>
               )}
@@ -396,12 +392,12 @@ export function CreateTaskDialog({
                     disabled={!isAdmin}
                     onClick={() => toggleAssignee(assoc.id)}
                     className={cn(
-                      "rounded-full border px-3 py-1.5 text-xs font-bold transition-colors cursor-pointer",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+                      "cursor-pointer rounded-full border px-3 py-1.5 text-xs font-bold transition-colors",
+                      "focus-visible:ring-primary/40 focus-visible:ring-2 focus-visible:outline-none",
                       selected
                         ? "bg-primary/10 border-primary/30 text-primary"
                         : "border-border bg-card text-muted-foreground hover:border-primary/30 hover:text-foreground",
-                      !isAdmin && !selected && "opacity-40 cursor-not-allowed"
+                      !isAdmin && !selected && "cursor-not-allowed opacity-40"
                     )}
                   >
                     {name}
@@ -410,12 +406,12 @@ export function CreateTaskDialog({
               })}
             </div>
             {errors.assignedToIds && (
-              <p className="text-xs text-destructive font-semibold">
+              <p className="text-destructive text-xs font-semibold">
                 {errors.assignedToIds.message}
               </p>
             )}
             {!isAdmin && (
-              <p className="text-[11px] text-muted-foreground font-medium">
+              <p className="text-muted-foreground text-[11px] font-medium">
                 As an associate you can only assign tasks to yourself.
               </p>
             )}
@@ -426,7 +422,7 @@ export function CreateTaskDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="taskType"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Task Type
               </Label>
@@ -435,17 +431,15 @@ export function CreateTaskDialog({
                 name="taskType"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-9 font-semibold">
+                    <SelectTrigger className="h-9 rounded-xl font-semibold">
                       <SelectValue placeholder="Select task type" />
                     </SelectTrigger>
                     <SelectContent>
-                      {(Object.keys(TASK_TYPE_LABEL) as TaskType[]).map(
-                        (t) => (
-                          <SelectItem key={t} value={t}>
-                            {TASK_TYPE_LABEL[t]}
-                          </SelectItem>
-                        )
-                      )}
+                      {(Object.keys(TASK_TYPE_LABEL) as TaskType[]).map((t) => (
+                        <SelectItem key={t} value={t}>
+                          {TASK_TYPE_LABEL[t]}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 )}
@@ -454,7 +448,7 @@ export function CreateTaskDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="taskPriority"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Priority
               </Label>
@@ -463,7 +457,7 @@ export function CreateTaskDialog({
                 name="priority"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-9 font-semibold">
+                    <SelectTrigger className="h-9 rounded-xl font-semibold">
                       <SelectValue placeholder="Select priority" />
                     </SelectTrigger>
                     <SelectContent>
@@ -483,7 +477,7 @@ export function CreateTaskDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="taskDueDate"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Due Date *
               </Label>
@@ -491,10 +485,10 @@ export function CreateTaskDialog({
                 id="taskDueDate"
                 type="date"
                 {...register("dueDate")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errors.dueDate && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.dueDate.message}
                 </p>
               )}
@@ -502,7 +496,7 @@ export function CreateTaskDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="taskHours"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Estimated Hours
               </Label>
@@ -516,10 +510,10 @@ export function CreateTaskDialog({
                   setValueAs: (v) =>
                     v === "" || v === undefined ? undefined : Number(v)
                 })}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40 font-mono"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl font-mono text-sm"
               />
               {errors.estimatedHours && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.estimatedHours.message}
                 </p>
               )}
@@ -541,7 +535,7 @@ export function CreateTaskDialog({
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+              className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
             >
               {isSubmitting ? (
                 <>

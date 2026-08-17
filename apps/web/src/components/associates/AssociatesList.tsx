@@ -88,9 +88,7 @@ function getBadgeVariant(role: string): "navy" | "secondary" | "outline" {
   return "outline";
 }
 
-export function AssociatesList({
-  userRole
-}: Readonly<AssociatesClientProps>) {
+export function AssociatesList({ userRole }: Readonly<AssociatesClientProps>) {
   const queryClient = useQueryClient();
   const [globalFilter, setGlobalFilter] = useState("");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -244,10 +242,10 @@ export function AssociatesList({
           : m.email.substring(0, 2).toUpperCase();
         return (
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-xs border border-primary/20 shrink-0">
+            <div className="bg-primary/10 text-primary border-primary/20 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-xs font-bold">
               {initials}
             </div>
-            <p className="font-bold text-foreground leading-tight">
+            <p className="text-foreground leading-tight font-bold">
               {m.name || "N/A"}
             </p>
           </div>
@@ -260,7 +258,7 @@ export function AssociatesList({
       sortable: true,
       accessor: (m) => m.email,
       render: (m) => (
-        <span className="text-xs text-muted-foreground font-medium">
+        <span className="text-muted-foreground text-xs font-medium">
           {m.email}
         </span>
       )
@@ -271,7 +269,7 @@ export function AssociatesList({
       sortable: true,
       accessor: (m) => m.role,
       render: (m) => (
-        <span className="text-xs font-semibold text-muted-foreground">
+        <span className="text-muted-foreground text-xs font-semibold">
           {m.role === "OWNER"
             ? "Owner"
             : m.role === "ADMIN"
@@ -288,7 +286,7 @@ export function AssociatesList({
       render: (m) => (
         <div
           className={cn(
-            "flex items-center gap-1.5 font-semibold text-xs",
+            "flex items-center gap-1.5 text-xs font-semibold",
             m.isActive ? "text-success" : "text-destructive"
           )}
         >
@@ -308,7 +306,7 @@ export function AssociatesList({
       sortable: true,
       accessor: (m) => new Date(m.createdAt),
       render: (m) => (
-        <span className="text-xs text-muted-foreground font-mono">
+        <span className="text-muted-foreground font-mono text-xs">
           {new Date(m.createdAt).toLocaleDateString("en-PK", {
             day: "2-digit",
             month: "short",
@@ -330,7 +328,7 @@ export function AssociatesList({
               e.stopPropagation();
               setSelectedMember(m);
             }}
-            className="h-8 px-2.5 text-xs text-primary hover:text-primary hover:bg-primary/10 font-bold gap-1 rounded-md"
+            className="text-primary hover:text-primary hover:bg-primary/10 h-8 gap-1 rounded-md px-2.5 text-xs font-bold"
           >
             <Eye className="h-3.5 w-3.5" />
             <span>View</span>
@@ -371,11 +369,11 @@ export function AssociatesList({
       {/* TOP SECTION: FIRM OWNER LEADERSHIP CARD */}
       {/* ========================================================= */}
       {ownerMember && (
-        <Card className="border-border bg-card text-card-foreground shadow-xs relative overflow-hidden">
+        <Card className="border-border bg-card text-card-foreground relative overflow-hidden shadow-xs">
           <CardHeader className="pb-2">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
               <div className="flex items-center gap-4">
-                <div className="h-14 w-14 rounded-2xl bg-primary text-primary-foreground font-black text-xl flex items-center justify-center border border-primary/20 shadow-xs shrink-0">
+                <div className="bg-primary text-primary-foreground border-primary/20 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border text-xl font-black shadow-xs">
                   {ownerMember.email.substring(0, 2).toUpperCase()}
                 </div>
                 <div>
@@ -385,15 +383,15 @@ export function AssociatesList({
                     </CardTitle>
                     <Badge
                       variant="navy"
-                      className="gap-1 font-extrabold text-xs"
+                      className="gap-1 text-xs font-extrabold"
                     >
-                      <Crown className="h-3 w-3 text-warning" />
+                      <Crown className="text-warning h-3 w-3" />
                       FIRM OWNER
                     </Badge>
                   </div>
-                  <CardDescription className="text-xs text-muted-foreground flex items-center gap-2 mt-1">
-                    <span className="flex items-center gap-1 font-semibold text-foreground">
-                      <Building2 className="h-3.5 w-3.5 text-primary" />
+                  <CardDescription className="text-muted-foreground mt-1 flex items-center gap-2 text-xs">
+                    <span className="text-foreground flex items-center gap-1 font-semibold">
+                      <Building2 className="text-primary h-3.5 w-3.5" />
                       {ownerMember.firm?.name || "Laal Global Advisory"}
                     </span>
                     <span>•</span>
@@ -410,7 +408,7 @@ export function AssociatesList({
                   variant="outline"
                   size="sm"
                   onClick={() => setSelectedMember(ownerMember)}
-                  className="rounded-md text-xs font-bold border-border"
+                  className="border-border rounded-md text-xs font-bold"
                 >
                   View Owner Details
                 </Button>
@@ -421,15 +419,15 @@ export function AssociatesList({
       )}
 
       {/* Action Bar & Search */}
-      <InsetSurface className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <InsetSurface className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="relative w-full md:w-96">
-          <Search className="absolute left-3.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="text-muted-foreground absolute top-2.5 left-3.5 h-4 w-4" />
           <Input
             aria-label="Search associates"
             placeholder="Search associates & staff by email, role..."
             value={globalFilter ?? ""}
             onChange={(e) => setGlobalFilter(e.target.value)}
-            className="pl-9 bg-card border-border text-xs rounded-md focus-visible:ring-primary/40"
+            className="bg-card border-border focus-visible:ring-primary/40 rounded-md pl-9 text-xs"
           />
         </div>
 
@@ -439,10 +437,10 @@ export function AssociatesList({
             size="sm"
             onClick={() => refetch()}
             disabled={isRefetching}
-            className="rounded-md text-xs font-semibold border-border gap-1.5"
+            className="border-border gap-1.5 rounded-md text-xs font-semibold"
           >
             <RefreshCw
-              className={`h-3.5 w-3.5 ${isRefetching ? "animate-spin text-primary" : ""}`}
+              className={`h-3.5 w-3.5 ${isRefetching ? "text-primary animate-spin" : ""}`}
             />
             <span>Refresh</span>
           </Button>
@@ -452,14 +450,14 @@ export function AssociatesList({
               <Button
                 variant="outline"
                 onClick={() => setIsInviteOpen(true)}
-                className="rounded-md text-xs font-semibold border-border gap-1.5 h-9 px-4"
+                className="border-border h-9 gap-1.5 rounded-md px-4 text-xs font-semibold"
               >
                 <Mail className="h-4 w-4" />
                 <span>Invite Member</span>
               </Button>
               <Button
                 onClick={() => setIsCreateOpen(true)}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-md text-xs font-bold gap-1.5 h-9 px-4 shadow-xs"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground h-9 gap-1.5 rounded-md px-4 text-xs font-bold shadow-xs"
               >
                 <UserPlus className="h-4 w-4" />
                 <span>Create Associate</span>
@@ -473,13 +471,13 @@ export function AssociatesList({
       {/* ASSOCIATES & STAFF TANSTACK DATA TABLE */}
       {/* ========================================================= */}
       <Card className="border-border bg-card text-card-foreground shadow-xs">
-        <CardHeader className="pb-3 border-b border-border/60 flex flex-row items-center justify-between">
+        <CardHeader className="border-border/60 flex flex-row items-center justify-between border-b pb-3">
           <div>
-            <CardTitle className="text-base font-bold flex items-center gap-2">
-              <Users className="h-5 w-5 text-primary" />
+            <CardTitle className="flex items-center gap-2 text-base font-bold">
+              <Users className="text-primary h-5 w-5" />
               Firm Associates & Roster
             </CardTitle>
-            <CardDescription className="text-xs text-muted-foreground">
+            <CardDescription className="text-muted-foreground text-xs">
               {staffMembers.length} enrolled staff members registered under firm
             </CardDescription>
           </div>
@@ -509,8 +507,8 @@ export function AssociatesList({
       <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold flex items-center gap-2">
-              <UserPlus className="h-5 w-5 text-primary" />
+            <DialogTitle className="flex items-center gap-2 text-xl font-bold">
+              <UserPlus className="text-primary h-5 w-5" />
               Create Associate Account
             </DialogTitle>
             <DialogDescription className="text-xs">
@@ -524,7 +522,7 @@ export function AssociatesList({
             <div className="space-y-1.5">
               <Label
                 htmlFor="name"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Full Name <span className="text-destructive">*</span>
               </Label>
@@ -533,10 +531,10 @@ export function AssociatesList({
                 type="text"
                 placeholder="John Doe"
                 {...register("name")}
-                className="bg-card text-xs rounded-xl"
+                className="bg-card rounded-xl text-xs"
               />
               {errors.name && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.name.message}
                 </p>
               )}
@@ -546,7 +544,7 @@ export function AssociatesList({
             <div className="space-y-1.5">
               <Label
                 htmlFor="email"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Email Address <span className="text-destructive">*</span>
               </Label>
@@ -555,10 +553,10 @@ export function AssociatesList({
                 type="email"
                 placeholder="associate@laalglobal.com"
                 {...register("email")}
-                className="bg-card text-xs rounded-xl"
+                className="bg-card rounded-xl text-xs"
               />
               {errors.email && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.email.message}
                 </p>
               )}
@@ -568,7 +566,7 @@ export function AssociatesList({
             <div className="space-y-1.5">
               <Label
                 htmlFor="password"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Account Password <span className="text-destructive">*</span>
               </Label>
@@ -577,10 +575,10 @@ export function AssociatesList({
                 type="password"
                 placeholder="At least 8 characters"
                 {...register("password")}
-                className="bg-card text-xs rounded-xl"
+                className="bg-card rounded-xl text-xs"
               />
               {errors.password && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.password.message}
                 </p>
               )}
@@ -590,7 +588,7 @@ export function AssociatesList({
             <div className="space-y-1.5">
               <Label
                 htmlFor="role"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Assigned Role <span className="text-destructive">*</span>
               </Label>
@@ -599,7 +597,7 @@ export function AssociatesList({
                 name="role"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-9 text-xs shadow-xs">
+                    <SelectTrigger className="h-9 rounded-xl text-xs shadow-xs">
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                     <SelectContent>
@@ -614,7 +612,7 @@ export function AssociatesList({
                 )}
               />
               {errors.role && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.role.message}
                 </p>
               )}
@@ -632,7 +630,7 @@ export function AssociatesList({
               <Button
                 type="submit"
                 disabled={createMutation.isPending}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs rounded-xl"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-xs font-bold"
               >
                 {createMutation.isPending ? "Creating..." : "Create Account"}
               </Button>
@@ -655,7 +653,7 @@ export function AssociatesList({
             <>
               <DialogHeader>
                 <div className="flex items-center gap-3 pb-2">
-                  <div className="h-12 w-12 rounded-2xl bg-primary text-primary-foreground font-black text-base flex items-center justify-center border border-primary/20 shadow-xs">
+                  <div className="bg-primary text-primary-foreground border-primary/20 flex h-12 w-12 items-center justify-center rounded-2xl border text-base font-black shadow-xs">
                     {selectedMember.name
                       ? selectedMember.name
                           .split(" ")
@@ -669,10 +667,10 @@ export function AssociatesList({
                     <DialogTitle className="text-lg font-bold">
                       {selectedMember.name || selectedMember.email}
                     </DialogTitle>
-                    <DialogDescription className="text-xs text-muted-foreground flex items-center gap-2 mt-0.5">
+                    <DialogDescription className="text-muted-foreground mt-0.5 flex items-center gap-2 text-xs">
                       <span>Role: {selectedMember.role}</span>
                       <span>•</span>
-                      <span className="font-semibold text-foreground">
+                      <span className="text-foreground font-semibold">
                         {selectedMember.firm?.name || "Laal Global Advisory"}
                       </span>
                     </DialogDescription>
@@ -683,63 +681,63 @@ export function AssociatesList({
               <div className="space-y-3 pt-2">
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   {selectedMember.name && (
-                    <div className="p-2.5 rounded-xl bg-muted/40 border border-border/60 col-span-2">
-                      <p className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                        <Users className="h-3.5 w-3.5 text-primary" />
+                    <div className="bg-muted/40 border-border/60 col-span-2 rounded-xl border p-2.5">
+                      <p className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
+                        <Users className="text-primary h-3.5 w-3.5" />
                         Full Name
                       </p>
-                      <p className="font-bold text-foreground truncate mt-1">
+                      <p className="text-foreground mt-1 truncate font-bold">
                         {selectedMember.name}
                       </p>
                     </div>
                   )}
 
-                  <div className="p-2.5 rounded-xl bg-muted/40 border border-border/60">
-                    <p className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                      <Mail className="h-3.5 w-3.5 text-primary" />
+                  <div className="bg-muted/40 border-border/60 rounded-xl border p-2.5">
+                    <p className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
+                      <Mail className="text-primary h-3.5 w-3.5" />
                       Email Address
                     </p>
-                    <p className="font-bold text-foreground truncate mt-1">
+                    <p className="text-foreground mt-1 truncate font-bold">
                       {selectedMember.email}
                     </p>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-muted/40 border border-border/60">
-                    <p className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                      <Shield className="h-3.5 w-3.5 text-primary" />
+                  <div className="bg-muted/40 border-border/60 rounded-xl border p-2.5">
+                    <p className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
+                      <Shield className="text-primary h-3.5 w-3.5" />
                       System Role
                     </p>
-                    <p className="font-bold text-foreground mt-1">
+                    <p className="text-foreground mt-1 font-bold">
                       {selectedMember.role}
                     </p>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-muted/40 border border-border/60">
-                    <p className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                      <Calendar className="h-3.5 w-3.5 text-primary" />
+                  <div className="bg-muted/40 border-border/60 rounded-xl border p-2.5">
+                    <p className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
+                      <Calendar className="text-primary h-3.5 w-3.5" />
                       Created Date
                     </p>
-                    <p className="font-bold text-foreground mt-1">
+                    <p className="text-foreground mt-1 font-bold">
                       {new Date(selectedMember.createdAt).toLocaleDateString()}
                     </p>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-muted/40 border border-border/60">
-                    <p className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                      <Building2 className="h-3.5 w-3.5 text-primary" />
+                  <div className="bg-muted/40 border-border/60 rounded-xl border p-2.5">
+                    <p className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
+                      <Building2 className="text-primary h-3.5 w-3.5" />
                       Account Status
                     </p>
-                    <p className="font-bold text-success mt-1">
+                    <p className="text-success mt-1 font-bold">
                       {selectedMember.isActive ? "Active" : "Inactive"}
                     </p>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-muted/40 border border-border/60">
-                    <p className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                      <RefreshCw className="h-3.5 w-3.5 text-primary" />
+                  <div className="bg-muted/40 border-border/60 rounded-xl border p-2.5">
+                    <p className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
+                      <RefreshCw className="text-primary h-3.5 w-3.5" />
                       Password Status
                     </p>
-                    <p className="font-bold text-foreground mt-1">
+                    <p className="text-foreground mt-1 font-bold">
                       {selectedMember.mustChangePassword
                         ? "Pending Reset"
                         : "Set by User"}
@@ -748,7 +746,7 @@ export function AssociatesList({
                 </div>
               </div>
 
-              <DialogFooter className="pt-4 border-t border-border/60">
+              <DialogFooter className="border-border/60 border-t pt-4">
                 <Button
                   variant="outline"
                   size="sm"

@@ -74,7 +74,7 @@ export function ConflictCheckDialog({
   ) => {
     if (!matters || matters.length === 0) {
       return (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-muted-foreground text-xs">
           No linked matters on record.
         </p>
       );
@@ -84,9 +84,9 @@ export function ConflictCheckDialog({
         {matters.map((m) => (
           <li
             key={m.id}
-            className="text-xs text-muted-foreground flex flex-wrap items-center gap-1.5"
+            className="text-muted-foreground flex flex-wrap items-center gap-1.5 text-xs"
           >
-            <span className="font-bold text-foreground">
+            <span className="text-foreground font-bold">
               {m.firmCaseNumber}
             </span>
             <Badge variant="navy" className="text-[10px]">
@@ -103,13 +103,13 @@ export function ConflictCheckDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl bg-card border-border rounded-2xl shadow-xl max-h-[85vh] overflow-y-auto">
+      <DialogContent className="bg-card border-border max-h-[85vh] max-w-2xl overflow-y-auto rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black text-foreground flex items-center gap-2">
-            <Search className="h-5 w-5 text-primary" />
+          <DialogTitle className="text-foreground flex items-center gap-2 text-lg font-black">
+            <Search className="text-primary h-5 w-5" />
             Conflict Check
           </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
+          <DialogDescription className="text-muted-foreground text-sm">
             Searches existing clients, case parties, and legacy matter names.
             Advisory only — every check is logged; a human makes the final call.
           </DialogDescription>
@@ -120,7 +120,7 @@ export function ConflictCheckDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="cc-name"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Name / Organization *
               </Label>
@@ -129,13 +129,13 @@ export function ConflictCheckDialog({
                 placeholder="e.g. Ahmed & Sons Traders"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
             <div className="space-y-1">
               <Label
                 htmlFor="cc-cnic"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 CNIC / NTN (optional)
               </Label>
@@ -144,7 +144,7 @@ export function ConflictCheckDialog({
                 placeholder="e.g. 35202-1234567-1"
                 value={cnic}
                 onChange={(e) => setCnic(e.target.value)}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
             <DialogFooter className="pt-2">
@@ -160,7 +160,7 @@ export function ConflictCheckDialog({
                 type="button"
                 disabled={checkMutation.isPending || !name.trim()}
                 onClick={() => checkMutation.mutate()}
-                className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+                className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
               >
                 {checkMutation.isPending ? (
                   <>
@@ -176,26 +176,26 @@ export function ConflictCheckDialog({
         ) : (
           <div className="space-y-4 py-2">
             {totalMatches === 0 ? (
-              <div className="rounded-xl border border-success/30 bg-success/5 p-6 text-center">
-                <ShieldCheck className="h-10 w-10 text-success mx-auto" />
-                <p className="font-bold text-foreground mt-3">
+              <div className="border-success/30 bg-success/5 rounded-xl border p-6 text-center">
+                <ShieldCheck className="text-success mx-auto h-10 w-10" />
+                <p className="text-foreground mt-3 font-bold">
                   No potential conflicts found
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   No matching clients, parties, or legacy matters were found for
                   this name.
                 </p>
               </div>
             ) : (
               <>
-                <div className="rounded-xl border border-warning/40 bg-warning/5 p-4 flex items-start gap-3">
-                  <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" />
+                <div className="border-warning/40 bg-warning/5 flex items-start gap-3 rounded-xl border p-4">
+                  <AlertTriangle className="text-warning mt-0.5 h-5 w-5 shrink-0" />
                   <div>
-                    <p className="font-bold text-foreground text-sm">
+                    <p className="text-foreground text-sm font-bold">
                       {totalMatches} potential match
                       {totalMatches > 1 ? "es" : ""} found
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Review the matches below. This is advisory — nothing is
                       blocked automatically.
                     </p>
@@ -204,23 +204,23 @@ export function ConflictCheckDialog({
 
                 {result.clients.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-primary">
+                    <h4 className="text-primary text-xs font-bold tracking-wider uppercase">
                       Existing Clients
                     </h4>
                     {result.clients.map((c) => (
                       <div
                         key={c.id}
-                        className="rounded-xl border border-border bg-muted/10 p-3"
+                        className="border-border bg-muted/10 rounded-xl border p-3"
                       >
                         <div className="flex flex-wrap items-center gap-2">
-                          <p className="font-bold text-foreground text-sm">
+                          <p className="text-foreground text-sm font-bold">
                             {c.name}
                           </p>
                           <Badge variant="outline" className="text-[10px]">
                             {c.status}
                           </Badge>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-muted-foreground mt-1 text-xs">
                           {[c.phone, c.email, c.cnic]
                             .filter(Boolean)
                             .join(" · ") || "No contact details"}
@@ -233,18 +233,18 @@ export function ConflictCheckDialog({
 
                 {result.parties.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-primary">
+                    <h4 className="text-primary text-xs font-bold tracking-wider uppercase">
                       Case Parties
                     </h4>
                     {result.parties.map((p) => (
                       <div
                         key={p.id}
-                        className="rounded-xl border border-border bg-muted/10 p-3"
+                        className="border-border bg-muted/10 rounded-xl border p-3"
                       >
-                        <p className="font-bold text-foreground text-sm">
+                        <p className="text-foreground text-sm font-bold">
                           {p.name}
                         </p>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-muted-foreground mt-1 text-xs">
                           {[p.phone, p.email].filter(Boolean).join(" · ") ||
                             "No contact details"}
                         </p>
@@ -256,23 +256,23 @@ export function ConflictCheckDialog({
 
                 {result.legacyMatters.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-primary">
+                    <h4 className="text-primary text-xs font-bold tracking-wider uppercase">
                       Legacy Matter References
                     </h4>
                     {result.legacyMatters.map((m) => (
                       <div
                         key={m.id}
-                        className="rounded-xl border border-border bg-muted/10 p-3"
+                        className="border-border bg-muted/10 rounded-xl border p-3"
                       >
                         <div className="flex flex-wrap items-center gap-2">
-                          <p className="font-bold text-foreground text-sm">
+                          <p className="text-foreground text-sm font-bold">
                             {m.firmCaseNumber}
                           </p>
                           <Badge variant="navy" className="text-[10px]">
                             {m.caseType}
                           </Badge>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-muted-foreground mt-1 text-xs">
                           Party on record:{" "}
                           <span className="font-semibold">{m.clientName}</span>
                         </p>
@@ -302,7 +302,7 @@ export function ConflictCheckDialog({
                   onProceed?.();
                   handleClose(false);
                 }}
-                className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+                className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
               >
                 <ShieldCheck className="h-4 w-4" />
                 No conflict, proceed

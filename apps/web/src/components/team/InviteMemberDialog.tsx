@@ -101,8 +101,8 @@ export function InviteMemberDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold flex items-center gap-2">
-            <Mail className="h-5 w-5 text-primary" />
+          <DialogTitle className="flex items-center gap-2 text-xl font-bold">
+            <Mail className="text-primary h-5 w-5" />
             Invite Member
           </DialogTitle>
           <DialogDescription className="text-xs">
@@ -113,7 +113,7 @@ export function InviteMemberDialog({
 
         {result ? (
           <div className="space-y-3 pt-2">
-            <div className="flex items-start gap-2 rounded-xl border border-success/30 bg-success/10 px-3 py-2.5 text-xs font-semibold text-success">
+            <div className="border-success/30 bg-success/10 text-success flex items-start gap-2 rounded-xl border px-3 py-2.5 text-xs font-semibold">
               <Check className="mt-0.5 h-4 w-4 shrink-0" />
               <span>
                 Invite created for {result.email}. Share this link with them:
@@ -124,7 +124,7 @@ export function InviteMemberDialog({
               <Input
                 readOnly
                 value={result.inviteUrl}
-                className="bg-card border-border text-xs rounded-xl font-mono"
+                className="bg-card border-border rounded-xl font-mono text-xs"
                 onFocus={(e) => e.target.select()}
               />
               <Button
@@ -133,10 +133,10 @@ export function InviteMemberDialog({
                 size="icon"
                 onClick={copyLink}
                 aria-label="Copy invite link"
-                className="rounded-xl shrink-0"
+                className="shrink-0 rounded-xl"
               >
                 {copied ? (
-                  <Check className="h-4 w-4 text-success" />
+                  <Check className="text-success h-4 w-4" />
                 ) : (
                   <Copy className="h-4 w-4" />
                 )}
@@ -167,7 +167,10 @@ export function InviteMemberDialog({
         ) : (
           <form onSubmit={onSubmit} className="space-y-4 pt-2">
             <div className="space-y-1.5">
-              <Label htmlFor="invite-email" className="text-xs font-bold text-foreground">
+              <Label
+                htmlFor="invite-email"
+                className="text-foreground text-xs font-bold"
+              >
                 Email Address <span className="text-destructive">*</span>
               </Label>
               <Input
@@ -176,17 +179,20 @@ export function InviteMemberDialog({
                 placeholder="associate@laalglobal.com"
                 {...register("email")}
                 disabled={inviteMutation.isPending}
-                className="bg-card border-border text-xs rounded-xl"
+                className="bg-card border-border rounded-xl text-xs"
               />
               {errors.email && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.email.message}
                 </p>
               )}
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="invite-role" className="text-xs font-bold text-foreground">
+              <Label
+                htmlFor="invite-role"
+                className="text-foreground text-xs font-bold"
+              >
                 Assigned Role <span className="text-destructive">*</span>
               </Label>
               <Controller
@@ -198,7 +204,7 @@ export function InviteMemberDialog({
                     onValueChange={field.onChange}
                     disabled={inviteMutation.isPending}
                   >
-                    <SelectTrigger className="rounded-xl h-9 text-xs shadow-xs">
+                    <SelectTrigger className="h-9 rounded-xl text-xs shadow-xs">
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                     <SelectContent>
@@ -213,7 +219,7 @@ export function InviteMemberDialog({
                 )}
               />
               {errors.role && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.role.message}
                 </p>
               )}
@@ -232,7 +238,7 @@ export function InviteMemberDialog({
               <Button
                 type="submit"
                 disabled={inviteMutation.isPending}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-xs font-bold gap-1.5"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground gap-1.5 rounded-xl text-xs font-bold"
               >
                 {inviteMutation.isPending ? (
                   <>

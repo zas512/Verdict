@@ -33,9 +33,7 @@ function readOrder(
       (id): id is DashboardTileId =>
         typeof id === "string" && (defaults as readonly string[]).includes(id)
     );
-    const missing = defaults.filter(
-      (id) => !(stored as string[]).includes(id)
-    );
+    const missing = defaults.filter((id) => !(stored as string[]).includes(id));
     return [...stored, ...missing];
   } catch {
     return [...defaults];
@@ -53,9 +51,7 @@ export function useDashboardTileOrder(
   defaults: readonly DashboardTileId[] = DASHBOARD_TILE_IDS
 ) {
   const [order, setOrder] = useState<DashboardTileId[]>(() =>
-    typeof window === "undefined"
-      ? [...defaults]
-      : readOrder(userId, defaults)
+    typeof window === "undefined" ? [...defaults] : readOrder(userId, defaults)
   );
 
   useEffect(() => {

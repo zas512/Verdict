@@ -108,8 +108,8 @@
 .dark {
   /* Dark Tactile Enterprise UI color variables */
   --background: #0f1115;
-  --foreground: #F1F2F4;
-  --card: #171A20;
+  --foreground: #f1f2f4;
+  --card: #171a20;
   --card-foreground: #ece8df;
   --popover: #16191e;
   --popover-foreground: #ece8df;
@@ -156,7 +156,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
+    @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary antialiased;
   }
   html {
     @apply font-sans tracking-tight;
@@ -337,7 +337,9 @@
 }
 
 .dark .login-input {
-  background-color: var(--background) !important; /* Darker than the card background #171A20 */
+  background-color: var(
+    --background
+  ) !important; /* Darker than the card background #171A20 */
   border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Clear visible subtle border */
   color: var(--foreground) !important;
 }
@@ -366,4 +368,3 @@
   box-shadow: 0 0 0 1px rgba(138, 106, 47, 0.25) !important;
   outline: none !important;
 }
-

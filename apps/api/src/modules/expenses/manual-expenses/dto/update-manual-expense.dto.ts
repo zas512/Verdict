@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateManualExpenseDto } from './create-manual-expense.dto';
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateManualExpenseDto } from "./create-manual-expense.dto";
 
-export class UpdateManualExpenseDto extends PartialType(CreateManualExpenseDto) {}
+export class UpdateManualExpenseDto extends PartialType(
+  CreateManualExpenseDto
+) {}

@@ -71,18 +71,20 @@ function StatsCard({
     <div className="p-5">
       <div className="flex items-center gap-2">
         <Icon className={`size-4 ${colors.icon}`} />
-        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
           {title}
         </p>
       </div>
-      <p className={`mt-3 text-2xl font-semibold tabular-nums ${colors.value}`}>{value}</p>
+      <p className={`mt-3 text-2xl font-semibold tabular-nums ${colors.value}`}>
+        {value}
+      </p>
     </div>
   );
 }
 
 export function StatsGrid({ stats = defaultStats }: Readonly<StatsGridProps>) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
       {stats.map((stat, index) => (
         <Card key={`${stat.title}-${index}`}>
           <StatsCard {...stat} />

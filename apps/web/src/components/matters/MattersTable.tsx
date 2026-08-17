@@ -54,11 +54,11 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       accessor: (m) => m.firmCaseNumber,
       render: (m) => (
         <div>
-          <p className="font-mono font-bold text-foreground text-sm">
+          <p className="text-foreground font-mono text-sm font-bold">
             {m.firmCaseNumber}
           </p>
           {m.courtCaseNumber && (
-            <span className="text-xs text-muted-foreground block truncate max-w-45">
+            <span className="text-muted-foreground block max-w-45 truncate text-xs">
               Court Case: {m.courtCaseNumber}
             </span>
           )}
@@ -71,7 +71,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       sortable: true,
       accessor: (m) => m.clientName,
       render: (m) => (
-        <span className="font-bold text-foreground text-sm">
+        <span className="text-foreground text-sm font-bold">
           {m.client?.name || m.clientName}
         </span>
       )
@@ -82,7 +82,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       sortable: true,
       accessor: (m) => m.caseType,
       render: (m) => (
-        <span className="text-xs font-semibold text-muted-foreground uppercase">
+        <span className="text-muted-foreground text-xs font-semibold uppercase">
           {m.caseType}
         </span>
       )
@@ -92,7 +92,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       header: "CURRENT STAGE",
       accessor: (m) => m.currentStage?.name ?? "",
       render: (m) => (
-        <span className="text-sm font-semibold text-muted-foreground truncate max-w-50 block">
+        <span className="text-muted-foreground block max-w-50 truncate text-sm font-semibold">
           {m.currentStage ? m.currentStage.name : "None / Unassigned"}
         </span>
       )
@@ -120,7 +120,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
         const textColor = colorMap[status] ?? "text-muted-foreground";
         return (
           <div
-            className={`flex items-center gap-1.5 font-semibold text-xs ${textColor}`}
+            className={`flex items-center gap-1.5 text-xs font-semibold ${textColor}`}
           >
             <span className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />
             <span>{status.charAt(0) + status.slice(1).toLowerCase()}</span>
@@ -134,7 +134,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       sortable: true,
       accessor: (m) => (m.filingDate ? new Date(m.filingDate) : null),
       render: (m) => (
-        <span className="font-mono text-xs text-muted-foreground">
+        <span className="text-muted-foreground font-mono text-xs">
           {m.filingDate
             ? new Date(m.filingDate).toLocaleDateString("en-PK", {
                 day: "2-digit",
@@ -155,7 +155,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       isLoading={isLoading}
       loadingLabel="Loading legal ledger..."
       emptyIcon={
-        <Scale className="h-12 w-12 text-muted-foreground/60 mx-auto" />
+        <Scale className="text-muted-foreground/60 mx-auto h-12 w-12" />
       }
       emptyTitle="No matters found"
       emptyDescription="Adjust filters or create a new matter to begin."

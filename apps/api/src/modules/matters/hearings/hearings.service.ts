@@ -9,7 +9,11 @@ import { CreateHearingDto } from "./dto/create-hearing.dto";
 import { UpdateHearingDto } from "./dto/update-hearing.dto";
 import { LogAttendeesDto } from "./dto/log-attendees.dto";
 import { HearingEntity } from "./entities/hearing.entity";
-import { HearingStatus, UserRole, Prisma } from "../../../generated/prisma/client";
+import {
+  HearingStatus,
+  UserRole,
+  Prisma
+} from "../../../generated/prisma/client";
 import { MattersService } from "../matters.service";
 import { NotificationsService } from "../notifications.service";
 import { JwtPayload } from "../../auth/strategies/access-token.strategy";

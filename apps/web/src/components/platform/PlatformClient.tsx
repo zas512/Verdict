@@ -172,10 +172,10 @@ export function PlatformClient() {
         const initials = firm.name.substring(0, 2).toUpperCase();
         return (
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-xs border border-primary/20 shrink-0">
+            <div className="bg-primary/10 text-primary border-primary/20 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-xs font-bold">
               {initials}
             </div>
-            <p className="font-bold text-foreground leading-tight">
+            <p className="text-foreground leading-tight font-bold">
               {firm.name}
             </p>
           </div>
@@ -188,7 +188,7 @@ export function PlatformClient() {
       sortable: true,
       accessor: (firm) => firm.ownerName,
       render: (firm) => (
-        <span className="text-xs text-foreground font-semibold">
+        <span className="text-foreground text-xs font-semibold">
           {firm.ownerName}
         </span>
       )
@@ -199,7 +199,7 @@ export function PlatformClient() {
       sortable: true,
       accessor: (firm) => firm.ownerEmail,
       render: (firm) => (
-        <span className="text-xs text-muted-foreground font-medium">
+        <span className="text-muted-foreground text-xs font-medium">
           {firm.ownerEmail}
         </span>
       )
@@ -210,8 +210,8 @@ export function PlatformClient() {
       sortable: true,
       accessor: (firm) => new Date(firm.createdAt),
       render: (firm) => (
-        <span className="text-xs text-muted-foreground font-medium flex items-center gap-1">
-          <Calendar className="h-3.5 w-3.5 text-primary/70" />
+        <span className="text-muted-foreground flex items-center gap-1 text-xs font-medium">
+          <Calendar className="text-primary/70 h-3.5 w-3.5" />
           {new Date(firm.createdAt).toLocaleDateString()}
         </span>
       )
@@ -229,7 +229,7 @@ export function PlatformClient() {
               e.stopPropagation();
               setSelectedFirm(firm);
             }}
-            className="h-8 px-2.5 text-xs text-primary hover:text-primary hover:bg-primary/10 font-bold gap-1 rounded-xl"
+            className="text-primary hover:text-primary hover:bg-primary/10 h-8 gap-1 rounded-xl px-2.5 text-xs font-bold"
           >
             <span>View</span>
           </Button>
@@ -245,25 +245,25 @@ export function PlatformClient() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
         <div className="flex items-center gap-3">
           <div className="relative w-64">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" />
             <Input
               placeholder="Search firms..."
               value={globalFilter}
               onChange={(e) => setGlobalFilter(e.target.value)}
-              className="pl-9 bg-card text-xs rounded-xl h-9"
+              className="bg-card h-9 rounded-xl pl-9 text-xs"
             />
           </div>
           <Button
             variant="outline"
             onClick={() => setIsInviteOwnerOpen(true)}
-            className="h-9 px-4 text-xs font-bold flex items-center gap-1.5 rounded-xl shrink-0"
+            className="flex h-9 shrink-0 items-center gap-1.5 rounded-xl px-4 text-xs font-bold"
           >
             <Mail className="h-4 w-4" />
             <span>Invite Owner</span>
           </Button>
           <Button
             onClick={() => setIsCreateOpen(true)}
-            className="h-9 px-4 text-xs font-bold bg-primary hover:bg-primary/90 text-primary-foreground flex items-center gap-1.5 rounded-xl shrink-0"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground flex h-9 shrink-0 items-center gap-1.5 rounded-xl px-4 text-xs font-bold"
           >
             <Plus className="h-4 w-4" />
             <span>Create Firm</span>
@@ -272,13 +272,13 @@ export function PlatformClient() {
       </div>
 
       <Card className="border-border bg-card text-card-foreground shadow-xs">
-        <CardHeader className="pb-3 border-b border-border/60 flex flex-row items-center justify-between">
+        <CardHeader className="border-border/60 flex flex-row items-center justify-between border-b pb-3">
           <div>
-            <CardTitle className="text-base font-bold flex items-center gap-2">
-              <Building2 className="h-5 w-5 text-primary" />
+            <CardTitle className="flex items-center gap-2 text-base font-bold">
+              <Building2 className="text-primary h-5 w-5" />
               Registered Firms
             </CardTitle>
-            <CardDescription className="text-xs text-muted-foreground">
+            <CardDescription className="text-muted-foreground text-xs">
               {allFirms.length} tenants registered under the platform
             </CardDescription>
           </div>
@@ -306,8 +306,8 @@ export function PlatformClient() {
       <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold flex items-center gap-2">
-              <Building2 className="h-5 w-5 text-primary" />
+            <DialogTitle className="flex items-center gap-2 text-xl font-bold">
+              <Building2 className="text-primary h-5 w-5" />
               Create Tenant Firm
             </DialogTitle>
             <DialogDescription className="text-xs">
@@ -320,7 +320,7 @@ export function PlatformClient() {
             <div className="space-y-1.5">
               <Label
                 htmlFor="name"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Firm Name <span className="text-destructive">*</span>
               </Label>
@@ -328,10 +328,10 @@ export function PlatformClient() {
                 id="name"
                 placeholder="Acme Law Chambers"
                 {...register("name")}
-                className="bg-card text-xs rounded-xl"
+                className="bg-card rounded-xl text-xs"
               />
               {errors.name && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.name.message}
                 </p>
               )}
@@ -341,7 +341,7 @@ export function PlatformClient() {
             <div className="space-y-1.5">
               <Label
                 htmlFor="ownerName"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Owner Full Name <span className="text-destructive">*</span>
               </Label>
@@ -349,10 +349,10 @@ export function PlatformClient() {
                 id="ownerName"
                 placeholder="John Doe"
                 {...register("ownerName")}
-                className="bg-card text-xs rounded-xl"
+                className="bg-card rounded-xl text-xs"
               />
               {errors.ownerName && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.ownerName.message}
                 </p>
               )}
@@ -362,7 +362,7 @@ export function PlatformClient() {
             <div className="space-y-1.5">
               <Label
                 htmlFor="ownerEmail"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Owner Email <span className="text-destructive">*</span>
               </Label>
@@ -371,10 +371,10 @@ export function PlatformClient() {
                 type="email"
                 placeholder="john@acme.com"
                 {...register("ownerEmail")}
-                className="bg-card text-xs rounded-xl"
+                className="bg-card rounded-xl text-xs"
               />
               {errors.ownerEmail && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.ownerEmail.message}
                 </p>
               )}
@@ -384,7 +384,7 @@ export function PlatformClient() {
             <div className="space-y-1.5">
               <Label
                 htmlFor="ownerPassword"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Initial Owner Password{" "}
                 <span className="text-destructive">*</span>
@@ -394,10 +394,10 @@ export function PlatformClient() {
                 type="password"
                 placeholder="At least 8 characters"
                 {...register("ownerPassword")}
-                className="bg-card text-xs rounded-xl"
+                className="bg-card rounded-xl text-xs"
               />
               {errors.ownerPassword && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.ownerPassword.message}
                 </p>
               )}
@@ -415,7 +415,7 @@ export function PlatformClient() {
               <Button
                 type="submit"
                 disabled={createMutation.isPending}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs rounded-xl"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-xs font-bold"
               >
                 {createMutation.isPending ? "Creating..." : "Create Firm"}
               </Button>
@@ -436,14 +436,14 @@ export function PlatformClient() {
             <>
               <DialogHeader>
                 <div className="flex items-center gap-3 pb-2">
-                  <div className="h-12 w-12 rounded-2xl bg-primary text-primary-foreground font-black text-base flex items-center justify-center border border-primary/20 shadow-xs">
+                  <div className="bg-primary text-primary-foreground border-primary/20 flex h-12 w-12 items-center justify-center rounded-2xl border text-base font-black shadow-xs">
                     {selectedFirm.name.substring(0, 2).toUpperCase()}
                   </div>
                   <div>
                     <DialogTitle className="text-lg font-bold">
                       {selectedFirm.name}
                     </DialogTitle>
-                    <DialogDescription className="text-xs text-muted-foreground flex items-center gap-2 mt-0.5">
+                    <DialogDescription className="text-muted-foreground mt-0.5 flex items-center gap-2 text-xs">
                       <span>
                         Tenant ID: {selectedFirm.id.substring(0, 8)}...
                       </span>
@@ -454,32 +454,32 @@ export function PlatformClient() {
 
               <div className="space-y-3 pt-2">
                 <div className="grid grid-cols-2 gap-3 text-xs">
-                  <div className="p-2.5 rounded-xl bg-muted/40 border border-border/60 col-span-2">
-                    <p className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                      <User className="h-3.5 w-3.5 text-primary" />
+                  <div className="bg-muted/40 border-border/60 col-span-2 rounded-xl border p-2.5">
+                    <p className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
+                      <User className="text-primary h-3.5 w-3.5" />
                       Firm Owner Name
                     </p>
-                    <p className="font-bold text-foreground truncate mt-1">
+                    <p className="text-foreground mt-1 truncate font-bold">
                       {selectedFirm.ownerName}
                     </p>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-muted/40 border border-border/60 col-span-2">
-                    <p className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                      <Mail className="h-3.5 w-3.5 text-primary" />
+                  <div className="bg-muted/40 border-border/60 col-span-2 rounded-xl border p-2.5">
+                    <p className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
+                      <Mail className="text-primary h-3.5 w-3.5" />
                       Firm Owner Email
                     </p>
-                    <p className="font-bold text-foreground truncate mt-1">
+                    <p className="text-foreground mt-1 truncate font-bold">
                       {selectedFirm.ownerEmail}
                     </p>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-muted/40 border border-border/60">
-                    <p className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                      <Calendar className="h-3.5 w-3.5 text-primary" />
+                  <div className="bg-muted/40 border-border/60 rounded-xl border p-2.5">
+                    <p className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
+                      <Calendar className="text-primary h-3.5 w-3.5" />
                       Registered Date
                     </p>
-                    <p className="font-bold text-foreground mt-1">
+                    <p className="text-foreground mt-1 font-bold">
                       {new Date(selectedFirm.createdAt).toLocaleDateString()}
                     </p>
                   </div>
@@ -488,46 +488,43 @@ export function PlatformClient() {
                 {/* Firm members */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                      <Users className="h-3.5 w-3.5 text-primary" />
+                    <p className="text-foreground flex items-center gap-1.5 text-xs font-bold">
+                      <Users className="text-primary h-3.5 w-3.5" />
                       Members
                     </p>
-                    <span className="text-[11px] font-semibold text-muted-foreground">
+                    <span className="text-muted-foreground text-[11px] font-semibold">
                       {firmMembers.length} total
                     </span>
                   </div>
                   <div className="max-h-44 space-y-2 overflow-y-auto pr-1">
                     {membersLoading ? (
-                      <p className="py-2 text-xs font-medium text-muted-foreground">
+                      <p className="text-muted-foreground py-2 text-xs font-medium">
                         Loading members...
                       </p>
                     ) : firmMembers.length === 0 ? (
-                      <p className="py-2 text-xs font-medium text-muted-foreground">
+                      <p className="text-muted-foreground py-2 text-xs font-medium">
                         No members yet.
                       </p>
                     ) : (
                       firmMembers.map((member) => (
                         <div
                           key={member.id}
-                          className="rounded-xl border border-border/60 bg-muted/40 p-2.5"
+                          className="border-border/60 bg-muted/40 rounded-xl border p-2.5"
                         >
-                          <p className="truncate text-xs font-bold text-foreground">
+                          <p className="text-foreground truncate text-xs font-bold">
                             {member.name || member.email}
                           </p>
-                          <p className="truncate text-[11px] font-medium text-muted-foreground">
+                          <p className="text-muted-foreground truncate text-[11px] font-medium">
                             {member.email}
                           </p>
                           <div className="mt-1 flex flex-wrap items-center gap-1.5">
-                            <Badge
-                              variant="navy"
-                              className="text-[10px] px-2"
-                            >
+                            <Badge variant="navy" className="px-2 text-[10px]">
                               {member.role}
                             </Badge>
                             {member.mustChangePassword && (
                               <Badge
                                 variant="amber"
-                                className="text-[10px] px-2"
+                                className="px-2 text-[10px]"
                               >
                                 Pending reset
                               </Badge>
@@ -538,10 +535,9 @@ export function PlatformClient() {
                     )}
                   </div>
                 </div>
-
               </div>
 
-              <DialogFooter className="pt-4 border-t border-border/60 flex-wrap gap-2">
+              <DialogFooter className="border-border/60 flex-wrap gap-2 border-t pt-4">
                 <Button
                   variant="outline"
                   size="sm"
@@ -554,7 +550,7 @@ export function PlatformClient() {
                   variant="outline"
                   size="sm"
                   onClick={() => setCreateFirm(selectedFirm)}
-                  className="rounded-xl text-xs font-bold gap-1.5"
+                  className="gap-1.5 rounded-xl text-xs font-bold"
                 >
                   <UserPlus className="h-3.5 w-3.5" />
                   Create User

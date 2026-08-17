@@ -18,12 +18,11 @@ export default async function RegisterPage({
   if (!invite) {
     return (
       <div className="space-y-4 text-center">
-        <p className="text-sm font-bold text-foreground">
+        <p className="text-foreground text-sm font-bold">
           Registration is by invitation only
         </p>
-        <p className="text-xs text-muted-foreground">
-          Ask your firm administrator to send you an invite link to get
-          started.
+        <p className="text-muted-foreground text-xs">
+          Ask your firm administrator to send you an invite link to get started.
         </p>
       </div>
     );

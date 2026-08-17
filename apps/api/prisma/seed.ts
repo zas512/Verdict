@@ -607,7 +607,9 @@ async function main() {
   console.log("  admin@laalglobal.com / 12345678 (ADMIN)");
   console.log("  associate@laalglobal.com / 12345678 (ASSOCIATE)");
   console.log("  Cases Seeded: LGA-2026-CV-01, LGA-2026-CR-02");
-  console.log("  Clients Seeded: M/S Pakistan Trade House, Muhammad Kamran, Zahid & Co.");
+  console.log(
+    "  Clients Seeded: M/S Pakistan Trade House, Muhammad Kamran, Zahid & Co."
+  );
   console.log("  Invites Seeded: demo-founder-token, demo-member-token");
 }
 

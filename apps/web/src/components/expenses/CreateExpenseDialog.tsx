@@ -152,7 +152,8 @@ export function CreateExpenseDialog({
       const result = await res.json().catch(() => ({}));
       if (!res.ok) {
         throw new Error(
-          result.message || `Failed to record ${values.type.toLowerCase()} expense`
+          result.message ||
+            `Failed to record ${values.type.toLowerCase()} expense`
         );
       }
       return result;
@@ -170,16 +171,17 @@ export function CreateExpenseDialog({
     }
   });
 
-  const onSubmit = (values: CreateExpenseValues) => createMutation.mutate(values);
+  const onSubmit = (values: CreateExpenseValues) =>
+    createMutation.mutate(values);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl bg-card border-border rounded-2xl shadow-xl max-h-[88vh] overflow-y-auto">
+      <DialogContent className="bg-card border-border max-h-[88vh] max-w-xl overflow-y-auto rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black text-foreground">
+          <DialogTitle className="text-foreground text-lg font-black">
             Record an Expense
           </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
+          <DialogDescription className="text-muted-foreground text-sm">
             Log a fixed obligation or a one-off operational cost for the firm.
           </DialogDescription>
         </DialogHeader>
@@ -187,26 +189,24 @@ export function CreateExpenseDialog({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
           {/* Expense Type Toggle */}
           <div className="space-y-1.5">
-            <Label className="text-xs font-bold text-foreground">
+            <Label className="text-foreground text-xs font-bold">
               Expense Type *
             </Label>
             <div
               role="group"
               aria-label="Expense type"
-              className="grid grid-cols-2 gap-1 rounded-xl bg-muted/40 p-1"
+              className="bg-muted/40 grid grid-cols-2 gap-1 rounded-xl p-1"
             >
               {(["FIXED", "MANUAL"] as const).map((t) => (
                 <button
                   key={t}
                   type="button"
                   aria-pressed={expenseType === t}
-                  onClick={() =>
-                    setValue("type", t, { shouldValidate: true })
-                  }
+                  onClick={() => setValue("type", t, { shouldValidate: true })}
                   className={cn(
-                    "h-9 rounded-lg text-xs font-bold transition-colors cursor-pointer",
+                    "h-9 cursor-pointer rounded-lg text-xs font-bold transition-colors",
                     expenseType === t
-                      ? "bg-card text-foreground shadow-sm border border-border"
+                      ? "bg-card text-foreground border-border border shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -214,7 +214,7 @@ export function CreateExpenseDialog({
                 </button>
               ))}
             </div>
-            <p className="text-[11px] text-muted-foreground font-medium">
+            <p className="text-muted-foreground text-[11px] font-medium">
               {expenseType === "FIXED"
                 ? "Recurring obligations — salaries, rent, subscriptions."
                 : "One-off operational costs — travel, supplies, client disbursements."}
@@ -226,7 +226,7 @@ export function CreateExpenseDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="expenseCategory"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Category *
               </Label>
@@ -235,7 +235,7 @@ export function CreateExpenseDialog({
                 name="category"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="rounded-xl h-9 font-semibold">
+                    <SelectTrigger className="h-9 rounded-xl font-semibold">
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
@@ -249,7 +249,7 @@ export function CreateExpenseDialog({
                 )}
               />
               {errors.category && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.category.message}
                 </p>
               )}
@@ -258,7 +258,7 @@ export function CreateExpenseDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="expenseDate"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Date *
               </Label>
@@ -266,10 +266,10 @@ export function CreateExpenseDialog({
                 id="expenseDate"
                 type="date"
                 {...register("date")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errors.date && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.date.message}
                 </p>
               )}
@@ -280,7 +280,7 @@ export function CreateExpenseDialog({
           <div className="space-y-1">
             <Label
               htmlFor="expenseDescription"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Description *
             </Label>
@@ -288,10 +288,10 @@ export function CreateExpenseDialog({
               id="expenseDescription"
               placeholder="e.g. Office rent for August, court fee advance"
               {...register("description")}
-              className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+              className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
             />
             {errors.description && (
-              <p className="text-xs text-destructive font-semibold">
+              <p className="text-destructive text-xs font-semibold">
                 {errors.description.message}
               </p>
             )}
@@ -302,7 +302,7 @@ export function CreateExpenseDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="expenseAmount"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Amount (PKR) *
               </Label>
@@ -313,10 +313,10 @@ export function CreateExpenseDialog({
                 min="0.01"
                 placeholder="e.g. 25000"
                 {...register("amount", { valueAsNumber: true })}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40 font-mono"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl font-mono text-sm"
               />
               {errors.amount && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.amount.message}
                 </p>
               )}
@@ -325,7 +325,7 @@ export function CreateExpenseDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="expensePaymentMethod"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Payment Method
               </Label>
@@ -337,7 +337,7 @@ export function CreateExpenseDialog({
                     value={field.value ?? ""}
                     onValueChange={field.onChange}
                   >
-                    <SelectTrigger className="rounded-xl h-9 font-semibold">
+                    <SelectTrigger className="h-9 rounded-xl font-semibold">
                       <SelectValue placeholder="Not specified" />
                     </SelectTrigger>
                     <SelectContent>
@@ -359,7 +359,7 @@ export function CreateExpenseDialog({
             <div className="space-y-1">
               <Label
                 htmlFor="expenseVendor"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Vendor
               </Label>
@@ -367,14 +367,14 @@ export function CreateExpenseDialog({
                 id="expenseVendor"
                 placeholder="e.g. K-Electric, PTCL"
                 {...register("vendor")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
             </div>
 
             <div className="space-y-1">
               <Label
                 htmlFor="expenseReceiptUrl"
-                className="text-xs font-bold text-foreground"
+                className="text-foreground text-xs font-bold"
               >
                 Receipt URL
               </Label>
@@ -383,10 +383,10 @@ export function CreateExpenseDialog({
                 type="url"
                 placeholder="https://..."
                 {...register("receiptUrl")}
-                className="text-sm rounded-xl border-border bg-card focus-visible:ring-primary/40"
+                className="border-border bg-card focus-visible:ring-primary/40 rounded-xl text-sm"
               />
               {errors.receiptUrl && (
-                <p className="text-xs text-destructive font-semibold">
+                <p className="text-destructive text-xs font-semibold">
                   {errors.receiptUrl.message}
                 </p>
               )}
@@ -397,7 +397,7 @@ export function CreateExpenseDialog({
           <div className="space-y-1">
             <Label
               htmlFor="expenseAssociate"
-              className="text-xs font-bold text-foreground"
+              className="text-foreground text-xs font-bold"
             >
               Associate
             </Label>
@@ -409,7 +409,7 @@ export function CreateExpenseDialog({
                   value={field.value ?? ""}
                   onValueChange={field.onChange}
                 >
-                  <SelectTrigger className="rounded-xl h-9 font-semibold">
+                  <SelectTrigger className="h-9 rounded-xl font-semibold">
                     <SelectValue placeholder="Unassigned" />
                   </SelectTrigger>
                   <SelectContent>
@@ -424,7 +424,7 @@ export function CreateExpenseDialog({
               )}
             />
             {allAssociates.length === 0 && (
-              <p className="text-[11px] text-muted-foreground font-medium">
+              <p className="text-muted-foreground text-[11px] font-medium">
                 No associates in the firm roster to link.
               </p>
             )}
@@ -445,7 +445,7 @@ export function CreateExpenseDialog({
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="skeuo-button-primary rounded-xl text-sm font-bold gap-1.5"
+              className="skeuo-button-primary gap-1.5 rounded-xl text-sm font-bold"
             >
               {isSubmitting ? (
                 <>

@@ -66,7 +66,7 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
     return (
       <Badge
         variant={variant}
-        className="text-xs font-bold uppercase tracking-wider"
+        className="text-xs font-bold tracking-wider uppercase"
       >
         {status}
       </Badge>
@@ -75,9 +75,9 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center p-24 space-y-3">
-        <Loader2 className="h-10 w-10 text-primary animate-spin" />
-        <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
+      <div className="flex flex-col items-center justify-center space-y-3 p-24">
+        <Loader2 className="text-primary h-10 w-10 animate-spin" />
+        <p className="text-muted-foreground text-xs font-bold tracking-wider uppercase">
           Loading matter workspace...
         </p>
       </div>
@@ -86,21 +86,21 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
 
   if (error || !matter) {
     return (
-      <Card className="border-destructive/30 bg-destructive/5 text-destructive p-8 max-w-xl mx-auto text-center rounded-2xl shadow-sm">
-        <AlertCircle className="h-12 w-12 text-destructive mx-auto" />
-        <h3 className="font-extrabold text-lg mt-3">
+      <Card className="border-destructive/30 bg-destructive/5 text-destructive mx-auto max-w-xl rounded-2xl p-8 text-center shadow-sm">
+        <AlertCircle className="text-destructive mx-auto h-12 w-12" />
+        <h3 className="mt-3 text-lg font-extrabold">
           Access Denied or Case Not Found
         </h3>
-        <p className="text-xs text-muted-foreground mt-1">
+        <p className="text-muted-foreground mt-1 text-xs">
           {error instanceof Error
             ? error.message
             : "You might not be assigned to this matter or it belongs to a different tenant."}
         </p>
-        <Link href="/matters" className="inline-block mt-4">
+        <Link href="/matters" className="mt-4 inline-block">
           <Button
             variant="outline"
             size="sm"
-            className="rounded-xl border-destructive/20 text-destructive hover:bg-destructive/10"
+            className="border-destructive/20 text-destructive hover:bg-destructive/10 rounded-xl"
           >
             Return to Ledger
           </Button>
@@ -116,7 +116,7 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
           <Button
             variant="ghost"
             size="sm"
-            className="rounded-xl text-sm font-bold gap-1 text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground gap-1 rounded-xl text-sm font-bold"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Matters Ledger</span>
@@ -129,7 +129,7 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
               variant="outline"
               size="sm"
               onClick={() => setIsStageOpen(true)}
-              className="rounded-xl text-sm font-bold gap-1 border-border h-8"
+              className="border-border h-8 gap-1 rounded-xl text-sm font-bold"
             >
               <GitBranch className="h-3.5 w-3.5" />
               <span>Change Stage</span>
@@ -139,7 +139,7 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
               variant="outline"
               size="sm"
               onClick={() => setIsStatusOpen(true)}
-              className="rounded-xl text-sm font-bold gap-1 border-border h-8"
+              className="border-border h-8 gap-1 rounded-xl text-sm font-bold"
             >
               <Clock className="h-3.5 w-3.5" />
               <span>Status</span>
@@ -149,7 +149,7 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
               variant="outline"
               size="sm"
               onClick={() => setIsAssignOpen(true)}
-              className="rounded-xl text-sm font-bold gap-1 border-border h-8"
+              className="border-border h-8 gap-1 rounded-xl text-sm font-bold"
             >
               <UserCheck className="h-3.5 w-3.5" />
               <span>Assign Counsel</span>
@@ -159,7 +159,7 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
               href={`/api/matters/${id}/summary-report`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 text-sm font-bold bg-primary text-primary-foreground hover:bg-primary/95 shadow-sm rounded-xl px-3 py-1.5 h-8 select-none"
+              className="bg-primary text-primary-foreground hover:bg-primary/95 inline-flex h-8 items-center gap-1 rounded-xl px-3 py-1.5 text-sm font-bold shadow-sm select-none"
             >
               <Download className="h-3.5 w-3.5" />
               <span>Summary PDF</span>
@@ -169,28 +169,28 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
       </div>
 
       <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-primary/80 to-chart-2" />
+        <div className="from-primary via-primary/80 to-chart-2 absolute top-0 right-0 left-0 h-1 bg-linear-to-r" />
         <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div className="space-y-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs font-bold uppercase text-primary tracking-wider bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-primary bg-primary/10 border-primary/20 rounded-full border px-2.5 py-1 text-xs font-bold tracking-wider uppercase">
                   {matter.caseType}
                 </span>
                 {getStatusBadge(matter.status)}
                 {matter.cnr && (
-                  <span className="text-xs font-mono text-muted-foreground bg-muted px-2.5 py-1 rounded border border-border">
+                  <span className="text-muted-foreground bg-muted border-border rounded border px-2.5 py-1 font-mono text-xs">
                     CNR: {matter.cnr}
                   </span>
                 )}
               </div>
-              <h2 className="text-2xl font-black text-foreground pt-1">
+              <h2 className="text-foreground pt-1 text-2xl font-black">
                 {matter.client?.name || matter.clientName}{" "}
                 <span className="text-muted-foreground font-normal">
                   v. Opposition
                 </span>
               </h2>
-              <p className="text-sm text-muted-foreground flex items-center gap-2 font-medium">
+              <p className="text-muted-foreground flex items-center gap-2 text-sm font-medium">
                 <span>
                   Internal Ref: <strong>{matter.firmCaseNumber}</strong>
                 </span>
@@ -214,14 +214,14 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
             </div>
 
             {matter.currentStage && (
-              <div className="bg-muted/30 border border-border/80 p-3 rounded-2xl md:text-right shrink-0">
-                <p className="text-xs font-bold text-muted-foreground uppercase">
+              <div className="bg-muted/30 border-border/80 shrink-0 rounded-2xl border p-3 md:text-right">
+                <p className="text-muted-foreground text-xs font-bold uppercase">
                   Current Legal Stage
                 </p>
-                <p className="text-base font-extrabold text-primary mt-0.5">
+                <p className="text-primary mt-0.5 text-base font-extrabold">
                   {matter.currentStage.name}
                 </p>
-                <span className="text-xs text-muted-foreground font-semibold">
+                <span className="text-muted-foreground text-xs font-semibold">
                   Sequence order: #{matter.currentStage.sequenceOrder}
                 </span>
               </div>
@@ -233,7 +233,7 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
       <div
         role="tablist"
         aria-label="Matter sections"
-        className="flex items-center border-b border-border overflow-x-auto gap-1 pb-1"
+        className="border-border flex items-center gap-1 overflow-x-auto border-b pb-1"
       >
         <Button
           variant="ghost"
@@ -243,9 +243,9 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
           aria-controls="panel-overview"
           tabIndex={activeTab === "overview" ? 0 : -1}
           onClick={() => setActiveTab("overview")}
-          className={`rounded-xl text-sm font-bold px-4 py-2 h-9 shrink-0 ${
+          className={`h-9 shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${
             activeTab === "overview"
-              ? "bg-primary/10 text-primary border border-primary/20"
+              ? "bg-primary/10 text-primary border-primary/20 border"
               : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
           }`}
         >
@@ -261,9 +261,9 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
           aria-controls="panel-timeline"
           tabIndex={activeTab === "timeline" ? 0 : -1}
           onClick={() => setActiveTab("timeline")}
-          className={`rounded-xl text-sm font-bold px-4 py-2 h-9 shrink-0 ${
+          className={`h-9 shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${
             activeTab === "timeline"
-              ? "bg-primary/10 text-primary border border-primary/20"
+              ? "bg-primary/10 text-primary border-primary/20 border"
               : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
           }`}
         >
@@ -279,9 +279,9 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
           aria-controls="panel-hearings"
           tabIndex={activeTab === "hearings" ? 0 : -1}
           onClick={() => setActiveTab("hearings")}
-          className={`rounded-xl text-sm font-bold px-4 py-2 h-9 shrink-0 ${
+          className={`h-9 shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${
             activeTab === "hearings"
-              ? "bg-primary/10 text-primary border border-primary/20"
+              ? "bg-primary/10 text-primary border-primary/20 border"
               : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
           }`}
         >
@@ -297,9 +297,9 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
           aria-controls="panel-tasks"
           tabIndex={activeTab === "tasks" ? 0 : -1}
           onClick={() => setActiveTab("tasks")}
-          className={`rounded-xl text-sm font-bold px-4 py-2 h-9 shrink-0 ${
+          className={`h-9 shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${
             activeTab === "tasks"
-              ? "bg-primary/10 text-primary border border-primary/20"
+              ? "bg-primary/10 text-primary border-primary/20 border"
               : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
           }`}
         >
@@ -315,9 +315,9 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
           aria-controls="panel-documents"
           tabIndex={activeTab === "documents" ? 0 : -1}
           onClick={() => setActiveTab("documents")}
-          className={`rounded-xl text-sm font-bold px-4 py-2 h-9 shrink-0 ${
+          className={`h-9 shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${
             activeTab === "documents"
-              ? "bg-primary/10 text-primary border border-primary/20"
+              ? "bg-primary/10 text-primary border-primary/20 border"
               : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
           }`}
         >
@@ -333,9 +333,9 @@ export function MatterDetail({ id, userRole }: Readonly<MatterDetailProps>) {
           aria-controls="panel-parties"
           tabIndex={activeTab === "parties" ? 0 : -1}
           onClick={() => setActiveTab("parties")}
-          className={`rounded-xl text-sm font-bold px-4 py-2 h-9 shrink-0 ${
+          className={`h-9 shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${
             activeTab === "parties"
-              ? "bg-primary/10 text-primary border border-primary/20"
+              ? "bg-primary/10 text-primary border-primary/20 border"
               : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
           }`}
         >

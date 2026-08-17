@@ -103,23 +103,23 @@ export function ProfileDropdown({
             transition={{ type: "spring", stiffness: 360, damping: 28 }}
             style={{ transformOrigin: "bottom" }}
             className={cn(
-              "absolute bottom-full left-0 mb-3 rounded-2xl border border-border bg-card shadow-lg p-3 text-card-foreground flex flex-col gap-3 z-50 transition-all duration-300",
-              collapsed ? "w-56 -left-2" : "w-full"
+              "border-border bg-card text-card-foreground absolute bottom-full left-0 z-50 mb-3 flex flex-col gap-3 rounded-2xl border p-3 shadow-lg transition-all duration-300",
+              collapsed ? "-left-2 w-56" : "w-full"
             )}
           >
             {/* Header Profile Details */}
-            <div className="flex flex-col border-b border-border pb-2.5">
-              <p className="text-sm font-bold text-foreground truncate">
+            <div className="border-border flex flex-col border-b pb-2.5">
+              <p className="text-foreground truncate text-sm font-bold">
                 {displayName}
               </p>
-              <p className="text-xs text-muted-foreground truncate">
+              <p className="text-muted-foreground truncate text-xs">
                 {user.email}
               </p>
-              <span className="inline-block text-xs font-bold text-primary dark:text-primary-foreground bg-primary/10 dark:bg-primary/50 px-2 py-0.5 rounded-full border border-primary/20 mt-1.5 w-max">
+              <span className="text-primary dark:text-primary-foreground bg-primary/10 dark:bg-primary/50 border-primary/20 mt-1.5 inline-block w-max rounded-full border px-2 py-0.5 text-xs font-bold">
                 {user.role === "OWNER" ? "Principal Counsel" : user.role}
               </span>
               {firm?.name && (
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-muted-foreground mt-1.5">
+                <span className="text-muted-foreground mt-1.5 inline-flex items-center gap-1.5 text-[11px] font-bold">
                   <span
                     className="h-2 w-2 shrink-0 rounded-full"
                     style={{
@@ -153,7 +153,7 @@ export function ProfileDropdown({
                 <Link
                   href="/settings"
                   role="menuitem"
-                  className="flex items-center gap-2.5 w-full px-2.5 py-2 rounded-xl text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors"
+                  className="text-muted-foreground hover:text-foreground hover:bg-muted/70 flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-xs font-semibold transition-colors"
                 >
                   <Settings className="h-4 w-4 shrink-0" />
                   <span>Settings</span>
@@ -170,7 +170,7 @@ export function ProfileDropdown({
                 <Link
                   href="/help"
                   role="menuitem"
-                  className="flex items-center gap-2.5 w-full px-2.5 py-2 rounded-xl text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors"
+                  className="text-muted-foreground hover:text-foreground hover:bg-muted/70 flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-xs font-semibold transition-colors"
                 >
                   <HelpCircle className="h-4 w-4 shrink-0" />
                   <span>Help & Support</span>
@@ -189,7 +189,7 @@ export function ProfileDropdown({
                   role="menuitem"
                   onClick={handleLogout}
                   disabled={isLoading}
-                  className="flex items-center gap-2.5 w-full px-2.5 py-2 rounded-xl text-xs font-semibold text-destructive hover:bg-destructive/10 transition-colors mt-1.5 pt-2.5 border-t border-border text-left cursor-pointer"
+                  className="text-destructive hover:bg-destructive/10 border-border mt-1.5 flex w-full cursor-pointer items-center gap-2.5 rounded-xl border-t px-2.5 py-2 pt-2.5 text-left text-xs font-semibold transition-colors"
                 >
                   <LogOut className="h-4 w-4 shrink-0" />
                   <span>{isLoading ? "Signing Out..." : "Sign Out"}</span>
@@ -209,10 +209,10 @@ export function ProfileDropdown({
         aria-expanded={menuOpen}
         aria-controls="profile-menu"
         className={cn(
-          "flex items-center bg-card shadow-xs overflow-hidden transition-all duration-300 cursor-pointer select-none text-left",
+          "bg-card flex cursor-pointer items-center overflow-hidden text-left shadow-xs transition-all duration-300 select-none",
           collapsed
-            ? "rounded-full justify-center mx-auto h-10 w-10 border border-border"
-            : "px-3 rounded-full gap-3 h-max py-2 w-full border border-border"
+            ? "border-border mx-auto h-10 w-10 justify-center rounded-full border"
+            : "border-border h-max w-full gap-3 rounded-full border px-3 py-2"
         )}
         title={collapsed ? displayName : undefined}
       >
@@ -222,11 +222,11 @@ export function ProfileDropdown({
           email={user.email}
         />
         {!collapsed && (
-          <div className="flex-1 min-w-0 transition-opacity duration-300">
-            <p className="text-sm font-bold text-card-foreground truncate">
+          <div className="min-w-0 flex-1 transition-opacity duration-300">
+            <p className="text-card-foreground truncate text-sm font-bold">
               {displayName}
             </p>
-            <p className="text-xs text-primary/80 dark:text-white/80 whitespace-nowrap">
+            <p className="text-primary/80 text-xs whitespace-nowrap dark:text-white/80">
               {user.role === "OWNER" ? "Principal Counsel" : user.role}
             </p>
           </div>

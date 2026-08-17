@@ -38,7 +38,7 @@ export function PlaceholderLogo({
     <div
       aria-hidden="true"
       className={cn(
-        "flex shrink-0 select-none items-center justify-center overflow-hidden font-black text-white",
+        "flex shrink-0 items-center justify-center overflow-hidden font-black text-white select-none",
         rounded,
         className
       )}

@@ -1,9 +1,15 @@
-import { AssociatesList } from "@/components/associates/AssociatesList";
+import { AssociatesPage } from "@/components/associates/AssociatesPage";
 import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
 import { getSession } from "@/lib/session";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-export default async function AssociatesPage() {
+export const metadata: Metadata = {
+  title: "Verdict - Associates",
+  description: "Firm Associates",
+};
+
+export default async function Associates() {
   const { user } = await getSession();
   if (!user) {
     redirect("/login");
@@ -14,7 +20,7 @@ export default async function AssociatesPage() {
   return (
     <div className="space-y-6">
       <HeaderUpdater title="Law Firm Associates & Staff" />
-      <AssociatesList userRole={user.role} />
+      <AssociatesPage />
     </div>
   );
 }

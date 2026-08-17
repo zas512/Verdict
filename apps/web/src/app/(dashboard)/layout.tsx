@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
 export default async function DashboardLayout({
-  children
+  children,
 }: Readonly<{
   children: ReactNode;
 }>) {
@@ -13,7 +13,6 @@ export default async function DashboardLayout({
   if (!user) {
     redirect("/login");
   }
-  // First login: the provisioned password must be replaced before the app opens.
   if (user.mustChangePassword) {
     redirect("/setup");
   }

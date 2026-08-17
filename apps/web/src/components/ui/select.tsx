@@ -170,11 +170,13 @@ export function Select({
 }
 
 export interface SelectTriggerProps {
+  id?: string;
   className?: string;
   children: ReactNode;
 }
 
 export function SelectTrigger({
+  id,
   className,
   children
 }: Readonly<SelectTriggerProps>) {
@@ -182,7 +184,7 @@ export function SelectTrigger({
   return (
     <motion.button
       type="button"
-      id={ctx.triggerId}
+      id={id ?? ctx.triggerId}
       disabled={ctx.disabled}
       aria-haspopup="listbox"
       aria-expanded={ctx.open}

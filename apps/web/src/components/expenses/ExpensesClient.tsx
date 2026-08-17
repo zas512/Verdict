@@ -2,7 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CustomTable } from "@/components/ui/table";
+import { CustomTable } from "@/components/table";
 import { formatPKR } from "@/lib/format";
 import { getErrorMessage } from "@/lib/utils";
 import type { ColumnConfig } from "@/types/tableTypes";

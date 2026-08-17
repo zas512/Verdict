@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { CustomTable } from "@/components/ui/table";
+import { CustomTable } from "@/components/table";
 import { getErrorMessage } from "@/lib/utils";
 import type { ColumnConfig } from "@/types/tableTypes";
 import {

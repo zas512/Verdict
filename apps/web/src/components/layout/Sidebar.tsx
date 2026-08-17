@@ -10,11 +10,11 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const MobileSidebar = dynamic(
   () => import("./MobileSidebar").then((mod) => mod.MobileSidebar),
-  { ssr: false }
+  { ssr: false },
 );
 
 export interface SidebarProps {
@@ -37,36 +37,11 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
   const pathname = usePathname();
   const { user: authUser } = useAuth();
   const isMobile = useMediaQuery("(max-width: 1023px)");
-
   const richUser = authUser ?? user;
   const firm = richUser.firm ?? null;
   const avatarUrl = richUser.avatarUrl ?? null;
-
   const [desktopCollapsed, setDesktopCollapsed] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  // Expose the firm's accent color so branding surfaces can tint with it.
-  useEffect(() => {
-    if (firm?.accentColor) {
-      document.documentElement.style.setProperty(
-        "--brand-accent",
-        firm.accentColor
-      );
-    }
-  }, [firm?.accentColor]);
-
-  // Keyboard shortcut Ctrl+B / Cmd+B to toggle sidebar collapse (desktop only)
-  useEffect(() => {
-    const handleShortcut = (event: KeyboardEvent) => {
-      if (event.key.toLowerCase() === "b" && (event.metaKey || event.ctrlKey)) {
-        event.preventDefault();
-        setDesktopCollapsed((prev) => !prev);
-      }
-    };
-    window.addEventListener("keydown", handleShortcut);
-    return () => window.removeEventListener("keydown", handleShortcut);
-  }, []);
-
   const filteredNav = navItems.filter((item) => item.roles.includes(user.role));
   const displayName = user.name || user.email;
 
@@ -76,16 +51,15 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
         className={cn(
           "bg-sidebar border-sidebar-border text-sidebar-foreground relative hidden flex-col justify-between overflow-visible border-r lg:flex",
           "min-h-screen shrink-0 transition-[transform,width,padding] duration-300 ease-out",
-          desktopCollapsed ? "w-18 p-3" : "w-64 p-5"
+          desktopCollapsed ? "w-18 p-3" : "w-64 p-5",
         )}
       >
-        {/* Floating Collapse Toggle Button */}
         <button
           type="button"
           onClick={() => setDesktopCollapsed(!desktopCollapsed)}
           aria-label={desktopCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           aria-expanded={!desktopCollapsed}
-          className="bg-card border-border text-muted-foreground hover:text-foreground absolute top-3 -right-4 z-40 size-8 cursor-pointer rounded-full border"
+          className="bg-card text-foreground/70 hover:text-foreground border-foreground/10 absolute top-3 -right-4 z-40 size-8 cursor-pointer rounded-full border"
           title={
             desktopCollapsed
               ? "Expand sidebar (Ctrl+B)"
@@ -104,18 +78,28 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
           {/* Brand Logo & Title */}
           <div
             className={cn(
-              "border-sidebar-border flex h-11.25 items-center border-b",
-              desktopCollapsed
-                ? "mt-6 justify-center pb-6"
-                : "mt-8 justify-between gap-3 pb-12"
+              "border-foreground/10 flex items-center justify-center border-b",
+              desktopCollapsed ? "mt-4 pb-4" : "pb-4",
             )}
           >
             {desktopCollapsed ? (
-              <Image src="/logo.png" alt="" width={40} height={40} />
+              <Image
+                src="/logo_verdict.png"
+                alt=""
+                priority
+                width={30}
+                height={40}
+              />
             ) : (
-              <div className="flex min-w-0 items-center gap-3">
-                <Image src="/logo.png" alt="" width={100} height={40} />
-                <p className="font-garamond text-sidebar-foreground truncate text-lg font-bold tracking-tight">
+              <div className="flex items-center justify-center gap-3">
+                <Image
+                  src="/logo_verdict.png"
+                  alt=""
+                  priority
+                  width={50}
+                  height={50}
+                />
+                <p className="font-garamond text-sidebar-foreground cursor-default truncate text-lg font-bold tracking-tight">
                   VERDICT
                 </p>
               </div>
@@ -149,7 +133,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                         : "w-full gap-3 px-3.5 py-2",
                       isActive
                         ? "text-sidebar-primary-foreground font-bold"
-                        : "text-muted-foreground hover:text-sidebar-foreground"
+                        : "text-muted-foreground hover:text-sidebar-foreground",
                     )}
                     title={desktopCollapsed ? item.title : undefined}
                   >
@@ -159,13 +143,13 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                         layoutId="sidebar-hover-pill"
                         className={cn(
                           "bg-sidebar-accent/80 absolute inset-0",
-                          desktopCollapsed ? "rounded-full" : "rounded-md"
+                          desktopCollapsed ? "rounded-full" : "rounded-md",
                         )}
                         transition={{
                           type: "spring",
                           stiffness: 360,
                           damping: 32,
-                          mass: 0.6
+                          mass: 0.6,
                         }}
                       />
                     )}
@@ -175,13 +159,13 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                         layoutId="sidebar-active-pill"
                         className={cn(
                           "bg-sidebar-primary absolute inset-0",
-                          desktopCollapsed ? "rounded-full" : "rounded-md"
+                          desktopCollapsed ? "rounded-full" : "rounded-md",
                         )}
                         transition={{
                           type: "spring",
                           stiffness: 360,
                           damping: 32,
-                          mass: 0.6
+                          mass: 0.6,
                         }}
                       />
                     )}
@@ -191,7 +175,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                         "relative z-10 h-4 w-4 shrink-0",
                         isActive
                           ? "text-sidebar-primary-foreground"
-                          : "text-muted-foreground"
+                          : "text-muted-foreground",
                       )}
                     />
                     {!desktopCollapsed && (
@@ -212,7 +196,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-sidebar-border relative border-t pt-4">
+        <div className="border-foreground/10 relative border-t pt-4">
           <ProfileDropdown
             user={richUser}
             collapsed={desktopCollapsed}

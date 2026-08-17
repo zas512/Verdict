@@ -31,7 +31,7 @@ export function ProfileDropdown({
   collapsed,
   displayName,
   avatarUrl,
-  firm
+  firm,
 }: Readonly<ProfileDropdownProps>) {
   const { logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -43,10 +43,8 @@ export function ProfileDropdown({
     setMenuOpen(false);
   }, []);
 
-  // Close on outside click and Escape; return focus to the trigger on Escape.
   useEffect(() => {
     if (!menuOpen) return;
-
     const handlePointerDown = (event: PointerEvent) => {
       if (
         containerRef.current &&
@@ -55,14 +53,12 @@ export function ProfileDropdown({
         closeMenu();
       }
     };
-
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         closeMenu();
         triggerRef.current?.focus();
       }
     };
-
     document.addEventListener("pointerdown", handlePointerDown);
     document.addEventListener("keydown", handleKeyDown);
     return () => {
@@ -103,12 +99,12 @@ export function ProfileDropdown({
             transition={{ type: "spring", stiffness: 360, damping: 28 }}
             style={{ transformOrigin: "bottom" }}
             className={cn(
-              "border-border bg-card text-card-foreground absolute bottom-full left-0 z-50 mb-3 flex flex-col gap-3 rounded-2xl border p-3 shadow-lg transition-all duration-300",
-              collapsed ? "-left-2 w-56" : "w-full"
+              "border-foreground/20 bg-card text-card-foreground absolute bottom-full left-0 z-50 mb-3 flex flex-col gap-3 rounded-2xl border p-3 shadow-lg transition-all duration-300",
+              collapsed ? "-left-2 w-56" : "w-full",
             )}
           >
             {/* Header Profile Details */}
-            <div className="border-border flex flex-col border-b pb-2.5">
+            <div className="border-foreground/20 flex flex-col border-b pb-2.5">
               <p className="text-foreground truncate text-sm font-bold">
                 {displayName}
               </p>
@@ -123,7 +119,7 @@ export function ProfileDropdown({
                   <span
                     className="h-2 w-2 shrink-0 rounded-full"
                     style={{
-                      backgroundColor: firm.accentColor ?? DEFAULT_ACCENT
+                      backgroundColor: firm.accentColor ?? DEFAULT_ACCENT,
                     }}
                   />
                   <span className="truncate">{firm.name}</span>
@@ -136,8 +132,8 @@ export function ProfileDropdown({
               variants={{
                 hidden: {},
                 show: {
-                  transition: { staggerChildren: 0.035, delayChildren: 0.05 }
-                }
+                  transition: { staggerChildren: 0.035, delayChildren: 0.05 },
+                },
               }}
               initial="hidden"
               animate="show"
@@ -147,7 +143,7 @@ export function ProfileDropdown({
               <motion.div
                 variants={{
                   hidden: { opacity: 0, y: -6, filter: "blur(3px)" },
-                  show: { opacity: 1, y: 0, filter: "blur(0px)" }
+                  show: { opacity: 1, y: 0, filter: "blur(0px)" },
                 }}
               >
                 <Link
@@ -164,7 +160,7 @@ export function ProfileDropdown({
               <motion.div
                 variants={{
                   hidden: { opacity: 0, y: -6, filter: "blur(3px)" },
-                  show: { opacity: 1, y: 0, filter: "blur(0px)" }
+                  show: { opacity: 1, y: 0, filter: "blur(0px)" },
                 }}
               >
                 <Link
@@ -181,7 +177,7 @@ export function ProfileDropdown({
               <motion.div
                 variants={{
                   hidden: { opacity: 0, y: -6, filter: "blur(3px)" },
-                  show: { opacity: 1, y: 0, filter: "blur(0px)" }
+                  show: { opacity: 1, y: 0, filter: "blur(0px)" },
                 }}
               >
                 <button
@@ -189,7 +185,7 @@ export function ProfileDropdown({
                   role="menuitem"
                   onClick={handleLogout}
                   disabled={isLoading}
-                  className="text-destructive hover:bg-destructive/10 border-border mt-1.5 flex w-full cursor-pointer items-center gap-2.5 rounded-xl border-t px-2.5 py-2 pt-2.5 text-left text-xs font-semibold transition-colors"
+                  className="text-destructive hover:bg-destructive/10 border-foreground/20 mt-1.5 flex w-full cursor-pointer items-center gap-2.5 rounded-xl border-t px-2.5 py-2 pt-2.5 text-left text-xs font-semibold transition-colors"
                 >
                   <LogOut className="h-4 w-4 shrink-0" />
                   <span>{isLoading ? "Signing Out..." : "Sign Out"}</span>
@@ -209,10 +205,10 @@ export function ProfileDropdown({
         aria-expanded={menuOpen}
         aria-controls="profile-menu"
         className={cn(
-          "bg-card flex cursor-pointer items-center overflow-hidden text-left shadow-xs transition-all duration-300 select-none",
+          "bg-card border-foreground/20 flex cursor-pointer items-center overflow-hidden text-left shadow-xs transition-all duration-300 select-none",
           collapsed
-            ? "border-border mx-auto h-10 w-10 justify-center rounded-full border"
-            : "border-border h-max w-full gap-3 rounded-full border px-3 py-2"
+            ? "mx-auto h-10 w-10 justify-center rounded-full border"
+            : "h-max w-full gap-3 rounded-full border px-3 py-2",
         )}
         title={collapsed ? displayName : undefined}
       >

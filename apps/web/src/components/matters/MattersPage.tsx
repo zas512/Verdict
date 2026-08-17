@@ -1,13 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Briefcase,
-  FolderClosed,
-  Gavel,
-  Plus,
-  RefreshCw,
-  Scale
-} from "lucide-react";
+import { Plus, RefreshCw } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Filters } from "../ui/filters";
@@ -16,8 +9,8 @@ import { CreateMatterDialog } from "./CreateMatterDialog";
 import type { Matter } from "./MattersTable";
 import { MattersTable } from "./MattersTable";
 
-export function MattersList({
-  userRole
+export function MattersPage({
+  userRole,
 }: Readonly<{
   userRole: string;
 }>) {
@@ -32,7 +25,7 @@ export function MattersList({
     isLoading,
     isRefetching,
     refetch,
-    error
+    error,
   } = useQuery<Matter[]>({
     queryKey: ["matters"],
     queryFn: async () => {
@@ -42,7 +35,7 @@ export function MattersList({
         throw new Error(errorData.message || "Failed to fetch matters");
       }
       return res.json();
-    }
+    },
   });
 
   useEffect(() => {
@@ -75,7 +68,7 @@ export function MattersList({
       total,
       active,
       closed,
-      decided
+      decided,
     };
   }, [allMatters]);
 
@@ -86,23 +79,23 @@ export function MattersList({
         metrics={[
           {
             label: "Total Matters",
-            value: stats.total
+            value: stats.total,
           },
           {
             label: "Active",
             value: stats.active,
-            accentColor: "var(--success)"
+            accentColor: "var(--success)",
           },
           {
             label: "Decided",
             value: stats.decided,
-            accentColor: "var(--warning)"
+            accentColor: "var(--warning)",
           },
           {
             label: "Closed",
             value: stats.closed,
-            accentColor: "var(--destructive)"
-          }
+            accentColor: "var(--destructive)",
+          },
         ]}
       />
 
@@ -112,7 +105,7 @@ export function MattersList({
           ariaLabel: "Search matters",
           placeholder: "Search case #, client, CNR...",
           value: globalFilter,
-          onChange: setGlobalFilter
+          onChange: setGlobalFilter,
         }}
         filters={[
           {
@@ -126,8 +119,8 @@ export function MattersList({
               { value: "ACTIVE", label: "Active" },
               { value: "DECIDED", label: "Decided" },
               { value: "CLOSED", label: "Closed" },
-              { value: "ARCHIVED", label: "Archived" }
-            ]
+              { value: "ARCHIVED", label: "Archived" },
+            ],
           },
           {
             key: "type",
@@ -143,9 +136,9 @@ export function MattersList({
               { value: "FAMILY", label: "Family" },
               { value: "SERVICE", label: "Service" },
               { value: "CORPORATE", label: "Corporate" },
-              { value: "TAXATION", label: "Taxation" }
-            ]
-          }
+              { value: "TAXATION", label: "Taxation" },
+            ],
+          },
         ]}
         actions={[
           {
@@ -154,7 +147,7 @@ export function MattersList({
             icon: <Plus className="size-5" />,
             onClick: () => setIsCreateOpen(true),
             hidden: !canManage,
-            className: "bg-primary text-white hover:bg-primary/90"
+            className: "bg-primary text-white hover:bg-primary/90",
           },
           {
             key: "sync-ledger",
@@ -163,8 +156,8 @@ export function MattersList({
             onClick: () => {
               void refetch();
             },
-            loading: isRefetching
-          }
+            loading: isRefetching,
+          },
         ]}
       />
 

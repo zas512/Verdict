@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { CustomTable } from "@/components/ui/table";
+import { CustomTable } from "@/components/table";
 import type { Client } from "@/types/clientTypes";
 import type { ColumnConfig } from "@/types/tableTypes";
 import { Contact, ExternalLink } from "lucide-react";

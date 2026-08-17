@@ -1,8 +1,8 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
-import { CustomTable } from "@/components/ui/table";
+import { CustomTable } from "@/components/table";
 import type { ColumnConfig } from "@/types/tableTypes";
 import { Scale } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export interface Matter {
   id: string;
@@ -46,6 +46,7 @@ interface MattersTableProps {
 }
 
 export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
+  const router = useRouter();
   const columns: ColumnConfig<Matter>[] = [
     {
       key: "firmCaseNumber",
@@ -54,16 +55,14 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       accessor: (m) => m.firmCaseNumber,
       render: (m) => (
         <div>
-          <p className="text-foreground font-mono text-sm font-bold">
-            {m.firmCaseNumber}
-          </p>
+          <p className="text-foreground font-semibold">{m.firmCaseNumber}</p>
           {m.courtCaseNumber && (
-            <span className="text-muted-foreground block max-w-45 truncate text-xs">
+            <span className="text-foreground/70 max-w-45 truncate text-xs">
               Court Case: {m.courtCaseNumber}
             </span>
           )}
         </div>
-      )
+      ),
     },
     {
       key: "clientName",
@@ -71,10 +70,10 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       sortable: true,
       accessor: (m) => m.clientName,
       render: (m) => (
-        <span className="text-foreground text-sm font-bold">
+        <span className="text-foreground font-bold tracking-wide">
           {m.client?.name || m.clientName}
         </span>
-      )
+      ),
     },
     {
       key: "caseType",
@@ -82,20 +81,20 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       sortable: true,
       accessor: (m) => m.caseType,
       render: (m) => (
-        <span className="text-muted-foreground text-xs font-semibold uppercase">
+        <span className="text-foreground/80 text-xs font-semibold tracking-wider uppercase">
           {m.caseType}
         </span>
-      )
+      ),
     },
     {
       key: "currentStage",
       header: "CURRENT STAGE",
       accessor: (m) => m.currentStage?.name ?? "",
       render: (m) => (
-        <span className="text-muted-foreground block max-w-50 truncate text-sm font-semibold">
+        <span className="text-foreground/80 block max-w-50 truncate font-semibold">
           {m.currentStage ? m.currentStage.name : "None / Unassigned"}
         </span>
-      )
+      ),
     },
     {
       key: "status",
@@ -108,25 +107,15 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
           ACTIVE: "text-success",
           DECIDED: "text-warning",
           CLOSED: "text-destructive",
-          ARCHIVED: "text-muted-foreground"
+          ARCHIVED: "text-muted-foreground",
         };
-        const dotColorMap = {
-          ACTIVE: "bg-success",
-          DECIDED: "bg-warning",
-          CLOSED: "bg-destructive",
-          ARCHIVED: "bg-muted-foreground"
-        };
-        const dotColor = dotColorMap[status] ?? "bg-muted-foreground";
         const textColor = colorMap[status] ?? "text-muted-foreground";
         return (
-          <div
-            className={`flex items-center gap-1.5 text-xs font-semibold ${textColor}`}
-          >
-            <span className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />
-            <span>{status.charAt(0) + status.slice(1).toLowerCase()}</span>
-          </div>
+          <span className={`font-semibold ${textColor}`}>
+            {status.charAt(0) + status.slice(1).toLowerCase()}
+          </span>
         );
-      }
+      },
     },
     {
       key: "filingDate",
@@ -134,17 +123,17 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       sortable: true,
       accessor: (m) => (m.filingDate ? new Date(m.filingDate) : null),
       render: (m) => (
-        <span className="text-muted-foreground font-mono text-xs">
+        <span className="text-foreground/80">
           {m.filingDate
             ? new Date(m.filingDate).toLocaleDateString("en-PK", {
                 day: "2-digit",
                 month: "short",
-                year: "numeric"
+                year: "numeric",
               })
             : "Not Filed"}
         </span>
-      )
-    }
+      ),
+    },
   ];
 
   return (
@@ -161,7 +150,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
       emptyDescription="Adjust filters or create a new matter to begin."
       caption="Matters list"
       onRowClick={(m) => {
-        window.location.href = `/matters/${m.id}`;
+        router.push(`/matters/${m.id}`);
       }}
       pageSize={8}
     />

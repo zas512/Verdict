@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { CustomTable } from "@/components/ui/table";
+import { CustomTable } from "@/components/table";
 import { SummaryStrip } from "../ui/summary-strip";
 import { InsetSurface } from "../ui/inset-surface";
 import type { ColumnConfig } from "@/types/tableTypes";

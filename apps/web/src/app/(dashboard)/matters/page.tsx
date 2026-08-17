@@ -1,11 +1,17 @@
 import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
-import { MattersList } from "@/components/matters/MattersList";
+import { MattersPage } from "@/components/matters/MattersPage";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 
 const ALLOWED_ROLES = new Set(["OWNER", "ASSOCIATE"]);
 
-export default async function MattersPage() {
+export const metadata: Metadata = {
+  title: "Matters List",
+  description: "Matters & Cases Dashboard",
+};
+
+export default async function Matters() {
   const { user } = await getSession();
   if (!user) {
     redirect("/login");
@@ -16,7 +22,7 @@ export default async function MattersPage() {
   return (
     <div className="space-y-6">
       <HeaderUpdater title="Matters & Cases Dashboard" />
-      <MattersList userRole={user.role} />
+      <MattersPage userRole={user.role} />
     </div>
   );
 }

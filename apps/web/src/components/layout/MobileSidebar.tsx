@@ -4,6 +4,7 @@ import { FirmLogo } from "@/components/branding/FirmLogo";
 import { GlobalSearch } from "@/components/layout/GlobalSearch";
 import { ProfileDropdown } from "@/components/layout/ProfileDropdown";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { navItems } from "@/config/navigation";
 import { cn } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 import { closeSidebar } from "@/redux/ui";
@@ -13,7 +14,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { navItems, SidebarProps } from "./Sidebar";
+import { SidebarProps } from "./Sidebar";
 
 export function MobileSidebar({ user }: Readonly<SidebarProps>) {
   const pathname = usePathname();

@@ -1,24 +1,13 @@
 "use client";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { FirmLogo } from "@/components/branding/FirmLogo";
 import { ProfileDropdown } from "@/components/layout/ProfileDropdown";
+import { navItems } from "@/config/navigation";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
-import {
-  Building2,
-  Calendar,
-  CalendarDays,
-  ChevronLeft,
-  ChevronRight,
-  Contact,
-  CreditCard,
-  LayoutDashboard,
-  ListChecks,
-  Scale,
-  Users
-} from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -43,63 +32,6 @@ export interface SidebarProps {
     } | null;
   };
 }
-
-export const navItems = [
-  {
-    title: "Dashboard",
-    href: "/dashboard",
-    icon: LayoutDashboard,
-    roles: ["OWNER", "ADMIN", "ASSOCIATE", "SUPER_ADMIN"]
-  },
-  {
-    title: "Matters & Cases",
-    href: "/matters",
-    icon: Scale,
-    roles: ["OWNER", "ASSOCIATE"]
-  },
-  {
-    title: "Clients",
-    href: "/clients",
-    icon: Contact,
-    roles: ["OWNER", "ASSOCIATE"]
-  },
-  {
-    title: "Tasks",
-    href: "/tasks",
-    icon: ListChecks,
-    roles: ["OWNER", "ASSOCIATE"]
-  },
-  {
-    title: "Associates & Staff",
-    href: "/associates",
-    icon: Users,
-    roles: ["OWNER"]
-  },
-  {
-    title: "Attendance",
-    href: "/attendance",
-    icon: Calendar,
-    roles: ["OWNER", "ASSOCIATE"]
-  },
-  {
-    title: "Leave Requests",
-    href: "/leave",
-    icon: CalendarDays,
-    roles: ["OWNER", "ASSOCIATE"]
-  },
-  {
-    title: "Expenses & Billing",
-    href: "/expenses",
-    icon: CreditCard,
-    roles: ["OWNER", "ADMIN"]
-  },
-  {
-    title: "Firms Management",
-    href: "/platform",
-    icon: Building2,
-    roles: ["SUPER_ADMIN"]
-  }
-];
 
 export function Sidebar({ user }: Readonly<SidebarProps>) {
   const pathname = usePathname();
@@ -179,30 +111,13 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
             )}
           >
             {desktopCollapsed ? (
-              <FirmLogo
-                logoUrl={firm?.logoUrl}
-                name={firm?.name ?? "LGA"}
-                accentColor={firm?.accentColor}
-                size={30}
-              />
+              <Image src="/logo.png" alt="" width={40} height={40} />
             ) : (
               <div className="flex min-w-0 items-center gap-3">
-                <FirmLogo
-                  logoUrl={firm?.logoUrl}
-                  name={firm?.name ?? "LGA"}
-                  accentColor={firm?.accentColor}
-                  size={40}
-                />
-                <div className="min-w-0">
-                  <p className="truncate text-base font-black tracking-tight text-sidebar-foreground">
-                    {firm?.name ?? "Laal Global Advisory"}
-                  </p>
-                  {firm?.tagline && (
-                    <p className="truncate text-[10px] font-semibold text-muted-foreground">
-                      {firm.tagline}
-                    </p>
-                  )}
-                </div>
+                <Image src="/logo.png" alt="" width={100} height={40} />
+                <p className="truncate text-lg font-garamond font-bold tracking-tight text-sidebar-foreground">
+                  VERDICT
+                </p>
               </div>
             )}
           </div>

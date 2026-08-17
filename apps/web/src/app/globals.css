@@ -10,6 +10,7 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-heading: var(--font-heading);
+  --font-garamond: var(--font-garamond);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -326,3 +327,43 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* CRM Login Panel overrides */
+.login-input {
+  height: 48px !important;
+  font-size: 0.875rem !important;
+  border-radius: 10px !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.dark .login-input {
+  background-color: var(--background) !important; /* Darker than the card background #171A20 */
+  border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Clear visible subtle border */
+  color: var(--foreground) !important;
+}
+
+.dark .login-input::placeholder {
+  color: var(--muted-foreground) !important;
+  opacity: 0.85 !important;
+}
+
+.dark .login-input:focus-visible,
+.dark .login-input:focus {
+  border-color: var(--primary) !important; /* Subtle gold focus border */
+  box-shadow: 0 0 0 1px rgba(201, 162, 92, 0.3) !important; /* Subtle ring, no neon glow */
+  outline: none !important;
+}
+
+/* Light mode support */
+.light .login-input {
+  background-color: #faf9f6 !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+}
+
+.light .login-input:focus-visible,
+.light .login-input:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 1px rgba(138, 106, 47, 0.25) !important;
+  outline: none !important;
+}
+

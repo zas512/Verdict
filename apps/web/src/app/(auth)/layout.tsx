@@ -1,161 +1,78 @@
-"use client";
-import { useState } from "react";
+import LawQuotes from "@/components/auth/Quotes";
+import { Card, CardContent } from "@/components/ui/card";
+import { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
 
-interface LawQuote {
-  text: string;
-  author: string;
-}
-
-const LAW_QUOTES: LawQuote[] = [
-  {
-    text: "Jurisprudence is the knowledge of things divine and human, the science of the just and the unjust.",
-    author: "Ulpian, Digest of Roman Law"
-  },
-  {
-    text: "The law is reason, free from passion.",
-    author: "Aristotle"
-  },
-  {
-    text: "Justice is the constant and perpetual will to allot to every man his due.",
-    author: "Domitius Ulpianus"
-  },
-  {
-    text: "If we desire respect for the law, we must first make the law respectable.",
-    author: "Louis D. Brandeis"
-  },
-  {
-    text: "The law is not a monument, but a garden. It must be cultivated, it must be tended.",
-    author: "Justice Felix Frankfurter"
-  },
-  {
-    text: "Let justice be done though the heavens fall.",
-    author: "Latin Legal Maxim"
-  },
-  {
-    text: "Where law ends, tyranny begins.",
-    author: "John Locke"
-  },
-  {
-    text: "The good of the people is the chief law.",
-    author: "Cicero"
-  },
-  {
-    text: "Injustice anywhere is a threat to justice everywhere.",
-    author: "Martin Luther King Jr."
-  },
-  {
-    text: "The life of the law has not been logic; it has been experience.",
-    author: "Oliver Wendell Holmes Jr."
-  },
-  {
-    text: "Let reverence for the laws be breathed by every mother to the lisping babe that prattles on her lap.",
-    author: "Abraham Lincoln"
-  },
-  {
-    text: "If we are to keep our democracy, there must be one commandment: Thou shalt not decide a case by power.",
-    author: "Learned Hand"
-  },
-  {
-    text: "Real change, enduring change, happens one step at a time.",
-    author: "Justice Ruth Bader Ginsburg"
-  },
-  {
-    text: "The final cause of law is the welfare of society.",
-    author: "Benjamin N. Cardozo"
-  },
-  {
-    text: "We are in bondage to the law in order that we may be free.",
-    author: "Cicero"
-  },
-  {
-    text: "Laws are like cobwebs, which may catch small flies, but let wasps and hornets break through.",
-    author: "Solon"
-  },
-  {
-    text: "Judges ought to be more learned than witty, more reverend than plausible, and more advised than confident.",
-    author: "Francis Bacon"
-  },
-  {
-    text: "We don't accomplish anything in this world alone... and whatever happens is the result of the whole tapestry of one's life.",
-    author: "Justice Sandra Day O'Connor"
-  },
-  {
-    text: "In recognizing the humanity of our fellow beings, we pay ourselves the highest tribute.",
-    author: "Justice Thurgood Marshall"
-  },
-  {
-    text: "Be you never so high, the law is above you.",
-    author: "Lord Denning"
-  },
-  {
-    text: "Nothing can destroy a government more quickly than its failure to observe its own laws.",
-    author: "Tom Clark"
-  },
-  {
-    text: "Reason is the life of the law, nay the common law itself is nothing else but reason.",
-    author: "Sir Edward Coke"
-  }
-];
+export const metadata: Metadata = {
+  title: "Verdict - Sign In",
+  description: "Sign in to your account"
+};
 
 export default function AuthLayout({
   children
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const [quote] = useState<LawQuote>(() => {
-    const randomIndex =
-      crypto.getRandomValues(new Uint32Array(1))[0] % LAW_QUOTES.length;
-    return LAW_QUOTES[randomIndex];
-  });
-
   return (
-    <div className="flex min-h-screen bg-background w-full">
-      {/* Left Pane: Branding Sidebar with background image */}
-      <section className="relative hidden flex-col w-[60%] justify-between p-12 text-primary-foreground lg:flex border-r border-border/20 overflow-hidden">
-        {/* Background image, full cover */}
-        <Image
-          src="/login.webp"
-          alt=""
-          fill
-          priority
-          className="object-cover"
-        />
-        {/* Dim layer */}
-        <div className="absolute inset-0 bg-overlay/50" />
-        {/* Blue overlay, darkened */}
-        <div className="absolute inset-0 bg-primary/70" />
-        <div className="absolute inset-0 bg-linear-to-b from-overlay/40 via-transparent to-overlay/60" />
-        {/* Content, above overlays */}
-        <div className="relative z-10 flex items-center gap-3 font-sans text-2xl font-bold tracking-tight text-primary-foreground">
-          <div>
-            <Image
-              src="/lgt_white.png"
-              alt="Laal Global Advisory"
-              width={350}
-              height={100}
-              className="object-contain"
-            />
+    <div className="relative flex min-h-screen w-full items-center justify-center p-4 md:p-8">
+      {/* Background image, full cover of the page */}
+      <Image
+        src="/login.webp"
+        alt="bg-image"
+        fill
+        priority
+        className="object-cover z-0 blur-xs"
+      />
+      {/* Dim layer & primary tint cover */}
+      <div className="absolute inset-0 bg-overlay/50 z-0" />
+      <div className="absolute inset-0 bg-primary/30 z-0" />
+
+      {/* Centered Two-Sided Card */}
+      <Card className="relative z-10 w-full max-w-5xl border bg-card shadow-2xl [--card-spacing:0px]">
+        <CardContent className="grid p-0 px-0 py-0 [--card-spacing:0px] md:grid-cols-2 min-h-145">
+          {/* Left Column: Branding Sidebar & Quotes */}
+          <div className="relative hidden md:flex flex-col justify-between p-8 md:p-12 text-primary-foreground bg-primary/90 overflow-hidden">
+            {/* Ambient overlay gradient for premium depth */}
+            <div className="absolute inset-0 bg-linear-to-b from-black/10 via-transparent to-black/10 pointer-events-none z-0" />
+
+            {/* Branding Section */}
+            <div className="relative z-10 flex items-center gap-3">
+              <Image
+                src="/logo_verdict.png"
+                alt="Verdict"
+                width={80}
+                height={90}
+                className="object-contain brightness-100"
+              />
+              <div>
+                <p className="font-garamond tracking-wider font-bold text-primary-foreground text-3xl leading-tight">
+                  VERDICT
+                </p>
+                <p className="font-sans font-semibold text-primary-foreground/80 text-sm">
+                  The Practice, Organized
+                </p>
+              </div>
+            </div>
+
+            {/* Quotes Section */}
+            <div className="relative z-10 flex-1 flex justify-center flex-col space-y-3 py-10">
+              <LawQuotes />
+            </div>
+
+            {/* Bottom branding / copyright footer */}
+            <p className="relative z-10 text-[11px] text-primary-foreground/60 font-semibold tracking-wide">
+              &copy; {new Date().getFullYear()} Verdict Technologies. All rights
+              reserved.
+            </p>
           </div>
-        </div>
-        <div className="relative z-10 space-y-3">
-          <p className="font-serif text-3xl leading-relaxed tracking-wide text-primary-foreground/90 italic">
-            &quot;{quote.text}&quot;
-          </p>
-          <p className="font-sans text-sm uppercase tracking-widest text-primary-foreground/70 font-bold">
-            — {quote.author}
-          </p>
-        </div>
-        <div className="relative z-10 text-sm text-primary-foreground/60 tracking-tight flex items-center justify-between font-medium border-t border-white/40 pt-4">
-          <span>Secure Firm Portal v1.0</span>
-          <span>© {new Date().getFullYear()} LGA</span>
-        </div>
-      </section>
-      {/* Right Pane: Page Content Surface */}
-      <section className="flex flex-1 flex-col justify-center items-center p-6 sm:p-12">
-        <div className="w-full max-w-sm space-y-6">{children}</div>
-      </section>
+
+          {/* Right Column: Page Content (Auth form/children) */}
+          <div className="flex flex-col justify-center p-6 md:p-8 lg:p-12">
+            {children}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

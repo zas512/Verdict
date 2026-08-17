@@ -1,12 +1,23 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { DM_Sans, Geist, Geist_Mono, Inter } from "next/font/google";
+import {
+  DM_Sans,
+  Geist,
+  Geist_Mono,
+  Inter,
+  EB_Garamond
+} from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 import Providers from "./providers";
 
 const interHeading = Inter({ subsets: ["latin"], variable: "--font-heading" });
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
+const ebGaramond = EB_Garamond({
+  subsets: ["latin"],
+  variable: "--font-garamond",
+  weight: ["400", "700"]
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,8 +30,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LGA - Laal Global Advisory",
-  description: "Internal Firm Management System"
+  title: "Verdict",
+  description: "Law Firm Management System"
 };
 
 export default function RootLayout({
@@ -38,16 +49,17 @@ export default function RootLayout({
         geistMono.variable,
         "font-sans",
         dmSans.variable,
-        interHeading.variable
+        interHeading.variable,
+        ebGaramond.variable
       )}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
         <Providers>{children}</Providers>
-      {/* impeccable-live-start */}
-<script src="http://localhost:8400/live.js?token=8a56207d-7d2e-4561-98de-e0e513fc23d2"></script>
-{/* impeccable-live-end */}
-</body>
+        {/* impeccable-live-start */}
+        <script src="http://localhost:8400/live.js?token=8a56207d-7d2e-4561-98de-e0e513fc23d2"></script>
+        {/* impeccable-live-end */}
+      </body>
     </html>
   );
 }

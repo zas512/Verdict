@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { CustomTable } from "@/components/table";
+import { Table } from "@/components/table";
 import { getErrorMessage } from "@/lib/utils";
 import type { ColumnConfig } from "@/types/tableTypes";
 import {
@@ -925,7 +925,7 @@ export default function AttendancePage() {
         </div>
 
         <CardContent className="p-0">
-          <CustomTable
+          <Table
             columns={columns}
             data={filteredHistory}
             rowKey={(r) => r.id}

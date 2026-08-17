@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CustomTable } from "@/components/table";
+import { Table } from "@/components/table";
 import type { ColumnConfig } from "@/types/tableTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -240,7 +240,7 @@ export function PlatformClient() {
 
   return (
     <div className="space-y-6">
-      <HeaderUpdater title="Multi-Tenant Firms" breadcrumb="Platform / Firms" />
+      <HeaderUpdater title="Multi-Tenant Firms" />
       {/* Top Actions/Search Bar Navigation */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
         <div className="flex items-center gap-3">
@@ -287,7 +287,7 @@ export function PlatformClient() {
           </Badge>
         </CardHeader>
         <CardContent className="p-0">
-          <CustomTable
+          <Table
             columns={columns}
             data={filteredFirms}
             rowKey={(firm) => firm.id}

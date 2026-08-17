@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { CustomTable } from "@/components/table";
+import { Table } from "@/components/table";
 import type { ColumnConfig } from "@/types/tableTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -523,7 +523,7 @@ export function MatterHearings({
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-          <CustomTable
+          <Table
             columns={upcomingColumns}
             data={upcomingHearings}
             rowKey={(h) => h.id}
@@ -546,7 +546,7 @@ export function MatterHearings({
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-          <CustomTable
+          <Table
             columns={pastColumns}
             data={pastHearings}
             rowKey={(h) => h.id}

@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { CustomTable } from "@/components/table";
+import { Table } from "@/components/table";
 import type { ColumnConfig } from "@/types/tableTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -299,7 +299,7 @@ export function MatterParties({
       {/* Litigants Table Card */}
       <Card className="skeuo-card bg-card text-card-foreground">
         <CardContent className="p-0">
-          <CustomTable
+          <Table
             columns={columns}
             data={matter.parties}
             rowKey={(lnk) => lnk.id}

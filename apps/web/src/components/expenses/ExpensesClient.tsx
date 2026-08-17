@@ -2,7 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CustomTable } from "@/components/table";
+import { Table } from "@/components/table";
 import { formatPKR } from "@/lib/format";
 import { getErrorMessage } from "@/lib/utils";
 import type { ColumnConfig } from "@/types/tableTypes";
@@ -427,7 +427,7 @@ export function ExpensesClient({ userRole }: Readonly<ExpensesClientProps>) {
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          <CustomTable
+          <Table
             columns={columns}
             data={expenses}
             rowKey={(e) => e.id}

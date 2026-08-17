@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { CustomTable } from "@/components/table";
+import { Table } from "@/components/table";
 import type { Client } from "@/types/clientTypes";
 import type { ColumnConfig } from "@/types/tableTypes";
 import { Contact, ExternalLink } from "lucide-react";
@@ -124,7 +124,7 @@ export function ClientsTable({
   ];
 
   return (
-    <CustomTable
+    <Table
       columns={columns}
       data={data}
       rowKey={(c) => c.id}

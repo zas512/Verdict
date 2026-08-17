@@ -1,5 +1,5 @@
 "use client";
-import { CustomTable } from "@/components/table";
+import { Table } from "@/components/table";
 import type { ColumnConfig } from "@/types/tableTypes";
 import { Scale } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -137,7 +137,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
   ];
 
   return (
-    <CustomTable
+    <Table
       columns={columns}
       data={data}
       rowKey={(m) => m.id}

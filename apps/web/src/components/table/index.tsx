@@ -58,7 +58,7 @@ function CustomTableLoading({
 }>) {
   return (
     <div className="flex min-h-64 flex-col items-center justify-center gap-3">
-      <div className="border-border bg-background/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.04), inset_0_-2px_4px_rgba(0,0,0,0.35), 0_1px_2px_rgba(0,0,0,0.4)] flex h-12 w-12 items-center justify-center rounded-xl border">
+      <div className="flex h-12 w-12 items-center justify-center rounded-xl">
         <Loader2 className="text-primary h-5 w-5 animate-spin" />
       </div>
       <p className="text-foreground/90 text-xs font-bold tracking-[0.14em] uppercase">
@@ -271,7 +271,7 @@ function CustomTablePagination({
   );
 }
 
-export function CustomTable<T>({
+export function Table<T>({
   columns,
   data,
   rowKey,

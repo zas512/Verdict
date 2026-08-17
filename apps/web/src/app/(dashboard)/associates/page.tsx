@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Verdict - Associates",
-  description: "Firm Associates",
+  description: "Manage your law firm's associates and staff",
 };
 
 export default async function Associates() {

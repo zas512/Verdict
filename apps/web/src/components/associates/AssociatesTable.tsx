@@ -1,5 +1,5 @@
 "use client";
-import { CustomTable } from "@/components/table";
+import { Table } from "@/components/table";
 import { Button } from "@/components/ui/button";
 import { type FirmMember } from "@/types/associatesTypes";
 import type { ColumnConfig } from "@/types/tableTypes";
@@ -128,7 +128,7 @@ export function AssociatesTable({
   ];
 
   return (
-    <CustomTable
+    <Table
       columns={columns}
       data={data}
       rowKey={(m) => m.id}

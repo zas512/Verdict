@@ -6,7 +6,6 @@ import type {
   TableProps
 } from "@/types/tableTypes";
 import { Inbox } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
 import { TableBody } from "./TableBody";
 import { TableHeader } from "./TableHeader";
@@ -195,23 +194,23 @@ export function Table<T>({
   };
 
   return (
-    <div className="relative flex flex-col overflow-hidden rounded-xl border border-[#2A2E36] bg-[#171A20] shadow-[0_1px_0_rgba(255,255,255,0.08),0_2px_3px_rgba(0,0,0,0.8),0_8px_20px_rgba(0,0,0,0.45)]">
+    <div className="relative flex flex-col overflow-hidden rounded-xl border border-border/80 dark:border-[#2A2E36] bg-card shadow-[0_1px_3px_rgba(0,0,0,0.05),0_10px_25px_-5px_rgba(0,0,0,0.05),0_4px_12px_rgba(0,0,0,0.03)] dark:shadow-none">
       {/* Top / left highlight */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] border-t border-l border-white/9"
+        className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] border-t border-l border-transparent dark:border-white/9"
       />
 
       {/* Bottom / right dark edge */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] border-r border-b border-black/70"
+        className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] border-r border-b border-black/[0.04] dark:border-black/70"
       />
 
       {/* Inner embossed edge */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-px z-10 rounded-lg shadow-[inset_0_1px_2px_rgba(255,255,255,0.035),inset_0_-2px_4px_rgba(0,0,0,0.5)]"
+        className="pointer-events-none absolute inset-px z-10 rounded-lg shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),inset_0_-2px_4px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.035),inset_0_-2px_4px_rgba(0,0,0,0.5)]"
       />
 
       <div className="overflow-x-auto">{renderTableContent()}</div>

@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { TableHeaderProps } from "@/types/tableTypes";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 
 export function TableHeader<T>({
   columns,
@@ -10,27 +10,27 @@ export function TableHeader<T>({
 }: Readonly<TableHeaderProps<T>>) {
   return (
     <thead>
-      <tr className="border-foreground/30 border-b">
+      <tr className="border-foreground/10 bg-muted/40 dark:bg-overlay border-b-2">
         {columns.map((col) => {
           const isSorted = sort.key === col.key;
 
           const renderSortIcon = () => {
             if (!isSorted) {
               return (
-                <ArrowUpDown className="text-muted-foreground/60 group-hover/sort:text-foreground size-3.5 transition-colors" />
+                <ArrowUpDown className="text-muted-foreground/60 group-hover/sort:text-foreground size-4 cursor-pointer" />
               );
             }
             if (sort.direction === "asc") {
-              return <ArrowUp className="text-primary size-3.5" />;
+              return <ArrowUp className="text-primary size-4 cursor-pointer" />;
             }
-            return <ArrowDown className="text-primary size-3.5" />;
+            return <ArrowDown className="text-primary size-4 cursor-pointer" />;
           };
 
           return (
             <th
               key={col.key}
               scope="col"
-              className={`text-foreground/85 relative h-14 px-4 py-0 align-middle text-xs font-bold tracking-[0.08em] whitespace-nowrap uppercase transition-colors select-none ${alignClass(col.align)}`}
+              className={`text-foreground/90 h-14 px-4 align-middle text-sm font-bold tracking-wide whitespace-nowrap uppercase select-none ${alignClass(col.align)}`}
             >
               <div
                 className={`font-heading flex items-center gap-1.5 ${justifyClass(col.align)} `}

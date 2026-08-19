@@ -11,7 +11,7 @@ export function TablePagination({
   canNext
 }: Readonly<TablePaginationProps>) {
   return (
-    <div className="border-foreground/30 flex h-14 items-center justify-between border-t px-4">
+    <div className="border-foreground/10 bg-muted/40 dark:bg-overlay flex h-14 items-center justify-between border-t-2 px-4">
       <span className="text-foreground/80 text-sm font-bold tracking-wide">
         Showing page{" "}
         <span className="text-foreground font-bold">{pageIndex + 1}</span> of{" "}
@@ -25,7 +25,7 @@ export function TablePagination({
           aria-label="Previous page"
           onClick={onPrevPage}
           disabled={!canPrev}
-          className="border-border/80 bg-card hover:bg-muted/40 h-8 w-8 rounded-md active:translate-y-px active:shadow-none disabled:opacity-35"
+          className="border-border/80 bg-card hover:bg-muted/40 h-8 w-8 rounded-md active:translate-y-px disabled:opacity-35"
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
@@ -38,7 +38,7 @@ export function TablePagination({
           aria-label="Next page"
           onClick={onNextPage}
           disabled={!canNext}
-          className="border-border/80 bg-card hover:bg-muted/40 h-8 w-8 rounded-md active:translate-y-px active:shadow-none disabled:opacity-35"
+          className="border-border/80 bg-card hover:bg-muted/40 h-8 w-8 rounded-md active:translate-y-px disabled:opacity-35"
         >
           <ChevronRight className="h-4 w-4" />
         </Button>

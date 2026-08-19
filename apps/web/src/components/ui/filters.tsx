@@ -5,7 +5,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
@@ -50,7 +50,7 @@ interface DataToolbarProps {
 export function Filters({
   search,
   filters,
-  actions = [],
+  actions = []
 }: Readonly<DataToolbarProps>) {
   const visibleActions = actions.filter((action) => !action.hidden);
 
@@ -63,7 +63,7 @@ export function Filters({
             placeholder={search.placeholder ?? "Search..."}
             value={search.value}
             onChange={search.onChange}
-            className="border-border/70 bg-card text-foreground shadow-[ inset_0_2px_4px_rgba(0,0,0,0.30), inset_0_1px_0_rgba(255,255,255,0.025) ] placeholder:text-muted-foreground/55 hover:border-border focus-within:border-primary/35 focus-within:shadow-[ inset_0_2px_4px_rgba(0,0,0,0.30), inset_0_1px_0_rgba(255,255,255,0.025), 0_0_0_1px_rgba(212,169,79,0.08) ] h-10 w-full rounded-md border text-sm transition-all duration-150 sm:w-[320px]"
+            className="border-primary/70 bg-card text-foreground shadow-[ inset_0_2px_4px_rgba(0,0,0,0.30), inset_0_1px_0_rgba(255,255,255,0.025) ] placeholder:text-muted-foreground/55 hover:border-border focus-within:border-primary/35 focus-within:shadow-[ inset_0_2px_4px_rgba(0,0,0,0.30), inset_0_1px_0_rgba(255,255,255,0.025), 0_0_0_1px_rgba(212,169,79,0.08) ] h-10 w-full rounded-md border text-sm transition-all duration-150 sm:w-[320px]"
           />
         )}
         {filters?.map((filter) => (
@@ -110,7 +110,7 @@ export function Filters({
                   isPrimary
                     ? `border-primary/30 bg-primary text-primary-foreground shadow-[ 0_1px_0_rgba(255,255,255,0.12), 0_2px_4px_rgba(0,0,0,0.35), 0_5px_10px_rgba(0,0,0,0.18) ] hover:bg-primary/90 active:shadow-[ inset_0_2px_4px_rgba(0,0,0,0.25) ]`
                     : `border-border/70 bg-card text-foreground shadow-[ 0_1px_0_rgba(255,255,255,0.04), 0_2px_3px_rgba(0,0,0,0.28), inset_0_1px_0_rgba(255,255,255,0.02) ] hover:border-border hover:bg-muted/20 active:shadow-[ inset_0_2px_4px_rgba(0,0,0,0.30) ]`,
-                  action.className,
+                  action.className
                 )}
               >
                 {action.icon && (
@@ -124,7 +124,7 @@ export function Filters({
                     )}
                   </span>
                 )}
-                <span>{action.label}</span>
+                {action?.label && <span>{action.label}</span>}
               </button>
             );
           })}

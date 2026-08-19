@@ -19,7 +19,7 @@ export interface SortState {
   direction: SortDirection;
 }
 
-export interface CustomTableProps<T> {
+export interface TableProps<T> {
   columns: ColumnConfig<T>[];
   data: T[];
   rowKey: (row: T) => string;
@@ -32,4 +32,37 @@ export interface CustomTableProps<T> {
   onRowClick?: (row: T) => void;
   pageSize?: number;
   onColumnOrderChange?: (orderedKeys: string[]) => void;
+}
+
+type alignClass = "left" | "center" | "right";
+
+export interface TableHeaderProps<T> {
+  columns: ColumnConfig<T>[];
+  sort: SortState;
+  alignClass: (align?: alignClass) => string;
+  justifyClass: (align?: alignClass) => string;
+  onSortClick: (colKey: string) => void;
+}
+
+export interface TableBodyProps<T> {
+  paginatedData: T[];
+  columns: ColumnConfig<T>[];
+  rowKey: (row: T) => string | number;
+  onRowClick?: (row: T) => void;
+  alignClass: (align?: alignClass) => string;
+}
+
+export interface TablePaginationProps {
+  pageIndex: number;
+  pageCount: number;
+  onPrevPage: () => void;
+  onNextPage: () => void;
+  canPrev: boolean;
+  canNext: boolean;
+}
+
+export interface TableEmptyProps {
+  emptyIcon?: React.ReactNode;
+  emptyTitle: string;
+  emptyDescription: string;
 }

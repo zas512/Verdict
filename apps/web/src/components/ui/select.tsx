@@ -191,7 +191,7 @@ export function SelectTrigger({
       aria-controls={ctx.listId}
       onClick={() => ctx.setOpen(!ctx.open)}
       className={cn(
-        "border-border bg-card text-foreground relative z-10 flex h-10 w-full items-center justify-between gap-2 rounded-md border px-3 text-sm transition-colors outline-none",
+        "border-border bg-card text-foreground relative z-10 flex h-10 w-full items-center justify-between gap-2 rounded-lg border px-3 text-sm transition-colors outline-none",
         "hover:border-primary/70 focus:border-primary focus:ring-primary/40 focus:ring-2",
         "disabled:pointer-events-none disabled:opacity-50",
         className
@@ -316,7 +316,7 @@ export function SelectContent({
         pointerEvents: open ? "auto" : "none"
       }}
       className={cn(
-        "border-border bg-background absolute right-0 left-0 z-20 rounded-xl border shadow-lg",
+        "border-border bg-background absolute right-0 left-0 z-20 rounded-lg border shadow-lg",
         isTop ? "bottom-full" : "top-full",
         className
       )}

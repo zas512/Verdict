@@ -1,20 +1,19 @@
 "use client";
 import { type FirmMember } from "@/types/associatesTypes";
 import { useQuery } from "@tanstack/react-query";
-import { RefreshCw, UserPlus } from "lucide-react";
 import { lazy, useMemo, useState } from "react";
 import { Filters } from "../ui/filters";
 import { AssociatesTable } from "./AssociatesTable";
 
 const CreateAssociateDialog = lazy(() =>
   import("./CreateAssociateDialog").then((mod) => ({
-    default: mod.CreateAssociateDialog,
-  })),
+    default: mod.CreateAssociateDialog
+  }))
 );
 const ViewAssociateDialog = lazy(() =>
   import("./ViewAssociateDialog").then((mod) => ({
-    default: mod.ViewAssociateDialog,
-  })),
+    default: mod.ViewAssociateDialog
+  }))
 );
 
 export function AssociatesPage() {
@@ -25,7 +24,7 @@ export function AssociatesPage() {
     data: allMembers = [],
     isLoading,
     isRefetching,
-    refetch,
+    refetch
   } = useQuery<FirmMember[]>({
     queryKey: ["associates"],
     queryFn: async () => {
@@ -36,12 +35,12 @@ export function AssociatesPage() {
       }
       const data = await res.json();
       return data;
-    },
+    }
   });
 
   const staffMembers = useMemo(
     () => allMembers.filter((m) => m.role !== "OWNER"),
-    [allMembers],
+    [allMembers]
   );
 
   const filteredMembers = useMemo(() => {
@@ -59,26 +58,14 @@ export function AssociatesPage() {
           value: globalFilter,
           onChange: setGlobalFilter,
           ariaLabel: "Search associates",
-          placeholder: "Search associates & staff...",
+          placeholder: "Search associates & staff..."
         }}
-        actions={[
-          {
-            key: "refresh",
-            label: "Refresh",
-            icon: <RefreshCw className="h-4 w-4" />,
-            onClick: async () => {
-              await refetch();
-            },
-            disabled: isRefetching,
-            loading: isRefetching,
-          },
-          {
-            key: "create",
-            label: "Create Associate",
-            icon: <UserPlus className="h-4 w-4" />,
-            onClick: () => setIsCreateOpen(true),
-          },
-        ]}
+        refresh={async () => {
+          await refetch();
+        }}
+        isRefetching={isRefetching}
+        addNewLable="Create Associate"
+        addNewOnClick={() => setIsCreateOpen(true)}
       />
       {/* Table */}
       <AssociatesTable

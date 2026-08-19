@@ -1,7 +1,6 @@
 "use client";
 import type { Client } from "@/types/clientTypes";
 import { useQuery } from "@tanstack/react-query";
-import { Plus, RefreshCw, ShieldAlert } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Filters } from "../ui/filters";
@@ -11,18 +10,13 @@ import { ClientsTable } from "./ClientsTable";
 import { ConflictCheckDialog } from "./ConflictCheckDialog";
 import { CreateClientDialog } from "./CreateClientDialog";
 
-interface ClientsClientProps {
-  userRole: string;
-}
-
-export function ClientsClient({ userRole }: Readonly<ClientsClientProps>) {
+export function ClientsPage() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [typeFilter, setTypeFilter] = useState<string>("ALL");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isConflictOpen, setIsConflictOpen] = useState(false);
   const [viewingClientId, setViewingClientId] = useState<string | null>(null);
-  const canManage = userRole === "OWNER";
 
   const {
     data: allClients = [],
@@ -96,7 +90,6 @@ export function ClientsClient({ userRole }: Readonly<ClientsClientProps>) {
           }
         ]}
       />
-
       {/* 2. Actions & Filters */}
       <Filters
         search={{
@@ -132,56 +125,26 @@ export function ClientsClient({ userRole }: Readonly<ClientsClientProps>) {
             ]
           }
         ]}
-        actions={[
-          {
-            key: "conflict-check",
-            label: "Conflict Check",
-            icon: <ShieldAlert className="size-5" />,
-            onClick: () => setIsConflictOpen(true),
-            hidden: !canManage,
-            className: "text-warning"
-          },
-          {
-            key: "new-client",
-            label: "New Client",
-            icon: <Plus className="size-5" />,
-            onClick: () => setIsCreateOpen(true),
-            hidden: !canManage,
-            className: "bg-primary text-white hover:bg-primary/90"
-          },
-          {
-            key: "sync-ledger",
-            label: "Sync Ledger",
-            icon: <RefreshCw className="size-5" />,
-            onClick: () => {
-              void refetch();
-            },
-            loading: isRefetching
-          }
-        ]}
+        refresh={async () => {
+          await refetch();
+        }}
+        isRefetching={isRefetching}
+        addNewLable="Create Client"
+        addNewOnClick={() => setIsCreateOpen(true)}
       />
-
       {/* 3. Table Ledger */}
       <ClientsTable
         data={filteredClients}
         isLoading={isLoading}
         onView={(c) => setViewingClientId(c.id)}
       />
-
       {/* 4. Dialogs */}
-      {canManage && (
-        <>
-          <CreateClientDialog
-            open={isCreateOpen}
-            onOpenChange={setIsCreateOpen}
-          />
-          <ConflictCheckDialog
-            open={isConflictOpen}
-            onOpenChange={setIsConflictOpen}
-            onProceed={() => setIsCreateOpen(true)}
-          />
-        </>
-      )}
+      <CreateClientDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />
+      <ConflictCheckDialog
+        open={isConflictOpen}
+        onOpenChange={setIsConflictOpen}
+        onProceed={() => setIsCreateOpen(true)}
+      />
       <ClientDetailDialog
         clientId={viewingClientId}
         onOpenChange={(open) => {

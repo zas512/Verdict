@@ -1,11 +1,14 @@
-import { ClientsClient } from "@/components/clients/ClientsClient";
+import { ClientsPage } from "@/components/clients/ClientsPage";
 import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
 import { getSession } from "@/lib/session";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 const ALLOWED_ROLES = new Set(["OWNER", "ASSOCIATE"]);
 
-export default async function ClientsPage() {
+export const metadata: Metadata = { title: "Verdict - Clients Directory" };
+
+export default async function Clients() {
   const { user } = await getSession();
   if (!user) {
     redirect("/login");
@@ -14,9 +17,9 @@ export default async function ClientsPage() {
     redirect("/dashboard");
   }
   return (
-    <div className="space-y-6">
+    <>
       <HeaderUpdater title="Clients Directory" />
-      <ClientsClient userRole={user.role} />
-    </div>
+      <ClientsPage />
+    </>
   );
 }

@@ -147,11 +147,10 @@ export function MattersPage({
             icon: <Plus className="size-5" />,
             onClick: () => setIsCreateOpen(true),
             hidden: !canManage,
-            className: "bg-primary text-white hover:bg-primary/90",
           },
           {
             key: "sync-ledger",
-            label: "Sync Ledger",
+            // label: "Sync Ledger",
             icon: <RefreshCw className="size-5" />,
             onClick: () => {
               void refetch();

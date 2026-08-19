@@ -27,11 +27,10 @@ export function TableBody<T>({
                 : undefined
             }
             tabIndex={onRowClick ? 0 : undefined}
-            role={onRowClick ? "button" : undefined}
             aria-label={onRowClick ? `View row ${rowKey(row)}` : undefined}
             className={`group bg-transparent transition-colors duration-150 ${
               onRowClick
-                ? `hover:bg-primary/[0.04] dark:hover:bg-primary/[0.08] focus-visible:ring-ring cursor-pointer focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset`
+                ? `hover:bg-primary/40 dark:hover:bg-primary/80 focus-visible:ring-ring cursor-pointer focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset`
                 : ""
             } `}
           >

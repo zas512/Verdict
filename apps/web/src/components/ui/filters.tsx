@@ -8,7 +8,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { RefreshCw, Plus } from "lucide-react";
+import { Plus, RefreshCw } from "lucide-react";
 
 export interface ToolbarFilterOption {
   value: string;
@@ -33,8 +33,8 @@ interface DataToolbarProps {
   };
   filters?: [ToolbarFilter, ...ToolbarFilter[]];
   refresh: () => void | Promise<void>;
-  addNewLable: string;
-  addNewOnClick: () => void | Promise<void>;
+  addNewLable?: string;
+  addNewOnClick?: () => void | Promise<void>;
   isRefetching?: boolean;
 }
 
@@ -42,7 +42,7 @@ export function Filters({
   search,
   filters,
   refresh,
-  addNewLable = "Add New",
+  addNewLable,
   addNewOnClick,
   isRefetching
 }: Readonly<DataToolbarProps>) {
@@ -95,14 +95,16 @@ export function Filters({
         })}
       </section>
       <section className="flex items-center gap-4">
-        <button
-          type="button"
-          onClick={addNewOnClick}
-          className="bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90 flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold"
-        >
-          <Plus className="size-4" />
-          {addNewLable}
-        </button>
+        {addNewOnClick && addNewLable && (
+          <button
+            type="button"
+            onClick={addNewOnClick}
+            className="bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90 flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold"
+          >
+            <Plus className="size-4" />
+            {addNewLable}
+          </button>
+        )}
         <button
           type="button"
           onClick={refresh}

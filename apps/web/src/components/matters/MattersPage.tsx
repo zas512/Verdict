@@ -1,6 +1,5 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { Plus, RefreshCw } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Filters } from "../ui/filters";
@@ -9,23 +8,18 @@ import { CreateMatterDialog } from "./CreateMatterDialog";
 import type { Matter } from "./MattersTable";
 import { MattersTable } from "./MattersTable";
 
-export function MattersPage({
-  userRole,
-}: Readonly<{
-  userRole: string;
-}>) {
+export function MattersPage() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [typeFilter, setTypeFilter] = useState("ALL");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const canManage = userRole === "OWNER";
 
   const {
     data: allMatters = [],
     isLoading,
     isRefetching,
     refetch,
-    error,
+    error
   } = useQuery<Matter[]>({
     queryKey: ["matters"],
     queryFn: async () => {
@@ -35,7 +29,7 @@ export function MattersPage({
         throw new Error(errorData.message || "Failed to fetch matters");
       }
       return res.json();
-    },
+    }
   });
 
   useEffect(() => {
@@ -68,7 +62,7 @@ export function MattersPage({
       total,
       active,
       closed,
-      decided,
+      decided
     };
   }, [allMatters]);
 
@@ -79,23 +73,23 @@ export function MattersPage({
         metrics={[
           {
             label: "Total Matters",
-            value: stats.total,
+            value: stats.total
           },
           {
             label: "Active",
             value: stats.active,
-            accentColor: "var(--success)",
+            accentColor: "var(--success)"
           },
           {
             label: "Decided",
             value: stats.decided,
-            accentColor: "var(--warning)",
+            accentColor: "var(--warning)"
           },
           {
             label: "Closed",
             value: stats.closed,
-            accentColor: "var(--destructive)",
-          },
+            accentColor: "var(--destructive)"
+          }
         ]}
       />
 
@@ -105,7 +99,7 @@ export function MattersPage({
           ariaLabel: "Search matters",
           placeholder: "Search case #, client, CNR...",
           value: globalFilter,
-          onChange: setGlobalFilter,
+          onChange: setGlobalFilter
         }}
         filters={[
           {
@@ -119,8 +113,8 @@ export function MattersPage({
               { value: "ACTIVE", label: "Active" },
               { value: "DECIDED", label: "Decided" },
               { value: "CLOSED", label: "Closed" },
-              { value: "ARCHIVED", label: "Archived" },
-            ],
+              { value: "ARCHIVED", label: "Archived" }
+            ]
           },
           {
             key: "type",
@@ -136,40 +130,21 @@ export function MattersPage({
               { value: "FAMILY", label: "Family" },
               { value: "SERVICE", label: "Service" },
               { value: "CORPORATE", label: "Corporate" },
-              { value: "TAXATION", label: "Taxation" },
-            ],
-          },
+              { value: "TAXATION", label: "Taxation" }
+            ]
+          }
         ]}
-        actions={[
-          {
-            key: "create-matter",
-            label: "Create Matter",
-            icon: <Plus className="size-5" />,
-            onClick: () => setIsCreateOpen(true),
-            hidden: !canManage,
-          },
-          {
-            key: "sync-ledger",
-            // label: "Sync Ledger",
-            icon: <RefreshCw className="size-5" />,
-            onClick: () => {
-              void refetch();
-            },
-            loading: isRefetching,
-          },
-        ]}
+        refresh={async () => {
+          await refetch();
+        }}
+        isRefetching={isRefetching}
+        addNewLable="Create Matter"
+        addNewOnClick={() => setIsCreateOpen(true)}
       />
-
       {/* 3. Table Ledger */}
       <MattersTable data={filteredMatters} isLoading={isLoading} />
-
       {/* 4. Create Matter Dialog */}
-      {canManage && (
-        <CreateMatterDialog
-          open={isCreateOpen}
-          onOpenChange={setIsCreateOpen}
-        />
-      )}
+      <CreateMatterDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />
     </div>
   );
 }

@@ -237,8 +237,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Top Header Navigation */}
-      <HeaderUpdater title="Firm Operational Dashboard" breadcrumb="Overview" />
+      <HeaderUpdater title="Firm Operational Dashboard" />
 
       {/* Partial-fetch warning: a failed source is "unavailable", never zero. */}
       {failedSources.length > 0 && (

@@ -15,7 +15,7 @@ export default async function TasksPage() {
   }
   return (
     <div className="space-y-6">
-      <HeaderUpdater title="Tasks" breadcrumb="Task Board" />
+      <HeaderUpdater title="Tasks" />
       <TasksBoard userRole={user.role} />
     </div>
   );

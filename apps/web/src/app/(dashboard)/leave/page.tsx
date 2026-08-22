@@ -15,7 +15,7 @@ export default async function LeavePage() {
   }
   return (
     <div className="space-y-6">
-      <HeaderUpdater title="Leave Requests" breadcrumb="Leave" />
+      <HeaderUpdater title="Leave Requests" />
       <LeaveRequests userRole={user.role} />
     </div>
   );

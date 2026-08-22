@@ -12,10 +12,7 @@ export default async function MatterDetailPage({
 
   return (
     <div className="space-y-6">
-      <HeaderUpdater
-        title="Matter Details Workspace"
-        breadcrumb="Case Details"
-      />
+      <HeaderUpdater title="Matter Details Workspace" />
       <MatterDetail id={id} userRole={user?.role} userId={user?.sub} />
     </div>
   );

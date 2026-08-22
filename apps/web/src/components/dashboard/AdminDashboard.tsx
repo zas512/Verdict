@@ -71,7 +71,7 @@ export async function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <HeaderUpdater title="Expense Overview" breadcrumb="Billing" />
+      <HeaderUpdater title="Expense Overview" />
 
       {/* Expense summary */}
       <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden">

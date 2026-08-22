@@ -1,23 +1,15 @@
 import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
-import { SummaryStrip } from "../ui/summary-strip";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   PRIORITY_BADGE,
   STATUS_LABEL,
   formatDueDate,
   type Task
 } from "@/components/tasks/types";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { backendFetch } from "@/lib/server-api";
-import {
-  CalendarCheck2,
-  CheckCircle2,
-  ClipboardList,
-  Clock,
-  ListTodo,
-  TriangleAlert
-} from "lucide-react";
-import type { ReactNode } from "react";
+import { Clock, ListTodo } from "lucide-react";
+import { SummaryStrip } from "../ui/summary-strip";
 
 interface AttendanceRecord {
   id: string;
@@ -33,47 +25,6 @@ async function fetchList<T>(endpoint: string): Promise<T[]> {
   return res.json().catch(() => []);
 }
 
-function StatCard({
-  icon,
-  label,
-  value,
-  sub,
-  accent
-}: {
-  icon: ReactNode;
-  label: string;
-  value: string | number;
-  sub?: string;
-  accent?: string;
-}) {
-  return (
-    <Card className="skeuo-card bg-card text-card-foreground relative flex flex-col justify-between overflow-hidden">
-      <CardHeader className="pt-4 pb-2">
-        <CardTitle className="text-muted-foreground flex items-center justify-between text-xs font-bold tracking-wider uppercase">
-          <span>{label}</span>
-          <span className="text-primary">{icon}</span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="pb-4">
-        <div
-          className={`text-3xl font-black tracking-tight ${accent ?? "text-foreground"}`}
-        >
-          {value}
-        </div>
-        {sub && (
-          <p className="text-muted-foreground mt-1 text-xs font-semibold">
-            {sub}
-          </p>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-/**
- * ASSOCIATE landing view: their own tasks and their own attendance.
- * Reads both endpoints server-side so the JWT comes from the session cookie.
- */
 export async function AssociateDashboard() {
   const [tasks, records] = await Promise.all([
     fetchList<Task>("/tasks"),
@@ -96,7 +47,6 @@ export async function AssociateDashboard() {
   ).length;
 
   let totalHours = 0;
-  let presentDays = 0;
   const now = new Date();
   const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
     2,
@@ -106,7 +56,6 @@ export async function AssociateDashboard() {
 
   for (const r of records) {
     if (r.date?.startsWith(monthKey)) thisMonthShifts += 1;
-    if (r.status === "PRESENT") presentDays += 1;
     if (r.checkIn && r.checkOut) {
       const h =
         (new Date(r.checkOut).getTime() - new Date(r.checkIn).getTime()) /
@@ -124,7 +73,7 @@ export async function AssociateDashboard() {
 
   return (
     <div className="space-y-6">
-      <HeaderUpdater title="My Dashboard" breadcrumb="Overview" />
+      <HeaderUpdater title="My Dashboard" />
 
       {/* Personal metrics */}
       <SummaryStrip

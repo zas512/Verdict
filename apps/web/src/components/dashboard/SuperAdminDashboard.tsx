@@ -43,7 +43,7 @@ export function SuperAdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <HeaderUpdater title="Platform Admin Dashboard" breadcrumb="Overview" />
+      <HeaderUpdater title="Platform Admin Dashboard" />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {/* Metric 1 */}

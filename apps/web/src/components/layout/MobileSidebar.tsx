@@ -1,7 +1,6 @@
 "use client";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { FirmLogo } from "@/components/branding/FirmLogo";
-import { GlobalSearch } from "@/components/layout/GlobalSearch";
 import { ProfileDropdown } from "@/components/layout/ProfileDropdown";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { navItems } from "@/config/navigation";
@@ -100,13 +99,7 @@ export function MobileSidebar({ user }: Readonly<SidebarProps>) {
             </button>
           </div>
 
-          {/* Mobile Search and Theme Toggle */}
-          <div className="flex items-center gap-2 px-1">
-            <div className="flex-1">
-              <GlobalSearch containerClassName="w-full" />
-            </div>
-            <ThemeToggle />
-          </div>
+          <ThemeToggle />
 
           {/* Navigation Items */}
           <nav

@@ -179,10 +179,7 @@ export default async function SearchPage({
 
   return (
     <div className="space-y-6">
-      <HeaderUpdater
-        title={q ? `Results for “${query}”` : "Global Search"}
-        breadcrumb="Search"
-      />
+      <HeaderUpdater title={q ? `Results for “${query}”` : "Global Search"} />
 
       {q === "" ? (
         <Card className="skeuo-card bg-card text-card-foreground">

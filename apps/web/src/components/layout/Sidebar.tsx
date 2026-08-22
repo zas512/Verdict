@@ -14,7 +14,7 @@ import { useState } from "react";
 
 const MobileSidebar = dynamic(
   () => import("./MobileSidebar").then((mod) => mod.MobileSidebar),
-  { ssr: false },
+  { ssr: false }
 );
 
 export interface SidebarProps {
@@ -51,7 +51,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
         className={cn(
           "bg-sidebar border-sidebar-border text-sidebar-foreground relative hidden flex-col justify-between overflow-visible border-r lg:flex",
           "min-h-screen shrink-0 transition-[transform,width,padding] duration-300 ease-out",
-          desktopCollapsed ? "w-18 p-3" : "w-64 p-5",
+          desktopCollapsed ? "w-18 p-3" : "w-64 p-5"
         )}
       >
         <button
@@ -79,7 +79,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
           <div
             className={cn(
               "border-foreground/10 flex items-center justify-center border-b",
-              desktopCollapsed ? "mt-4 pb-4" : "pb-4",
+              desktopCollapsed ? "mt-4 pb-4" : "pb-4"
             )}
           >
             {desktopCollapsed ? (
@@ -89,6 +89,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                 priority
                 width={30}
                 height={40}
+                style={{ height: "auto" }}
               />
             ) : (
               <div className="flex items-center justify-center gap-3">
@@ -98,6 +99,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                   priority
                   width={50}
                   height={50}
+                  style={{ height: "auto" }}
                 />
                 <p className="font-garamond text-sidebar-foreground cursor-default truncate text-lg font-bold tracking-tight">
                   VERDICT
@@ -133,7 +135,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                         : "w-full gap-3 px-3.5 py-2",
                       isActive
                         ? "text-sidebar-primary-foreground font-bold"
-                        : "text-muted-foreground hover:text-sidebar-foreground",
+                        : "text-muted-foreground hover:text-sidebar-foreground"
                     )}
                     title={desktopCollapsed ? item.title : undefined}
                   >
@@ -143,13 +145,13 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                         layoutId="sidebar-hover-pill"
                         className={cn(
                           "bg-sidebar-accent/80 absolute inset-0",
-                          desktopCollapsed ? "rounded-full" : "rounded-md",
+                          desktopCollapsed ? "rounded-full" : "rounded-md"
                         )}
                         transition={{
                           type: "spring",
                           stiffness: 360,
                           damping: 32,
-                          mass: 0.6,
+                          mass: 0.6
                         }}
                       />
                     )}
@@ -159,13 +161,13 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                         layoutId="sidebar-active-pill"
                         className={cn(
                           "bg-sidebar-primary absolute inset-0",
-                          desktopCollapsed ? "rounded-full" : "rounded-md",
+                          desktopCollapsed ? "rounded-full" : "rounded-md"
                         )}
                         transition={{
                           type: "spring",
                           stiffness: 360,
                           damping: 32,
-                          mass: 0.6,
+                          mass: 0.6
                         }}
                       />
                     )}
@@ -175,7 +177,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
                         "relative z-10 h-4 w-4 shrink-0",
                         isActive
                           ? "text-sidebar-primary-foreground"
-                          : "text-muted-foreground",
+                          : "text-muted-foreground"
                       )}
                     />
                     {!desktopCollapsed && (

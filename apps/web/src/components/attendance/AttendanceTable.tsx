@@ -124,7 +124,6 @@ export function AttendanceTable({
           variant = "destructive";
           label = "Absent";
         } else if (r.status === "LEAVE") {
-          variant = "navy";
           label = "On Leave";
         }
         return <Badge variant={variant}>{label}</Badge>;

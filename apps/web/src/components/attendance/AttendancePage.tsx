@@ -16,6 +16,54 @@ const EditDialog = dynamic(() => import("@/components/attendance/EditDialog"), {
   ssr: false
 });
 
+function matchesAssociate(
+  record: AttendanceRecord,
+  userRole: string | undefined,
+  selectedAssociateId: string
+): boolean {
+  if (userRole !== "OWNER" || selectedAssociateId === "all") return true;
+  return (
+    record.associateId === selectedAssociateId ||
+    record.associate?.id === selectedAssociateId
+  );
+}
+
+function matchesTimeRange(
+  recordDate: string,
+  timeRange: string,
+  filterMonth: string,
+  filterYear: string
+): boolean {
+  if (timeRange === "all") return true;
+
+  if (timeRange === "custom") {
+    const [year, month] = recordDate.split("-");
+    if (filterYear !== "all" && year !== filterYear) return false;
+    if (filterMonth !== "all" && Number(month) !== Number(filterMonth))
+      return false;
+    return true;
+  }
+
+  const recordTime = new Date(recordDate).getTime();
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+
+  const daysMap: Record<string, number> = {
+    week: 7,
+    month: 30,
+    "six-months": 180,
+    year: 365
+  };
+
+  const days = daysMap[timeRange];
+  if (days !== undefined) {
+    const limit = now.getTime() - days * 24 * 60 * 60 * 1000;
+    return recordTime >= limit;
+  }
+
+  return true;
+}
+
 export const AttendancePage = () => {
   const { user, refreshUser } = useAuth();
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -36,7 +84,7 @@ export const AttendancePage = () => {
     refetch,
     error
   } = useQuery<AttendanceRecord[]>({
-    queryKey: ["attendance", user?.role],
+    queryKey: ["attendance", user?.role, user],
     queryFn: async () => {
       if (!user) return [];
       const endpoint =
@@ -76,46 +124,10 @@ export const AttendancePage = () => {
 
   const filteredRecords = useMemo(() => {
     return allRecords.filter((r) => {
-      // 1. Associate filter (only applicable for OWNER)
-      if (user?.role === "OWNER" && selectedAssociateId !== "all") {
-        if (
-          r.associateId !== selectedAssociateId &&
-          r.associate?.id !== selectedAssociateId
-        ) {
-          return false;
-        }
-      }
-
-      // 2. Time range filters
-      if (timeRange === "custom") {
-        const parts = r.date.split("-");
-        const year = parts[0];
-        const month = parts[1]; // "01"-"12"
-        if (filterYear !== "all" && year !== filterYear) return false;
-        if (filterMonth !== "all" && Number(month) !== Number(filterMonth))
-          return false;
-      } else if (timeRange !== "all") {
-        const d = new Date(r.date);
-        const now = new Date();
-        now.setHours(0, 0, 0, 0);
-        const recordTime = d.getTime();
-
-        if (timeRange === "week") {
-          const limit = now.getTime() - 7 * 24 * 60 * 60 * 1000;
-          if (recordTime < limit) return false;
-        } else if (timeRange === "month") {
-          const limit = now.getTime() - 30 * 24 * 60 * 60 * 1000;
-          if (recordTime < limit) return false;
-        } else if (timeRange === "six-months") {
-          const limit = now.getTime() - 180 * 24 * 60 * 60 * 1000;
-          if (recordTime < limit) return false;
-        } else if (timeRange === "year") {
-          const limit = now.getTime() - 365 * 24 * 60 * 60 * 1000;
-          if (recordTime < limit) return false;
-        }
-      }
-
-      return true;
+      return (
+        matchesAssociate(r, user?.role, selectedAssociateId) &&
+        matchesTimeRange(r.date, timeRange, filterMonth, filterYear)
+      );
     });
   }, [
     allRecords,

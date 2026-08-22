@@ -44,6 +44,7 @@ export default function AuthLayout({
                 width={80}
                 height={90}
                 className="object-contain brightness-100"
+                style={{ height: "auto" }}
               />
               <div>
                 <p className="font-garamond text-primary-foreground text-3xl leading-tight font-bold tracking-wider">

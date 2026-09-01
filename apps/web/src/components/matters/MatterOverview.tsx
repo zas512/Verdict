@@ -1,16 +1,15 @@
 "use client";
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Scale,
-  Calendar,
-  User,
-  Clock,
   Briefcase,
   Building,
-  Users,
-  ShieldAlert
+  Calendar,
+  Clock,
+  Scale,
+  ShieldAlert,
+  User,
+  Users
 } from "lucide-react";
 
 interface MatterOverviewProps {

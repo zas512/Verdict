@@ -1,16 +1,5 @@
 {
   "python.defaultInterpreterPath": "${workspaceFolder}/apps/ai/.venv/Scripts/python.exe",
   "python.autoComplete.extraPaths": ["${workspaceFolder}/apps/ai"],
-  "python.terminal.activateEnvironment": true,
-  "ruff.path": ["${workspaceFolder}/apps/ai/.venv/Scripts/ruff.exe"],
-  "ruff.importStrategy": "fromEnvironment",
-  "ruff.enable": true,
-  "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.ruff": "explicit",
-      "source.organizeImports.ruff": "explicit"
-    }
-  }
+  "python.terminal.activateEnvironment": true
 }

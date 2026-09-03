@@ -1,3 +1,4 @@
+import io
 import sys
 
 from loguru import logger
@@ -6,6 +7,8 @@ from src.config import settings
 
 def setup_logging() -> None:
     logger.remove()
+    if isinstance(sys.stdout, io.TextIOWrapper):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     logger.add(
         sys.stdout,
         format=(
@@ -27,6 +30,7 @@ def setup_logging() -> None:
         rotation="10 MB",
         retention="30 days",
         compression="zip",
+        encoding="utf-8",
         backtrace=True,
         diagnose=settings.debug,
     )
@@ -37,6 +41,7 @@ def setup_logging() -> None:
         rotation="100 MB",
         retention="30 days",
         compression="zip",
+        encoding="utf-8",
     )
 
 

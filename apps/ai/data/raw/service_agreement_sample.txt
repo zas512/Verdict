@@ -1,0 +1,49 @@
+SERVICE AGREEMENT
+
+THIS SERVICE AGREEMENT (the "Agreement") is made on January 15, 2024, by and between:
+
+Legal Solutions Inc. ("Service Provider")
+123 Legal Lane, Suite 400, New York, NY 10001
+
+AND
+
+Client Name ("Client")
+789 Business Blvd, Los Angeles, CA 90001
+
+1. SERVICES
+
+1.1 Service Provider shall provide legal research services as requested by Client.
+
+1.2 Service Provider shall assign qualified attorneys to perform the Services.
+
+2. PAYMENT
+
+2.1 Client shall pay Service Provider a fee of $500 per hour for Services rendered.
+
+2.2 Invoices shall be submitted monthly and are due within thirty (30) days of receipt.
+
+3. CONFIDENTIALITY
+
+Service Provider shall maintain the confidentiality of all Client information and shall not disclose any Client information to third parties without Client's prior written consent.
+
+4. LIABILITY
+
+Service Provider's total liability under this Agreement shall not exceed the total fees paid by Client during the twelve (12) months preceding the claim.
+
+5. TERMINATION
+
+Either party may terminate this Agreement upon thirty (30) days' written notice to the other party.
+
+6. DISPUTE RESOLUTION
+
+Any dispute arising under this Agreement shall be resolved through binding arbitration in accordance with the rules of the American Arbitration Association.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement.
+
+Service Provider
+By: _____________________
+Date: ___________________
+
+Client
+By: _____________________
+Date: ___________________

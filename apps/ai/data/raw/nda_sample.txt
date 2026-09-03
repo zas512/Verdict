@@ -1,0 +1,47 @@
+CONFIDENTIALITY AGREEMENT
+
+This Confidentiality Agreement (the "Agreement") is entered into on this 1st day of January, 2024 (the "Effective Date") by and between:
+
+ABC Corporation, a Delaware corporation, with its principal place of business at 123 Main Street, Wilmington, DE 19801 ("Disclosing Party")
+
+AND
+
+XYZ Technologies, Inc., a California corporation, with its principal place of business at 456 Tech Drive, San Francisco, CA 94105 ("Receiving Party")
+
+1. DEFINITIONS
+
+1.1 "Confidential Information" means any information disclosed by the Disclosing Party to the Receiving Party, either directly or indirectly, in writing, orally, or by drawings or observation of parts or equipment, that is designated as "Confidential," "Proprietary," or some similar designation.
+
+1.2 "Trade Secrets" means information that derives independent economic value from not being generally known to the public and is the subject of reasonable efforts to maintain its secrecy.
+
+2. OBLIGATIONS OF RECEIVING PARTY
+
+2.1 The Receiving Party shall hold the Confidential Information in confidence and shall not disclose such Confidential Information to any third party without the prior written consent of the Disclosing Party.
+
+2.2 The Receiving Party shall use the Confidential Information solely for the purpose of evaluating a potential business relationship with the Disclosing Party.
+
+3. EXCLUSIONS
+
+3.1 Information that is or becomes publicly available through no fault of the Receiving Party.
+
+3.2 Information that was in the Receiving Party's possession prior to disclosure by the Disclosing Party.
+
+4. TERM
+
+This Agreement shall remain in effect for a period of three (3) years from the Effective Date, unless terminated earlier by either party upon thirty (30) days' written notice.
+
+5. GOVERNING LAW
+
+This Agreement shall be governed by and construed in accordance with the laws of the State of Delaware.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.
+
+ABC Corporation
+By: _____________________
+Name: John Smith
+Title: CEO
+
+XYZ Technologies, Inc.
+By: _____________________
+Name: Jane Doe
+Title: CTO

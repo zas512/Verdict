@@ -71,10 +71,18 @@ if __name__ == "__main__":
     if args.file:
         ingest_single_document(args.file)
     elif args.dir:
-        # TODO: Implement directory ingestion
-        logger.info(
-            "Directory ingestion not yet implemented. Using sample documents instead."
-        )
-        ingest_sample_documents()
+        p = Path(args.dir)
+        if not p.exists():
+            logger.error(f"Directory not found: {p}")
+        else:
+            result = ingestion_pipeline.ingest_directory(
+                p,
+                recursive=True,
+                chunk_strategy=settings.chunk_strategy,
+            )
+            if result.get("status") == "success":
+                logger.info("Directory ingestion complete!")
+            else:
+                logger.error(f"Directory ingestion failed: {result.get('reason')}")
     else:
         ingest_sample_documents()

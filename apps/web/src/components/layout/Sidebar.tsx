@@ -60,11 +60,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
           aria-label={desktopCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           aria-expanded={!desktopCollapsed}
           className="bg-card text-foreground/70 hover:text-foreground border-foreground/10 absolute top-3 -right-4 z-40 size-8 cursor-pointer rounded-full border"
-          title={
-            desktopCollapsed
-              ? "Expand sidebar (Ctrl+B)"
-              : "Collapse sidebar (Ctrl+B)"
-          }
+          title={desktopCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {desktopCollapsed ? (
             <ChevronRight className="m-auto size-4" />

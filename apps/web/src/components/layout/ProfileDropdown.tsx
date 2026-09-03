@@ -93,9 +93,9 @@ export function ProfileDropdown({
             id="profile-menu"
             role="menu"
             aria-label="Profile actions"
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 6, scale: 0.95 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ type: "spring", stiffness: 360, damping: 28 }}
             style={{ transformOrigin: "bottom" }}
             className={cn(

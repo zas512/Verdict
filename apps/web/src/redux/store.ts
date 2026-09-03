@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
+import aiChatReducer from "./aiChat";
 import headerReducer from "./header";
 import uiReducer from "./ui";
 
 export const store = configureStore({
   reducer: {
     header: headerReducer,
-    ui: uiReducer
+    ui: uiReducer,
+    aiChat: aiChatReducer
   }
 });
 

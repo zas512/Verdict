@@ -9,16 +9,22 @@ import { AiChatWelcome } from "./AiChatWelcome";
 export function AiChatMessageList() {
   const { messages, isThinking } = useAiChat();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [showScrollBottom, setShowScrollBottom] = useState(false);
+
   const scrollToBottom = (smooth = true) => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: smooth ? "smooth" : "auto"
-    });
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: smooth ? "smooth" : "auto"
+      });
+    }
   };
 
   useEffect(() => {
-    scrollToBottom(true);
+    const timer = setTimeout(() => {
+      scrollToBottom(true);
+    }, 60);
+    return () => clearTimeout(timer);
   }, [messages, isThinking]);
 
   const handleScroll = () => {
@@ -31,24 +37,23 @@ export function AiChatMessageList() {
 
   if (messages.length === 0 && !isThinking) {
     return (
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto">
         <AiChatWelcome />
       </div>
     );
   }
 
   return (
-    <div className="relative flex-1 overflow-hidden">
+    <div className="relative flex-1 min-h-0 flex flex-col overflow-hidden">
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="h-full space-y-2 overflow-y-auto py-4"
+        className="flex-1 min-h-0 overflow-y-auto py-4 space-y-2"
       >
         {messages.map((message) => (
           <AiChatMessageItem key={message.id} message={message} />
         ))}
         {isThinking && <AiChatThinkingIndicator />}
-        <div ref={messagesEndRef} className="h-2" />
       </div>
       {showScrollBottom && (
         <button

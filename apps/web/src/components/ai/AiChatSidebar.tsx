@@ -56,7 +56,7 @@ export function AiChatSidebar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="border-border bg-card relative z-50 flex h-full w-full max-w-[90vw] flex-col justify-between border-l shadow-2xl"
+              className="border-border bg-card relative z-50 flex h-full w-full max-w-[90vw] flex-col overflow-hidden border-l shadow-2xl"
             >
               <AiChatHeader onClose={close} />
               <AiChatMessageList />
@@ -88,7 +88,7 @@ export function AiChatSidebar() {
     >
       <div
         style={{ width: `${DESKTOP_SIDEBAR_WIDTH}px` }}
-        className="flex h-full shrink-0 flex-col justify-between"
+        className="flex h-full min-h-0 shrink-0 flex-col overflow-hidden"
       >
         <AiChatHeader onClose={close} />
         <AiChatMessageList />

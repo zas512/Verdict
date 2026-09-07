@@ -15,11 +15,11 @@ class EmbeddingManager:
         if self._initialized:
             return
         try:
-            logger.info(f"Initializing embedding model: {self.model_name}")
             self.embed_model = OllamaEmbedding(
                 model_name=self.model_name,
                 base_url=self.host,
-                ollama_additional_kwargs={"mirostat": 0},
+                ollama_additional_kwargs={"mirostat": 0, "keep_alive": "30m"},
+                request_timeout=float(settings.ollama_timeout),
             )
             Settings.embed_model = self.embed_model
             self._initialized = True

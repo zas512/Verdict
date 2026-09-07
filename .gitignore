@@ -8,3 +8,5 @@ node_modules
 .codex
 .agents
 .impeccable
+/logs
+/chroma_db

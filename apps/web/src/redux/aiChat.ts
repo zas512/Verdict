@@ -7,6 +7,7 @@ const initialState: AiChatState = {
   messages: [],
   draftInput: "",
   activeCategory: null,
+  activeMatterId: null,
   historySessions: []
 };
 
@@ -34,6 +35,9 @@ const aiChatSlice = createSlice({
     },
     setActiveCategory: (state, action: PayloadAction<string | null>) => {
       state.activeCategory = action.payload;
+    },
+    setActiveMatterId: (state, action: PayloadAction<string | null>) => {
+      state.activeMatterId = action.payload;
     },
     addMessage: (state, action: PayloadAction<AiMessage>) => {
       state.messages.push(action.payload);
@@ -64,12 +68,15 @@ const aiChatSlice = createSlice({
     },
     clearMessages: (state) => {
       if (state.messages.length > 0) {
-        // Save previous session to history
         const firstUserMsg = state.messages.find((m) => m.role === "user");
-        const title = firstUserMsg
-          ? firstUserMsg.content.slice(0, 40) +
-            (firstUserMsg.content.length > 40 ? "..." : "")
-          : "Chat Session";
+        let title = "Chat Session";
+        if (firstUserMsg) {
+          title =
+            firstUserMsg.content.length > 40
+              ? `${firstUserMsg.content.slice(0, 40)}...`
+              : firstUserMsg.content;
+        }
+
         state.historySessions.unshift({
           id: `session-${Date.now()}`,
           title,
@@ -92,6 +99,7 @@ export const {
   setThinking,
   setDraftInput,
   setActiveCategory,
+  setActiveMatterId,
   addMessage,
   updateMessage,
   setMessageFeedback,

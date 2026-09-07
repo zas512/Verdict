@@ -4,6 +4,7 @@ import { useAiChat } from "@/hooks/useAiChat";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
+import { useEffect } from "react";
 import { AiChatHeader } from "./AiChatHeader";
 import { AiChatInput } from "./AiChatInput";
 import { AiChatMessageList } from "./AiChatMessageList";
@@ -12,18 +13,34 @@ const DESKTOP_SIDEBAR_WIDTH = 440;
 
 export function AiChatSidebar() {
   const enabled = isAiEnabled();
-  const { isOpen, close } = useAiChat();
+  const { isOpen, close, toggle } = useAiChat();
   const isMobile = useMediaQuery("(max-width: 767px)");
+
+  useEffect(() => {
+    if (!enabled) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        (event.key === "j" || event.key === "J")
+      ) {
+        event.preventDefault();
+        toggle();
+      }
+      if (event.key === "Escape" && isOpen) {
+        close();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [enabled, isOpen, toggle, close]);
 
   if (!enabled) return null;
 
-  // On Mobile: Render as a full-width overlay drawer when open
   if (isMobile) {
     return (
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-50 flex justify-end md:hidden">
-            {/* Backdrop */}
             <motion.div
               key="mobile-ai-backdrop"
               initial={{ opacity: 0 }}
@@ -33,8 +50,6 @@ export function AiChatSidebar() {
               onClick={close}
               className="fixed inset-0 bg-black/40 backdrop-blur-xs"
             />
-
-            {/* Mobile panel */}
             <motion.aside
               key="mobile-ai-panel"
               initial={{ x: "100%" }}
@@ -53,7 +68,6 @@ export function AiChatSidebar() {
     );
   }
 
-  // On Desktop/Tablet: In-flow right sidebar that smoothly squeezes the middle content
   return (
     <motion.aside
       initial={false}

@@ -8,6 +8,8 @@ export interface AiAttachment {
   size: number;
   type: string;
   url?: string;
+  content?: string;
+  base64?: string;
 }
 
 export interface LegalCitation {
@@ -15,6 +17,14 @@ export interface LegalCitation {
   source: string;
   year?: string;
   summary?: string;
+}
+
+export interface SourceDocument {
+  document_id: string;
+  document_name: string;
+  chunk_text: string;
+  similarity_score: number;
+  page_number?: number;
 }
 
 export interface AiMessage {
@@ -25,6 +35,7 @@ export interface AiMessage {
   status?: MessageStatus;
   attachments?: AiAttachment[];
   citations?: LegalCitation[];
+  sources?: SourceDocument[];
   feedback?: "liked" | "disliked" | null;
 }
 
@@ -42,5 +53,6 @@ export interface AiChatState {
   messages: AiMessage[];
   draftInput: string;
   activeCategory: string | null;
+  activeMatterId?: string | null;
   historySessions: AiChatSession[];
 }

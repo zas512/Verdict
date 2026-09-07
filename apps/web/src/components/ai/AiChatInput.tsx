@@ -3,7 +3,15 @@ import { AI_CONFIG } from "@/config/ai";
 import { useAiChat } from "@/hooks/useAiChat";
 import { cn } from "@/lib/utils";
 import { AiAttachment } from "@/types/ai-chat";
-import { ArrowUp, Mic, Paperclip, Scale, X } from "lucide-react";
+import {
+  ArrowUp,
+  FileText,
+  Loader2,
+  Mic,
+  Paperclip,
+  Scale,
+  X
+} from "lucide-react";
 import { useRef, useState, type ChangeEvent, type KeyboardEvent } from "react";
 import { toast } from "sonner";
 
@@ -11,12 +19,12 @@ export function AiChatInput() {
   const { sendMessage, isThinking } = useAiChat();
   const [input, setInput] = useState("");
   const [attachments, setAttachments] = useState<AiAttachment[]>([]);
+  const [isReadingFiles, setIsReadingFiles] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
-    // Auto-adjust height
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 140)}px`;
@@ -31,7 +39,12 @@ export function AiChatInput() {
   };
 
   const handleSubmit = () => {
-    if ((!input.trim() && attachments.length === 0) || isThinking) return;
+    if (
+      (!input.trim() && attachments.length === 0) ||
+      isThinking ||
+      isReadingFiles
+    )
+      return;
 
     sendMessage(input, attachments.length > 0 ? attachments : undefined);
     setInput("");
@@ -41,24 +54,84 @@ export function AiChatInput() {
     }
   };
 
-  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    const fileList: AiAttachment[] = Array.from(files).map((file) => ({
-      id: `att-${Date.now()}-${file.name}`,
-      name: file.name,
-      size: file.size,
-      type: file.type
-    }));
+    setIsReadingFiles(true);
+    const readPromises = Array.from(files).map(
+      async (file): Promise<AiAttachment> => {
+        const isText =
+          file.type.startsWith("text/") ||
+          file.name.endsWith(".txt") ||
+          file.name.endsWith(".md") ||
+          file.name.endsWith(".json") ||
+          file.name.endsWith(".csv");
 
-    setAttachments((prev) => [...prev, ...fileList]);
-    toast.success(`Attached ${files.length} document(s) for AI analysis`);
-    if (fileInputRef.current) fileInputRef.current.value = "";
+        if (isText) {
+          try {
+            const content = await file.text();
+            return {
+              id: `att-${Date.now()}-${file.name}`,
+              name: file.name,
+              size: file.size,
+              type: file.type || "text/plain",
+              content
+            };
+          } catch {
+            return {
+              id: `att-${Date.now()}-${file.name}`,
+              name: file.name,
+              size: file.size,
+              type: file.type || "text/plain"
+            };
+          }
+        }
+
+        return new Promise<AiAttachment>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            resolve({
+              id: `att-${Date.now()}-${file.name}`,
+              name: file.name,
+              size: file.size,
+              type: file.type || "application/pdf",
+              base64: reader.result as string
+            });
+          };
+          reader.onerror = () => {
+            resolve({
+              id: `att-${Date.now()}-${file.name}`,
+              name: file.name,
+              size: file.size,
+              type: file.type || "application/octet-stream"
+            });
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+    );
+
+    try {
+      const loadedAttachments = await Promise.all(readPromises);
+      setAttachments((prev) => [...prev, ...loadedAttachments]);
+      toast.success(`Attached ${files.length} document(s) for AI analysis`);
+    } catch {
+      toast.error("Failed to read one or more files");
+    } finally {
+      setIsReadingFiles(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   };
 
   const removeAttachment = (id: string) => {
     setAttachments((prev) => prev.filter((a) => a.id !== id));
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
   const hasContent = input.trim().length > 0 || attachments.length > 0;
@@ -71,16 +144,22 @@ export function AiChatInput() {
           {attachments.map((file) => (
             <div
               key={file.id}
-              className="border-border bg-muted/80 text-foreground flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs"
+              className="border-border bg-muted/90 text-foreground flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs shadow-xs"
             >
-              <Paperclip className="text-primary size-3" />
-              <span className="max-w-40 truncate font-medium">
-                {file.name}
-              </span>
+              <FileText className="text-primary size-3.5" />
+              <div className="flex items-center gap-1">
+                <span className="max-w-40 truncate font-medium">
+                  {file.name}
+                </span>
+                <span className="text-muted-foreground text-[10px]">
+                  ({formatFileSize(file.size)})
+                </span>
+              </div>
               <button
                 type="button"
                 onClick={() => removeAttachment(file.id)}
                 className="text-muted-foreground hover:text-destructive ml-1 cursor-pointer"
+                title="Remove attachment"
               >
                 <X className="size-3" />
               </button>
@@ -109,16 +188,22 @@ export function AiChatInput() {
               ref={fileInputRef}
               type="file"
               multiple
+              accept=".pdf,.docx,.doc,.txt,.md,.json,.csv"
               onChange={handleFileUpload}
               className="hidden"
             />
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
+              disabled={isReadingFiles}
               title="Attach legal document or PDF"
-              className="text-muted-foreground hover:bg-muted hover:text-foreground flex size-7 cursor-pointer items-center justify-center rounded-lg transition-colors"
+              className="text-muted-foreground hover:bg-muted hover:text-foreground flex size-7 cursor-pointer items-center justify-center rounded-lg transition-colors disabled:opacity-50"
             >
-              <Paperclip className="size-3.5" />
+              {isReadingFiles ? (
+                <Loader2 className="size-3.5 animate-spin" />
+              ) : (
+                <Paperclip className="size-3.5" />
+              )}
               <span className="sr-only">Attach document</span>
             </button>
 
@@ -126,7 +211,7 @@ export function AiChatInput() {
               type="button"
               onClick={() =>
                 toast.info(
-                  "Context selector: Type matter number or client name"
+                  "Context selector: Reference active matters or client files"
                 )
               }
               title="Reference Matter / Case"
@@ -153,11 +238,11 @@ export function AiChatInput() {
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={!hasContent || isThinking}
+            disabled={!hasContent || isThinking || isReadingFiles}
             aria-label="Send query"
             className={cn(
               "flex size-7.5 cursor-pointer items-center justify-center rounded-full shadow-xs transition-all duration-200",
-              hasContent && !isThinking
+              hasContent && !isThinking && !isReadingFiles
                 ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 active:scale-95"
                 : "bg-muted text-muted-foreground cursor-not-allowed opacity-50"
             )}

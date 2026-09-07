@@ -84,9 +84,9 @@ def main() -> int:
     parser.add_argument(
         "command",
         nargs="?",
-        default="test",
+        default="api",
         choices=["test", "api", "ingest", "query"],
-        help="Command to run: test, api, ingest, query",
+        help="Command to run: test, api, ingest, query (default: api)",
     )
     parser.add_argument("--query", type=str, help="Query string for testing")
     parser.add_argument("--file", type=str, help="File path for ingestion")

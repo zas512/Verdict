@@ -1,4 +1,5 @@
 graph LR
+  AiModule --> AppModule
   AssociatesModule --> AppModule
   AttendanceModule --> AppModule
   AuthModule --> AppModule
@@ -19,6 +20,7 @@ graph LR
   MattersModule --> AppModule
   MattersModule --> CaseDocumentsModule
   MattersModule --> HearingsModule
+  PrismaModule --> AiModule
   PrismaModule --> AppModule
   PrismaModule --> AssociatesModule
   PrismaModule --> AttendanceModule

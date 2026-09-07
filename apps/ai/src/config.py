@@ -5,7 +5,8 @@ from dotenv import load_dotenv
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
-load_dotenv()
+_env_file = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(_env_file)
 
 
 class Settings(BaseSettings):
@@ -25,9 +26,9 @@ class Settings(BaseSettings):
         default="http://localhost:11434", description="Ollama API host"
     )
     ollama_embed_model: str = Field(
-        default="nomic-embed-text", description="Embedding model name"
+        default="mxbai-embed-large", description="Embedding model name"
     )
-    ollama_llm_model: str = Field(default="gemma3:1b", description="LLM model name")
+    ollama_llm_model: str = Field(default="llama3.2", description="LLM model name")
     ollama_temperature: float = Field(
         default=0.1, ge=0.0, le=1.0, description="LLM temperature"
     )
@@ -35,7 +36,7 @@ class Settings(BaseSettings):
         default=512, ge=1, description="Max tokens for generation"
     )
     ollama_timeout: int = Field(
-        default=60, ge=1, description="Request timeout in seconds"
+        default=180, ge=1, description="Request timeout in seconds"
     )
     chroma_host: str = Field(default="localhost", description="ChromaDB host")
     chroma_port: int = Field(default=8000, ge=1, le=65535, description="ChromaDB port")
@@ -74,13 +75,13 @@ class Settings(BaseSettings):
     )
     enable_guardrails: bool = Field(default=True, description="Enable guardrails")
     min_chunk_score: float = Field(
-        default=0.5, ge=0.0, le=1.0, description="Minimum chunk score for response"
+        default=0.73, ge=0.0, le=1.0, description="Minimum chunk score for response"
     )
     max_context_tokens: int = Field(
         default=2000, ge=100, description="Max context tokens for LLM"
     )
     api_host: str = Field(default="0.0.0.0", description="API host")
-    api_port: int = Field(default=8000, ge=1, le=65535, description="API port")
+    api_port: int = Field(default=5000, ge=1, le=65535, description="API port")
     api_prefix: str = Field(
         default="/api/ai", description="API prefix for RAG endpoints"
     )
@@ -94,7 +95,7 @@ class Settings(BaseSettings):
     log_file: Path = Field(default=Path("./logs/rag.log"), description="Log file path")
 
     class Config:
-        env_file = ".env"
+        env_file = _env_file
         env_file_encoding = "utf-8"
         case_sensitive = False
         extra = "ignore"

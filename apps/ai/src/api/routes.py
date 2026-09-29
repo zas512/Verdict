@@ -118,7 +118,7 @@ class ChatRequest(BaseModel):
         default_factory=list, description="Shared files or document excerpts"
     )
     top_k: int = Field(default=5, ge=1, le=20, description="Context retrieval limit")
-    mask_pii: bool = Field(default=False, description="Whether to mask PII in response")
+    mask_pii: bool = Field(default=True, description="Whether to mask PII in response")
 
 
 class ChatResponse(BaseModel):
@@ -139,7 +139,7 @@ class QueryRequest(BaseModel):
     include_sources: bool = Field(
         default=True, description="Whether to include source chunk excerpts"
     )
-    mask_pii: bool = Field(default=False, description="Whether to mask PII in response")
+    mask_pii: bool = Field(default=True, description="Whether to mask PII in response")
 
 
 class QueryResponse(BaseModel):
@@ -488,6 +488,26 @@ def get_matter_context(matter_id: str, top_k: int = 10) -> dict[str, Any]:
         "chunks_count": len(chunks),
         "chunks": chunks,
     }
+
+
+@router.delete("/matters/{matter_id}/data", dependencies=[Depends(require_api_key)])
+def delete_matter_data(matter_id: str) -> dict[str, Any]:
+    """Delete all embeddings and raw files linked to a matter."""
+    # Purge embeddings (best-effort via vector store manager if available)
+    try:
+        vector_store_manager.delete_by_matter(matter_id)
+    except Exception:
+        pass
+    # Remove raw uploaded files referencing matter
+    removed = 0
+    try:
+        for f in settings.raw_data_dir.iterdir():
+            if f.is_file() and matter_id in f.name:
+                f.unlink()
+                removed += 1
+    except Exception:
+        pass
+    return {"matter_id": matter_id, "status": "deleted", "files_removed": removed}
 
 
 @router.get("/matters/{matter_id}/documents", dependencies=[Depends(require_api_key)])

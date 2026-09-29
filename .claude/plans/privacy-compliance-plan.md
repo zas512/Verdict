@@ -1,0 +1,1 @@
+Plan: Full compliance + UI + links (4 jurisdictions, all apps). See PRIVACY_AUDIT.md. Building: cookie banner, /privacy page, footer/header links, mask_pii default, retention, delete endpoint, mobile responsive.

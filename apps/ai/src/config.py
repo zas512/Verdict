@@ -93,6 +93,16 @@ class Settings(BaseSettings):
         default=None,
         description="Optional API key required for /chat, /query, and /upload.",
     )
+    pk_compliance_mode: bool = Field(
+        default=False,
+        description="PK PDPA compliance: enforce local hosts, mask PII, retention.",
+    )
+    retention_days: int = Field(
+        default=30,
+        ge=7,
+        le=365,
+        description="Log/file retention in days.",
+    )
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
         default="INFO", description="Log level"
     )

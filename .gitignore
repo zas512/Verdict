@@ -6,7 +6,7 @@ node_modules
 .claude
 .gemini
 .codex
-.agents
+# .agents
 .impeccable
 /logs
 /chroma_db

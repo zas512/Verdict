@@ -1,0 +1,1413 @@
+{
+  "info": {
+    "_postman_id": "verdict-api-2.0",
+    "name": "Verdict \u00e2\u20ac\u201d AI + API (Full)",
+    "description": "Combined collection: ai (FastAPI RAG, localhost:8000), api (NestJS, localhost:3001 / /api), web (Next.js, localhost:3000), plus auth/me/upload/query endpoints from api module.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "AI \u00e2\u20ac\u201d Health /health",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8000/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "AI \u00e2\u20ac\u201d Chat POST /api/ai/chat",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"message\":\"What clauses apply?\",\"matter_id\":\"m-001\",\"mask_pii\":true}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/ai/chat",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "ai",
+            "chat"
+          ]
+        }
+      }
+    },
+    {
+      "name": "AI \u00e2\u20ac\u201d Chat Stream POST /api/ai/chat/stream",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Accept",
+            "value": "text/event-stream"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"message\":\"Summarize\",\"matter_id\":\"m-001\",\"mask_pii\":true}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/ai/chat/stream",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "ai",
+            "chat",
+            "stream"
+          ]
+        }
+      }
+    },
+    {
+      "name": "AI \u00e2\u20ac\u201d Query POST /api/ai/query",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"question\":\"List documents\",\"matter_id\":\"m-001\",\"include_sources\":true,\"mask_pii\":true}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/ai/query",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "ai",
+            "query"
+          ]
+        }
+      }
+    },
+    {
+      "name": "AI \u00e2\u20ac\u201d Upload POST /api/ai/upload",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "/dev/null"
+            },
+            {
+              "key": "matter_id",
+              "value": "m-001"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/ai/upload",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "ai",
+            "upload"
+          ]
+        }
+      }
+    },
+    {
+      "name": "AI \u00e2\u20ac\u201d Ingest POST /api/ai/ingest",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "/dev/null"
+            },
+            {
+              "key": "matter_id",
+              "value": "m-001"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/ai/ingest",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "ai",
+            "ingest"
+          ]
+        }
+      }
+    },
+    {
+      "name": "AI \u00e2\u20ac\u201d Matter Context GET /api/ai/matters/{id}/context",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/api/ai/matters/m-001/context?top_k=10",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "ai",
+            "matters",
+            "m-001",
+            "context"
+          ],
+          "query": [
+            {
+              "key": "top_k",
+              "value": "10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "AI \u00e2\u20ac\u201d Matter Documents GET /api/ai/matters/{id}/documents",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/api/ai/matters/m-001/documents",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "ai",
+            "matters",
+            "m-001",
+            "documents"
+          ]
+        }
+      }
+    },
+    {
+      "name": "AI \u00e2\u20ac\u201d Delete Data DELETE /api/ai/matters/{id}/data",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/api/ai/matters/m-001/data",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "ai",
+            "matters",
+            "m-001",
+            "data"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u00e2\u20ac\u201d Health GET /health (NestJS)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3001/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u00e2\u20ac\u201d Auth /me GET /auth/me",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/auth/me",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "me"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u00e2\u20ac\u201d Auth /login POST /auth/login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"test@example.com\",\"password\":\"secret\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u00e2\u20ac\u201d Auth /refresh POST /auth/refresh",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/auth/refresh",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "refresh"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u00e2\u20ac\u201d Auth /logout POST /auth/logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/auth/logout",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "logout"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u00e2\u20ac\u201d AI Chat (via API) POST /api/ai/chat",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"message\":\"Hello\",\"matter_id\":\"m-001\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/api/ai/chat",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "ai",
+            "chat"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u00e2\u20ac\u201d AI Upload (via API) POST /api/ai/upload",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "/dev/null"
+            },
+            {
+              "key": "matter_id",
+              "value": "m-001"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3001/api/ai/upload",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "ai",
+            "upload"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u00e2\u20ac\u201d Case Docs POST /case-documents/:matterId/documents",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"matterId\":\"m-001\",\"name\":\"Contract.pdf\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/case-documents/m-001/documents",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "case-documents",
+            "m-001",
+            "documents"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u00e2\u20ac\u201d Clients GET /clients",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/clients",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "clients"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Web \u00e2\u20ac\u201d Dashboard",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/dashboard",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "dashboard"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Web \u00e2\u20ac\u201d Login",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "login"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Web \u00e2\u20ac\u201d Privacy",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/privacy",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "privacy"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Auth /register POST /auth/register",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"t@t.com\",\"password\":\"pass\",\"name\":\"T\"}"
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Auth /change-password POST /auth/change-password",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/auth/change-password",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "change-password"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"currentPassword\":\"old\",\"newPassword\":\"new\"}"
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Auth /google GET /auth/google",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/auth/google",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "google"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Auth /google/callback GET /auth/google/callback",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/auth/google/callback",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "google",
+            "callback"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Auth /google/profile GET /auth/google/profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/auth/google/profile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "google",
+            "profile"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Auth /invites/:token GET /auth/invites/:token",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/auth/invites/token-1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "invites",
+            "token-1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Auth /invites POST /auth/invites",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/auth/invites",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "auth",
+            "invites"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"i@i.com\",\"role\":\"ASSOCIATE\"}"
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Clients POST /clients",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/clients",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "clients"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"Client A\",\"email\":\"c@c.com\"}"
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Clients GET /clients/:id",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/clients/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "clients",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Clients PATCH /clients/:id",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/clients/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "clients",
+            "1"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"Updated\"}"
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Clients /conflict-check POST /clients/conflict-check",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/clients/conflict-check",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "clients",
+            "conflict-check"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"clientName\":\"X\"}"
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Case-Documents GET /case-documents/:id",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/case-documents/doc-1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "case-documents",
+            "doc-1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Case-Documents GET /case-documents/:id/versions",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/case-documents/doc-1/versions",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "case-documents",
+            "doc-1",
+            "versions"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Matters GET /matters/:id",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/matters/m-1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "matters",
+            "m-1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Matters PATCH /matters/:id",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/matters/m-1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "matters",
+            "m-1"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"status\":\"active\"}"
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Matters /stages GET /matters/stages",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/matters/stages",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "matters",
+            "stages"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Matters /parties GET /matters/:id/parties",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/matters/m-1/parties",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "matters",
+            "m-1",
+            "parties"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Matters /timeline GET /matters/:id/timeline",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/matters/m-1/timeline",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "matters",
+            "m-1",
+            "timeline"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Matters /summary GET /matters/:id/summary",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/matters/m-1/summary",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "matters",
+            "m-1",
+            "summary"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Tasks GET /tasks/:id",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/tasks/t-1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "tasks",
+            "t-1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Tasks PATCH /tasks/:id/status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/tasks/t-1/status",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "tasks",
+            "t-1",
+            "status"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"status\":\"completed\"}"
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Tasks POST /tasks/:id/notes",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/tasks/t-1/notes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "tasks",
+            "t-1",
+            "notes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"content\":\"Note\"}"
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Tasks POST /tasks/:id/attachments",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/tasks/t-1/attachments",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "tasks",
+            "t-1",
+            "attachments"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Firms GET /firms/:id/users",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/firms/f-1/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "firms",
+            "f-1",
+            "users"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Expenses GET /expenses",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/expenses",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "expenses"
+          ]
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Users POST /users",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"u@u.com\",\"name\":\"U\",\"firmId\":\"f-1\"}"
+        }
+      }
+    },
+    {
+      "name": "API \u2014 Users GET /users",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{API_KEY}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3001/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "users"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "API_KEY",
+      "value": "local-test-key",
+      "type": "string"
+    },
+    {
+      "key": "AI_URL",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "API_URL",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "WEB_URL",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}

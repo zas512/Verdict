@@ -1,9 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import {
-  DM_Sans,
-  EB_Garamond,
-} from "next/font/google";
+import { DM_Sans, EB_Garamond } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 import Providers from "./providers";
@@ -26,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: ReactNode }>) {
+}: Readonly<{ children: ReactNode }>) : JSX.Element {
   return (
     <html
       lang="en"

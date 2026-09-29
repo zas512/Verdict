@@ -12,15 +12,15 @@ load_dotenv(_env_file)
 class Settings(BaseSettings):
     environment: Literal["development", "staging", "production"] = Field(
         default="development",
-        description="Environment: development, staging, production",
+        description="env",
     )
-    debug: bool = Field(default=False, description="Debug mode")
-    data_dir: Path = Field(default=Path("./data"), description="Root data directory")
+    debug: bool = Field(default=False, description="debug")
+    data_dir: Path = Field(default=Path("./data"), description="data dir")
     raw_data_dir: Path = Field(
-        default=Path("./data/raw"), description="Raw documents directory"
+        default=Path("./data/raw"), description="raw dir"
     )
     processed_data_dir: Path = Field(
-        default=Path("./data/processed"), description="Processed data directory"
+        default=Path("./data/processed"), description="processed dir"
     )
     ollama_host: str = Field(
         default="http://localhost:11434", description="Ollama API host"

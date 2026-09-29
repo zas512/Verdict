@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, FastAPI, Depends, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
@@ -21,6 +21,23 @@ from src.retrieval.retriever import retriever
 from src.retrieval.vector_store import vector_store_manager
 
 router = APIRouter(tags=["Verdict AI Chat & RAG"])
+
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
+_auth_scheme = HTTPBearer(auto_error=False)
+
+
+def require_api_key(
+    credentials: HTTPAuthorizationCredentials | None = Depends(_auth_scheme),
+) -> None:
+    """Require a valid bearer/API key when settings.api_key is configured."""
+    if settings.api_key:
+        if not credentials or credentials.credentials != settings.api_key:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid or missing API key",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
 
 
 @asynccontextmanager
@@ -42,6 +59,10 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+# Validate CORS origins at startup: disallow '*' when credentials are enabled.
+if any(o == "*" for o in settings.cors_origins) and settings.cors_origins:
+    raise RuntimeError("CORS origin '*' is not allowed when credentials are enabled")
 
 app.add_middleware(
     CORSMiddleware,
@@ -197,7 +218,7 @@ def _process_attachment_content(att: ChatAttachmentItem) -> dict[str, Any]:
     }
 
 
-@router.post("/chat")
+@router.post("/chat", dependencies=[Depends(require_api_key)])
 def chat_endpoint(request: ChatRequest) -> ChatResponse:
     logger.info(
         f"Incoming chat prompt: '{request.message[:60]}' (matter_id={request.matter_id}, attachments={len(request.attachments)})"
@@ -281,7 +302,7 @@ def chat_endpoint(request: ChatRequest) -> ChatResponse:
     )
 
 
-@router.post("/chat/stream")
+@router.post("/chat/stream", dependencies=[Depends(require_api_key)])
 def chat_stream(request: ChatRequest) -> StreamingResponse:
     logger.info(f"Incoming streaming chat query: '{request.message[:60]}'")
     processed_attachments = [
@@ -316,7 +337,7 @@ def chat_stream(request: ChatRequest) -> StreamingResponse:
     )
 
 
-@router.post("/query")
+@router.post("/query", dependencies=[Depends(require_api_key)])
 def query_documents(request: QueryRequest) -> QueryResponse:
     logger.info(
         f"Incoming query: '{request.question[:60]}' (matter_id={request.matter_id})"
@@ -382,8 +403,8 @@ UPLOAD_RESPONSES: dict[int | str, dict[str, Any]] = {
 }
 
 
-@router.post("/upload", responses=UPLOAD_RESPONSES)
-@router.post("/ingest", responses=UPLOAD_RESPONSES)
+@router.post("/upload", responses=UPLOAD_RESPONSES, dependencies=[Depends(require_api_key)])
+@router.post("/ingest", responses=UPLOAD_RESPONSES, dependencies=[Depends(require_api_key)])
 async def upload_document(
     file: UploadFile = File(...),
     matter_id: str | None = Form(default=None),
@@ -393,8 +414,15 @@ async def upload_document(
     if not file.filename:
         raise HTTPException(status_code=400, detail="Uploaded file has no filename.")
 
-    save_dir = settings.raw_data_dir
-    save_path = save_dir / file.filename
+    # Prevent path traversal: use only the basename and verify the resolved
+    # path stays inside the raw data directory.
+    safe_name = Path(file.filename).name
+    if not safe_name or safe_name != file.filename:
+        raise HTTPException(status_code=400, detail="Invalid filename.")
+    save_dir = settings.raw_data_dir.resolve()
+    save_path = (save_dir / safe_name).resolve()
+    if not save_path.is_relative_to(save_dir):
+        raise HTTPException(status_code=400, detail="Invalid filename.")
     try:
         content = await file.read()
         save_path.write_bytes(content)
@@ -448,7 +476,7 @@ async def upload_document(
     )
 
 
-@router.get("/matters/{matter_id}/context")
+@router.get("/matters/{matter_id}/context", dependencies=[Depends(require_api_key)])
 def get_matter_context(matter_id: str, top_k: int = 10) -> dict[str, Any]:
     chunks = retriever.search(
         query="matter overview and agreement summary",
@@ -462,7 +490,7 @@ def get_matter_context(matter_id: str, top_k: int = 10) -> dict[str, Any]:
     }
 
 
-@router.get("/matters/{matter_id}/documents")
+@router.get("/matters/{matter_id}/documents", dependencies=[Depends(require_api_key)])
 def get_matter_documents(matter_id: str) -> dict[str, Any]:
     chunks = retriever.search(
         query="document title and contents",

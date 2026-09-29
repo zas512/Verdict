@@ -14,7 +14,7 @@ class Settings(BaseSettings):
         default="development",
         description="Environment: development, staging, production",
     )
-    debug: bool = Field(default=True, description="Debug mode")
+    debug: bool = Field(default=False, description="Debug mode")
     data_dir: Path = Field(default=Path("./data"), description="Root data directory")
     raw_data_dir: Path = Field(
         default=Path("./data/raw"), description="Raw documents directory"
@@ -89,6 +89,10 @@ class Settings(BaseSettings):
         default=["http://localhost:3000", "http://localhost:5173"],
         description="CORS allowed origins",
     )
+    api_key: str | None = Field(
+        default=None,
+        description="Optional API key required for /chat, /query, and /upload.",
+    )
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
         default="INFO", description="Log level"
     )
@@ -107,12 +111,12 @@ class Settings(BaseSettings):
         self.log_file.parent.mkdir(parents=True, exist_ok=True)
         self.chroma_persist_dir.mkdir(parents=True, exist_ok=True)
 
+        if self.debug and self.environment == "development":
+            print(f"Environment: {self.environment}")
+            print(f"Data Directory: {self.data_dir}")
+            print(f"LLM: {self.ollama_llm_model}")
+            print(f"Embedding: {self.ollama_embed_model}")
+            print(f"API Prefix: {self.api_prefix}")
+
 
 settings = Settings()
-
-if settings.debug:
-    print(f"Environment: {settings.environment}")
-    print(f"Data Directory: {settings.data_dir}")
-    print(f"LLM: {settings.ollama_llm_model}")
-    print(f"Embedding: {settings.ollama_embed_model}")
-    print(f"API Prefix: {settings.api_prefix}")

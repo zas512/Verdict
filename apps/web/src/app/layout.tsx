@@ -3,58 +3,42 @@ import type { Metadata } from "next";
 import {
   DM_Sans,
   EB_Garamond,
-  Geist,
-  Geist_Mono,
-  Inter,
 } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 import Providers from "./providers";
 
-const interHeading = Inter({ subsets: ["latin"], variable: "--font-heading" });
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 const ebGaramond = EB_Garamond({
   subsets: ["latin"],
-  variable: "--font-garamond",
-  weight: ["400", "700"],
+  variable: "--font-heading",
+  weight: ["400", "500", "700"],
 });
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
-  title: "Verdict",
-  description: "Law Firm Management System",
+  title: "Verdict — Legal Practice Intelligence",
+  description: "Law firm management and RAG-based document analysis.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: ReactNode;
-}>) {
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html
       lang="en"
       className={cn(
-        "h-full",
-        "antialiased",
-        geistSans.variable,
-        geistMono.variable,
-        "font-sans",
-        dmSans.variable,
-        interHeading.variable,
+        "h-full antialiased",
         ebGaramond.variable,
+        dmSans.variable,
+        "font-sans"
       )}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-[#F6F3EE] text-[#1A2332]">
         <Providers>{children}</Providers>
       </body>
     </html>

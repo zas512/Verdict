@@ -56,7 +56,7 @@ export function AiChatSidebar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="border-border bg-card relative z-50 flex h-full w-full max-w-[90vw] flex-col overflow-hidden border-l shadow-2xl"
+              className="border-[#0B1221]/10 bg-[#F6F3EE]/95 relative z-50 flex h-full w-full max-w-[92vw] sm:max-w-[400px] flex-col overflow-hidden border-l shadow-2xl"
             >
               <AiChatHeader onClose={close} />
               <AiChatMessageList />

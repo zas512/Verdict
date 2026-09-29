@@ -3,7 +3,7 @@ node_modules
 .codegraph
 .idea
 .cursor
-.claude
+# .claude
 .gemini
 .codex
 # .agents

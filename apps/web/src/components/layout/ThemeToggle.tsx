@@ -10,7 +10,7 @@ export function ThemeToggle() {
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
-    () => false,
+    () => false
   );
 
   if (!mounted) {

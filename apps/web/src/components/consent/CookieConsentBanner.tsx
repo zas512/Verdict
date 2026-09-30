@@ -54,3 +54,22 @@ export function CookieConsentBanner() {
     </div>
   );
 }
+
+export function CookieSettingsButton({
+  className
+}: {
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        localStorage.setItem("cookie_consent", "rejected");
+        window.location.reload();
+      }}
+      className={className}
+    >
+      Cookies
+    </button>
+  );
+}

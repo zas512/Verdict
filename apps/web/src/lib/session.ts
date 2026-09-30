@@ -96,7 +96,8 @@ export async function refreshAuthTokens(
   refreshToken: string
 ): Promise<AuthTokens | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const baseUrl =
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
 
     const res = await fetch(`${baseUrl}/auth/refresh`, {
       method: "POST",

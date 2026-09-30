@@ -39,12 +39,8 @@ export function AiChatWelcome() {
   return (
     <div className="flex flex-col items-center justify-center px-4 py-8 text-center sm:px-6">
       {/* AI Emblem */}
-      <div className="from-primary via-primary/80 to-chart-2 text-primary-foreground relative mb-5 flex size-14 items-center justify-center rounded-2xl bg-linear-to-tr shadow-md">
+      <div className="bg-primary text-primary-foreground relative mb-5 flex size-14 items-center justify-center rounded-2xl bg-linear-to-tr shadow-md">
         <Sparkles className="size-7" />
-        <span className="absolute -top-1 -right-1 flex size-3">
-          <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
-          <span className="relative inline-flex size-3 rounded-full bg-emerald-400" />
-        </span>
       </div>
 
       <h3 className="font-heading text-foreground text-lg font-bold tracking-tight sm:text-xl">

@@ -11,7 +11,7 @@ import { AiChatMessageList } from "./AiChatMessageList";
 
 const DESKTOP_SIDEBAR_WIDTH = 440;
 
-export function AiChatSidebar(): JSX.Element {
+export function AiChatSidebar() {
   const enabled = isAiEnabled();
   const { isOpen, close, toggle } = useAiChat();
   const isMobile = useMediaQuery("(max-width: 767px)");

@@ -22,7 +22,7 @@ export default function PrivacyPage() {
         <h2 className="font-heading text-2xl font-bold text-[#0B1221] mb-4">1. What We Collect</h2>
         <p className="text-sm leading-7 text-[#1A2332]/80 mb-3">
           We collect only the data required to provide legal-document analysis: your message, document uploads, and matter context (`matter_id`).
-          PII masking is enabled by default (`mask_pii=True`). Log retention is 30 days. Uploaded files are retained per `retention_days` (default 30) and can be deleted via `/matters/{id}/data`.
+          PII masking is enabled by default (`mask_pii=True`). Log retention is 30 days. Uploaded files are retained per `retention_days` (default 30) and can be deleted via `{"/matters/{id}/data"}`.
         </p>
       </section>
 
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
         <h2 className="font-heading text-2xl font-bold text-[#0B1221] mb-4">4. Your Rights</h2>
         <ul className="list-disc pl-5 text-sm leading-7 text-[#1A2332]/80 space-y-1">
           <li>Access: request your data via our support channel.</li>
-          <li>Erasure: use `DELETE /matters/{id}/data` or contact support.</li>
+          <li>Erasure: use `{"DELETE /matters/{id}/data"}` or contact support.</li>
           <li>Portability: request an export of your embedded chunks.</li>
           <li>Objection / restriction: contact support for processing objections.</li>
         </ul>

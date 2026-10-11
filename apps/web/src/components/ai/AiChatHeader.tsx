@@ -1,7 +1,7 @@
 "use client";
 import { AI_CONFIG } from "@/config/ai";
 import { useAiChat } from "@/hooks/useAiChat";
-import { RotateCcw, Sparkles, X } from "lucide-react";
+import { RotateCcw, Scale, X } from "lucide-react";
 
 interface AiChatHeaderProps {
   onClose: () => void;
@@ -12,9 +12,9 @@ export function AiChatHeader({ onClose }: Readonly<AiChatHeaderProps>) {
   return (
     <header className="border-border bg-card flex h-16 shrink-0 items-center justify-between border-b px-4 sm:px-5">
       <div className="flex min-w-0 items-center gap-3">
-        <div className="bg-primary text-primary-foreground relative flex size-9 shrink-0 items-center justify-center rounded-xl shadow-xs">
-          <Sparkles className="size-5 animate-pulse" />
-          <span className="border-card absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full border-2 bg-emerald-500" />
+        {/* Replaced Sparkles with Scale, removed animate-pulse and status dot */}
+        <div className="bg-primary text-primary-foreground flex size-9 shrink-0 items-center justify-center rounded-xl shadow-xs">
+          <Scale className="size-5" />
         </div>
         <div className="flex min-w-0 flex-col">
           <div className="flex items-center gap-2">
@@ -26,7 +26,6 @@ export function AiChatHeader({ onClose }: Readonly<AiChatHeaderProps>) {
             </span>
           </div>
           <div className="text-muted-foreground flex items-center gap-1.5 text-[11px]">
-            <span className="inline-block size-1.5 animate-pulse rounded-full bg-emerald-500" />
             <span className="truncate">{AI_CONFIG.modelName}</span>
           </div>
         </div>

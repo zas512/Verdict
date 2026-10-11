@@ -7,8 +7,7 @@ import {
   BarChart3,
   BookOpen,
   FileText,
-  Scale,
-  Sparkles
+  Scale
 } from "lucide-react";
 import { useState } from "react";
 
@@ -38,13 +37,13 @@ export function AiChatWelcome() {
 
   return (
     <div className="flex flex-col items-center justify-center px-4 py-8 text-center sm:px-6">
-      {/* AI Emblem */}
-      <div className="bg-primary text-primary-foreground relative mb-5 flex size-14 items-center justify-center rounded-2xl bg-linear-to-tr shadow-md">
-        <Sparkles className="size-7" />
+      {/* AI Emblem - replaced Sparkles with Scale, removed gradient and pulse */}
+      <div className="bg-primary text-primary-foreground relative mb-5 flex size-14 items-center justify-center rounded-2xl shadow-md">
+        <Scale className="size-7" />
       </div>
 
       <h3 className="font-heading text-foreground text-lg font-bold tracking-tight sm:text-xl">
-        Welcome to {AI_CONFIG.name}
+        {AI_CONFIG.name}
       </h3>
       <p className="text-muted-foreground mt-1 max-w-sm text-xs sm:text-sm">
         {AI_CONFIG.description}
@@ -75,7 +74,7 @@ export function AiChatWelcome() {
       {/* Quick Prompt Cards */}
       <div className="mt-5 grid w-full grid-cols-1 gap-2.5 text-left sm:grid-cols-2">
         {filteredPrompts.map((item: QuickPrompt) => {
-          const Icon = ICON_MAP[item.iconName] || Sparkles;
+          const Icon = ICON_MAP[item.iconName] || Scale;
           return (
             <button
               key={item.id}
@@ -100,9 +99,8 @@ export function AiChatWelcome() {
                 </div>
               </div>
 
-              <div className="text-primary mt-2.5 flex items-center justify-end text-[10px] font-bold opacity-0 transition-opacity group-hover:opacity-100">
-                <span>Ask AI</span>
-                <ArrowRight className="ml-1 size-3" />
+              <div className="text-primary mt-2.5 flex items-center justify-end text-[10px] font-semibold opacity-0 transition-opacity group-hover:opacity-100">
+                <ArrowRight className="size-3" />
               </div>
             </button>
           );

@@ -7,7 +7,7 @@ import {
   Check,
   Copy,
   FileText,
-  Sparkles,
+  Scale,
   ThumbsDown,
   ThumbsUp,
   User
@@ -306,8 +306,8 @@ export function AiChatMessageItem({
     >
       {/* Assistant Avatar */}
       {!isUser && (
-        <div className="bg-primary text-primary-foreground relative flex size-7 shrink-0 items-center justify-center rounded-xl shadow-xs">
-          <Sparkles className="size-3.5" />
+        <div className="bg-primary text-primary-foreground flex size-7 shrink-0 items-center justify-center rounded-xl shadow-xs">
+          <Scale className="size-3.5" />
         </div>
       )}
 
@@ -355,7 +355,7 @@ export function AiChatMessageItem({
                       : "bg-muted text-foreground"
                   )}
                 >
-                  <FileText className="size-3.5" />
+                  <FileText className="text-primary size-3.5" />
                   <span className="max-w-[140px] truncate">{att.name}</span>
                 </div>
               ))}

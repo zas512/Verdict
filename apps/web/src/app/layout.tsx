@@ -1,7 +1,4 @@
-import {
-  CookieConsentBanner,
-  CookieSettingsButton
-} from "@/components/consent/CookieConsentBanner";
+import { CookieConsentBanner } from "@/components/consent/CookieConsentBanner";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { DM_Sans, EB_Garamond } from "next/font/google";
@@ -21,7 +18,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Verdict — Legal Practice Intelligence",
+  title: "Verdict - Legal Practice Intelligence",
   description: "Law firm management and RAG-based document analysis."
 };
 

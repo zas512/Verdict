@@ -166,7 +166,6 @@ export function AiChatInput() {
           ))}
         </div>
       )}
-
       {/* Input Box Card */}
       <div className="border-border bg-background focus-within:border-primary/50 focus-within:ring-primary/20 relative min-h-18 rounded-2xl border p-2.5 transition-all focus-within:ring-2">
         <textarea
@@ -176,9 +175,8 @@ export function AiChatInput() {
           onKeyDown={handleKeyDown}
           placeholder="Ask Verdict AI - summarize hearings, draft notices, check authorities..."
           rows={1}
-          className="text-foreground placeholder:text-muted-foreground/60 max-h-[40vh] min-h-[20%] w-full resize-none bg-transparent px-2.5 py-2.5 text-sm leading-relaxed focus:outline-none"
+          className="text-foreground bg-transparent! shadow-none! resize-none placeholder:text-muted-foreground/60 max-h-40 min-h-18 w-full px-2.5 py-2.5 text-sm leading-relaxed focus:outline-none"
         />
-
         {/* Action Bottom Bar */}
         <div className="border-border/40 mt-2 flex items-center justify-between border-t pt-1">
           {/* Left tools: Attachments & Case context */}
@@ -205,7 +203,6 @@ export function AiChatInput() {
               )}
               <span className="sr-only">Attach document</span>
             </button>
-
             <button
               type="button"
               onClick={() =>
@@ -219,7 +216,6 @@ export function AiChatInput() {
               <Scale className="text-primary size-3" />
               <span className="hidden sm:inline">Reference Matter</span>
             </button>
-
             <button
               type="button"
               onClick={() =>
@@ -232,8 +228,6 @@ export function AiChatInput() {
               <span className="sr-only">Voice dictation</span>
             </button>
           </div>
-
-          {/* Right tool: Send Button */}
           <button
             type="button"
             onClick={handleSubmit}
@@ -250,8 +244,6 @@ export function AiChatInput() {
           </button>
         </div>
       </div>
-
-      {/* Small Disclaimer */}
       <p className="text-muted-foreground/70 mt-2.5 text-center text-[11px] leading-relaxed">
         {AI_CONFIG.disclaimer}
       </p>

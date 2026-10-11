@@ -107,16 +107,11 @@ async function loadFirmStats(): Promise<FirmStats> {
     const hearings: UpcomingHearing[] = hearingsRes?.ok
       ? await hearingsRes.json().catch(() => [])
       : [];
-
-    // A source counts as OK only if the request succeeded AND the body parsed
-    // to a usable array. Anything else is "unavailable", not zero.
     const associatesOk = Array.isArray(associates);
     const attendanceOk = Array.isArray(attendance);
     const expensesOk = Array.isArray(expenses);
     const hearingsOk = Array.isArray(hearings);
-
     const totalAssociates = associatesOk ? associates.length : null;
-
     const now = new Date();
     const todayKey = `${now.getFullYear()}-${String(
       now.getMonth() + 1
@@ -131,9 +126,7 @@ async function loadFirmStats(): Promise<FirmStats> {
     const leaveSet = new Set(
       todayRecords.filter((r) => r.status === "LEAVE").map((r) => r.associateId)
     );
-    // Remote = distinct associates whose only presence today came from a remote
-    // check-in. Someone with a biometric PRESENT record is present, not remote,
-    // so they must not be counted twice.
+
     const remoteSet = new Set(
       todayRecords
         .filter(
@@ -145,8 +138,7 @@ async function loadFirmStats(): Promise<FirmStats> {
     const present = presentSet.size;
     const leave = leaveSet.size;
     const remote = remoteSet.size;
-    // Absent is only trustworthy when both headcount and today's attendance
-    // actually loaded; otherwise the whole-firm "absent" figure is fabricated.
+
     const absent =
       associatesOk && attendanceOk
         ? Math.max(0, associates.length - present - leave - remote)
@@ -183,9 +175,6 @@ async function loadFirmStats(): Promise<FirmStats> {
 
 export default async function DashboardPage() {
   const { user } = await getSession();
-
-  // Defensive — the (dashboard) layout already redirects unauthenticated
-  // visitors, but this also narrows `user` to non-null for the code below.
   if (!user) {
     redirect("/login");
   }
@@ -194,12 +183,10 @@ export default async function DashboardPage() {
     return <SuperAdminDashboard />;
   }
 
-  // ADMIN: expenses are the only surface they manage.
   if (user.role === "ADMIN") {
     return <AdminDashboard />;
   }
 
-  // ASSOCIATE: personal tasks + attendance, no firm-wide stats.
   if (user.role === "ASSOCIATE") {
     return <AssociateDashboard />;
   }
@@ -226,8 +213,6 @@ export default async function DashboardPage() {
   const fixedValue = fixedTotal == null ? "—" : formatPKR(fixedTotal);
   const manualValue = manualTotal == null ? "—" : formatPKR(manualTotal);
 
-  // Surface failed sources explicitly instead of silently showing partial data
-  // as fact. Retry = refresh (this is a server-rendered view).
   const failedSources = [
     !associatesOk && "Headcount",
     !attendanceOk && "Attendance",
@@ -265,8 +250,6 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      {/* Reorderable landing — every card is a tile the owner can drag into
-          their preferred arrangement (persisted per user). */}
       <OwnerDashboardBoard
         userId={user.sub}
         totalAssociates={totalAssociates}

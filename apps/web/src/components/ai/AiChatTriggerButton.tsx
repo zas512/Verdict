@@ -6,7 +6,6 @@ import { Scale } from "lucide-react";
 export function AiChatTriggerButton() {
   const enabled = isAiEnabled();
   const { toggle, isOpen } = useAiChat();
-
   if (!enabled) return null;
 
   return (

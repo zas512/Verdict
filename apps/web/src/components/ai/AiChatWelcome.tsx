@@ -26,6 +26,8 @@ const CATEGORIES = [
   { id: "operations", label: "Ops" },
 ];
 
+const ALLOWED_AI_ROLES = new Set(["OWNER", "ADMIN", "ASSOCIATE"]);
+
 export function AiChatWelcome() {
   const { sendMessage } = useAiChat();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");

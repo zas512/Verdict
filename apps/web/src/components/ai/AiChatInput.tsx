@@ -27,7 +27,7 @@ export function AiChatInput() {
     setInput(e.target.value);
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 140)}px`;
+      textareaRef.current.style.height = `${Math.max(88, Math.min(textareaRef.current.scrollHeight, 320))}px`;
     }
   };
 
@@ -45,7 +45,6 @@ export function AiChatInput() {
       isReadingFiles
     )
       return;
-
     sendMessage(input, attachments.length > 0 ? attachments : undefined);
     setInput("");
     setAttachments([]);
@@ -151,7 +150,7 @@ export function AiChatInput() {
                 <span className="max-w-40 truncate font-medium">
                   {file.name}
                 </span>
-                <span className="text-muted-foreground text-[10px]">
+                <span className="text-muted-foreground text-xs">
                   ({formatFileSize(file.size)})
                 </span>
               </div>
@@ -169,15 +168,15 @@ export function AiChatInput() {
       )}
 
       {/* Input Box Card */}
-      <div className="border-border bg-background focus-within:border-primary/50 focus-within:ring-primary/20 relative rounded-2xl border p-2.5 transition-all focus-within:ring-2">
+      <div className="border-border bg-background focus-within:border-primary/50 focus-within:ring-primary/20 relative min-h-18 rounded-2xl border p-2.5 transition-all focus-within:ring-2">
         <textarea
           ref={textareaRef}
           value={input}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          placeholder="Ask Verdict AI anything (e.g. summarize hearings, draft notices)..."
+          placeholder="Ask Verdict AI - summarize hearings, draft notices, check authorities..."
           rows={1}
-          className="text-foreground placeholder:text-muted-foreground max-h-35 w-full resize-none bg-transparent px-1 py-0.5 text-xs leading-relaxed focus:outline-none"
+          className="text-foreground placeholder:text-muted-foreground/60 max-h-[40vh] min-h-[20%] w-full resize-none bg-transparent px-2.5 py-2.5 text-sm leading-relaxed focus:outline-none"
         />
 
         {/* Action Bottom Bar */}
@@ -215,7 +214,7 @@ export function AiChatInput() {
                 )
               }
               title="Reference Matter / Case"
-              className="text-muted-foreground hover:bg-muted hover:text-foreground flex cursor-pointer items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-medium transition-colors"
+              className="text-muted-foreground hover:bg-muted hover:text-foreground flex cursor-pointer items-center gap-1 rounded-lg px-2 py-1 text-sm font-medium transition-colors"
             >
               <Scale className="text-primary size-3" />
               <span className="hidden sm:inline">Reference Matter</span>
@@ -253,7 +252,7 @@ export function AiChatInput() {
       </div>
 
       {/* Small Disclaimer */}
-      <p className="text-muted-foreground/80 mt-2 text-center text-[10px] leading-tight">
+      <p className="text-muted-foreground/70 mt-2.5 text-center text-[11px] leading-relaxed">
         {AI_CONFIG.disclaimer}
       </p>
     </div>

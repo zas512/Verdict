@@ -12,7 +12,6 @@ export const AI_CONFIG = {
   name: "Verdict AI",
   subtitle: "Legal Intelligence & Operations Assistant",
   modelName: "Gemini 2.5 Pro Legal",
-  badge: "Enterprise AI",
   description:
     "Instant firm intelligence, matter summaries, precedent citations, drafting support, and operations insights.",
   disclaimer:

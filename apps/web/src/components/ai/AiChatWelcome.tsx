@@ -7,7 +7,7 @@ import {
   BarChart3,
   BookOpen,
   FileText,
-  Scale
+  Scale,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -15,15 +15,15 @@ const ICON_MAP: Record<string, React.ElementType> = {
   Scale,
   FileText,
   BookOpen,
-  BarChart3
+  BarChart3,
 };
 
 const CATEGORIES = [
-  { id: "all", label: "All Suggestions" },
+  { id: "all", label: "All" },
   { id: "matters", label: "Matters" },
   { id: "drafting", label: "Drafting" },
   { id: "research", label: "Research" },
-  { id: "operations", label: "Operations" }
+  { id: "operations", label: "Ops" },
 ];
 
 export function AiChatWelcome() {
@@ -36,21 +36,24 @@ export function AiChatWelcome() {
       : AI_QUICK_PROMPTS.filter((p) => p.category === selectedCategory);
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-8 text-center sm:px-6">
-      {/* AI Emblem - replaced Sparkles with Scale, removed gradient and pulse */}
-      <div className="bg-primary text-primary-foreground relative mb-5 flex size-14 items-center justify-center rounded-2xl shadow-md">
-        <Scale className="size-7" />
+    <div className="flex flex-col items-center justify-start px-8 pt-14 pb-6 text-center sm:px-10 overflow-y-auto">
+      {/* Emblem */}
+      <div className="bg-primary text-primary-foreground relative mb-6 flex size-16 items-center justify-center rounded-full shadow-xl ring-2 ring-primary/20 shadow-primary/20">
+        <Scale className="size-8" strokeWidth={1.5} />
       </div>
 
-      <h3 className="font-heading text-foreground text-lg font-bold tracking-tight sm:text-xl">
+      <h3 className="font-heading text-foreground text-2xl font-bold tracking-tight leading-none">
         {AI_CONFIG.name}
       </h3>
-      <p className="text-muted-foreground mt-1 max-w-sm text-xs sm:text-sm">
+      <p className="text-muted-foreground mt-3 max-w-sm text-sm leading-relaxed tracking-tight">
         {AI_CONFIG.description}
       </p>
 
-      {/* Category Pills */}
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-1.5">
+      {/* Thin divider */}
+      <div className="mt-6 mb-7 h-px w-20 bg-gradient-to-r from-transparent via-border/60 to-transparent" />
+
+      {/* Category pills */}
+      <div className="flex flex-wrap items-center justify-center gap-2">
         {CATEGORIES.map((cat) => {
           const isActive = selectedCategory === cat.id;
           return (
@@ -59,10 +62,10 @@ export function AiChatWelcome() {
               type="button"
               onClick={() => setSelectedCategory(cat.id)}
               className={cn(
-                "cursor-pointer rounded-full px-3 py-1 text-xs font-semibold transition-all",
+                "cursor-pointer rounded-full px-3.5 py-1.5 text-[11px] font-semibold tracking-wide transition-all",
                 isActive
-                  ? "bg-primary text-primary-foreground shadow-2xs"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                  ? "bg-foreground text-background shadow-sm ring-1 ring-foreground/20"
+                  : "bg-muted/60 text-muted-foreground hover:text-foreground hover:bg-muted hover:ring-1 hover:ring-foreground/10"
               )}
             >
               {cat.label}
@@ -71,8 +74,8 @@ export function AiChatWelcome() {
         })}
       </div>
 
-      {/* Quick Prompt Cards */}
-      <div className="mt-5 grid w-full grid-cols-1 gap-2.5 text-left sm:grid-cols-2">
+      {/* Suggested prompts — simple text rows like Claude, no cards */}
+      <div className="mt-8 w-full max-w-[420px] space-y-0.5 text-left scrollbar-thin">
         {filteredPrompts.map((item: QuickPrompt) => {
           const Icon = ICON_MAP[item.iconName] || Scale;
           return (
@@ -80,32 +83,30 @@ export function AiChatWelcome() {
               key={item.id}
               type="button"
               onClick={() => sendMessage(item.prompt)}
-              className="group border-border bg-card hover:border-primary/40 hover:bg-accent/40 flex cursor-pointer flex-col justify-between rounded-xl border p-3 text-left transition-all hover:shadow-2xs"
+              className="group flex w-full cursor-pointer items-start gap-3.5 rounded-xl px-3 py-3 text-left transition-all hover:bg-muted/40"
             >
-              <div className="flex items-start gap-2.5">
-                <div className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground flex size-7 shrink-0 items-center justify-center rounded-lg transition-colors">
-                  <Icon className="size-3.5" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <span className="text-muted-foreground/80 text-[10px] font-bold tracking-wider uppercase">
-                    {item.categoryLabel}
-                  </span>
-                  <p className="text-foreground group-hover:text-primary text-xs font-semibold transition-colors">
-                    {item.title}
-                  </p>
-                  <p className="text-muted-foreground mt-0.5 line-clamp-2 text-[11px]">
-                    {item.description}
-                  </p>
-                </div>
+              <div className="bg-muted/40 text-muted-foreground group-hover:text-primary group-hover:bg-primary/10 flex size-8 shrink-0 items-center justify-center rounded-full transition-colors">
+                <Icon className="size-4" strokeWidth={1.5} />
               </div>
-
-              <div className="text-primary mt-2.5 flex items-center justify-end text-[10px] font-semibold opacity-0 transition-opacity group-hover:opacity-100">
-                <ArrowRight className="size-3" />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-foreground text-sm font-medium tracking-tight leading-snug">
+                    {item.title}
+                  </span>
+                  <ArrowRight className="text-muted-foreground/40 size-3.5 shrink-0 opacity-0 transition-all group-hover:opacity-100 group-hover:translate-x-0.5" />
+                </div>
+                <p className="text-muted-foreground mt-0.5 text-xs leading-relaxed line-clamp-2">
+                  {item.description}
+                </p>
               </div>
             </button>
           );
         })}
       </div>
+
+      <p className="text-muted-foreground/50 mt-10 text-[10px] tracking-wide">
+        Verdict AI · Legal Intelligence
+      </p>
     </div>
   );
 }

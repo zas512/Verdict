@@ -61,15 +61,15 @@
 }
 
 :root {
-  --background: #f7f5f1;
+  --background: #F4F1EA;
   --foreground: #1c1a16;
   --card: #ffffff;
   --card-foreground: #1c1a16;
   --popover: #ffffff;
   --popover-foreground: #1c1a16;
-  --primary: #8a6a2f;
-  --primary-foreground: #ffffff;
-  --secondary: #eee9df;
+  --primary: #A67C3A;
+  --primary-foreground: #FFFFFF;
+  --secondary: #A67C3A;
   --secondary-foreground: #1c1a16;
   --muted: #efece5;
   --muted-foreground: #6b6558;
@@ -88,16 +88,16 @@
   --overlay: #10100d;
   --border: #e2ddd0;
   --input: #e2ddd0;
-  --ring: rgba(138, 106, 47, 0.4);
-  --chart-1: #8a6a2f;
-  --chart-2: #6b7d5f;
+  --ring: rgba(180, 83, 9, 0.4);
+  --chart-1: #A67C3A;
+  --chart-2: #A67C3A;
   --chart-3: #45647a;
   --chart-4: #6b6558;
   --chart-5: #b8ae98;
   --radius: 0.625rem;
   --sidebar: #efeae0;
   --sidebar-foreground: #1c1a16;
-  --sidebar-primary: #8a6a2f;
+  --sidebar-primary: #A67C3A;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #e6ddc7;
   --sidebar-accent-foreground: #7a5c22;
@@ -113,11 +113,11 @@
   --card-foreground: #ece8df;
   --popover: #16191e;
   --popover-foreground: #ece8df;
-  /* Brass/seal gold brand accent */
-  --primary: #c9a25c;
-  --primary-foreground: #0f1115;
-  --secondary: #121419;
-  --secondary-foreground: #ece8df;
+  /* Dark Navy Main / Rust Secondary */
+  --primary: #B08D4A;
+  --primary-foreground: #0B1320;
+  --secondary: #A67C3A;
+  --secondary-foreground: #1c1a16;
   --muted: #121419;
   --muted-foreground: #9b9689;
   --accent: #1e1b14;
@@ -136,15 +136,15 @@
   --border: #1c2026;
   --input: #121419;
   --ring: rgba(201, 162, 92, 0.45);
-  --chart-1: #c9a25c;
-  --chart-2: #7d8a6b;
+  --chart-1: #9A7B35;
+  --chart-2: #B08D4A;
   --chart-3: #5b7a8a;
   --chart-4: #8a7a5b;
   --chart-5: #4a4c52;
   --sidebar: #16191e;
   --sidebar-foreground: #ece8df;
-  --sidebar-primary: #c9a25c;
-  --sidebar-primary-foreground: #0f1115;
+  --sidebar-primary: #A67C3A;
+  --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #1e1b14;
   --sidebar-accent-foreground: #d3ac6c;
   --sidebar-border: #1c2026;

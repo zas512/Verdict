@@ -77,7 +77,7 @@ export function AiChatMessageItem({
         return (
           <code
             key={index}
-            className="bg-muted text-foreground rounded px-1.5 py-0.5 font-mono text-[11px]"
+            className="bg-muted text-foreground rounded px-1.5 py-0.5 font-mono text-sm"
           >
             {part.slice(1, -1)}
           </code>
@@ -91,7 +91,7 @@ export function AiChatMessageItem({
   const formatContent = (content: string): React.ReactNode => {
     if (!content || typeof content !== "string") {
       return (
-        <p className="text-foreground/90 text-xs leading-relaxed">
+        <p className="text-foreground/90 text-sm leading-relaxed">
           {content || ""}
         </p>
       );
@@ -114,10 +114,10 @@ export function AiChatMessageItem({
             elements.push(
               <div
                 key={`code-${idx}`}
-                className="bg-muted/80 border-border my-2 overflow-x-auto rounded-lg border p-3 font-mono text-[11px]"
+                className="bg-muted/80 border-border my-2 overflow-x-auto rounded-lg border p-3 font-mono text-sm"
               >
                 {codeBlockLanguage && (
-                  <div className="text-muted-foreground border-border/40 mb-1.5 border-b pb-1 text-[10px] uppercase">
+                  <div className="text-muted-foreground border-border/40 mb-1.5 border-b pb-1 text-xs uppercase">
                     {codeBlockLanguage}
                   </div>
                 )}
@@ -164,7 +164,7 @@ export function AiChatMessageItem({
           elements.push(
             <h5
               key={`h4-${idx}`}
-              className="font-heading text-foreground mt-2 mb-0.5 text-xs font-bold tracking-tight"
+              className="font-heading text-foreground mt-2 mb-0.5 text-sm font-bold tracking-tight"
             >
               {renderFormattedInline(trimmed.replace(/^####\s+/, ""))}
             </h5>
@@ -175,7 +175,7 @@ export function AiChatMessageItem({
           elements.push(
             <h4
               key={`h3-${idx}`}
-              className="font-heading text-foreground mt-2 mb-1 text-xs font-bold tracking-tight sm:text-sm"
+              className="font-heading text-foreground mt-2 mb-1 text-sm font-bold tracking-tight sm:text-sm"
             >
               {renderFormattedInline(trimmed.replace(/^###\s+/, ""))}
             </h4>
@@ -205,7 +205,7 @@ export function AiChatMessageItem({
           elements.push(
             <blockquote
               key={`bq-${idx}`}
-              className="border-primary/60 bg-primary/5 text-foreground/90 my-1.5 rounded-r-md border-l-2 py-1 pl-3 text-xs italic"
+              className="border-primary/60 bg-primary/5 text-foreground/90 my-3 rounded-r-md border-l-2 py-2 pl-4 text-sm italic"
             >
               {renderFormattedInline(trimmed.replace(/^>\s*/, ""))}
             </blockquote>
@@ -223,7 +223,7 @@ export function AiChatMessageItem({
           elements.push(
             <div
               key={`bullet-${idx}`}
-              className="my-0.5 ml-2 flex items-start gap-2 text-xs leading-relaxed"
+              className="my-0.5 ml-2 flex items-start gap-2 text-sm leading-relaxed"
             >
               <span className="text-primary mt-1 text-[8px] select-none">
                 •
@@ -242,7 +242,7 @@ export function AiChatMessageItem({
           elements.push(
             <div
               key={`num-${idx}`}
-              className="my-0.5 ml-2 flex items-start gap-1.5 text-xs leading-relaxed"
+              className="my-0.5 ml-2 flex items-start gap-1.5 text-sm leading-relaxed"
             >
               <span className="text-primary font-semibold select-none">
                 {numMatch[1]}.
@@ -259,7 +259,7 @@ export function AiChatMessageItem({
         elements.push(
           <p
             key={`p-${idx}`}
-            className="text-foreground/90 text-xs leading-relaxed"
+            className="text-foreground/90 text-sm leading-relaxed"
           >
             {renderFormattedInline(line)}
           </p>
@@ -271,7 +271,7 @@ export function AiChatMessageItem({
         elements.push(
           <div
             key="code-unclosed"
-            className="bg-muted/80 border-border my-2 overflow-x-auto rounded-lg border p-3 font-mono text-[11px]"
+            className="bg-muted/80 border-border my-2 overflow-x-auto rounded-lg border p-3 font-mono text-sm"
           >
             <pre className="text-foreground/90 whitespace-pre">
               {codeBlockLines.join("\n")}
@@ -284,7 +284,7 @@ export function AiChatMessageItem({
     } catch {
       // Fallback in case of unexpected string manipulation error
       return (
-        <p className="text-foreground/90 text-xs leading-relaxed whitespace-pre-wrap">
+        <p className="text-foreground/90 text-sm leading-relaxed whitespace-pre-wrap">
           {content}
         </p>
       );
@@ -300,7 +300,7 @@ export function AiChatMessageItem({
   return (
     <div
       className={cn(
-        "group flex w-full gap-3 px-4 py-2 transition-colors",
+        "group flex w-full gap-4 px-5 py-4 transition-colors",
         isUser ? "justify-end" : "justify-start"
       )}
     >
@@ -319,7 +319,7 @@ export function AiChatMessageItem({
         )}
       >
         {/* Author / Timestamp label */}
-        <div className="text-muted-foreground flex items-center gap-1.5 px-1 text-[10px]">
+        <div className="text-muted-foreground flex items-center gap-1.5 px-1 text-xs">
           <span className="text-foreground/80 font-semibold">
             {isUser ? "You" : "Verdict AI"}
           </span>
@@ -334,7 +334,7 @@ export function AiChatMessageItem({
         {/* Message Bubble */}
         <div
           className={cn(
-            "relative rounded-2xl p-3.5 text-xs shadow-xs transition-all",
+            "relative rounded-2xl p-4 text-sm shadow-xs transition-all",
             isUser
               ? "bg-primary text-primary-foreground shadow-primary/10 rounded-tr-xs"
               : message.status === "error"
@@ -349,7 +349,7 @@ export function AiChatMessageItem({
                 <div
                   key={att.id || att.name}
                   className={cn(
-                    "flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-medium",
+                    "flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-sm font-medium",
                     isUser
                       ? "bg-primary-foreground/15 text-primary-foreground"
                       : "bg-muted text-foreground"
@@ -376,7 +376,7 @@ export function AiChatMessageItem({
           {/* Legal Citations if any */}
           {citations.length > 0 && (
             <div className="border-border/80 mt-3 border-t pt-2.5">
-              <div className="text-muted-foreground mb-1.5 flex items-center gap-1.5 text-[10px] font-bold tracking-wider uppercase">
+              <div className="text-muted-foreground mb-1.5 flex items-center gap-1.5 text-sm font-bold tracking-wider uppercase">
                 <BookOpen className="text-primary size-3" />
                 <span>Legal Authorities & Citations</span>
               </div>
@@ -398,21 +398,21 @@ export function AiChatMessageItem({
                   return (
                     <div
                       key={cIdx}
-                      className="bg-muted/60 border-border/60 rounded-lg border p-2 text-[11px]"
+                      className="bg-muted/60 border-border/60 rounded-lg border p-2 text-sm"
                     >
                       <div className="text-foreground flex items-center justify-between font-semibold">
                         <span>{title}</span>
                         {year && (
-                          <span className="text-muted-foreground font-mono text-[10px]">
+                          <span className="text-muted-foreground font-mono text-xs">
                             {year}
                           </span>
                         )}
                       </div>
-                      <p className="text-muted-foreground mt-0.5 text-[10px]">
+                      <p className="text-muted-foreground mt-0.5 text-xs">
                         {source}
                       </p>
                       {summary && (
-                        <p className="text-foreground/80 mt-1 text-[10px] italic">
+                        <p className="text-foreground/80 mt-1 text-xs italic">
                           &quot;{summary}&quot;
                         </p>
                       )}
@@ -426,7 +426,7 @@ export function AiChatMessageItem({
           {/* Referenced Sources if any */}
           {sources.length > 0 && (
             <div className="border-border/80 mt-3 border-t pt-2.5">
-              <div className="text-muted-foreground mb-1.5 flex items-center gap-1.5 text-[10px] font-bold tracking-wider uppercase">
+              <div className="text-muted-foreground mb-1.5 flex items-center gap-1.5 text-sm font-bold tracking-wider uppercase">
                 <FileText className="text-primary size-3" />
                 <span>Referenced Documents & Context</span>
               </div>
@@ -442,18 +442,18 @@ export function AiChatMessageItem({
                   return (
                     <div
                       key={sIdx}
-                      className="bg-muted/60 border-border/60 rounded-lg border p-2 text-[11px]"
+                      className="bg-muted/60 border-border/60 rounded-lg border p-2 text-sm"
                     >
                       <div className="text-foreground flex items-center justify-between font-semibold">
                         <span className="truncate">{docName}</span>
                         {score !== null && (
-                          <span className="text-muted-foreground shrink-0 text-[10px]">
+                          <span className="text-muted-foreground shrink-0 text-xs">
                             {score}% match
                           </span>
                         )}
                       </div>
                       {src?.chunk_text && (
-                        <p className="text-muted-foreground mt-0.5 line-clamp-2 text-[10px]">
+                        <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs">
                           {src.chunk_text}
                         </p>
                       )}

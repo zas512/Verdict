@@ -199,7 +199,9 @@ def _process_attachment_content(att: ChatAttachmentItem) -> dict[str, Any]:
             binary_data = base64.b64decode(raw_b64)
 
             # Write to a temporary file in raw_data_dir to load via DocumentLoader
-            temp_path = settings.raw_data_dir / f"temp_{att.name}"
+            import uuid
+            safe_suffix = Path(att.name or "file").suffix or ".tmp"
+            temp_path = settings.raw_data_dir / f"temp_{uuid.uuid4().hex}{safe_suffix}"
             temp_path.write_bytes(binary_data)
             try:
                 doc = DocumentLoader.load_document(temp_path)
@@ -501,8 +503,18 @@ def delete_matter_data(matter_id: str) -> dict[str, Any]:
     # Remove raw uploaded files referencing matter
     removed = 0
     try:
+        raw_dir = settings.raw_data_dir.resolve()
         for f in settings.raw_data_dir.iterdir():
-            if f.is_file() and matter_id in f.name:
+            if not f.is_file():
+                continue
+            try:
+                resolved_f = f.resolve()
+                if not resolved_f.is_relative_to(raw_dir):
+                    continue
+            except Exception:
+                continue
+            # Only delete if filename begins with matter_id to avoid substring false matches
+            if f.name.startswith(str(matter_id)):
                 f.unlink()
                 removed += 1
     except Exception:

@@ -43,14 +43,12 @@ export function AiChatWelcome() {
       <div className="bg-primary text-primary-foreground relative mb-6 flex size-16 items-center justify-center rounded-full shadow-xl ring-2 ring-primary/20 shadow-primary/20">
         <Scale className="size-8" strokeWidth={1.5} />
       </div>
-
       <h3 className="font-heading text-foreground text-2xl font-bold tracking-tight leading-none">
         {AI_CONFIG.name}
       </h3>
       <p className="text-muted-foreground mt-3 max-w-sm text-sm leading-relaxed tracking-tight">
         {AI_CONFIG.description}
       </p>
-
       {/* Thin divider */}
       <div className="mt-6 mb-7 h-px w-20 bg-gradient-to-r from-transparent via-border/60 to-transparent" />
 
@@ -75,8 +73,7 @@ export function AiChatWelcome() {
           );
         })}
       </div>
-
-      {/* Suggested prompts — simple text rows like Claude, no cards */}
+      {/* Suggested prompts */}
       <div className="mt-8 w-full max-w-[420px] space-y-0.5 text-left scrollbar-thin">
         {filteredPrompts.map((item: QuickPrompt) => {
           const Icon = ICON_MAP[item.iconName] || Scale;
@@ -105,7 +102,6 @@ export function AiChatWelcome() {
           );
         })}
       </div>
-
       <p className="text-muted-foreground/50 mt-10 text-[10px] tracking-wide">
         Verdict AI · Legal Intelligence
       </p>

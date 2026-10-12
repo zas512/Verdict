@@ -61,15 +61,15 @@
 }
 
 :root {
-  --background: #F4F1EA;
+  --background: #f4f1ea;
   --foreground: #1c1a16;
   --card: #ffffff;
   --card-foreground: #1c1a16;
   --popover: #ffffff;
   --popover-foreground: #1c1a16;
-  --primary: #A67C3A;
-  --primary-foreground: #FFFFFF;
-  --secondary: #A67C3A;
+  --primary: #a67c3a;
+  --primary-foreground: #ffffff;
+  --secondary: #a67c3a;
   --secondary-foreground: #1c1a16;
   --muted: #efece5;
   --muted-foreground: #6b6558;
@@ -89,15 +89,15 @@
   --border: #e2ddd0;
   --input: #e2ddd0;
   --ring: rgba(180, 83, 9, 0.4);
-  --chart-1: #A67C3A;
-  --chart-2: #A67C3A;
+  --chart-1: #a67c3a;
+  --chart-2: #a67c3a;
   --chart-3: #45647a;
   --chart-4: #6b6558;
   --chart-5: #b8ae98;
   --radius: 0.625rem;
   --sidebar: #efeae0;
   --sidebar-foreground: #1c1a16;
-  --sidebar-primary: #A67C3A;
+  --sidebar-primary: #a67c3a;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #e6ddc7;
   --sidebar-accent-foreground: #7a5c22;
@@ -114,9 +114,9 @@
   --popover: #16191e;
   --popover-foreground: #ece8df;
   /* Dark Navy Main / Rust Secondary */
-  --primary: #B08D4A;
-  --primary-foreground: #0B1320;
-  --secondary: #A67C3A;
+  --primary: #b08d4a;
+  --primary-foreground: #0b1320;
+  --secondary: #a67c3a;
   --secondary-foreground: #1c1a16;
   --muted: #121419;
   --muted-foreground: #9b9689;
@@ -136,15 +136,15 @@
   --border: #1c2026;
   --input: #121419;
   --ring: rgba(201, 162, 92, 0.45);
-  --chart-1: #9A7B35;
-  --chart-2: #B08D4A;
+  --chart-1: #9a7b35;
+  --chart-2: #b08d4a;
   --chart-3: #5b7a8a;
   --chart-4: #8a7a5b;
   --chart-5: #4a4c52;
   --sidebar: #16191e;
   --sidebar-foreground: #ece8df;
-  --sidebar-primary: #A67C3A;
-  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-primary: #a67c3a;
+  --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #1e1b14;
   --sidebar-accent-foreground: #d3ac6c;
   --sidebar-border: #1c2026;

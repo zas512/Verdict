@@ -25,9 +25,11 @@
 ## Executive Summary
 
 ### Purpose
+
 The Legal RAG (Retrieval-Augmented Generation) System is an AI-powered document assistant designed for law firm case management. It enables legal professionals to query case documents, contracts, and legal materials using natural language, receiving accurate, cited responses with relevant context.
 
 ### Core Value Proposition
+
 - Intelligent Document Retrieval: Semantic search across legal documents
 - Context-Aware Responses: Answers grounded in specific case documents
 - Citation Transparency: Every response includes source references
@@ -35,6 +37,7 @@ The Legal RAG (Retrieval-Augmented Generation) System is an AI-powered document 
 - Case-Specific Filtering: Query within specific matters or across all cases
 
 ### Key Differentiators
+
 - Self-hosted, privacy-preserving architecture
 - Legal-domain optimized chunking strategies
 - Hybrid search combining semantic and keyword retrieval
@@ -46,9 +49,11 @@ The Legal RAG (Retrieval-Augmented Generation) System is an AI-powered document 
 ## System Overview
 
 ### What It Does
+
 The system ingests legal documents (contracts, briefs, correspondence), chunks them intelligently, creates embeddings, and enables natural language querying with cited responses.
 
 ### Who It Serves
+
 - Attorneys: Quick case law research, contract analysis
 - Paralegals: Document preparation, fact checking
 - Legal Assistants: Client correspondence drafting
@@ -56,16 +61,16 @@ The system ingests legal documents (contracts, briefs, correspondence), chunks t
 
 ### Core Capabilities
 
-| Capability | Description |
-|-----------|-------------|
-| Document Ingestion | Parse PDFs, DOCX, TXT, Markdown, HTML |
-| Semantic Chunking | Legal-aware text splitting with overlap |
-| Vector Storage | ChromaDB for efficient similarity search |
-| Hybrid Retrieval | Semantic + Keyword search with reranking |
-| LLM Generation | Local Ollama models for private inference |
-| Guardrails | Confidence thresholds, PII detection, toxicity filters |
-| Evaluation | RAGAS metrics for quality assurance |
-| API Interface | REST endpoints for Next.js integration |
+| Capability         | Description                                            |
+| ------------------ | ------------------------------------------------------ |
+| Document Ingestion | Parse PDFs, DOCX, TXT, Markdown, HTML                  |
+| Semantic Chunking  | Legal-aware text splitting with overlap                |
+| Vector Storage     | ChromaDB for efficient similarity search               |
+| Hybrid Retrieval   | Semantic + Keyword search with reranking               |
+| LLM Generation     | Local Ollama models for private inference              |
+| Guardrails         | Confidence thresholds, PII detection, toxicity filters |
+| Evaluation         | RAGAS metrics for quality assurance                    |
+| API Interface      | REST endpoints for Next.js integration                 |
 
 ---
 
@@ -92,6 +97,7 @@ The system ingests legal documents (contracts, briefs, correspondence), chunks t
 ```
 
 #### 2. Separation of Concerns
+
 - Ingestion Pipeline: Document processing only
 - Retrieval Layer: Search and ranking only
 - Generation Layer: LLM orchestration only
@@ -99,25 +105,27 @@ The system ingests legal documents (contracts, briefs, correspondence), chunks t
 - Evaluation: Quality metrics only
 
 #### 3. Dependency Inversion
+
 - High-level modules don't depend on low-level modules
 - Both depend on abstractions (interfaces)
 - Enables easy swapping of components
 
 #### 4. Single Responsibility
+
 - Each module has one clearly defined purpose
 - Changes to one don't affect others
 - Easier testing and maintenance
 
 ### Architectural Patterns
 
-| Pattern | Usage | Benefit |
-|---------|-------|---------|
-| Repository Pattern | Abstract data access | Database agnostic |
-| Factory Pattern | LLM/Embedding creation | Easy model swapping |
-| Strategy Pattern | Chunking strategies | Flexible document processing |
-| Singleton Pattern | Configuration, Logging | Global state management |
-| Observer Pattern | Pipeline notifications | Event-driven processing |
-| Builder Pattern | Query construction | Complex query building |
+| Pattern            | Usage                  | Benefit                      |
+| ------------------ | ---------------------- | ---------------------------- |
+| Repository Pattern | Abstract data access   | Database agnostic            |
+| Factory Pattern    | LLM/Embedding creation | Easy model swapping          |
+| Strategy Pattern   | Chunking strategies    | Flexible document processing |
+| Singleton Pattern  | Configuration, Logging | Global state management      |
+| Observer Pattern   | Pipeline notifications | Event-driven processing      |
+| Builder Pattern    | Query construction     | Complex query building       |
 
 ---
 
@@ -125,56 +133,56 @@ The system ingests legal documents (contracts, briefs, correspondence), chunks t
 
 ### Core Framework
 
-| Component | Technology | Version | Purpose |
-|-----------|------------|---------|---------|
-| Language | Python | 3.11+ | Main implementation |
-| Package Manager | uv | Latest | Dependency management |
-| RAG Framework | LlamaIndex | 0.10.38+ | RAG orchestration |
-| Web Framework | FastAPI | 0.110+ | REST API |
-| ASGI Server | Uvicorn | 0.27+ | Production server |
+| Component       | Technology | Version  | Purpose               |
+| --------------- | ---------- | -------- | --------------------- |
+| Language        | Python     | 3.11+    | Main implementation   |
+| Package Manager | uv         | Latest   | Dependency management |
+| RAG Framework   | LlamaIndex | 0.10.38+ | RAG orchestration     |
+| Web Framework   | FastAPI    | 0.110+   | REST API              |
+| ASGI Server     | Uvicorn    | 0.27+    | Production server     |
 
 ### AI & ML
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| Local LLM | Ollama (Gemma3:1b) | Text generation |
-| Embeddings | nomic-embed-text | Vector encoding |
-| Reranker | ms-marco-MiniLM | Result refinement |
-| RAG Framework | LlamaIndex | Pipeline orchestration |
+| Component     | Technology         | Purpose                |
+| ------------- | ------------------ | ---------------------- |
+| Local LLM     | Ollama (Gemma3:1b) | Text generation        |
+| Embeddings    | nomic-embed-text   | Vector encoding        |
+| Reranker      | ms-marco-MiniLM    | Result refinement      |
+| RAG Framework | LlamaIndex         | Pipeline orchestration |
 
 ### Data Storage
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| Vector DB | ChromaDB | Embedding storage & search |
-| Document Store | File System | Original document storage |
-| Cache | Redis (planned) | Query caching |
+| Component      | Technology      | Purpose                    |
+| -------------- | --------------- | -------------------------- |
+| Vector DB      | ChromaDB        | Embedding storage & search |
+| Document Store | File System     | Original document storage  |
+| Cache          | Redis (planned) | Query caching              |
 
 ### Document Processing
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| PDF | PyPDF, pdfplumber | PDF parsing |
-| DOCX | python-docx | Word document parsing |
-| Markdown | markdown + BeautifulSoup | MD/HTML parsing |
-| Text | Built-in | Plain text processing |
+| Component | Technology               | Purpose               |
+| --------- | ------------------------ | --------------------- |
+| PDF       | PyPDF, pdfplumber        | PDF parsing           |
+| DOCX      | python-docx              | Word document parsing |
+| Markdown  | markdown + BeautifulSoup | MD/HTML parsing       |
+| Text      | Built-in                 | Plain text processing |
 
 ### Monitoring & Logging
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| Logging | Loguru | Structured logging |
-| Metrics | Prometheus (planned) | Performance monitoring |
-| Tracing | OpenTelemetry (planned) | Distributed tracing |
+| Component | Technology              | Purpose                |
+| --------- | ----------------------- | ---------------------- |
+| Logging   | Loguru                  | Structured logging     |
+| Metrics   | Prometheus (planned)    | Performance monitoring |
+| Tracing   | OpenTelemetry (planned) | Distributed tracing    |
 
 ### Testing
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| Unit Testing | pytest | Unit tests |
-| Integration | pytest-asyncio | Integration tests |
-| Evaluation | RAGAS | Quality metrics |
-| Coverage | pytest-cov | Code coverage |
+| Component    | Technology     | Purpose           |
+| ------------ | -------------- | ----------------- |
+| Unit Testing | pytest         | Unit tests        |
+| Integration  | pytest-asyncio | Integration tests |
+| Evaluation   | RAGAS          | Quality metrics   |
+| Coverage     | pytest-cov     | Code coverage     |
 
 ---
 
@@ -241,6 +249,7 @@ The system ingests legal documents (contracts, briefs, correspondence), chunks t
 ### Component Interaction Flow
 
 #### Ingestion Flow
+
 1. Document uploaded via API
 2. Document stored in file system
 3. Content extracted based on file type
@@ -250,6 +259,7 @@ The system ingests legal documents (contracts, briefs, correspondence), chunks t
 7. Metadata associated for filtering
 
 #### Query Flow
+
 1. User question received via API
 2. Question embedded using same model
 3. Vector similarity search performed
@@ -269,6 +279,7 @@ The system ingests legal documents (contracts, briefs, correspondence), chunks t
 **Purpose**: Centralized, type-safe configuration management
 
 **Key Features**:
+
 - Environment variable loading
 - Pydantic validation
 - Environment-specific settings (dev/staging/prod)
@@ -277,23 +288,24 @@ The system ingests legal documents (contracts, briefs, correspondence), chunks t
 
 **Configuration Categories**:
 
-| Category | Settings |
-|----------|----------|
-| Environment | ENVIRONMENT, DEBUG |
-| Paths | data_dir, raw_data_dir, processed_data_dir |
-| Ollama | host, embed_model, llm_model, temperature, max_tokens |
-| ChromaDB | persist_dir, collection, similarity_metric |
-| Chunking | chunk_size, chunk_overlap, separator, strategy |
-| Retrieval | top_k, similarity_threshold, reranker |
-| Guardrails | enable, min_chunk_score, max_context_tokens |
-| API | host, port, prefix, cors_origins |
-| Logging | log_level, log_file |
+| Category    | Settings                                              |
+| ----------- | ----------------------------------------------------- |
+| Environment | ENVIRONMENT, DEBUG                                    |
+| Paths       | data_dir, raw_data_dir, processed_data_dir            |
+| Ollama      | host, embed_model, llm_model, temperature, max_tokens |
+| ChromaDB    | persist_dir, collection, similarity_metric            |
+| Chunking    | chunk_size, chunk_overlap, separator, strategy        |
+| Retrieval   | top_k, similarity_threshold, reranker                 |
+| Guardrails  | enable, min_chunk_score, max_context_tokens           |
+| API         | host, port, prefix, cors_origins                      |
+| Logging     | log_level, log_file                                   |
 
 ### 2. Logging Module (src/logger.py)
 
 **Purpose**: Structured logging for production
 
 **Key Features**:
+
 - Multiple output targets (console, file)
 - Log rotation
 - JSON formatting (optional)
@@ -302,12 +314,12 @@ The system ingests legal documents (contracts, briefs, correspondence), chunks t
 
 **Log Levels**:
 
-| Level | Usage |
-|-------|-------|
-| DEBUG | Development debugging |
-| INFO | Normal operations |
-| WARNING | Recoverable issues |
-| ERROR | Non-critical failures |
+| Level    | Usage                    |
+| -------- | ------------------------ |
+| DEBUG    | Development debugging    |
+| INFO     | Normal operations        |
+| WARNING  | Recoverable issues       |
+| ERROR    | Non-critical failures    |
 | CRITICAL | System-critical failures |
 
 ### 3. Ingestion Pipeline (src/ingestion/)
@@ -318,15 +330,16 @@ The system ingests legal documents (contracts, briefs, correspondence), chunks t
 
 **Supported Formats**:
 
-| Format | Library | Notes |
-|--------|---------|-------|
-| PDF | pdfplumber, PyPDF | Table extraction fallback |
-| DOCX | python-docx | Paragraph extraction |
-| TXT | Built-in | UTF-8 encoding |
-| MD | markdown + BeautifulSoup | HTML conversion |
-| HTML | BeautifulSoup | Text extraction |
+| Format | Library                  | Notes                     |
+| ------ | ------------------------ | ------------------------- |
+| PDF    | pdfplumber, PyPDF        | Table extraction fallback |
+| DOCX   | python-docx              | Paragraph extraction      |
+| TXT    | Built-in                 | UTF-8 encoding            |
+| MD     | markdown + BeautifulSoup | HTML conversion           |
+| HTML   | BeautifulSoup            | Text extraction           |
 
 **Key Methods**:
+
 ```python
 load_document(file_path, metadata) -> dict
 load_directory(directory_path) -> list[dict]
@@ -338,14 +351,15 @@ load_directory(directory_path) -> list[dict]
 
 **Chunking Strategies**:
 
-| Strategy | Description | Best For |
-|----------|-------------|----------|
-| Sentence | Split by sentences with overlap | General documents |
-| Fixed | Fixed character size with overlap | Simple documents |
-| Semantic | Split by paragraphs (legal-aware) | Legal documents |
-| Legal | Legal section detection | Contracts, briefs |
+| Strategy | Description                       | Best For          |
+| -------- | --------------------------------- | ----------------- |
+| Sentence | Split by sentences with overlap   | General documents |
+| Fixed    | Fixed character size with overlap | Simple documents  |
+| Semantic | Split by paragraphs (legal-aware) | Legal documents   |
+| Legal    | Legal section detection           | Contracts, briefs |
 
 **Legal Patterns**:
+
 - Article/Section/Clause detection
 - Numbered sections
 - ALL CAPS headings
@@ -356,6 +370,7 @@ load_directory(directory_path) -> list[dict]
 **Purpose**: Orchestrate complete ingestion workflow
 
 **Features**:
+
 - Single document ingestion
 - Batch directory ingestion
 - Progress tracking
@@ -369,6 +384,7 @@ load_directory(directory_path) -> list[dict]
 **Purpose**: Generate and manage vector embeddings
 
 **Features**:
+
 - Integration with Ollama
 - Model initialization
 - Batch embedding generation
@@ -376,16 +392,17 @@ load_directory(directory_path) -> list[dict]
 
 **Supported Models**:
 
-| Model | Type | Dimensions | Use Case |
-|-------|------|-----------|----------|
-| nomic-embed-text | Embedding | 768 | General purpose |
-| gemma3:1b | LLM | N/A | Text generation |
+| Model            | Type      | Dimensions | Use Case        |
+| ---------------- | --------- | ---------- | --------------- |
+| nomic-embed-text | Embedding | 768        | General purpose |
+| gemma3:1b        | LLM       | N/A        | Text generation |
 
 #### 4.2 Vector Store (vector_store.py)
 
 **Purpose**: Manage ChromaDB connections
 
 **Features**:
+
 - Collection management
 - Persistent storage
 - Similarity search
@@ -394,19 +411,20 @@ load_directory(directory_path) -> list[dict]
 
 **ChromaDB Setup**:
 
-| Option | Description |
-|--------|-------------|
-| Persistent | Data stored on disk |
-| In-Memory | Data in memory (testing) |
-| Server | Separate process (future) |
+| Option     | Description               |
+| ---------- | ------------------------- |
+| Persistent | Data stored on disk       |
+| In-Memory  | Data in memory (testing)  |
+| Server     | Separate process (future) |
 
 ### 5. API Layer (src/api/)
 
-#### 5.1 Main Application (__init__.py)
+#### 5.1 Main Application (**init**.py)
 
 **Purpose**: FastAPI application setup
 
 **Features**:
+
 - CORS configuration
 - Route registration
 - Middleware (planned)
@@ -418,11 +436,11 @@ load_directory(directory_path) -> list[dict]
 
 **Endpoints**:
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| /query | POST | Submit a question |
-| /query/stream | POST | Stream response |
-| /matters/{id}/context | GET | Get matter context |
+| Endpoint              | Method | Description        |
+| --------------------- | ------ | ------------------ |
+| /query                | POST   | Submit a question  |
+| /query/stream         | POST   | Stream response    |
+| /matters/{id}/context | GET    | Get matter context |
 
 #### 5.3 Ingestion Routes (routes/ingestion.py)
 
@@ -430,10 +448,10 @@ load_directory(directory_path) -> list[dict]
 
 **Endpoints**:
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| /ingest | POST | Upload single document |
-| /ingest/batch | POST | Upload multiple documents |
+| Endpoint      | Method | Description               |
+| ------------- | ------ | ------------------------- |
+| /ingest       | POST   | Upload single document    |
+| /ingest/batch | POST   | Upload multiple documents |
 
 ### 6. Guardrails (src/guardrails/)
 
@@ -441,13 +459,13 @@ load_directory(directory_path) -> list[dict]
 
 **Types**:
 
-| Guardrail | Description |
-|-----------|-------------|
-| Similarity Threshold | Minimum confidence score |
-| PII Detection | Personal info protection |
-| Toxicity Filter | Offensive content prevention |
-| Citation Check | Source attribution |
-| Legal Disclaimer | Automatic legal warnings |
+| Guardrail            | Description                  |
+| -------------------- | ---------------------------- |
+| Similarity Threshold | Minimum confidence score     |
+| PII Detection        | Personal info protection     |
+| Toxicity Filter      | Offensive content prevention |
+| Citation Check       | Source attribution           |
+| Legal Disclaimer     | Automatic legal warnings     |
 
 ### 7. Evaluation (src/evals/)
 
@@ -455,12 +473,12 @@ load_directory(directory_path) -> list[dict]
 
 **Metrics**:
 
-| Metric | Description |
-|--------|-------------|
-| Faithfulness | Answer accuracy vs context |
-| Relevance | Query-context relevance |
-| Correctness | Answer factuality |
-| Context Recall | Information coverage |
+| Metric         | Description                |
+| -------------- | -------------------------- |
+| Faithfulness   | Answer accuracy vs context |
+| Relevance      | Query-context relevance    |
+| Correctness    | Answer factuality          |
+| Context Recall | Information coverage       |
 
 ---
 
@@ -573,6 +591,7 @@ class QueryBuilder:
 ### Data Security
 
 #### Document Handling
+
 - Documents never leave the infrastructure
 - All processing occurs locally
 - No external API calls for sensitive data
@@ -580,14 +599,15 @@ class QueryBuilder:
 
 #### Privacy Controls
 
-| Control | Description |
-|---------|-------------|
-| PII Detection | Identifies and masks personal info |
-| Access Control | Matter-based document filtering |
-| Audit Logging | All queries logged |
-| Data Retention | Configurable document retention |
+| Control        | Description                        |
+| -------------- | ---------------------------------- |
+| PII Detection  | Identifies and masks personal info |
+| Access Control | Matter-based document filtering    |
+| Audit Logging  | All queries logged                 |
+| Data Retention | Configurable document retention    |
 
 ### Authentication (Planned)
+
 - Integration with law firm authentication
 - Role-based access control
 - API key management
@@ -595,10 +615,10 @@ class QueryBuilder:
 
 ### Compliance
 
-| Standard | Status | Description |
-|----------|--------|-------------|
-| GDPR | Planned | European data protection |
-| HIPAA | Under Review | Healthcare compliance |
+| Standard     | Status       | Description               |
+| ------------ | ------------ | ------------------------- |
+| GDPR         | Planned      | European data protection  |
+| HIPAA        | Under Review | Healthcare compliance     |
 | Legal Ethics | Under Review | Attorney-client privilege |
 
 ---
@@ -616,7 +636,7 @@ services:
       - "8000:8000"
     volumes:
       - ./chroma_db:/chroma/chroma
-    
+
   ollama:
     image: ollama/ollama:latest
     ports:
@@ -652,19 +672,20 @@ services:
 
 ### Containerization Strategy
 
-| Service | Container | Details |
-|---------|-----------|---------|
-| API | Docker | Python 3.11-slim |
-| ChromaDB | Official | Chroma image |
-| Ollama | Official | Ollama image |
-| Redis | Redis | For caching (future) |
-| PostgreSQL | Postgres | For metadata (future) |
+| Service    | Container | Details               |
+| ---------- | --------- | --------------------- |
+| API        | Docker    | Python 3.11-slim      |
+| ChromaDB   | Official  | Chroma image          |
+| Ollama     | Official  | Ollama image          |
+| Redis      | Redis     | For caching (future)  |
+| PostgreSQL | Postgres  | For metadata (future) |
 
 ---
 
 ## Development Checklist
 
 ### Phase 1: Project Setup
+
 - [x] Initialize project with `uv init`
 - [x] Create virtual environment
 - [x] Install dependencies
@@ -676,6 +697,7 @@ services:
 - [x] Create `run.py` entry point
 
 ### Phase 2: Configuration
+
 - [x] Create `src/config.py` with Pydantic
 - [x] Setup environment variables
 - [x] Create `.env.example`
@@ -688,6 +710,7 @@ services:
 - [x] Setup guardrail configuration
 
 ### Phase 3: Ingestion Pipeline
+
 - [x] Implement document loader
   - [x] PDF support
   - [x] DOCX support
@@ -712,6 +735,7 @@ services:
   - [x] Statistics collection
 
 ### Phase 4: Retrieval System
+
 - [x] Implement embedding manager
   - [x] Model initialization
   - [x] Single embedding
@@ -728,6 +752,7 @@ services:
   - [x] Result formatting & scoring
 
 ### Phase 5: LLM Integration
+
 - [x] Implement LLM manager
   - [x] Ollama integration
   - [ ] OpenAI integration (optional)
@@ -742,6 +767,7 @@ services:
   - [x] Source attribution
 
 ### Phase 6: Guardrails
+
 - [x] Implement similarity threshold
   - [x] Configuration
   - [x] Check implementation
@@ -754,6 +780,7 @@ services:
   - [x] Automatic injection
 
 ### Phase 7: Evaluation Framework
+
 - [x] Setup evaluation metrics
   - [x] Faithfulness metric
   - [x] Relevance metric
@@ -763,6 +790,7 @@ services:
 - [x] Create evaluation reports
 
 ### Phase 8: API Implementation
+
 - [x] Implement FastAPI application
   - [x] CORS configuration
   - [x] Route registration
@@ -781,6 +809,7 @@ services:
 - [x] API documentation (/docs, /redoc)
 
 ### Phase 9: Frontend Integration
+
 - [ ] Setup Next.js API routes
   - [ ] Query route
   - [ ] Ingestion route
@@ -795,6 +824,7 @@ services:
   - [ ] Loading states
 
 ### Phase 10: Testing
+
 - [ ] Unit tests
   - [ ] Loader tests
   - [ ] Chunker tests
@@ -809,6 +839,7 @@ services:
   - [ ] Performance tests
 
 ### Phase 11: Monitoring
+
 - [x] Setup structured logging
   - [x] Console handler
   - [x] File handler
@@ -823,6 +854,7 @@ services:
   - [ ] Alerting (planned)
 
 ### Phase 12: Production Readiness
+
 - [ ] Authentication
   - [ ] API keys (planned)
   - [ ] JWT (planned)
@@ -842,6 +874,7 @@ services:
 ## Production Checklist
 
 ### Infrastructure
+
 - [ ] Production server provisioning
 - [ ] Load balancer configuration
 - [ ] Auto-scaling setup
@@ -852,6 +885,7 @@ services:
 - [ ] CDN configuration (optional)
 
 ### Security
+
 - [ ] API key rotation
 - [ ] PII scanning
 - [ ] Security headers
@@ -862,6 +896,7 @@ services:
 - [ ] Access review
 
 ### Performance
+
 - [ ] Load testing
 - [ ] Stress testing
 - [ ] Latency optimization
@@ -871,6 +906,7 @@ services:
 - [ ] Query optimization
 
 ### Monitoring
+
 - [ ] Health checks
 - [ ] Performance metrics
 - [ ] Error tracking
@@ -880,6 +916,7 @@ services:
 - [ ] Dashboard creation
 
 ### Quality
+
 - [ ] Evaluation metrics baseline
 - [ ] User acceptance testing
 - [ ] A/B testing setup (optional)
@@ -887,6 +924,7 @@ services:
 - [ ] Continuous improvement
 
 ### Documentation
+
 - [ ] API documentation
 - [ ] Deployment documentation
 - [ ] User documentation
@@ -902,33 +940,33 @@ services:
 
 #### System Metrics
 
-| Metric | Description | Target |
-|--------|-------------|--------|
-| API Latency | Response time | < 500ms |
-| Embedding Time | Embedding generation | < 100ms/chunk |
-| Query Time | Full query processing | < 2s |
-| Storage Growth | Database growth rate | Monitor |
-| Memory Usage | RAM consumption | < 4GB |
-| CPU Usage | Processor utilization | < 80% |
+| Metric         | Description           | Target        |
+| -------------- | --------------------- | ------------- |
+| API Latency    | Response time         | < 500ms       |
+| Embedding Time | Embedding generation  | < 100ms/chunk |
+| Query Time     | Full query processing | < 2s          |
+| Storage Growth | Database growth rate  | Monitor       |
+| Memory Usage   | RAM consumption       | < 4GB         |
+| CPU Usage      | Processor utilization | < 80%         |
 
 #### Quality Metrics
 
-| Metric | Description | Target |
-|--------|-------------|--------|
-| Faithfulness | Answer accuracy | > 0.8 |
-| Relevance | Query-context match | > 0.7 |
-| Confidence | Average confidence | > 0.6 |
-| Citation Count | Average citations | > 2 |
-| Hallucination Rate | False info rate | < 5% |
+| Metric             | Description         | Target |
+| ------------------ | ------------------- | ------ |
+| Faithfulness       | Answer accuracy     | > 0.8  |
+| Relevance          | Query-context match | > 0.7  |
+| Confidence         | Average confidence  | > 0.6  |
+| Citation Count     | Average citations   | > 2    |
+| Hallucination Rate | False info rate     | < 5%   |
 
 #### Business Metrics
 
-| Metric | Description |
-|--------|-------------|
-| Query Volume | Daily active users |
-| Document Volume | Documents ingested |
-| Satisfaction Score | User feedback |
-| Usage Patterns | Peak usage times |
+| Metric             | Description        |
+| ------------------ | ------------------ |
+| Query Volume       | Daily active users |
+| Document Volume    | Documents ingested |
+| Satisfaction Score | User feedback      |
+| Usage Patterns     | Peak usage times   |
 
 ---
 
@@ -936,17 +974,17 @@ services:
 
 ### Endpoints
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| /health | GET | Health check |
-| /docs | GET | API documentation |
-| /redoc | GET | ReDoc documentation |
-| /api/ai/query | POST | Submit query |
-| /api/ai/query/stream | POST | Streaming query |
-| /api/ai/ingest | POST | Upload document |
-| /api/ai/ingest/batch | POST | Batch upload |
-| /api/ai/matters/{id}/context | GET | Matter context |
-| /api/ai/matters/{id}/documents | GET | Matter documents |
+| Endpoint                       | Method | Description         |
+| ------------------------------ | ------ | ------------------- |
+| /health                        | GET    | Health check        |
+| /docs                          | GET    | API documentation   |
+| /redoc                         | GET    | ReDoc documentation |
+| /api/ai/query                  | POST   | Submit query        |
+| /api/ai/query/stream           | POST   | Streaming query     |
+| /api/ai/ingest                 | POST   | Upload document     |
+| /api/ai/ingest/batch           | POST   | Batch upload        |
+| /api/ai/matters/{id}/context   | GET    | Matter context      |
+| /api/ai/matters/{id}/documents | GET    | Matter documents    |
 
 ### Query Request/Response
 
@@ -1054,6 +1092,7 @@ LOG_FILE=./logs/rag.log
 ## Future Roadmap
 
 ### Phase 1: Foundation (Current)
+
 - Core RAG functionality
 - Basic ingestion pipeline
 - Simple query interface
@@ -1061,6 +1100,7 @@ LOG_FILE=./logs/rag.log
 - Basic guardrails
 
 ### Phase 2: Enhancement (Q1 2025)
+
 - [ ] Multi-tenancy support
 - [ ] Advanced chunking strategies
 - [ ] Hybrid search implementation
@@ -1069,6 +1109,7 @@ LOG_FILE=./logs/rag.log
 - [ ] CI/CD pipelines
 
 ### Phase 3: Advanced Features (Q2 2025)
+
 - [ ] Agentic RAG workflows
 - [ ] Self-evaluation loops
 - [ ] Fine-tuning capabilities
@@ -1077,6 +1118,7 @@ LOG_FILE=./logs/rag.log
 - [ ] Document versioning
 
 ### Phase 4: Enterprise (Q3 2025)
+
 - [ ] Kubernetes deployment
 - [ ] Advanced authentication
 - [ ] Compliance reporting

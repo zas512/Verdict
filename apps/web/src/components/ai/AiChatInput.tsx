@@ -175,7 +175,7 @@ export function AiChatInput() {
           onKeyDown={handleKeyDown}
           placeholder="Ask Verdict AI - summarize hearings, draft notices, check authorities..."
           rows={1}
-          className="text-foreground bg-transparent! shadow-none! resize-none placeholder:text-muted-foreground/60 max-h-40 min-h-18 w-full px-2.5 py-2.5 text-sm leading-relaxed focus:outline-none"
+          className="text-foreground placeholder:text-muted-foreground/60 max-h-40 min-h-18 w-full resize-none bg-transparent! px-2.5 py-2.5 text-sm leading-relaxed shadow-none! focus:outline-none"
         />
         {/* Action Bottom Bar */}
         <div className="border-border/40 mt-2 flex items-center justify-between border-t pt-1">

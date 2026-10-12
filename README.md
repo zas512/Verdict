@@ -4,11 +4,11 @@
 
 **Verdict** is a law-firm management platform with three apps in a single Nx-less monorepo (`apps/*`):
 
-| App | Stack | Role |
-|-----|-------|------|
-| `api` | NestJS 11 + Prisma + PostgreSQL | Auth, firms, matters, clients, associates, HR, expenses, tasks, case-documents, **AI gateway** |
-| `web` | Next.js 16 + React 19 + Redux + Tailwind CSS | Dashboard, CRM, AI chat interface |
-| `ai` | Python 3.11 + FastAPI + LlamaIndex + ChromaDB + Ollama | RAG ingestion/query pipeline for legal documents |
+| App   | Stack                                                  | Role                                                                                           |
+| ----- | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| `api` | NestJS 11 + Prisma + PostgreSQL                        | Auth, firms, matters, clients, associates, HR, expenses, tasks, case-documents, **AI gateway** |
+| `web` | Next.js 16 + React 19 + Redux + Tailwind CSS           | Dashboard, CRM, AI chat interface                                                              |
+| `ai`  | Python 3.11 + FastAPI + LlamaIndex + ChromaDB + Ollama | RAG ingestion/query pipeline for legal documents                                               |
 
 The `api` app is the primary backend — it proxies AI requests to the Python `ai` service and exposes everything under `/api`. The `web` app calls `api` (and, for AI, the `/api/ai/*` routes).
 

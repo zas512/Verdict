@@ -62,7 +62,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
             </span>
           )}
         </div>
-      ),
+      )
     },
     {
       key: "clientName",
@@ -73,7 +73,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
         <span className="text-foreground font-bold tracking-wide">
           {m.client?.name || m.clientName}
         </span>
-      ),
+      )
     },
     {
       key: "caseType",
@@ -84,7 +84,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
         <span className="text-foreground/80 text-xs font-semibold tracking-wider uppercase">
           {m.caseType}
         </span>
-      ),
+      )
     },
     {
       key: "currentStage",
@@ -94,7 +94,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
         <span className="text-foreground/80 block max-w-50 truncate font-semibold">
           {m.currentStage ? m.currentStage.name : "None / Unassigned"}
         </span>
-      ),
+      )
     },
     {
       key: "status",
@@ -107,7 +107,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
           ACTIVE: "text-success",
           DECIDED: "text-warning",
           CLOSED: "text-destructive",
-          ARCHIVED: "text-muted-foreground",
+          ARCHIVED: "text-muted-foreground"
         };
         const textColor = colorMap[status] ?? "text-muted-foreground";
         return (
@@ -115,7 +115,7 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
             {status.charAt(0) + status.slice(1).toLowerCase()}
           </span>
         );
-      },
+      }
     },
     {
       key: "filingDate",
@@ -128,12 +128,12 @@ export function MattersTable({ data, isLoading }: Readonly<MattersTableProps>) {
             ? new Date(m.filingDate).toLocaleDateString("en-PK", {
                 day: "2-digit",
                 month: "short",
-                year: "numeric",
+                year: "numeric"
               })
             : "Not Filed"}
         </span>
-      ),
-    },
+      )
+    }
   ];
 
   return (

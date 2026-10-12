@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,11 +14,11 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import {
   createMemberSchema,
-  type CreateMemberValues,
+  type CreateMemberValues
 } from "@/types/associatesTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -34,7 +34,7 @@ interface CreateAssociateDialogProps {
 
 export function CreateAssociateDialog({
   open,
-  onOpenChange,
+  onOpenChange
 }: Readonly<CreateAssociateDialogProps>) {
   const queryClient = useQueryClient();
 
@@ -43,15 +43,15 @@ export function CreateAssociateDialog({
     handleSubmit,
     reset,
     control,
-    formState: { errors },
+    formState: { errors }
   } = useForm<CreateMemberValues>({
     resolver: zodResolver(createMemberSchema),
     defaultValues: {
       name: "",
       email: "",
       password: "",
-      role: "ASSOCIATE",
-    },
+      role: "ASSOCIATE"
+    }
   });
 
   const createMutation = useMutation({
@@ -59,9 +59,9 @@ export function CreateAssociateDialog({
       const res = await fetch("/api/associates", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify(values)
       });
       const result = await res.json();
       if (!res.ok) {
@@ -74,12 +74,12 @@ export function CreateAssociateDialog({
       reset();
       onOpenChange(false);
       void queryClient.invalidateQueries({
-        queryKey: ["associates"],
+        queryKey: ["associates"]
       });
     },
     onError: (err: Error) => {
       toast.error(err.message || "Failed to create firm member");
-    },
+    }
   });
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export function CreateAssociateDialog({
         name: "",
         email: "",
         password: "",
-        role: "ASSOCIATE",
+        role: "ASSOCIATE"
       });
     }
   }, [open, reset]);

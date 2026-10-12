@@ -14,7 +14,7 @@ interface AssociatesTableProps {
 export function AssociatesTable({
   data,
   isLoading,
-  onView,
+  onView
 }: Readonly<AssociatesTableProps>) {
   const columns: ColumnConfig<FirmMember>[] = [
     {
@@ -41,7 +41,7 @@ export function AssociatesTable({
             </p>
           </div>
         );
-      },
+      }
     },
     {
       key: "email",
@@ -52,7 +52,7 @@ export function AssociatesTable({
         <span className="text-muted-foreground text-xs font-medium">
           {m.email}
         </span>
-      ),
+      )
     },
     {
       key: "role",
@@ -71,7 +71,7 @@ export function AssociatesTable({
             {label}
           </span>
         );
-      },
+      }
     },
     {
       key: "isActive",
@@ -87,7 +87,7 @@ export function AssociatesTable({
           />
           <span>{m.isActive ? "Active" : "Inactive"}</span>
         </div>
-      ),
+      )
     },
     {
       key: "createdAt",
@@ -99,10 +99,10 @@ export function AssociatesTable({
           {new Date(m.createdAt).toLocaleDateString("en-PK", {
             day: "2-digit",
             month: "short",
-            year: "numeric",
+            year: "numeric"
           })}
         </span>
-      ),
+      )
     },
     {
       key: "actions",
@@ -123,8 +123,8 @@ export function AssociatesTable({
             <span>View</span>
           </Button>
         </div>
-      ),
-    },
+      )
+    }
   ];
 
   return (

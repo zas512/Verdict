@@ -1,21 +1,21 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
 } from "@/components/ui/dialog";
 import type { FirmMember } from "@/types/associatesTypes";
 import {
-    Building2,
-    Calendar,
-    Mail,
-    RefreshCw,
-    Shield,
-    Users,
+  Building2,
+  Calendar,
+  Mail,
+  RefreshCw,
+  Shield,
+  Users
 } from "lucide-react";
 
 interface ViewMemberDialogProps {
@@ -25,7 +25,7 @@ interface ViewMemberDialogProps {
 
 export function ViewAssociateDialog({
   member,
-  onOpenChange,
+  onOpenChange
 }: Readonly<ViewMemberDialogProps>) {
   return (
     <Dialog open={Boolean(member)} onOpenChange={onOpenChange}>

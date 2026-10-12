@@ -10,9 +10,7 @@ export function AiChatThinkingIndicator() {
       </div>
       <div className="border-border bg-card flex flex-col gap-1.5 rounded-2xl rounded-tl-sm border px-4 py-3 shadow-xs">
         <div className="flex items-center gap-1.5">
-          <span className="text-foreground text-sm font-bold">
-            Verdict AI
-          </span>
+          <span className="text-foreground text-sm font-bold">Verdict AI</span>
           <span className="text-muted-foreground text-xs">
             is generating...
           </span>

@@ -194,7 +194,7 @@ export function Table<T>({
   };
 
   return (
-    <div className="relative flex flex-col overflow-hidden rounded-xl border border-border/80 dark:border-[#2A2E36] bg-card shadow-[0_1px_3px_rgba(0,0,0,0.05),0_10px_25px_-5px_rgba(0,0,0,0.05),0_4px_12px_rgba(0,0,0,0.03)] dark:shadow-none">
+    <div className="border-border/80 bg-card relative flex flex-col overflow-hidden rounded-xl border shadow-[0_1px_3px_rgba(0,0,0,0.05),0_10px_25px_-5px_rgba(0,0,0,0.05),0_4px_12px_rgba(0,0,0,0.03)] dark:border-[#2A2E36] dark:shadow-none">
       {/* Top / left highlight */}
       <div
         aria-hidden

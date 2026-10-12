@@ -23,7 +23,7 @@ export function SummaryStrip({
         "relative grid grid-cols-2 md:grid-cols-4",
         "overflow-hidden rounded-xl",
         "bg-card",
-        "border border-border/80 dark:border-[#2A2E36]",
+        "border-border/80 border dark:border-[#2A2E36]",
         "shadow-[0_1px_3px_rgba(0,0,0,0.05),0_10px_25px_-5px_rgba(0,0,0,0.05),0_4px_12px_rgba(0,0,0,0.03)] dark:shadow-none",
         className
       )}

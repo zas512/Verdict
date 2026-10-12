@@ -7,8 +7,8 @@ export const createMemberSchema = z.object({
     .string()
     .min(8, { message: "Password must be at least 8 characters" }),
   role: z.enum(["ASSOCIATE", "ADMIN"], {
-    error: () => ({ message: "Role must be ASSOCIATE or ADMIN" }),
-  }),
+    error: () => ({ message: "Role must be ASSOCIATE or ADMIN" })
+  })
 });
 
 export type CreateMemberValues = z.infer<typeof createMemberSchema>;

@@ -13,13 +13,9 @@
         "url": {
           "raw": "http://localhost:8000/health",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8000",
-          "path": [
-            "health"
-          ]
+          "path": ["health"]
         }
       }
     },
@@ -44,15 +40,9 @@
         "url": {
           "raw": "http://localhost:8000/api/ai/chat",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8000",
-          "path": [
-            "api",
-            "ai",
-            "chat"
-          ]
+          "path": ["api", "ai", "chat"]
         }
       }
     },
@@ -77,16 +67,9 @@
         "url": {
           "raw": "http://localhost:8000/api/ai/chat/stream",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8000",
-          "path": [
-            "api",
-            "ai",
-            "chat",
-            "stream"
-          ]
+          "path": ["api", "ai", "chat", "stream"]
         }
       }
     },
@@ -111,15 +94,9 @@
         "url": {
           "raw": "http://localhost:8000/api/ai/query",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8000",
-          "path": [
-            "api",
-            "ai",
-            "query"
-          ]
+          "path": ["api", "ai", "query"]
         }
       }
     },
@@ -150,15 +127,9 @@
         "url": {
           "raw": "http://localhost:8000/api/ai/upload",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8000",
-          "path": [
-            "api",
-            "ai",
-            "upload"
-          ]
+          "path": ["api", "ai", "upload"]
         }
       }
     },
@@ -189,15 +160,9 @@
         "url": {
           "raw": "http://localhost:8000/api/ai/ingest",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8000",
-          "path": [
-            "api",
-            "ai",
-            "ingest"
-          ]
+          "path": ["api", "ai", "ingest"]
         }
       }
     },
@@ -214,17 +179,9 @@
         "url": {
           "raw": "http://localhost:8000/api/ai/matters/m-001/context?top_k=10",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8000",
-          "path": [
-            "api",
-            "ai",
-            "matters",
-            "m-001",
-            "context"
-          ],
+          "path": ["api", "ai", "matters", "m-001", "context"],
           "query": [
             {
               "key": "top_k",
@@ -247,17 +204,9 @@
         "url": {
           "raw": "http://localhost:8000/api/ai/matters/m-001/documents",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8000",
-          "path": [
-            "api",
-            "ai",
-            "matters",
-            "m-001",
-            "documents"
-          ]
+          "path": ["api", "ai", "matters", "m-001", "documents"]
         }
       }
     },
@@ -274,17 +223,9 @@
         "url": {
           "raw": "http://localhost:8000/api/ai/matters/m-001/data",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8000",
-          "path": [
-            "api",
-            "ai",
-            "matters",
-            "m-001",
-            "data"
-          ]
+          "path": ["api", "ai", "matters", "m-001", "data"]
         }
       }
     },
@@ -295,13 +236,9 @@
         "url": {
           "raw": "http://localhost:3001/health",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "health"
-          ]
+          "path": ["health"]
         }
       }
     },
@@ -318,14 +255,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/me",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "me"
-          ]
+          "path": ["auth", "me"]
         }
       }
     },
@@ -346,14 +278,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/login",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "login"
-          ]
+          "path": ["auth", "login"]
         }
       }
     },
@@ -370,14 +297,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/refresh",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "refresh"
-          ]
+          "path": ["auth", "refresh"]
         }
       }
     },
@@ -394,14 +316,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/logout",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "logout"
-          ]
+          "path": ["auth", "logout"]
         }
       }
     },
@@ -426,15 +343,9 @@
         "url": {
           "raw": "http://localhost:3001/api/ai/chat",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "api",
-            "ai",
-            "chat"
-          ]
+          "path": ["api", "ai", "chat"]
         }
       }
     },
@@ -465,15 +376,9 @@
         "url": {
           "raw": "http://localhost:3001/api/ai/upload",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "api",
-            "ai",
-            "upload"
-          ]
+          "path": ["api", "ai", "upload"]
         }
       }
     },
@@ -498,15 +403,9 @@
         "url": {
           "raw": "http://localhost:3001/case-documents/m-001/documents",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "case-documents",
-            "m-001",
-            "documents"
-          ]
+          "path": ["case-documents", "m-001", "documents"]
         }
       }
     },
@@ -523,13 +422,9 @@
         "url": {
           "raw": "http://localhost:3001/clients",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "clients"
-          ]
+          "path": ["clients"]
         }
       }
     },
@@ -540,13 +435,9 @@
         "url": {
           "raw": "http://localhost:3000/dashboard",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "dashboard"
-          ]
+          "path": ["dashboard"]
         }
       }
     },
@@ -557,13 +448,9 @@
         "url": {
           "raw": "http://localhost:3000/login",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "login"
-          ]
+          "path": ["login"]
         }
       }
     },
@@ -574,13 +461,9 @@
         "url": {
           "raw": "http://localhost:3000/privacy",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "privacy"
-          ]
+          "path": ["privacy"]
         }
       }
     },
@@ -601,14 +484,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/register",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "register"
-          ]
+          "path": ["auth", "register"]
         },
         "body": {
           "mode": "raw",
@@ -633,14 +511,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/change-password",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "change-password"
-          ]
+          "path": ["auth", "change-password"]
         },
         "body": {
           "mode": "raw",
@@ -665,14 +538,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/google",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "google"
-          ]
+          "path": ["auth", "google"]
         }
       }
     },
@@ -693,15 +561,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/google/callback",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "google",
-            "callback"
-          ]
+          "path": ["auth", "google", "callback"]
         }
       }
     },
@@ -722,15 +584,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/google/profile",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "google",
-            "profile"
-          ]
+          "path": ["auth", "google", "profile"]
         }
       }
     },
@@ -751,15 +607,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/invites/token-1",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "invites",
-            "token-1"
-          ]
+          "path": ["auth", "invites", "token-1"]
         }
       }
     },
@@ -780,14 +630,9 @@
         "url": {
           "raw": "http://localhost:3001/auth/invites",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "auth",
-            "invites"
-          ]
+          "path": ["auth", "invites"]
         },
         "body": {
           "mode": "raw",
@@ -812,13 +657,9 @@
         "url": {
           "raw": "http://localhost:3001/clients",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "clients"
-          ]
+          "path": ["clients"]
         },
         "body": {
           "mode": "raw",
@@ -843,14 +684,9 @@
         "url": {
           "raw": "http://localhost:3001/clients/1",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "clients",
-            "1"
-          ]
+          "path": ["clients", "1"]
         }
       }
     },
@@ -871,14 +707,9 @@
         "url": {
           "raw": "http://localhost:3001/clients/1",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "clients",
-            "1"
-          ]
+          "path": ["clients", "1"]
         },
         "body": {
           "mode": "raw",
@@ -903,14 +734,9 @@
         "url": {
           "raw": "http://localhost:3001/clients/conflict-check",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "clients",
-            "conflict-check"
-          ]
+          "path": ["clients", "conflict-check"]
         },
         "body": {
           "mode": "raw",
@@ -935,14 +761,9 @@
         "url": {
           "raw": "http://localhost:3001/case-documents/doc-1",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "case-documents",
-            "doc-1"
-          ]
+          "path": ["case-documents", "doc-1"]
         }
       }
     },
@@ -963,15 +784,9 @@
         "url": {
           "raw": "http://localhost:3001/case-documents/doc-1/versions",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "case-documents",
-            "doc-1",
-            "versions"
-          ]
+          "path": ["case-documents", "doc-1", "versions"]
         }
       }
     },
@@ -992,14 +807,9 @@
         "url": {
           "raw": "http://localhost:3001/matters/m-1",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "matters",
-            "m-1"
-          ]
+          "path": ["matters", "m-1"]
         }
       }
     },
@@ -1020,14 +830,9 @@
         "url": {
           "raw": "http://localhost:3001/matters/m-1",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "matters",
-            "m-1"
-          ]
+          "path": ["matters", "m-1"]
         },
         "body": {
           "mode": "raw",
@@ -1052,14 +857,9 @@
         "url": {
           "raw": "http://localhost:3001/matters/stages",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "matters",
-            "stages"
-          ]
+          "path": ["matters", "stages"]
         }
       }
     },
@@ -1080,15 +880,9 @@
         "url": {
           "raw": "http://localhost:3001/matters/m-1/parties",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "matters",
-            "m-1",
-            "parties"
-          ]
+          "path": ["matters", "m-1", "parties"]
         }
       }
     },
@@ -1109,15 +903,9 @@
         "url": {
           "raw": "http://localhost:3001/matters/m-1/timeline",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "matters",
-            "m-1",
-            "timeline"
-          ]
+          "path": ["matters", "m-1", "timeline"]
         }
       }
     },
@@ -1138,15 +926,9 @@
         "url": {
           "raw": "http://localhost:3001/matters/m-1/summary",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "matters",
-            "m-1",
-            "summary"
-          ]
+          "path": ["matters", "m-1", "summary"]
         }
       }
     },
@@ -1167,14 +949,9 @@
         "url": {
           "raw": "http://localhost:3001/tasks/t-1",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "tasks",
-            "t-1"
-          ]
+          "path": ["tasks", "t-1"]
         }
       }
     },
@@ -1195,15 +972,9 @@
         "url": {
           "raw": "http://localhost:3001/tasks/t-1/status",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "tasks",
-            "t-1",
-            "status"
-          ]
+          "path": ["tasks", "t-1", "status"]
         },
         "body": {
           "mode": "raw",
@@ -1228,15 +999,9 @@
         "url": {
           "raw": "http://localhost:3001/tasks/t-1/notes",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "tasks",
-            "t-1",
-            "notes"
-          ]
+          "path": ["tasks", "t-1", "notes"]
         },
         "body": {
           "mode": "raw",
@@ -1261,15 +1026,9 @@
         "url": {
           "raw": "http://localhost:3001/tasks/t-1/attachments",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "tasks",
-            "t-1",
-            "attachments"
-          ]
+          "path": ["tasks", "t-1", "attachments"]
         }
       }
     },
@@ -1290,15 +1049,9 @@
         "url": {
           "raw": "http://localhost:3001/firms/f-1/users",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "firms",
-            "f-1",
-            "users"
-          ]
+          "path": ["firms", "f-1", "users"]
         }
       }
     },
@@ -1319,13 +1072,9 @@
         "url": {
           "raw": "http://localhost:3001/expenses",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "expenses"
-          ]
+          "path": ["expenses"]
         }
       }
     },
@@ -1346,13 +1095,9 @@
         "url": {
           "raw": "http://localhost:3001/users",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "users"
-          ]
+          "path": ["users"]
         },
         "body": {
           "mode": "raw",
@@ -1377,13 +1122,9 @@
         "url": {
           "raw": "http://localhost:3001/users",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3001",
-          "path": [
-            "users"
-          ]
+          "path": ["users"]
         }
       }
     }

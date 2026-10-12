@@ -31,7 +31,7 @@ export function ProfileDropdown({
   collapsed,
   displayName,
   avatarUrl,
-  firm,
+  firm
 }: Readonly<ProfileDropdownProps>) {
   const { logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -100,7 +100,7 @@ export function ProfileDropdown({
             style={{ transformOrigin: "bottom" }}
             className={cn(
               "border-foreground/20 bg-card text-card-foreground absolute bottom-full left-0 z-50 mb-3 flex flex-col gap-3 rounded-2xl border p-3 shadow-lg transition-all duration-300",
-              collapsed ? "-left-2 w-56" : "w-full",
+              collapsed ? "-left-2 w-56" : "w-full"
             )}
           >
             {/* Header Profile Details */}
@@ -119,7 +119,7 @@ export function ProfileDropdown({
                   <span
                     className="h-2 w-2 shrink-0 rounded-full"
                     style={{
-                      backgroundColor: firm.accentColor ?? DEFAULT_ACCENT,
+                      backgroundColor: firm.accentColor ?? DEFAULT_ACCENT
                     }}
                   />
                   <span className="truncate">{firm.name}</span>
@@ -132,8 +132,8 @@ export function ProfileDropdown({
               variants={{
                 hidden: {},
                 show: {
-                  transition: { staggerChildren: 0.035, delayChildren: 0.05 },
-                },
+                  transition: { staggerChildren: 0.035, delayChildren: 0.05 }
+                }
               }}
               initial="hidden"
               animate="show"
@@ -143,7 +143,7 @@ export function ProfileDropdown({
               <motion.div
                 variants={{
                   hidden: { opacity: 0, y: -6, filter: "blur(3px)" },
-                  show: { opacity: 1, y: 0, filter: "blur(0px)" },
+                  show: { opacity: 1, y: 0, filter: "blur(0px)" }
                 }}
               >
                 <Link
@@ -160,7 +160,7 @@ export function ProfileDropdown({
               <motion.div
                 variants={{
                   hidden: { opacity: 0, y: -6, filter: "blur(3px)" },
-                  show: { opacity: 1, y: 0, filter: "blur(0px)" },
+                  show: { opacity: 1, y: 0, filter: "blur(0px)" }
                 }}
               >
                 <Link
@@ -177,7 +177,7 @@ export function ProfileDropdown({
               <motion.div
                 variants={{
                   hidden: { opacity: 0, y: -6, filter: "blur(3px)" },
-                  show: { opacity: 1, y: 0, filter: "blur(0px)" },
+                  show: { opacity: 1, y: 0, filter: "blur(0px)" }
                 }}
               >
                 <button
@@ -208,7 +208,7 @@ export function ProfileDropdown({
           "bg-card border-foreground/20 flex cursor-pointer items-center overflow-hidden text-left shadow-xs transition-all duration-300 select-none",
           collapsed
             ? "mx-auto h-10 w-10 justify-center rounded-full border"
-            : "h-max w-full gap-3 rounded-full border px-3 py-2",
+            : "h-max w-full gap-3 rounded-full border px-3 py-2"
         )}
         title={collapsed ? displayName : undefined}
       >

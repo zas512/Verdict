@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import {
+  attachAuthCookiesToResponse,
   AUTH_COOKIE_NAMES,
   decodeJwt,
-  refreshAuthTokens,
-  attachAuthCookiesToResponse
+  refreshAuthTokens
 } from "@/lib/session";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 const PROTECTED_PREFIXES = [
   "/dashboard",

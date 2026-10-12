@@ -88,16 +88,10 @@ export function CreateTaskDialog({
 }: Readonly<CreateTaskDialogProps>) {
   const queryClient = useQueryClient();
   const isAdmin = userRole === "OWNER";
-
-  // Independent vs matter-linked. When opened from a matter page the task is
-  // locked to that matter.
   const [linkedToMatter, setLinkedToMatter] = useState(Boolean(matterId));
   const [selectedMatterId, setSelectedMatterId] = useState("");
   const [matterError, setMatterError] = useState<string | null>(null);
 
-  // Task assignment references the HR Associate table (not user accounts), so
-  // this endpoint is the correct roster source. For an associate it returns
-  // only themselves, matching the backend self-assign rule.
   const { data: allAssociates = [] } = useQuery<AssociateOption[]>({
     queryKey: ["task-assignees"],
     queryFn: async () => {
@@ -147,8 +141,6 @@ export function CreateTaskDialog({
 
   const selectedAssigneeIds: string[] = watch("assignedToIds") ?? [];
 
-  // Pre-assign the caller to themselves for associates (backend enforces this
-  // too); admins start with no assignee selected.
   useEffect(() => {
     if (!open) return;
     setLinkedToMatter(Boolean(matterId));
@@ -163,7 +155,7 @@ export function CreateTaskDialog({
   }, [open, matterId, isAdmin, callerAssociateId]);
 
   const toggleAssignee = (id: string) => {
-    if (!isAdmin) return; // associates can only self-assign
+    if (!isAdmin) return;
     const next = selectedAssigneeIds.includes(id)
       ? selectedAssigneeIds.filter((x) => x !== id)
       : [...selectedAssigneeIds, id];
@@ -179,7 +171,6 @@ export function CreateTaskDialog({
         throw new Error("Select the matter this task relates to");
       }
       setMatterError(null);
-
       const payload = {
         title: values.title,
         description: values.description?.trim() || undefined,

@@ -4,11 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { CalendarDays, MessageSquare, Paperclip, Scale } from "lucide-react";
 import {
+  formatDueDate,
   getInitials,
   isOverdue,
   PRIORITY_BADGE,
   PRIORITY_LABEL,
-  formatDueDate,
   type Task
 } from "./types";
 
@@ -92,14 +92,12 @@ export function TaskCard({
           Blocked
         </span>
       )}
-
       {showMatter && task.matter && (
         <span className="border-border bg-muted/60 text-muted-foreground mt-2 inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold">
           <Scale className="h-3 w-3" />
           {task.matter.firmCaseNumber}
         </span>
       )}
-
       <div className="mt-2.5 flex items-center justify-between gap-2">
         <AssigneeStack task={task} />
         <div className="text-muted-foreground flex items-center gap-2.5 text-[10px] font-semibold">

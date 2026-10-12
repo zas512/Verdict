@@ -17,8 +17,8 @@ import {
   Clock,
   ExternalLink,
   FileText,
-  Loader2,
   Link2,
+  Loader2,
   MessageSquare,
   Plus,
   Scale,
@@ -84,8 +84,6 @@ export function TaskDetailDialog({
 
   const isAdmin = userRole === "OWNER";
 
-  // Resolve the caller's associate id from any nested associate object so we
-  // can gate assignee-only actions without a separate lookup.
   const currentUserId = useMemo(() => {
     if (!localTask) return undefined;
     const people = [
@@ -268,9 +266,6 @@ export function TaskDetailDialog({
     </Button>
   );
 
-  // PATCH /status is the single transition path: admins may set any status
-  // (including approving UNDER_REVIEW), associates may advance their own task
-  // but cannot approve UNDER_REVIEW→COMPLETED themselves (backend enforces).
   const primaryAction =
     status === "PENDING" ? (
       actionButton(
@@ -310,10 +305,6 @@ export function TaskDetailDialog({
         statusMutation.isPending
       )
     ) : null;
-
-  // Backend gates status changes to assignees (or admins), so only show the
-  // action row to those roles — creators who aren't assignees can still
-  // comment and attach.
   const canAct = isAdmin || isAssignee;
 
   return (

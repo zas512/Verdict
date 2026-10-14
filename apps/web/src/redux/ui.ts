@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-/**
- * Global UI state for the dashboard shell. Currently just the mobile sidebar
- * drawer's open/closed flag — shared between the Header (hamburger that opens
- * it) and the Sidebar (the overlay itself), which are not parent/child.
- */
 interface UiState {
   sidebarOpen: boolean;
 }

@@ -1,5 +1,5 @@
 import { AiChatSidebar } from "@/components/ai/AiChatSidebar";
-import { AiChatTriggerButton } from "@/components/ai/AiChatTriggerButton";
+import { FloatingActionButtons } from "@/components/layout/FloatingActionButtons";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { getSession } from "@/lib/session";
@@ -29,7 +29,7 @@ export default async function DashboardLayout({
         </div>
       </main>
       <AiChatSidebar />
-      <AiChatTriggerButton />
+      <FloatingActionButtons />
     </div>
   );
 }

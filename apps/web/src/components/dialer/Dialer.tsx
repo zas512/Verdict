@@ -1,9 +1,9 @@
+import { cn } from "@/lib/utils";
 import { CallAlertState, PhoneProps } from "@/types/dialerTypes";
 import { UA, WebSocketInterface } from "jssip";
 import type { EndEvent, RTCSession } from "jssip/lib/RTCSession";
 import {
   ArrowRightLeft,
-  CircleX,
   Mic,
   MicOff,
   Pause,
@@ -14,6 +14,21 @@ import {
   X
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+
+const KEYPAD_BUTTONS = [
+  { digit: "1", sub: "" },
+  { digit: "2", sub: "ABC" },
+  { digit: "3", sub: "DEF" },
+  { digit: "4", sub: "GHI" },
+  { digit: "5", sub: "JKL" },
+  { digit: "6", sub: "MNO" },
+  { digit: "7", sub: "PQRS" },
+  { digit: "8", sub: "TUV" },
+  { digit: "9", sub: "WXYZ" },
+  { digit: "+", sub: "" },
+  { digit: "0", sub: "+" },
+  { digit: "#", sub: "" }
+];
 
 interface SipHeader {
   raw: string;
@@ -41,7 +56,8 @@ const Phone = ({
   password,
   port,
   setIsUserRegistered,
-  setIsSipConnected
+  setIsSipConnected,
+  className
 }: PhoneProps) => {
   // State declarations
   const [callAlert, setCallAlert] = useState<Partial<CallAlertState>>({});
@@ -53,8 +69,6 @@ const Phone = ({
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [callStartTime, setCallStartTime] = useState<number | null>(null);
   const [callDuration, setCallDuration] = useState<string>("00:00");
-  const [serverConnected, setServerConnected] = useState<boolean>(false);
-  const [userConnected, setUserConnected] = useState<boolean>(false);
 
   // Refs
   const sipDialRef = useRef<UA | null>(null);
@@ -291,26 +305,18 @@ const Phone = ({
       sip.on("connected", () => {
         setIsSipConnected(true);
         setIsUserRegistered(false);
-        setServerConnected(true);
-        setUserConnected(false);
       });
       sip.on("disconnected", () => {
         setIsSipConnected(false);
         setIsUserRegistered(false);
-        setServerConnected(false);
-        setUserConnected(false);
       });
       sip.on("registered", () => {
         setIsUserRegistered(true);
         setIsSipConnected(true);
-        setServerConnected(true);
-        setUserConnected(true);
       });
       sip.on("registrationFailed", () => {
         setIsUserRegistered(false);
         setIsSipConnected(true);
-        setServerConnected(true);
-        setUserConnected(false);
       });
       sip.on("newRTCSession", (e: NewRTCSessionEvent) => {
         const { session: call } = e;
@@ -358,91 +364,102 @@ const Phone = ({
     setIsUserRegistered
   ]);
 
-  const isNetworkAvailable = serverConnected && userConnected;
   const isIdle = Object.keys(callAlert).length === 0;
 
   return (
-    <div className="z-10 h-full w-full">
+    <div
+      className={cn("flex size-full flex-col justify-between p-4", className)}
+    >
       <audio
         id="audioOnline"
         ref={phoneAudioRef}
         preload="auto"
-        style={{ width: "100%", height: "100px" }}
+        className="hidden"
       >
         <track kind="captions" />
       </audio>
-      <audio preload="auto" ref={ringer}>
+      <audio preload="auto" ref={ringer} className="hidden">
         <source src="" type="audio/mpeg" />
         <track kind="captions" />
       </audio>
-      <div className="flex h-112.5 flex-col justify-center p-6">
-        {/* Dial screen */}
+
+      <div className="flex flex-1 flex-col justify-center">
+        {/* Dial screen (Outgoing ringing or Incoming call) */}
         {callAlert.status && callAlert.status !== "connected" && (
-          <div className="flex h-full flex-col items-center justify-between gap-6">
-            <section>
-              <div className="relative flex size-44 items-center justify-center rounded-full">
-                <User size={70} />
-                <div className="bg-primary absolute inset-0 -z-10 flex size-44 animate-pulse items-center justify-center rounded-full"></div>
+          <div className="flex h-full flex-col items-center justify-between gap-6 py-2">
+            <section className="flex flex-col items-center">
+              <div className="bg-primary/10 text-primary border-primary/20 relative flex size-28 items-center justify-center rounded-full border">
+                <User size={48} />
+                <div className="bg-primary/20 absolute inset-0 -z-10 animate-ping rounded-full opacity-40"></div>
+                <div className="bg-primary/10 absolute -inset-2 -z-10 animate-pulse rounded-full"></div>
               </div>
-              <p className="text-md mt-4 text-center">
+              <p className="text-muted-foreground mt-4 text-center font-sans text-xs font-semibold tracking-wider uppercase">
                 {callAlert.direction === "incoming" &&
                 callAlert.status === "ringing"
                   ? "Incoming Call"
                   : "Dialing..."}
               </p>
-              <p className="text-center text-xl font-bold">
+              <p className="font-heading text-foreground mt-1 text-center text-2xl font-bold tracking-tight">
                 {callAlert.phoneNumber}
               </p>
             </section>
             {callAlert.direction === "incoming" &&
             callAlert.status === "ringing" ? (
-              <section className="flex w-full justify-around">
+              <section className="flex w-full justify-around gap-4">
                 <button
-                  className="flex size-12 items-center justify-center rounded-full bg-green-500 hover:bg-green-600"
+                  className="flex size-14 cursor-pointer items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 transition-all hover:scale-105 hover:bg-emerald-500 active:scale-95"
                   onClick={acceptHandle}
+                  title="Accept Call"
+                  type="button"
                 >
                   <PhoneCall size={24} />
                 </button>
                 <button
-                  className="flex size-12 items-center justify-center rounded-full bg-red-500 hover:bg-red-600"
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-destructive/30 flex size-14 cursor-pointer items-center justify-center rounded-full shadow-lg transition-all hover:scale-105 active:scale-95"
                   onClick={rejectHandle}
+                  title="Decline Call"
+                  type="button"
                 >
                   <PhoneOff size={24} />
                 </button>
               </section>
             ) : (
               <button
-                className="flex size-12 items-center justify-center rounded-full bg-red-500 hover:bg-red-600"
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-destructive/30 flex size-14 cursor-pointer items-center justify-center rounded-full shadow-lg transition-all hover:scale-105 active:scale-95"
                 onClick={rejectHandle}
                 type="button"
+                title="End Call"
               >
                 <PhoneOff size={24} />
               </button>
             )}
           </div>
         )}
-        {/* Call connected */}
+
+        {/* Call connected screen */}
         {callAlert.status === "connected" && (
-          <div className="flex h-full flex-col items-center justify-between gap-6">
-            <section>
-              <div className="relative flex size-44 items-center justify-center rounded-full">
-                <User size={70} />
-                <div className="bg-primary absolute inset-0 -z-10 flex size-44 animate-pulse items-center justify-center rounded-full"></div>
+          <div className="flex h-full flex-col items-center justify-between gap-6 py-2">
+            <section className="flex flex-col items-center">
+              <div className="relative flex size-28 items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                <User size={48} />
+                <div className="absolute -inset-2 -z-10 animate-pulse rounded-full bg-emerald-500/10"></div>
               </div>
               {/* Call duration */}
-              <p className="mt-2 text-center text-lg font-semibold">
+              <p className="text-muted-foreground mt-3 text-center font-mono text-sm font-medium tracking-widest">
                 {callDuration}
               </p>
-              <p className="text-center text-xl font-bold">
+              <p className="font-heading text-foreground mt-1 text-center text-2xl font-bold tracking-tight">
                 {callAlert.phoneNumber}
               </p>
             </section>
-            <section className="flex w-full justify-around">
+
+            <section className="flex w-full justify-around gap-2">
+              {/* Hold Button */}
               <button
-                className={`flex size-12 items-center justify-center rounded-full ${
+                className={`flex size-12 cursor-pointer items-center justify-center rounded-full transition-all active:scale-95 ${
                   callAlert.isHold
-                    ? "bg-green-500 hover:bg-green-600"
-                    : "bg-yellow-500 hover:bg-yellow-600"
+                    ? "border border-amber-500/40 bg-amber-500/20 text-amber-500 shadow-md"
+                    : "border-border/80 bg-muted/60 text-foreground hover:bg-accent border dark:border-white/15 dark:bg-white/8 dark:text-white dark:hover:bg-white/15"
                 }`}
                 onClick={() => {
                   setCallAlert((prevState) => ({
@@ -455,47 +472,62 @@ const Phone = ({
                     activeCall?.hold();
                   }
                 }}
+                title={callAlert.isHold ? "Resume Call" : "Hold Call"}
+                type="button"
               >
-                {callAlert.isHold ? <Play size={24} /> : <Pause size={24} />}
+                {callAlert.isHold ? <Play size={20} /> : <Pause size={20} />}
               </button>
+
               {/* Mute button */}
               <button
-                className={`flex size-12 items-center justify-center rounded-full ${
+                className={`flex size-12 cursor-pointer items-center justify-center rounded-full transition-all active:scale-95 ${
                   isMuted
-                    ? "bg-gray-600 hover:bg-gray-700"
-                    : "bg-green-500 hover:bg-green-600"
+                    ? "border-destructive/40 bg-destructive/20 text-destructive border shadow-md"
+                    : "border-border/80 bg-muted/60 text-foreground hover:bg-accent border dark:border-white/15 dark:bg-white/8 dark:text-white dark:hover:bg-white/15"
                 }`}
                 onClick={toggleMute}
+                title={isMuted ? "Unmute" : "Mute"}
+                type="button"
               >
-                {isMuted ? <Mic size={24} /> : <MicOff size={24} />}
+                {isMuted ? <Mic size={20} /> : <MicOff size={20} />}
               </button>
+
               {/* Transfer Button */}
               <button
-                className="flex size-12 items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600"
+                className={`flex size-12 cursor-pointer items-center justify-center rounded-full transition-all active:scale-95 ${
+                  isTransferVisible
+                    ? "bg-primary text-primary-foreground shadow-primary/25 shadow-md"
+                    : "border-border/80 bg-muted/60 text-foreground hover:bg-accent border dark:border-white/15 dark:bg-white/8 dark:text-white dark:hover:bg-white/15"
+                }`}
                 onClick={() => setIsTransferVisible(!isTransferVisible)}
                 type="button"
+                title="Transfer Call"
               >
-                <ArrowRightLeft size={24} />
+                <ArrowRightLeft size={20} />
               </button>
+
+              {/* Hangup Button */}
               <button
-                className="flex size-12 items-center justify-center rounded-full bg-red-500 hover:bg-red-600"
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-destructive/25 flex size-12 cursor-pointer items-center justify-center rounded-full shadow-md transition-all active:scale-95"
                 onClick={rejectHandle}
                 type="button"
+                title="End Call"
               >
-                <PhoneOff size={24} />
+                <PhoneOff size={20} />
               </button>
             </section>
+
             {/* Transfer Input Field */}
             {isTransferVisible && (
-              <div className="flex w-full flex-col items-center gap-4">
+              <div className="border-border/80 flex w-full flex-col items-center gap-3 rounded-xl border bg-black/5 p-3 shadow-inner dark:border-white/15 dark:bg-black/30">
                 <input
-                  className="h-12 w-full rounded-md border border-gray-700 bg-transparent p-2 outline-none"
+                  className="border-border/80 text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-ring/20 h-10 w-full rounded-lg border bg-white/70 px-3 text-sm transition-all outline-none focus:ring-2 dark:border-white/15 dark:bg-white/6 dark:text-white"
                   value={transferNumber}
-                  placeholder="Enter Transfer Number"
+                  placeholder="Enter Transfer Number..."
                   onChange={(e) => setTransferNumber(e.target.value)}
                 />
                 <button
-                  className="rounded-lg bg-green-500 px-4 py-2 hover:bg-green-600"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-primary/20 flex h-9 w-full cursor-pointer items-center justify-center rounded-lg text-sm font-medium shadow-sm transition-all active:scale-98"
                   onClick={() => transferCall(transferNumber)}
                   type="button"
                 >
@@ -505,57 +537,65 @@ const Phone = ({
             )}
           </div>
         )}
-        {/* Network status */}
-        {!isNetworkAvailable && (
-          <div className="flex size-full flex-col items-center justify-center">
-            <CircleX size={50} className="text-red-500" />
-            <p className="mt-4 text-2xl font-bold">Network Not Available!</p>
-          </div>
-        )}
         {/* Dial pad */}
-        {isNetworkAvailable && isIdle && (
-          <section className="flex h-full flex-col items-center justify-end gap-6">
-            <div className="bg-primary flex w-full items-center rounded-xl border border-gray-700 px-4">
+        {isIdle && (
+          <section className="flex h-full flex-col items-center justify-between gap-5 py-1">
+            {/* Phone Number Input */}
+            <div className="border-border/80 focus-within:border-primary/60 focus-within:ring-primary/20 relative flex w-full items-center rounded-xl border bg-black/5 px-4 py-2 shadow-inner transition-all focus-within:ring-2 dark:border-white/15 dark:bg-black/40">
               <input
-                className="h-12 w-full rounded-md bg-transparent outline-none disabled:cursor-not-allowed"
+                className="text-foreground placeholder:text-muted-foreground/60 h-12 w-full bg-transparent text-center font-mono text-2xl font-bold tracking-widest outline-none dark:text-white"
                 value={dialPhoneNumber}
-                disabled={!isNetworkAvailable}
-                placeholder="Enter Phone Number"
+                placeholder="Enter number"
                 onChange={(e) => {
                   const onlyNumbers = e.target.value.replace(/[^0-9+]/g, "");
                   setDialPhoneNumber(onlyNumbers);
                 }}
               />
               {dialPhoneNumber && (
-                <X
-                  size={25}
-                  className="cursor-pointer hover:text-red-500"
-                  onClick={() => {
-                    setDialPhoneNumber("");
-                  }}
-                />
+                <button
+                  type="button"
+                  className="text-muted-foreground hover:bg-muted hover:text-foreground absolute right-3 flex size-7 cursor-pointer items-center justify-center rounded-full transition-colors dark:hover:bg-white/15 dark:hover:text-white"
+                  onClick={() => setDialPhoneNumber("")}
+                  title="Clear"
+                >
+                  <X size={16} />
+                </button>
               )}
             </div>
-            <div className="grid grid-cols-3 gap-4">
-              {["1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "0", "#"].map(
-                (digit) => (
-                  <button
-                    key={digit}
-                    className="bg-primary rounded-full border border-gray-700 px-6 py-4 font-bold duration-300 ease-in-out hover:bg-blue-950 focus:outline-none"
-                    onClick={() => setDialPhoneNumber((prev) => prev + digit)}
-                  >
-                    <p className="text-xl">{digit}</p>
-                  </button>
-                )
-              )}
+
+            {/* Keypad Grid */}
+            <div className="grid grid-cols-3 gap-3.5">
+              {KEYPAD_BUTTONS.map(({ digit, sub }) => (
+                <button
+                  key={digit}
+                  type="button"
+                  className="group border-border/80 bg-muted/50 hover:bg-primary/10 text-foreground hover:text-primary dark:hover:text-primary hover:border-primary/40 dark:hover:border-primary/50 flex size-15 cursor-pointer flex-col items-center justify-center rounded-full border shadow-xs transition-all duration-150 select-none hover:shadow-md focus:outline-none active:scale-95 sm:size-16 dark:border-white/15 dark:bg-white/[0.07] dark:text-white dark:hover:bg-white/[0.14]"
+                  onClick={() => setDialPhoneNumber((prev) => prev + digit)}
+                >
+                  <span className="font-sans text-2xl leading-none font-bold transition-transform group-hover:scale-105">
+                    {digit}
+                  </span>
+                  {sub ? (
+                    <span className="text-muted-foreground group-hover:text-primary dark:group-hover:text-primary mt-0.5 text-[9.5px] font-semibold tracking-widest transition-colors">
+                      {sub}
+                    </span>
+                  ) : (
+                    <span className="h-3.5" />
+                  )}
+                </button>
+              ))}
             </div>
+
+            {/* Dial Button */}
             <button
-              className="h-12 w-20 cursor-pointer rounded-xl bg-green-500 px-4 hover:bg-green-600 disabled:cursor-not-allowed disabled:bg-green-900"
+              className="flex h-13 w-36 cursor-pointer items-center justify-center gap-2.5 rounded-full bg-linear-to-r from-emerald-600 to-emerald-500 font-semibold text-white shadow-lg shadow-emerald-600/30 transition-all duration-150 hover:scale-105 hover:from-emerald-500 hover:to-emerald-400 hover:shadow-emerald-500/50 active:scale-95 disabled:pointer-events-none disabled:opacity-40"
               onClick={dialPhoneNumberHandle}
               type="button"
-              disabled={!isNetworkAvailable}
+              disabled={!dialPhoneNumber}
+              title="Dial"
             >
-              Dial
+              <PhoneCall size={20} className="fill-white/20" />
+              <span className="text-base tracking-wide">Dial</span>
             </button>
           </section>
         )}

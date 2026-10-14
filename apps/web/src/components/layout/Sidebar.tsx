@@ -202,32 +202,6 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
             avatarUrl={avatarUrl}
             firm={firm}
           />
-          {!desktopCollapsed && (
-            <div className="flex flex-col gap-1 px-1">
-              <a
-                href="/privacy"
-                className="text-xs text-[#1A2332]/50 transition-colors hover:text-[#C5A059]"
-              >
-                Privacy
-              </a>
-              <a
-                href="/privacy"
-                className="text-xs text-[#1A2332]/50 transition-colors hover:text-[#C5A059]"
-              >
-                Terms
-              </a>
-              <a
-                href="#"
-                onClick={() => {
-                  localStorage.setItem("cookie_consent", "rejected");
-                  window.location.reload();
-                }}
-                className="text-xs text-[#1A2332]/50 transition-colors hover:text-[#C5A059]"
-              >
-                Cookie Settings
-              </a>
-            </div>
-          )}
         </div>
       </aside>
 

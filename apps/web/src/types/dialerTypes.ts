@@ -6,6 +6,8 @@ export interface PhoneProps {
   port: number;
   setIsUserRegistered: (isUserRegistered: boolean) => void;
   setIsSipConnected: (isSipConnected: boolean) => void;
+  onClose?: () => void;
+  className?: string;
 }
 
 export interface CallAlertState {

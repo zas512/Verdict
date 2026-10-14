@@ -1,15 +1,13 @@
 "use client";
 import { AiChatTriggerButton } from "@/components/ai/AiChatTriggerButton";
 import { DialerOpenButton } from "@/components/dialer/DialerOpenButton";
+import MyPhone from "@/components/dialer/MyPhone";
 import { useAiChat } from "@/hooks/useAiChat";
-import type { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
 
 export function FloatingActionButtons() {
   const { isOpen: isAiChatOpen } = useAiChat();
-  const isDialerOpen = useSelector((state: RootState) => state.dialer.isOpen);
 
-  if (isAiChatOpen || isDialerOpen) {
+  if (isAiChatOpen) {
     return null;
   }
 
@@ -17,6 +15,7 @@ export function FloatingActionButtons() {
     <>
       <AiChatTriggerButton />
       <DialerOpenButton />
+      <MyPhone />
     </>
   );
 }

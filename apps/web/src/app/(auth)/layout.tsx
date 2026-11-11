@@ -1,13 +1,7 @@
 import LawQuotes from "@/components/auth/Quotes";
 import { Card, CardContent } from "@/components/ui/card";
-import { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
-
-export const metadata: Metadata = {
-  title: "Verdict - Sign In",
-  description: "Sign in to your account"
-};
 
 export default function AuthLayout({
   children
@@ -16,10 +10,10 @@ export default function AuthLayout({
 }>) {
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center p-4 md:p-8">
-      {/* Background image, full cover of the page */}
+      {/* Background image, full cover of the page (decorative) */}
       <Image
         src="/login.webp"
-        alt="bg-image"
+        alt=""
         fill
         priority
         className="z-0 object-cover blur-xs"
@@ -39,7 +33,7 @@ export default function AuthLayout({
             {/* Branding Section */}
             <div className="relative z-10 flex items-center gap-3">
               <Image
-                src="/logo_verdict.png"
+                src="/logo_verdict.webp"
                 alt="Verdict"
                 width={80}
                 height={90}

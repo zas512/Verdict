@@ -7,7 +7,14 @@ import { formatPKR } from "@/lib/format";
 import { backendFetch } from "@/lib/server-api";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 import { AlertTriangle } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Firm operations overview: associates, attendance, expenses, and upcoming hearings.",
+  alternates: { canonical: "/dashboard" }
+};
 
 interface AttendanceRecord {
   id: string;

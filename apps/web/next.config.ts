@@ -2,10 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
-  // Experimental performance optimizations
-  experimental: {
-    optimizeCss: true,
-  },
   // Images: enable WebP/AVIF output and Next.js Image optimization
   images: {
     formats: ["image/webp", "image/avif"],

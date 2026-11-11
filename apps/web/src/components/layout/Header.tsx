@@ -130,9 +130,9 @@ export function Header({ title: propTitle }: Readonly<{ title?: string }>) {
         >
           <Menu className="size-5" />
         </button>
-        <p className="font-heading text-foreground mt-0.5 text-3xl font-bold tracking-wide">
+        <h1 className="font-heading text-foreground mt-0.5 text-3xl font-bold tracking-wide">
           {title}
-        </p>
+        </h1>
       </div>
 
       {/* Center & Right: Search Bar & Actions */}

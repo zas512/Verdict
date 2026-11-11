@@ -15,7 +15,9 @@ export const siteDescription =
   "Verdict is law-firm management software: matters and case management, contacts, tasks, attendance, leave, expenses, and AI-powered legal document analysis.";
 
 /** Default Open Graph / Twitter image served from /public. */
-export const defaultOgImage = "/login.webp";
+export const defaultOgImage = "/og-image.png";
+export const defaultOgImageWidth = 1200;
+export const defaultOgImageHeight = 630;
 
 export const organization = {
   "@context": "https://schema.org",

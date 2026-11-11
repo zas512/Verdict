@@ -2,6 +2,13 @@ import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
 import { TasksBoard } from "@/components/tasks/TasksBoard";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tasks",
+  description: "Task board for the firm: assignments, statuses, and deadlines.",
+  alternates: { canonical: "/tasks" }
+};
 
 const ALLOWED_ROLES = ["OWNER", "ASSOCIATE"];
 

@@ -80,7 +80,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
           >
             {desktopCollapsed ? (
               <Image
-                src="/logo_verdict.png"
+                src="/logo_verdict.webp"
                 alt=""
                 priority
                 width={30}
@@ -90,7 +90,7 @@ export function Sidebar({ user }: Readonly<SidebarProps>) {
             ) : (
               <div className="flex items-center justify-center gap-3">
                 <Image
-                  src="/logo_verdict.png"
+                  src="/logo_verdict.webp"
                   alt=""
                   priority
                   width={50}

@@ -6,7 +6,11 @@ import { redirect } from "next/navigation";
 
 const ALLOWED_ROLES = new Set(["OWNER", "ASSOCIATE"]);
 
-export const metadata: Metadata = { title: "Verdict - Clients Directory" };
+export const metadata: Metadata = {
+  title: "Clients",
+  description: "The firm's client directory and contact records.",
+  alternates: { canonical: "/clients" }
+};
 
 export default async function Clients() {
   const { user } = await getSession();

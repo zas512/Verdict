@@ -8,8 +8,7 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardHeader,
-  CardTitle
+  CardHeader
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -271,10 +270,10 @@ export function RegisterWizard({
     return (
       <Card className="skeuo-card bg-card text-card-foreground">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-foreground flex items-center gap-2 text-xl font-black tracking-tight">
-            <AlertTriangle className="text-destructive h-5 w-5" />
+          <h1 className="text-foreground flex items-center gap-2 text-xl font-black tracking-tight">
+            <AlertTriangle className="text-destructive h-5 w-5" aria-hidden="true" />
             Invitation unavailable
-          </CardTitle>
+          </h1>
           <CardDescription className="text-muted-foreground text-xs font-medium">
             {(inviteQuery.error as Error)?.message ||
               "This invite could not be found."}
@@ -302,9 +301,9 @@ export function RegisterWizard({
     <Card className="skeuo-card bg-card text-card-foreground relative overflow-hidden py-4">
       <div className="from-primary via-primary/80 to-chart-2 absolute top-0 right-0 left-0 h-1 bg-linear-to-r" />
       <CardHeader className="space-y-1">
-        <CardTitle className="text-foreground text-2xl font-black tracking-tight">
+        <h1 className="text-foreground font-heading text-2xl font-black tracking-tight">
           {isFounder ? "Create your firm" : "Join your firm"}
-        </CardTitle>
+        </h1>
         <CardDescription className="text-muted-foreground text-xs font-medium">
           {isFounder
             ? "You've been invited to found a new firm on LGA"

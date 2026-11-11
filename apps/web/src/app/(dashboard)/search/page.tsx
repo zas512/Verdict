@@ -20,10 +20,18 @@ import {
   Users
 } from "lucide-react";
 import type { ComponentType } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 type SearchKind = "matters" | "associates" | "expenses" | "tasks" | "firms";
+
+export const metadata: Metadata = {
+  title: "Search",
+  description:
+    "Search matters, associates, expenses, tasks, and firms across the platform.",
+  alternates: { canonical: "/search" }
+};
 
 interface SearchResult {
   kind: SearchKind;

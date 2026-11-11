@@ -14,8 +14,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: ["/privacy", "/login", "/register"],
+        // Everything not listed here is crawlable by default; the
+        // authenticated app lives under the paths below and 404s are noindex.
         disallow: [
-          "/",
           "/api/",
           "/dashboard",
           "/matters",

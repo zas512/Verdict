@@ -5,8 +5,9 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Verdict - Associates",
-  description: "Manage your law firm's associates and staff"
+  title: "Associates",
+  description: "Manage your law firm's associates and staff.",
+  alternates: { canonical: "/associates" }
 };
 
 export default async function Associates() {

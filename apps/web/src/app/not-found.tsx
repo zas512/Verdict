@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Page not found — Verdict",
+  title: "Page not found",
   // Keep error pages out of search results.
   robots: { index: false, follow: false }
 };
@@ -30,11 +30,11 @@ export default function NotFound() {
       </p>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <Button asChild>
-          <Link href="/">Go home</Link>
+        <Button nativeButton={false} render={<Link href="/" />}>
+          Go home
         </Button>
-        <Button asChild variant="outline">
-          <Link href="/login">Sign in</Link>
+        <Button variant="outline" nativeButton={false} render={<Link href="/login" />}>
+          Sign in
         </Button>
       </div>
     </main>

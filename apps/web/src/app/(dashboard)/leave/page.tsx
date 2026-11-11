@@ -2,6 +2,13 @@ import { HeaderUpdater } from "@/components/layout/HeaderUpdater";
 import { LeaveRequests } from "@/components/leave/LeaveRequests";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Leave Requests",
+  description: "Submit and review leave requests for the firm.",
+  alternates: { canonical: "/leave" }
+};
 
 const ALLOWED_ROLES = ["OWNER", "ASSOCIATE"];
 

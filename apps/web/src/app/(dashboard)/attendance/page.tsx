@@ -5,7 +5,9 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Verdict - Attendance"
+  title: "Attendance",
+  description: "Attendance tracking, check-ins, and leave overview for the firm.",
+  alternates: { canonical: "/attendance" }
 };
 
 const ALLOWED_ROLES = new Set(["OWNER", "ASSOCIATE"]);

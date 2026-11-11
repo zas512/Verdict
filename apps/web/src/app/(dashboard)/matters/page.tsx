@@ -7,7 +7,10 @@ import { redirect } from "next/navigation";
 const ALLOWED_ROLES = new Set(["OWNER", "ASSOCIATE"]);
 
 export const metadata: Metadata = {
-  title: "Verdict - Matters List"
+  title: "Matters",
+  description:
+    "All firm matters and cases: statuses, courts, stages, and clients.",
+  alternates: { canonical: "/matters" }
 };
 
 export default async function Matters() {

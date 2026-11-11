@@ -3,6 +3,8 @@ import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { OrganizationSchema } from "@/components/seo/OrganizationSchema";
 import {
   defaultOgImage,
+  defaultOgImageHeight,
+  defaultOgImageWidth,
   organization,
   siteDescription,
   siteName,
@@ -51,7 +53,14 @@ export const metadata: Metadata = {
     siteName,
     title: `${siteName} — ${siteTagline}`,
     description: siteDescription,
-    images: [{ url: defaultOgImage, width: 1600, height: 900, alt: siteName }]
+    images: [
+      {
+        url: defaultOgImage,
+        width: defaultOgImageWidth,
+        height: defaultOgImageHeight,
+        alt: siteName
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",

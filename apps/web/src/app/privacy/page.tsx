@@ -1,15 +1,25 @@
-import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Verdict",
+  title: "Privacy Policy",
   description:
-    "Privacy and compliance information for Pakistan, USA, UK, and Australia."
+    "Privacy and compliance information for Verdict, law-firm management software — Pakistan (PDPA 2023), USA (CCPA/CPRA), UK (UK GDPR), and Australia (Privacy Act 1988).",
+  alternates: { canonical: "/privacy" }
 };
 
 export default function PrivacyPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-20">
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Privacy Policy", href: "/privacy" }
+        ]}
+        className="text-[#0B1221]/60 mb-6 text-xs font-medium"
+      />
       <header className="mb-12 border-b border-[#0B1221]/10 pb-8">
         <div className="mb-3 flex items-center gap-3">
           <ShieldCheck className="h-6 w-6 text-[#C5A059]" aria-hidden="true" />
@@ -121,6 +131,14 @@ export default function PrivacyPage() {
           contact your organization administrator or refer to the linked
           security audit (`SECURITY_AUDIT.md`) and compliance documentation
           (`PRIVACY_AUDIT.md`).
+        </p>
+        <p className="mt-6 text-sm text-[#1A2332]/80">
+          <Link
+            href="/login"
+            className="font-semibold text-[#0B1221] underline underline-offset-2 hover:opacity-80"
+          >
+            Sign in to Verdict
+          </Link>
         </p>
       </section>
     </main>

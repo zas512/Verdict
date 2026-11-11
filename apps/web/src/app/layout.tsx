@@ -1,4 +1,14 @@
 import { CookieConsentBanner } from "@/components/consent/CookieConsentBanner";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { OrganizationSchema } from "@/components/seo/OrganizationSchema";
+import {
+  defaultOgImage,
+  organization,
+  siteDescription,
+  siteName,
+  siteTagline,
+  siteUrl
+} from "@/config/site";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { DM_Sans, EB_Garamond } from "next/font/google";
@@ -18,8 +28,41 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Verdict - Legal Practice Intelligence",
-  description: "Law firm management and RAG-based document analysis."
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: `${siteName} — ${siteTagline}`,
+    template: `%s | ${siteName}`
+  },
+  description: siteDescription,
+  applicationName: siteName,
+  keywords: [
+    "law firm management software",
+    "legal practice management",
+    "matter management",
+    "case management",
+    "legal operations",
+    "legal document analysis"
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName,
+    title: `${siteName} — ${siteTagline}`,
+    description: siteDescription,
+    images: [{ url: defaultOgImage, width: 1600, height: 900, alt: siteName }]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteName} — ${siteTagline}`,
+    description: siteDescription,
+    images: [defaultOgImage]
+  },
+  icons: { icon: "/favicon.ico" },
+  verification: process.env.NEXT_PUBLIC_GSC_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION }
+    : undefined
 };
 
 export default function RootLayout({
@@ -37,8 +80,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col bg-[#F6F3EE] text-[#1A2332]">
+        <OrganizationSchema org={organization} />
         <Providers>{children}</Providers>
         <CookieConsentBanner />
+        <GoogleAnalytics />
       </body>
     </html>
   );

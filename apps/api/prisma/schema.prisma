@@ -32,6 +32,7 @@ model Firm {
   auditLogs   AuditLog[]
   clients     Client[]
   invites     FirmInvite[]
+  leads       Lead[]
 }
 
 // ==========================================
@@ -136,6 +137,7 @@ model Associate {
   createdTasks         Task[]            @relation("TaskCreator")
   taskNotes            TaskNote[]
   uploadedAttachments  TaskAttachment[]
+  assignedLeads        Lead[] @relation("AssignedLeads")
 }
 
 enum EmploymentType {
@@ -649,6 +651,53 @@ model Client {
 
   firm    Firm     @relation(fields: [firmId], references: [id], onDelete: Cascade)
   matters Matter[]
+  leads   Lead[]   @relation("ConvertedLeads")
 
   @@index([firmId, name])
+}
+
+// ==========================================
+// LEADS (intake → conflict check → conversion)
+// ==========================================
+
+enum LeadSource {
+  REFERRAL
+  WEBSITE
+  WALK_IN
+  SOCIAL
+  PHONE
+  OTHER
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CONVERTED
+  REJECTED
+  ARCHIVED
+}
+
+model Lead {
+  id                  String     @id @default(uuid())
+  firmId              String
+  name                String
+  phone               String?
+  email               String?
+  cnic                String?
+  practiceArea        CaseType?
+  source              LeadSource @default(OTHER)
+  description         String?
+  status              LeadStatus @default(NEW)
+  assignedToId        String?
+  convertedToClientId String?
+  convertedToMatterId String?
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+
+  firm              Firm     @relation(fields: [firmId], references: [id], onDelete: Cascade)
+  assignedTo        Associate? @relation("AssignedLeads", fields: [assignedToId], references: [id])
+  convertedToClient Client?    @relation("ConvertedLeads", fields: [convertedToClientId], references: [id])
+
+  @@index([firmId, status])
 }

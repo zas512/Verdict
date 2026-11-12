@@ -813,3 +813,555 @@ model CauseListEntry {
   @@index([tenantId, listOn, status])
 }
 ```
+
+**Reconstruction note (12 November 2026).** Sections 5.9 through 5.12 and sections 6 through 17 were reconstructed from the design intent recorded in sections 1 to 5.8 (module map, enum vocabulary, conventions and RLS discipline) because the original file ended here. They are marked where a rule needs counsel or product sign-off before it ships. Treat this reconstruction as a draft for review, not as the agreed blueprint of record, until signed off.
+
+### 5.9 Deadlines, limitation and certified copies
+
+```prisma
+model LimitationRule {
+  id              String   @id @default(uuid()) @db.Uuid
+  tenantId        String?  @db.Uuid   // null = global seed row, counsel verified
+  procedureCode   String
+  domain          String               // CIVIL, CRIMINAL, FAMILY, RENT, BANKING, TAX, SERVICE
+  fromEvent       String               // DECREE_DELIVERED, ORDER_RECEIVED, FIR_REGISTERED, ORDER_SHEET_RECEIVED
+  period          Int
+  periodKind      String               // DAYS, MONTHS, YEARS
+  excludeHolidays Boolean  @default(true)
+  verified        Boolean  @default(false)  // counsel has signed off; unverified rules never auto compute
+  effectiveFrom   DateTime @db.Date
+  effectiveTo     DateTime? @db.Date
+  version         Int      @default(1)
+  active          Boolean  @default(true)
+  @@unique([tenantId, procedureCode, fromEvent, version])
+}
+
+model Deadline {
+  id             String    @id @default(uuid()) @db.Uuid
+  tenantId       String    @db.Uuid
+  matterId       String    @db.Uuid
+  proceedingId   String?   @db.Uuid
+  kind           String              // LIMITATION, COURT_ORDER, CERTIFIED_COPY, STATUTORY, MANUAL
+  title          String
+  dueOn          DateTime  @db.Date
+  source         String    @default("MANUAL")  // MANUAL, COMPUTED, COURT_ORDER
+  ruleId         String?   @db.Uuid
+  ruleVersion    Int?
+  computedFrom   Json?               // event and event date used for the computation
+  confirmedById  String?   @db.Uuid  // required before a COMPUTED deadline becomes binding
+  status         String    @default("OPEN")    // OPEN, MET, BREACHED, WAIVED
+  waivedReason   String?
+  reminderAt     DateTime?           // null means default cadence (section 12)
+  version        Int       @default(1)
+  deletedAt      DateTime?
+  @@index([tenantId, dueOn, status])
+  @@index([tenantId, matterId])
+}
+
+model CertifiedCopy {
+  id           String    @id @default(uuid()) @db.Uuid
+  tenantId     String    @db.Uuid
+  proceedingId String    @db.Uuid
+  documentKind String               // JUDGMENT, DECREE, ORDER_SHEET, EXHIBIT, COPY_APPLICATION
+  appliedOn    DateTime  @db.Date
+  feePaid      Decimal?  @db.Decimal(18, 2)
+  currency     String    @default("PKR")
+  expectedOn   DateTime? @db.Date
+  readyOn      DateTime? @db.Date
+  receivedOn   DateTime? @db.Date
+  note         String?
+  @@index([tenantId, readyOn])
+}
+
+model Holiday {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String?  @db.Uuid   // null = normal calendar visible to all tenants
+  date        DateTime @db.Date
+  province    String?              // null = all Pakistan
+  description String
+  source      String   @default("MANUAL")  // MANUAL, IMPORTED
+  @@unique([tenantId, date, province])
+}
+```
+
+Rules:
+
+- Manual deadlines ship in MVP. The computation engine (`deadline.recompute`) is V2 behind the `deadline-engine` flag.
+- Only rules with `verified = true` compute anything. Computed deadlines are created with `confirmedById` empty and become binding only after a lawyer confirms. Suggest, never decide.
+- `deadline.recompute` runs on holiday or rule change. It recomputes OPEN deadlines and flags changes for review; it never silently moves a limitation date.
+- Breach detection runs nightly. A breached deadline flags the matter on the today board and notifies the lead partner.
+- Short statutory clocks from dismissal in default, ex parte orders and interim orders are always VERIFY; they are never seeded as verified defaults.
+- Receiving a JUDGMENT or DECREE certified copy auto drafts an appeal deadline suggestion (30 days or as verified). The lawyer confirms before it becomes binding.
+
+### 5.10 Documents and document versions
+
+```prisma
+model Document {
+  id               String    @id @default(uuid()) @db.Uuid
+  tenantId         String    @db.Uuid
+  matterId         String    @db.Uuid
+  proceedingId     String?   @db.Uuid
+  folderId         String?   @db.Uuid
+  title            String
+  category         String              // PLEADING, ORDER, EVIDENCE, CORRESPONDENCE, IDENTITY, OTHER; validated against section 6
+  confidentiality  Confidentiality @default(NORMAL)
+  clientVisible    Boolean   @default(false)
+  currentVersionId String?   @unique @db.Uuid
+  retentionUntil   DateTime? @db.Date
+  version          Int       @default(1)
+  deletedAt        DateTime?
+  @@index([tenantId, matterId, category])
+}
+
+model DocumentVersion {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @db.Uuid
+  documentId   String   @db.Uuid
+  version      Int
+  storageKey   String
+  fileName     String
+  mimeType     String
+  sizeBytes    BigInt
+  sha256       String?    // streamed hash; integrity evidence for electronic proceedings
+  virusStatus  String    @default("PENDING")  // PENDING, CLEAN, INFECTED, ERROR
+  ocrStatus    String    @default("PENDING")  // PENDING, DONE, SKIPPED, FAILED
+  ocrText      String?    // English and Urdu text layer
+  searchVector String?    // tsvector for full text search
+  uploadedById String?    @db.Uuid
+  uploadedAt   DateTime  @default(now())
+  @@unique([documentId, version])
+}
+
+model DocumentTemplate {
+  id            String  @id @default(uuid()) @db.Uuid
+  tenantId      String? @db.Uuid   // null = global seed row
+  code          String              // VAKALATNAMA, SECTION_80_NOTICE, PLAINT, WRITTEN_STATEMENT, CERTIFIED_COPY_APPLICATION, POWER_OF_ATTORNEY, AFFIDAVIT
+  name          String
+  nameUrdu      String?
+  body          String              // markdown or HTML with {{merge}} fields
+  fields        Json                // ordered merge field definitions
+  category      String
+  version       Int     @default(1)
+  active        Boolean @default(true)
+  @@unique([tenantId, code, version])
+}
+
+model SharedLink {
+  id            String    @id @default(uuid()) @db.Uuid
+  tenantId      String    @db.Uuid
+  documentId    String    @db.Uuid
+  tokenHash     String    @unique
+  expiresAt     DateTime
+  maxDownloads  Int?
+  downloads     Int       @default(0)
+  watermark     Boolean   @default(false)
+  createdById   String    @db.Uuid
+  createdAt     DateTime  @default(now())
+  @@index([tenantId, documentId])
+}
+```
+
+Rules:
+
+- Never soft delete `DocumentVersion`. Retention is `retention.sweep` flagging files past `retentionUntil`; deletion requires partner approval and writes `AuditLog`.
+- Downloads use short lived signed URLs and are written to `AuditLog`. Client copies can be watermarked.
+- Templates are effective dated by version. Old versions stay readable for documents produced from them.
+- Virus scan, SHA 256 and OCR are worker steps (section 4.5). A version is not READY until `virusStatus = CLEAN`.
+
+### 5.11 Communications and notification preferences
+
+```prisma
+model Communication {
+  id           String    @id @default(uuid()) @db.Uuid
+  tenantId     String    @db.Uuid
+  matterId     String?   @db.Uuid
+  proceedingId String?   @db.Uuid
+  contactId    String?   @db.Uuid
+  channel      Channel
+  direction    String              // OUTBOUND, INBOUND
+  templateCode String?
+  subject      String?
+  body         String
+  bodyUrdu     String?
+  status       String    @default("QUEUED")  // QUEUED, SENT, DELIVERED, FAILED, BOUNCED
+  providerRef  String?
+  costMicros   BigInt?             // per message cost for spend tracking
+  sentById     String?   @db.Uuid
+  sentAt       DateTime?
+  receivedAt   DateTime?
+  @@index([tenantId, matterId, sentAt])
+  @@index([tenantId, contactId])
+}
+
+model NotificationPreference {
+  id                 String  @id @default(uuid()) @db.Uuid
+  tenantId           String  @db.Uuid
+  userId             String  @db.Uuid
+  channel            String             // SMS, EMAIL, PUSH, WHATSAPP
+  hearingReminders   Boolean @default(true)
+  deadlineReminders  Boolean @default(true)
+  invoiceNotices     Boolean @default(true)
+  taskAssignments    Boolean @default(true)
+  quietHoursStart    Int?               // hour 0 to 23, Asia/Karachi
+  quietHoursEnd      Int?
+  @@unique([tenantId, userId, channel])
+}
+```
+
+Notifications are transactional and deliverability is tracked per message via provider webhooks. Hearing reminders default on. Opting out is allowed but logged. OTP and invoices bypass quiet hours.
+
+### 5.12 Finance
+
+```prisma
+model FeeArrangement {
+  id            String    @id @default(uuid()) @db.Uuid
+  tenantId      String    @db.Uuid
+  clientId      String    @db.Uuid
+  matterId      String?   @db.Uuid   // null = client wide retainer
+  kind          String               // PER_APPEARANCE, PER_STAGE, LUMP_SUM, RETAINER
+  stageKey      String?
+  amount        Decimal   @db.Decimal(18, 2)
+  currency      String    @default("PKR")
+  effectiveFrom DateTime  @db.Date
+  effectiveTo   DateTime? @db.Date
+  version       Int       @default(1)
+  deletedAt     DateTime?
+  @@index([tenantId, clientId, matterId])
+}
+
+model JournalEntry {
+  id           String    @id @default(uuid()) @db.Uuid
+  tenantId     String    @db.Uuid
+  officeId     String?   @db.Uuid
+  entryType    String               // FEE, EXPENSE, RECEIPT, DISBURSEMENT, TRANSFER, WRITEOFF
+  memo         String?
+  currency     String    @default("PKR")
+  matterId     String?   @db.Uuid
+  clientId     String?   @db.Uuid
+  postedAt     DateTime  @default(now())
+  postedById   String    @db.Uuid
+  reversalOfId String?   @db.Uuid   // corrections are new entries reversing the old one
+  createdAt    DateTime  @default(now())
+  @@index([tenantId, clientId, postedAt])
+}
+
+model JournalLine {
+  id        String  @id @default(uuid()) @db.Uuid
+  entryId   String  @db.Uuid
+  account   String              // account code, see chart of accounts in section 8
+  debit     Decimal @db.Decimal(18, 2) @default(0)
+  credit    Decimal @db.Decimal(18, 2) @default(0)
+  matterId  String? @db.Uuid
+  clientId  String? @db.Uuid
+  note      String?
+}
+
+model Invoice {
+  id         String    @id @default(uuid()) @db.Uuid
+  tenantId   String    @db.Uuid
+  number     String
+  clientId   String    @db.Uuid
+  matterId   String?   @db.Uuid
+  status     String    @default("DRAFT")  // DRAFT, ISSUED, PARTIALLY_PAID, PAID, VOID
+  issueDate  DateTime  @db.Date
+  dueDate    DateTime? @db.Date
+  currency   String    @default("PKR")
+  subtotal   Decimal   @db.Decimal(18, 2)
+  taxAmount  Decimal   @db.Decimal(18, 2) @default(0)
+  total      Decimal   @db.Decimal(18, 2)
+  voidReason String?
+  version    Int       @default(1)
+  @@unique([tenantId, number])
+}
+
+model InvoiceLine {
+  id          String  @id @default(uuid()) @db.Uuid
+  invoiceId   String  @db.Uuid
+  description String
+  quantity    Decimal @db.Decimal(18, 2) @default(1)
+  unitPrice   Decimal @db.Decimal(18, 2)
+  amount      Decimal @db.Decimal(18, 2)
+}
+
+model PaymentAllocation {
+  id         String   @id @default(uuid()) @db.Uuid
+  tenantId   String   @db.Uuid
+  invoiceId  String   @db.Uuid
+  amount     Decimal  @db.Decimal(18, 2)
+  method     String   // CASH, BANK, RAAST, WALLET, WITHHOLDING
+  reference  String?
+  receivedOn DateTime @db.Date
+  @@index([tenantId, invoiceId])
+}
+
+model WithholdingCertificate {
+  id            String   @id @default(uuid()) @db.Uuid
+  tenantId      String   @db.Uuid
+  clientId      String   @db.Uuid
+  certificateNo String
+  taxYear       Int
+  amount        Decimal  @db.Decimal(18, 2)
+  rate          Decimal  @db.Decimal(5, 2)
+  issuedOn      DateTime @db.Date
+  documentId    String?  @db.Uuid
+}
+```
+
+Rules:
+
+- Append only. Application code has no update or delete path for `JournalLine`. Corrections are reversal entries. A CI test asserts every `JournalEntry` balances (sum debits equals sum credits) in its currency.
+- Money is `Decimal(18, 2)` with a currency code on every row. Never float.
+- Client money is segregated. Journal lines tagged `clientId` against client money accounts must never take a client balance negative. Enforced in the service layer and asserted in a CI test.
+- Per client money ledger is MVP. Three way reconciliation (bank statement vs ledger vs client statements) is V2.
+- Court fee and stamp duty are recorded on the proceeding (`courtFeePaid`) and traced to the fee schedule configuration, which is effective dated and VERIFY.
+
+## 6. Reference data and rules
+
+### 6.1 Global seed tables (tenantId null)
+
+Seeded once at deployment, editable per tenant by copying rows down to tenant scope. All are versioned and effective dated where they change legal effect.
+
+| Table | Contents | Phase |
+| --- | --- | --- |
+| Forum | Forum map from section 2.1, with cause list adapter keys and status URLs | MVP |
+| CaseType | Pattern key, abbreviation, procedureCode, forum kinds from section 2.2 | MVP |
+| StageTemplate | One row per procedureCode, ordered stages with expected days and default tasks | MVP |
+| OutcomeType | Outcome codes with level (HEARING, INTERIM, FINAL), result (FAVOURABLE, UNFAVOURABLE, NEUTRAL, PARTIAL) and triggers | MVP |
+| AdjournmentReason | JUDGE_ON_LEAVE, COUNSEL_ABSENT, SERVICE_PENDING, STRIKE, TIME_SOUGHT, NOT_REACHED, OTHER | MVP |
+| LimitationRule | Effective dated limitation rules, `verified = false` until counsel signs off | V2 |
+| Holiday | Normal Pakistani holidays plus per province optional overrides | MVP |
+| DocumentTemplate | Vakalatnama, Section 80 CPC notice, plaint, written statement, certified copy application, power of attorney, affidavit | MVP |
+| NotificationTemplate | Hearing reminder, deadline reminder, invoice notice, certified copy ready, task assignment; English and Urdu bodies | MVP |
+| CourtFeeSchedule | Filing fee by forum, claim value band and province | VERIFY |
+| TaxConfiguration | Withholding and services tax parameters, default off | VERIFY |
+
+Rules are data, not code. Editing a limitation rule, a stage template or a fee schedule never requires a deploy; it creates a new version and takes effect from `effectiveFrom`.
+
+### 6.2 Stage templates
+
+`StageTemplate.stages` is an ordered JSON list. Each entry: `key`, `name`, `nameUrdu`, `expectedDays`, `defaultTasks[]` (title, role, offsetDays). When a proceeding enters a stage, the API instantiates the stage's `defaultTasks` as tasks tied to that proceeding. Entering a stage is an explicit user action or comes from an order recorded with an outcome that changes stage; it never happens implicitly.
+
+Stage keys are stable identifiers (for example `ISSUES_FRAMED`), never localized names. Localized strings can change without data migration.
+
+### 6.3 Outcome triggers and default-task flow
+
+`OutcomeType.triggers` is a JSON list of suggested follow-ups. Example (recording an interim stay): `{ "createDeadline": false, "createTasks": [
+{ "title": "Diarize interim expiry", "offsetDays": 0 },
+{ "title": "obtain certified copy of stay order", "offsetDays": 1 }], "setProceedingStatus": "STAYED" }`.
+
+Triggers create suggestions shown to the lawyer after recording, not records silently created. A click confirms. As with all computed legal effects, the system suggests and a human decides.
+
+### 6.4 Case number parsing
+
+Parser takes `rawCaseNumber` and the forum, matches against `CaseType.abbreviation` and a set of regexes per pattern family (section 2.2), and returns `caseNumber`, `caseYear`, `caseTypeId`, plus confidence. If confidence is below the threshold or no pattern matches, fields stay empty and the raw string is kept. Parsing is a suggestion; the user can always override both fields. Parser snapshot tests lock the accepted examples.
+
+Parsing never runs on read; it runs at entry time and at import time only.
+
+### 6.5 Cause lists and adapter contract
+
+Each adapter implements:
+
+```text
+fetch(forum, listOn): RawEntry[]      // HTTP or HTML parse, timeout 30s, 2 retries
+normalize(raw): NormalizedEntry       // caseNumberRaw, partiesRaw, purposeRaw, serialNo, benchName, courtroom
+hash(entry): string                   // content hash for sourceHash
+```
+
+Every `CauseListEntry` keeps `rawPayload` untouched and `sourceHash` for dedup. Matching to proceedings scores on case number (exact, after normalization), parties, and year; ties and near misses go to the inbox for human resolution with one-tap actions (Match, Ignore, Create proceeding). Every imported list is shown with fetch time and source so an operator can see staleness. A court that breaks its contract or Terms of Use is switched to manual paste; there is no scraper that is allowed to run past a site's robots or terms.
+
+### 6.6 Effective-dating and versioning contract
+
+Versioned rule tables (`LimitationRule`, `StageTemplate`, `CourtFeeSchedule`, `TaxConfiguration`, `DocumentTemplate`) follow:
+
+- `version` increments; uniqueness is per (tenant, natural key, version).
+- `effectiveFrom`/`effectiveTo` bound the validity window; queries always filter by date.
+- Global seed rows are copied, not edited, when a tenant needs a different value.
+- A superseded version stays in the table; the audit trail says who changed what and when.
+- Deleting a rule row is forbidden. Deactivate with `active = false`.
+
+## 7. Core flows
+
+### 7.1 Intake to engagement
+
+1. Lead created (source: referral, walk-in, website, repeat client) with contact details or link to existing contact.
+2. Conflict check runs across contacts, parties, matters and relations (CNIC hash, names with trigram similarity, phones). Human decides: CLEAR, WAIVED, DECLINED, always with a note. Never auto-decided.
+3. If CLEAR/WAIVED: quote and engagement letter generated from DocumentTemplate. If accepted, matter is created with number in `YYYY/LIT/NNNN`, client, lead partner, type and practice area.
+4. Vakalatnama created as PENDING; execution checklist assigned to the clerk. Matter status moves to ENGAGED then OPEN.
+5. Opening tasks from the matter type checklist are created for the lead.
+
+### 7.2 Hearing day
+
+1. Cause list fetched (or pasted) into the inbox before court hours. Counsel sees today's boards with serial numbers.
+2. One tap opens the matter for that serial: today's stage, last order, documents, fees due.
+3. After the hearing, one tap capture: outcome (from OutcomeType), adjournment reason if any, next date, next purpose. Offline capture syncs later; server dedups on `clientRequestId`.
+4. Capture creates or updates the next `Hearing`, appends `StageHistory` when stage changes, writes `AuditLog`, and schedules reminders (T-3, T-1, day-of).
+5. Appearance fees post journal entries automatically if the fee arrangement says PER_APPEARANCE (amount from the arrangement, override allowed).
+
+### 7.3 Matter closing
+
+1. Lead partner marks the matter closed with reason (COMPLETED, WITHDRAWN, TRANSFERRED, NONPAYMENT, CLIENT_REQUEST) and closing outcome (for LITIGATION: decree, dismissal, settlement, other).
+2. System lists open tasks, future hearings, open deadlines; the partner must resolve or dispose each with a note.
+3. Final invoice generation offered. Remaining retainer or client money balance shown; unapplied money is returned per the engagement terms before the ledger is zeroed.
+4. Files move under retention policy (default 7 years, configurable per matter type, VERIFY per firm policy). Matter archived, not deleted. Audited.
+
+### 7.4 Certified copy flow
+
+1. Clerk records the application (documentKind, appliedOn, fee) and queues the order for the clerk responsible.
+2. On readyOn the clerk marks READY; the firm is notified; on receivedOn limitation-impacting dates are suggested (judgment received today; appeal suggestion drafted).
+3. Certified copy days are always candidates for limitation computation, always lawyer-confirmed.
+
+### 7.5 Client money in and out
+
+1. Receipt (cash, bank, Raast, wallet) recorded against client and matter. Posts RECEIPT journal: debit bank/cash, credit client money (liability).
+2. Fee earning events (appearance, stage completion, lump sum milestone or retainer period end) post FEE journal: debit client money or accounts receivable per engagement, credit fee income.
+3. Invoice issued from fees; allocation records payments; withholding certificates recorded when the client deducts tax; the net fees vs certificate is reconciled by the accountant monthly.
+4. Disbursements (court fee, stamp duty, certified copy fees, photocopies) post DISBURSEMENT: debit client, credit bank/cash. Client approves where the engagement says so.
+5. Transfer between client money and fees-at-hand requires an approved journal transfer; it is visible, audited and reportable.
+
+### 7.6 Compliance notice flow (Section 80 CPC and similar)
+
+Drafted from template with the required particulars, served per statutory mode, tracked to acknowledgement or expiry; the proceeding's limitation clock reads the acknowledgement/expiry date. All VERIFY: service modes, statutory durations and government entity scope differ; the template is a starting point for counsel review, not legal advice.
+
+## 8. Finance design
+
+### 8.1 Principles
+
+1. Money is append-only. The only correction is a reversal entry.
+2. Client money is the client's money. It is held in liability accounts, never in income, and can never go negative for a client.
+3. Every money row carries currency. Pakistan first means PKR is the default, not the only option.
+4. Tax is configuration, effective dated, default off. No tax default ships enabled.
+5. Suggest, never decide: the system drafts entries; a person with `finance.post` posts them; a different person with `finance.approve` approves above thresholds.
+
+### 8.2 Chart of accounts (default)
+
+Seeded per tenant, extendable. Accounts are code + name + type (ASSET, LIABILITY, INCOME, EXPENSE, EQUITY) + `isClientMoney` flag.
+
+| Code | Name | Type | Client money |
+| --- | --- | --- | --- |
+| 1000 | Cash on hand | ASSET | no |
+| 1010 | Bank — current | ASSET | no |
+| 1015 | Bank — client money | ASSET | yes |
+| 2000 | Accounts payable | LIABILITY | no |
+| 2100 | Client money held | LIABILITY | yes |
+| 3000 | Owner equity | EQUITY | no |
+| 4000 | Advocate fees — appearances | INCOME | no |
+| 4010 | Advocate fees — stages | INCOME | no |
+| 4020 | Advocate fees — retainer | INCOME | no |
+| 4030 | Advocate fees — lump sum | INCOME | no |
+| 5000 | Office expenses | EXPENSE | no |
+| 5010 | Disbursements recoverable | EXPENSE | no |
+| 1100 | Accounts receivable | ASSET | no |
+
+### 8.3 Fee models and posting rules
+
+| Model | Trigger | Journal entry |
+| --- | --- | --- |
+| PER_APPEARANCE | Hearing recorded with appearance by an advocate with a fee in the FeeArrangement | Debit AR or client money (if in credit), credit 4000 |
+| PER_STAGE | Stage change confirmed by user | Debit AR or client money, credit 4010 |
+| LUMP_SUM | Milestone percent configured (on filing, on evidence, on judgment) recorded by user | As configured per milestone |
+| RETAINER | Monthly, in advance | Debit client money or AR, credit 4020 |
+
+### 8.4 Invoice states
+
+DRAFT → ISSUED → PARTIALLY_PAID → PAID. Void only before payment allocation; void after allocation requires reversal of allocations first. Invoice numbers sequential per tenant per year (`INV/2026/0001`), gaps explained in audit.
+
+### 8.5 Withholding certificate reconciliation
+
+Client deducts withholding income tax at source. Certificate received → recorded with tax year, rate, amount; net fee vs certificate vs bank receipt reconciled before invoice closure. Certificates are evidence for income tax filings; the accountant exports the register per tax year.
+
+### 8.6 Three way reconciliation (V2)
+
+Bank statement (imported CSV) vs client money ledger (sum of client balances) vs sub ledger per client. Discrepancy over an effective dated tolerance flags the month and blocks the reconciliation report. Never automated away; the accountant signs.
+
+## 9. API design
+
+### 9.1 Conventions
+
+- REST under `/api`, JSON, OpenAPI at `/api/openapi.json`. All list endpoints paginate with cursor or `page`/`pageSize`.
+- Resource naming is plural nouns: `/api/matters`, `/api/proceedings`, `/api/hearings`, `/api/tasks`, `/api/invoices`.
+- Guard order on every controller: `JwtAuthGuard` → `TenantGuard` → `PermissionGuard` (for the permission the handler needs) → `MatterAccessGuard` (for matter-scoped handlers).
+- Multi step writes happen inside `prisma.$transaction` with `set_config('app.tenant_id', …)` per section 4.3 and 4.4.
+- Idempotency: `POST` money, filing and hearing capture endpoints require `Idempotency-Key` (UUID). Replay with the same key returns the original response; same key with different body returns 409.
+- Concurrency: mutable resources return `version`; `PATCH` requires `If-Match: <version>` and returns 412 on mismatch.
+- Errors are RFC 9457 problem details: `type`, `title`, `status`, `detail`, `instance`, plus `code` (stable machine code).
+- Dates: `YYYY-MM-DD` for court dates; ISO 8601 UTC for timestamps. Money: string in major units with `currency` alongside (`"15000.00", "PKR"`); never floats.
+- Every write endpoint emits an `OutboxEvent` in the same transaction as its state change. Consumers are idempotent.
+
+### 9.2 Core endpoint families
+
+| Family | Endpoints (shape) | Phase |
+| --- | --- | --- |
+| Auth | `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`, `POST /auth/totp/verify`, `GET /auth/sessions`, `DELETE /auth/sessions/:id` | MVP |
+| Tenancy and users | `/tenants/me`, `/offices`, `/users`, `/invites`, `/roles`, `/permissions` | MVP |
+| Contacts | `/contacts`, `/contacts/:id/relations`, `/contacts/:id/kyc` | MVP |
+| Leads and conflicts | `/leads`, `/leads/:id/convert`, `POST /conflicts/check`, `POST /conflicts/:id/decision` | MVP |
+| Matters | `/matters`, `/matters/:id/team`, `/matters/:id/parties`, `/matters/:id/access`, `/matters/:id/close` | MVP |
+| Proceedings | `/proceedings`, `/proceedings/:id/stages`, `POST /proceedings/:id/links` | MVP |
+| Hearings | `POST /hearings`, `POST /hearings/:id/outcome` (one-tap capture), `GET /hearings/today`, `POST /hearings/clash-check` | MVP |
+| Cause list | `/cause-lists/inbox`, `POST /cause-lists/import`, `POST /cause-lists/:id/match`, `POST /cause-lists/:id/ignore` | MVP (two courts) |
+| Deadlines | `/deadlines`, `POST /deadlines/:id/confirm`, `POST /deadlines/:id/waive` | MVP manual, V2 engine |
+| Tasks | `/tasks`, `/tasks/:id/notes`, `/tasks/:id/complete` | MVP |
+| Documents | `POST /documents/:id/versions` (presign flow), `POST /documents/:id/versions/confirm`, `POST /shared-links`, `GET /documents/:id/download` | MVP |
+| Finance | `/fee-arrangements`, `/invoices`, `POST /invoices/:id/issue`, `POST /invoices/:id/allocations`, `POST /journal/entries`, `POST /journal/entries/:id/reverse`, `GET /reports/client-ledger/:clientId` | Basic MVP |
+| Communications | `/communications`, `/communications/inbound` (provider webhook), `/notification-templates` | MVP SMS and email |
+| Reports | `/reports/kpi`, `/reports/aging`, `/reports/realization`, `GET /reports/:id/export` | V2 |
+| Client portal | `/portal/me`, `/portal/hearings`, `/portal/invoices`, `/portal/documents` | V2 |
+| AI | `/ai/summarize`, `/ai/query`, `/ai/voice-notes` | V3, flagged |
+
+### 9.3 Webhooks and provider callbacks
+
+Inbound provider webhooks (SMS delivery receipts, WhatsApp messages, email inbound filing, payments) are authenticated per provider (signature or shared secret), logged raw, and processed asynchronously. Every webhook is idempotent on the provider's message id.
+
+### 9.4 Rate limiting and quotas
+
+Per tenant per minute buckets: auth 20, reads 600, writes 120, uploads 30, AI 30 (V3). Buckets are enforced at the gateway and again in the app (defense in depth). 429 responses include `Retry-After`.
+
+### 9.5 Versioning and deprecation
+
+The API is `v1` implicitly; breaking changes require `v2` path prefix and a deprecation window of 90 days with `Sunset` headers. Non breaking additions ship any time.
+
+## 10. Frontend specification
+
+### 10.1 Routes
+
+```text
+(auth)           /login, /invite/[token], /forgot-password, /reset-password, /change-password
+(dashboard)      /dashboard                     today board: hearings, deadlines, cause list inbox counts
+                 /matters                       list + filters; /matters/[id] workspace (tabs: Overview, Proceedings, Hearings, Documents, Deadlines, Tasks, Finance, Timeline)
+                 /proceedings/[id]              forum, case number, stage, judge, party and order history
+                 /calendar                       month/week/day agenda generated from hearings + deadlines + tasks
+                 /cause-list                    inbox: NEW entries, one tap match/ignore/create
+                 /deadlines                      open/breached, confirm computed suggestions
+                 /tasks                          my tasks, team board
+                 /documents                      matter-scoped library, version compare (V2)
+                 /finance                        invoices, journal, client ledgers, withholding register
+                 /reports                        KPI dashboards (V2)
+                 /settings                       firm, offices, users, roles, templates, rules, retention
+(portal)         /portal                        V2: client view of hearings, documents, dues
+```
+
+### 10.2 Key screens
+
+- **Today board:** columns Today (hearings with serial numbers), Tomorrow, This week; deadline breaches in red; one tap to matter.
+- **Hearing capture:** outcome → adjournment reason (if any) → next date + purpose; Urdu input supported; voice note recorded against the hearing (V3); works offline, queued and synced with `clientRequestId`.
+- **Matter workspace:** header (number, parties, forum, stage, next hearing), tabs as above. Timeline merges hearings, orders, stage history, tasks, document versions and communications chronologically.
+- **Cause list inbox:** fetch or paste; each entry card: serial, case number raw, parties, purpose, suggested match with confidence; buttons Match / Ignore / New proceeding.
+- **Finance workbench:** client money balances, unmatched payments, unapplied advance fees, invoices aging, monthly reconciliation checklist (V2).
+
+### 10.3 Design system and bilingual
+
+Tailwind tokens from `styles/tokens.css` (colors, spacing, radii). English default, Urdu via `next-intl` with `dir="rtl"` toggle on document root; logical properties (`ms-*`, `me-*`, `ps-*`, `pe-*`) everywhere; no physical left/right utilities. Fonts: Inter (Latin), Noto Nastaliq Urdu or Noto Naskh Arabic. Hijri dates shown next to Gregorian in family/inheritance documents.
+
+### 10.4 State, data fetching, offline
+
+TanStack Query for server state; Redux Toolkit only for global UI (sidebar, hearing capture sheet, dialer, toasts). Server components fetch initial data; client components mutate via `/api/*` proxies to NestJS.
+
+PWA shell (V2): service worker caches the app shell and the today board read-only; IndexedDB queue for hearing capture outbox; background sync posts when online. Show explicit queued/synced states; never lose a captured outcome.
+
+### 10.5 Accessibility and performance
+
+Keyboard reachable everything; visible focus; AA contrast; `prefers-reduced-motion` honored. LCP < 2.0s on the today board over 3G. Lists virtualized past 100 rows. Images via `next/image`. No client JavaScript on server-rendered lists.
+
+### 10.6 Error UX
+
+Every action has an optimistic-safe path and a failure toast with retry. 412 concurrency conflicts surface "Someone else changed this matter — reload?" Conflicts (409 idempotency) never surface raw. Offline capture shows a persistent badge until synced.

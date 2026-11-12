@@ -224,15 +224,19 @@ describe("API security wiring", () => {
     });
 
     it("refuses to self-register a SUPER_ADMIN", async () => {
+      // Registration is invite-only. A caller-supplied `role` is not in the
+      // DTO, so forbidNonWhitelisted rejects the body with 400 before any
+      // service logic runs — the SUPER_ADMIN branch can never be reached.
       const res = await request(app.getHttpServer())
         .post("/api/auth/register")
         .send({
           email: "attacker@example.com",
           password: "password123",
+          inviteToken: "not-a-real-token",
           role: UserRole.SUPER_ADMIN,
           firmName: "Anything"
         });
-      expect(res.status).toBe(403);
+      expect(res.status).toBe(400);
     });
 
     it("refuses to create a firm member with an escalated role", async () => {

@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-11-12T00:00:00.000Z",
+  "comment": "Tenant-isolation debt. Every table here is expected to gain ENABLE+FORCE RLS and a tenant_isolation POLICY in Phase 1. This file may only shrink; the ratchet in check-tenant-rls.mjs fails the build if it grows or goes stale. Do not add entries without reviewer sign-off.",
+  "unprotected": [
+    "AuditLog",
+    "Associate",
+    "Client",
+    "CourtStage",
+    "Expense",
+    "FirmInvite",
+    "Lead",
+    "LeaveType",
+    "Matter",
+    "Party",
+    "RecurringExpenseTemplate",
+    "Task",
+    "User"
+  ]
+}

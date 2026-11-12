@@ -1,4 +1,5 @@
 "use client";
+import { isDialerEnabled } from "@/config/dialer";
 import { useAiChat } from "@/hooks/useAiChat";
 import { toggleDialer } from "@/redux/dialer";
 import type { RootState } from "@/redux/store";
@@ -10,7 +11,7 @@ export function DialerOpenButton() {
   const { isOpen: isAiChatOpen } = useAiChat();
   const isDialerOpen = useSelector((state: RootState) => state.dialer.isOpen);
 
-  if (isAiChatOpen || isDialerOpen) {
+  if (!isDialerEnabled() || isAiChatOpen || isDialerOpen) {
     return null;
   }
 

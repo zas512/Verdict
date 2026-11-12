@@ -1365,3 +1365,219 @@ Keyboard reachable everything; visible focus; AA contrast; `prefers-reduced-moti
 ### 10.6 Error UX
 
 Every action has an optimistic-safe path and a failure toast with retry. 412 concurrency conflicts surface "Someone else changed this matter — reload?" Conflicts (409 idempotency) never surface raw. Offline capture shows a persistent badge until synced.
+
+## 11. Security and compliance
+
+### 11.1 Threat summary
+
+Assets: client files, matter strategy, CNIC and bank details, money movements, audit integrity. Threats: credential theft, tenant isolation failure, insider overreach, intercepted documents, injection via document processing (OCR/XML), webhook spoofing, supply chain.
+
+### 11.2 Authentication and sessions
+
+- Access tokens: JWT, 15 minutes, RS256 or EdDSA; refresh tokens rotated on every use with reuse detection per rotation family (section 5.4 `Session`). Reuse revokes the family and forces re-auth with 2FA.
+- Sessions listed per user with device/IP/user-agent; remote revoke; password change revokes all families.
+- TOTP 2FA mandatory for OWNER/PARTNER/ACCOUNTANT/ADMIN. Optional for others. Recovery codes stored hashed, one-time use.
+- Password policy: minimum 12 chars, breach list check at set/change time, no forced rotation, rate-limited attempts with account lockout alerting.
+- Google OAuth optional per tenant; account linking is explicit, never automatic by email alone for privileged roles.
+
+### 11.3 Authorization
+
+Permission bundles per role (OWNER, PARTNER, ASSOCIATE, JUNIOR, CLERK, ACCOUNTANT, ADMIN, CLIENT). Permissions: `matter.read`, `matter.write`, `matter.manage`, `hearing.write`, `finance.post`, `finance.approve`, `finance.export`, `document.upload`, `document.download`, `document.share`, `user.manage`, `rules.manage`, `audit.read`, `settings.manage`.
+
+Matter ACL (`MatterAccess` READ/WRITE/MANAGE) overrides role defaults for RESTRICTED confidentiality matters: non-members get nothing, tenant admins see metadata only (title, number, status) unless granted. Every `document.download` of a RESTRICTED matter is audited with actor, matter, version.
+
+### 11.4 Encryption and secrets
+
+TLS 1.2+ everywhere; HSTS; secure cookies; object storage SSE at rest; database encryption at rest (cloud managed). Field-level encryption for CNIC and bank numbers with a per-tenant key (envelope, KMS or local KEK with rotation), `cnicHash` keyed HMAC for conflict search. Secrets in a vault or at minimum environment with restricted access; no secrets in the repo; `.env.example` documents names only.
+
+### 11.5 Audit and retention
+
+`AuditLog` is append-only: revoke UPDATE/DELETE from the application role; monthly partitions; every download of a RESTRICTED document, every finance posting, every permission/role change, every rule change, every login (success and failure). Retention per firm policy; default 7 years for audit rows.
+
+### 11.6 Compliance notes (all VERIFY with counsel)
+
+- Pakistan Legal Practitioners and Bar Councils Rules 1976 (Ch. XII): client money segregation (Rules 149/150), fee sharing only with advocates (Rule 141). These inform `isClientMoney` accounts and fee-sharing validation; counsel must confirm the current text.
+- Electronic evidence: Qanun-e-Shahadat Art. 73 as amended by the Electronic Transactions Ordinance 2002; hash, timestamp and source are mandatory for every DocumentVersion.
+- Data protection: PDPB status is unsettled as of this writing; build to GDPR-style principles (data minimization, purpose limitation, right to erasure within legal-hold limits, portability export) and check status before launch.
+- AML/KYC: ship the optional KYC checklist (`kycStatus`) without asserting advocates are covered; counsel/compliance decides activation per firm.
+- Tax: services sales tax provincial, FBR for Islamabad; applicability to legal services contested. Tax module effective-dated and default OFF. Record withholding certificates regardless.
+- Section 80 CPC notices and statutory government-entity service modes: VERIFY.
+- Data residency: offer in-country hosting option; client CNIC/bank keys stay per tenant.
+
+### 11.7 Baseline verifications before go-live
+
+Penetration test of auth, tenancy isolation test (automated: every table with tenantId has RLS policy, cross-tenant request returns 404/403), backup restore drill, webhook signature verification test, dependency audit in CI, secret scan in CI.
+
+## 12. Notifications
+
+### 12.1 Channels and providers
+
+SMS (local aggregator, e.g. Telenor/Jazz Business or equivalent), email (SES/Postmark), push (web push V2), WhatsApp Business API (V2). Provider abstracted behind a `NotificationChannel` interface; per tenant sender identity; DLR (delivery receipt) webhooks update `Communication.status`.
+
+### 12.2 Event to template map
+
+| Event | Template code | Default recipients | Cadence |
+| --- | --- | --- | --- |
+| Hearing in 3/1/0 days | HEARING_REMINDER | Matter team + client (if opted in) | T-3, T-1, day-of 08:00 |
+| Deadline in 7/3/1 days | DEADLINE_REMINDER | Assignee + lead partner | T-7, T-3, T-1 |
+| Deadline breached | DEADLINE_BREACHED | Assignee + lead partner + admin | nightly |
+| Certified copy ready/received | COPY_READY, COPY_RECEIVED | Requesting clerk + matter team | immediate |
+| Invoice issued / overdue | INVOICE_ISSUED, INVOICE_OVERDUE | Client contact | issue; overdue day 7/14/30 |
+| Task assigned | TASK_ASSIGNED | Assignee | immediate |
+| Stage changed | STAGE_CHANGED | Matter team | immediate |
+| Cause list entry matched | CAUSELIST_MATCHED | Assigned counsel | on import |
+
+### 12.3 Rules and guarantees
+
+- Idempotent dispatch on `reminder.dispatch` (every minute): (event id, recipient, channel) unique. No duplicate sends on retry.
+- Quiet hours per user preference (Asia/Karachi); OTP and invoices bypass.
+- Failed SMS/email retried with backoff (max 4); permanent failure marks Communication FAILED and surfaces on the notification ops screen.
+- Urdu templates maintained alongside English; template selection by `user.locale`.
+- Opt-out honored except legally required notices; opt-outs are logged.
+
+## 13. AI features (V3, flagged, suggest-never-decide)
+
+### 13.1 Scope
+
+Draft-assist only: matter/hearing summaries, chronology extraction, document Q&A with citations to the firm's own uploaded documents, voice note transcription and formatting, first-draft generation for templated documents. No autonomous drafting filed to court, no outcome prediction, no limitation computation.
+
+### 13.2 Hard requirements
+
+1. Every output is labelled AI-assisted and requires lawyer confirmation before use.
+2. RAG strictly over the requesting user's authorized matters (MatterAccess enforced before retrieval). No cross-tenant or cross-matter leakage; retrieved chunks carry source pointers.
+3. Citations mandatory: answers cite document + page; no citation, no answer ("insufficient evidence in this matter").
+4. Full prompt/response logging to an audit store for eval and incident review; PII-minimized where feasible.
+5. Feature flag per tenant (`ai.enabled`), plus per-matter opt-out.
+6. Eval harness: citation faithfulness, absence of invented case law, refusal on out-of-matter questions. Gate releases on eval score, not vibes.
+7. No training on client data without explicit written tenant consent.
+
+### 13.3 Architecture
+
+Reuse the separate AI service (`apps/ai`, FastAPI + RAG) behind the Nest `/ai/*` facade; Postgres metadata and permissions in the monolith; embeddings per tenant; Ollama or hosted endpoint per deployment; delete-propagation worker removes embeddings when a document version is superseded or a matter is purged.
+
+## 14. Reporting
+
+### 14.1 KPIs (V2)
+
+| KPI | Definition |
+| --- | --- |
+| Hearings held vs scheduled | by forum, by partner |
+| Average adjournments per matter | by cause code |
+| Realization rate | fees invoiced vs fees collected per client |
+| Aging | AR by bucket 0-30/31-60/61-90/90+ |
+| Workload | open tasks and upcoming hearings per associate |
+| Outcome analytics | FAVOURABLE/UNFAVOURABLE/NEUTRAL/PARTIAL by case type and forum |
+| Deadline safety | open vs breached; % confirmed by lawyer |
+| Client money | balances, aging of unapplied advances |
+
+### 14.2 Delivery
+
+Nightly `report.build` refreshes materialized views; dashboards read views, never base tables at request time. CSV/PDF export on `/reports/:id/export`; exports are audited. Partner-only financial reports; associate-level utilization visible to admins/owners.
+
+## 15. Delivery plan
+
+### Phase 0 — Repair & alignment (this iteration)
+
+Fix schema drift (Lead), doc reconstruction (this file), `check:drift` script, CI migration-diff + policy test skeleton. No behavior change.
+
+### Phase 1 — Tenancy & access hardening
+
+Prisma extension opening transaction per request + `set_config('app.tenant_id')`; RLS FORCE on every tenant table + build-failing test; guard order JwtAuth → Tenant → Permission → MatterAccess; MatterAccess + RESTRICTED confidentiality; real Session rotation families; IdempotencyInterceptor.
+
+### Phase 2 — Legal matter core
+
+Reference tables and seeds (Forum, CaseType, StageTemplate, OutcomeType, AdjournmentReason, Holiday); Proceeding/StageHistory/ProceedingLink/MatterTeam/Vakalatnama; lead → conflict → matter conversion path in the UI; default-task instantiation on stage entry.
+
+### Phase 3 — Hearings & one-tap capture
+
+Hearing capture UX (outcome/reason/next date), clash detection, today board, HearingAppearance → journal fee posting, calendar agenda projection.
+
+### Phase 4 — Cause list & deadlines
+
+Two-court adapters with mandatory manual paste fallback; inbox UI; manual deadlines MVP; limitation engine V2 after counsel sign-off.
+
+### Phase 5 — Documents
+
+Keep Cloudinary behind `FilesService` initially; S3 migration for versioned, encrypted, OCR/virus/SHA-256 pipeline; signed downloads with audit.
+
+### Phase 6 — Finance & notifications
+
+FeeArrangements, double-entry journal with CI balancing test, invoices + allocations + withholding register, client ledger, per-client money ledger MVP; real SMS/email dispatcher wired to reminders (the existing `NotificationsService` stub is replaced behind a flag).
+
+### Phase 7 — Portal, ICS, analytics (V2)
+
+### Phase 8 — AI assist (V3, flagged)
+
+### Rollout discipline
+
+Every phase additive; dual-read compat facades where old screens read legacy fields; feature flags per tenant; rollback = flag off, not data surgery.
+
+## 16. Gap checklist
+
+Cross-reference: blueprint (this file) vs code as of 12 Nov 2026.
+
+| Area | Blueprint | Code today | Action |
+| --- | --- | --- | --- |
+| Tenancy | RLS + set_config + policy test | app-level `firmId` scoping only; no RLS | Phase 1 |
+| MatterAccess | READ/WRITE/MANAGE + RESTRICTED | not present | Phase 1 |
+| Refresh tokens | rotation family + reuse detection | `refreshTokenHash` single, no family | Phase 1 |
+| Sessions | device list, remote revoke | not present | Phase 1 |
+| Idempotency | `Idempotency-Key` on money/capture | not present | Phase 1 |
+| Proceedings | full model with links/FIR/stages | flattened on Matter (court, courtCaseNumber) | Phase 2 |
+| Stage templates | StageTemplate with defaultTasks | CourtStage (name/order only) | Phase 2 (additive, keep CourtStage read-compat) |
+| Conflict check | ConflictCheck decision log | `AuditLog` action string only | Phase 2 |
+| Leads | Lead → CONFLICT_CHECK → convert | Lead exists in DB; schema drift now fixed | Phase 2 (wire screens) |
+| One-tap capture | outcome → next date flow | Log Outcome dialog exists, no reason/next-date bundling | Phase 3 |
+| Cause list | adapters + inbox + manual paste | not present | Phase 4 |
+| Limitation | rules engine (V2) | none | Phase 4/V2 |
+| Certified copies | CertifiedCopy model | none | Phase 4 |
+| Documents | presigned confirm pipeline + OCR/SHA/virus | Cloudinary signed uploads; no scan/hash/OCR | Phase 5 |
+| Journal/finance | double-entry + client money | expenses + payroll-ish only; no journal | Phase 6 |
+| Invoices | invoice + allocations + withholding | none | Phase 6 |
+| Notifications | dispatcher + reminders T-3/T-1 | `NotificationsService` logs stub | Phase 6 |
+| Client portal | V2 | none | Phase 7 |
+| ICS feed | V2 | none | Phase 7 |
+| Reports | KPI materialized views | expense charts only | Phase 7/V2 |
+| Audit partitioning | monthly partitions | single table, sparse coverage | Phase 1 |
+| Outbox | OutboxEvent | none | Phase 1 |
+| Search | FTS + trigram | none | Phase 5 |
+| RTL/Urdu UI | full bilingual | English only | Phase 2+ |
+| PWA offline capture | V2 | none | Phase 3 |
+| AI | V3 flagged | AI chat RAG exists (own service) | Phase 8 keep |
+| Dialer | out of scope-ish | WebRTC demo, hardcoded SIP creds | remove creds or feature-flag |
+
+## 17. Glossary and sources
+
+### 17.1 Glossary
+
+- **Adjournment** — next hearing date set with a reason and requesting side.
+- **Cause list** — daily bench-wise list of cases with serial numbers.
+- **Certified copy** — authenticated copy of a judgment/order; drives limitation clocks.
+- **CNIC** — Computerised National Identity Card (Pakistan).
+- **CPLA** — Civil Petition for Leave to Appeal (Supreme Court).
+- **Deadline** — a date by which an act is due; limitation deadlines derive from statute, others from court orders.
+- **Decree** — formal expression of an adjudication (CPC s.2(2)).
+- **FIR** — First Information Report.
+- **Hijri date** — Islamic lunar calendar date.
+- **Limitation** — statutory time limit for filing proceedings.
+- **Munshi** — clerk, especially cause-list and receipt clerk.
+- **Outcome type** — classified result of a hearing/order with favourability and triggers.
+- **Proceeding** — a case or application in a forum tied to a matter (suit, appeal, execution).
+- **Retainer** — recurring fixed fee for availability.
+- **Section 80 CPC** — notice requirement before suing the government.
+- **Serial number** — position of a case in a cause list.
+- **Tareekh-e-pesh** — the date fixed for next appearance.
+- **Vakalatnama** — advocate's authority to appear for a client.
+
+### 17.2 Sources consulted / to consult
+
+- Pakistan Legal Practitioners and Bar Councils Act, 1973 and Rules 1976 (Ch. XII) — counsel to confirm citations.
+- Code of Civil Procedure 1908; Limitation Act 1908; Qanun-e-Shahadat Order 1984; Electronic Transactions Ordinance 2002; Income Tax Ordinance 2001 (withholding ss. 152/153).
+- High Court and Supreme Court cause list and case information systems (per-site terms of use).
+- National Internal Accountancy Standards? — n/a; financial design informed by double-entry and legal-sector trust accounting practice.
+- GDPR (principles); Personal Data Protection Bill, Pakistan (status VERIFY).
+
+---
+
+*Reconstruction notice:* Sections 5.9–17 were authored on 12 November 2026 from sections 1–5.8 and the team's implementation notes, not recovered from the original source document. Legal-rule content marked VERIFY requires counsel sign-off before it is encoded as default behavior. The frontend, API and delivery plan reflect the repository as inspected on the same date.
+

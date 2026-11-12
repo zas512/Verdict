@@ -1,4 +1,5 @@
 "use client";
+import { getDialerConfig, isDialerConfigured } from "@/config/dialer";
 import { cn } from "@/lib/utils";
 import { toggleDialer } from "@/redux/dialer";
 import type { RootState } from "@/redux/store";
@@ -9,6 +10,8 @@ import Phone from "./Dialer";
 const MyPhone = () => {
   const dispatch = useDispatch();
   const isPhoneOpen = useSelector((state: RootState) => state.dialer.isOpen);
+  const config = getDialerConfig();
+  const configured = isDialerConfigured();
 
   return (
     <div
@@ -25,12 +28,12 @@ const MyPhone = () => {
       <section className="border-border/80 bg-muted/60 flex items-center justify-between border-b px-4 py-3 backdrop-blur-xs dark:border-white/10 dark:bg-white/4">
         <div className="flex items-center gap-2.5">
           <span className="bg-primary/15 dark:bg-primary/20 text-primary rounded-md px-2 py-0.5 text-xs font-semibold">
-            User 1
+            {config.userName || "SIP"}
           </span>
           <span className="text-muted-foreground text-xs">
             ID:{" "}
             <strong className="text-foreground font-mono font-semibold">
-              1101
+              {config.extension ?? "—"}
             </strong>
           </span>
         </div>
@@ -55,15 +58,29 @@ const MyPhone = () => {
 
       {/* Phone screen */}
       <section className="bg-card relative flex-1 overflow-y-auto">
-        <Phone
-          id={1234}
-          userName="User"
-          domain="domain"
-          password="secret"
-          port={8089}
-          setIsUserRegistered={() => {}}
-          setIsSipConnected={() => {}}
-        />
+        {configured ? (
+          <Phone
+            id={config.extension as number}
+            userName={config.userName}
+            domain={config.domain}
+            password={config.password}
+            port={config.port as number}
+            setIsUserRegistered={() => {}}
+            setIsSipConnected={() => {}}
+          />
+        ) : (
+          <div className="text-muted-foreground flex h-full flex-col items-center justify-center gap-3 px-6 text-center text-xs leading-relaxed">
+            <p className="text-foreground text-sm font-semibold">
+              Dialer not configured
+            </p>
+            <p>
+              Set NEXT_PUBLIC_SIP_EXTENSION, NEXT_PUBLIC_SIP_USER,
+              NEXT_PUBLIC_SIP_DOMAIN, NEXT_PUBLIC_SIP_PASSWORD and
+              NEXT_PUBLIC_SIP_WSS_PORT in your environment to register the
+              softphone with your SIP-over-WebSocket endpoint.
+            </p>
+          </div>
+        )}
       </section>
     </div>
   );

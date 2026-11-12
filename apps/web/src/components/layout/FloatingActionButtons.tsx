@@ -1,4 +1,5 @@
 "use client";
+import { isDialerEnabled } from "@/config/dialer";
 import { AiChatTriggerButton } from "@/components/ai/AiChatTriggerButton";
 import { DialerOpenButton } from "@/components/dialer/DialerOpenButton";
 import MyPhone from "@/components/dialer/MyPhone";
@@ -11,11 +12,13 @@ export function FloatingActionButtons() {
     return null;
   }
 
+  const dialerEnabled = isDialerEnabled();
+
   return (
     <>
       <AiChatTriggerButton />
-      <DialerOpenButton />
-      <MyPhone />
+      {dialerEnabled && <DialerOpenButton />}
+      {dialerEnabled && <MyPhone />}
     </>
   );
 }

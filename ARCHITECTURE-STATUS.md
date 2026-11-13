@@ -4,7 +4,7 @@ Single source of truth for blueprint ↔ code progress. Read this first; update 
 
 Blueprint: [`ARCHITECTURE.md`](ARCHITECTURE.md) v1.0 (12 Nov 2026). Its §5.9–17 are a reconstruction marked *draft for review*; anything tagged **VERIFY** needs counsel before shipping as a default.
 
-**Last updated:** 2026-11-13 (Phase 0 complete; Phase 1 plumbing + TenantGuard landed dark; open problems + migration blockers re-verified against current HEAD).
+**Last updated:** 2026-11-13 (Phase 0 complete; Phase 1: plumbing + TenantGuard + PermissionGuard landed; finance-domain @Permissions rollout committed 78df959/0592163; open problems + migration blockers re-verified against current HEAD).
 
 ## Phase 0 — Repair & alignment
 
@@ -27,10 +27,13 @@ Phase 0 complete ✔. One pre-existing wrong test expectation fixed (`app.securi
 | RLS design draft | **Added** — `apps/api/docs/drafts/tenant-rls.sql` (NOT applied, NOT in `migrations/`) |
 | Migration: ENABLE/FORCE RLS + `tenant_isolation` policy on every `firmId` table | **Blocked** by "Open problems" #1/#2 — needs app role + id-type decision |
 | Prisma extension: per-request `$transaction` + `set_config('app.tenant_id')` on a separate base client | Design only; must be verified against a real DB before any RLS migration lands. Recursion trap: extended client must delegate to an unextended base |
-| Guard order JwtAuth → Tenant → Permission → MatterAccess | Throttler → AccessToken → Roles → Tenant already global (AppModule); Permission guard still absent (next step); still additive |
+| Guard order JwtAuth → Tenant → Permission → MatterAccess | Throttler → AccessToken → Tenant → Roles → Permission global (AppModule); PermissionGuard landed (additive/dark: no @Permissions → pass; AND semantics; role bundles in `modules/auth/permissions.ts`). Registered globally, not in blueprint order — after Roles is harmless since both are additive; blueprint order is the target when MatterAccessGuard lands. |
+| PermissionGuard @Permissions rollout | **Partial — finance domain only**, committed in 78df959 + 0592163 (working tree carries only this status doc): `permissions.ts` taxonomy + `ROLE_PERMISSIONS` (4 DB roles; ADMIN = finance.read/post/export, ASSOCIATE = matter/hearing/document bundle, OWNER/SUPER_ADMIN = all); `@Permissions("finance.read")` at class + `"finance.read","finance.post"` on write handlers across `expenses`, `fixed-expenses`, `manual-expenses`, `recurring-expenses` controllers. tsc clean; jest 51/51 ✔ |
+| Permission taxonomy gaps | Blueprint roles PARTNER/JUNIOR/CLERK/ACCOUNTANT/CLIENT don't exist in the schema — extending UserRole is a schema decision (ask first). `finance.approve`, `finance.export` (export not wired to any handler yet), `document.share`, `matter.manage`, `audit.read`, `settings.manage`, `rules.manage` are declared but unused. |
+| Matter-domain annotations | **Not started; ambiguity recorded**: blueprint §4.3/§9.1 treat `matter.manage` as the ADMIN-level capability, but the code comment in `permissions.ts` asserts ADMINs must not reach matters — so mapping matter/hearing/document handlers onto the taxonomy needs a product decision before annotating. Matters/hearings/tasks/case-documents stay dark until then. |
 | MatterAccess (READ/WRITE/MANAGE) + RESTRICTED confidentiality | Not started; Matter carries no `confidentiality` yet |
 | Refresh-token rotation families + reuse detection + Session table | Not started (schema + `issueAndPersistTokens` rework). Blueprint §5.4 `Session`, §11.2 |
-| Idempotency-Interceptor on money/capture endpoints | Not started |
+| Money/capture IdempotencyInterceptor | **Not started**, blocked on open problem #8 (needs a new model/migration). Registered order (blueprint §9.1): after auth/permission, before handler.
 | Audit partitioning by month | Not started |
 | OutboxEvent table | Not started (blueprint §5.4) |
 
@@ -42,6 +45,8 @@ Phase 0 complete ✔. One pre-existing wrong test expectation fixed (`app.securi
 4. **Prisma 7 extension recursion.** `$extends` query wrappers must run on a separate `new PrismaClient`, never on the extended `this`. Must be smoke-tested against a real DB before the RLS migration is generated; otherwise fail-closed at role level, not app level.
 5. **Global seed tables** (Forum, CaseType, … in blueprint §6.1) don't exist yet in code schema; RLS draft only covers existing `firmId` tables.
 6. **CI drift check** needs a `DATABASE_URL` secret with a migrated DB; without it the step is skipped (exit 0 with warning). It never silently "passes".
+7. **`matter.manage` semantics.** Which role(s) hold it, and whether ADMINs may read matters, is undecided in code. Blocks annotating matters/hearings/documents/tasks. Do not annotate until resolved.
+8. **Idempotency storage.** Blueprint §9.1 wants `Idempotency-Key` (UUID) on money/capture POSTs with replay returning the stored response and 409 on key reuse with a different body. Confirmed 2026-11-13: `clientRequestId @unique` exists only in the blueprint (line ~738) — not in `prisma/schema.prisma` — and is scoped to the offline hearing-capture outbox, not a general money-endpoint cache. A general idempotency store therefore needs a new model, e.g. `IdempotencyRecord(firmId, key, requestHash, responseStatus, responseBody, createdAt, @@unique([firmId, key]))`. That's a migration — same class of decision as RLS (schema change); confirm before generating. Interim, non-migration option: implement the interceptor + in-memory/dev-only store dark behind a flag, which is not production-safe (replay correctness needs durability).
 
 ## Rollout discipline
 

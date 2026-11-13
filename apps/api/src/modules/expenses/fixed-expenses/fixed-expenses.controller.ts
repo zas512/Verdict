@@ -26,7 +26,7 @@ export class FixedExpensesController {
 
   @Permissions("finance.read", "finance.post")
   @Post()
-create(
+  create(
     @CurrentUser() user: JwtPayload,
     @Body() dto: CreateFixedExpenseDto
   ): Promise<ExpenseEntity> {
@@ -48,7 +48,7 @@ create(
 
   @Permissions("finance.read", "finance.post")
   @Patch(":id")
-update(
+  update(
     @CurrentUser() user: JwtPayload,
     @Param("id", ParseUUIDPipe) id: string,
     @Body() dto: UpdateFixedExpenseDto
@@ -58,7 +58,7 @@ update(
 
   @Permissions("finance.read", "finance.post")
   @Delete(":id")
-remove(
+  remove(
     @CurrentUser() user: JwtPayload,
     @Param("id", ParseUUIDPipe) id: string
   ): Promise<void> {

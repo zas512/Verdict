@@ -10,6 +10,7 @@ import {
 } from "@nestjs/common";
 import { UserRole } from "../../../generated/prisma/enums";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
+import { Permissions } from "../../auth/decorators/permissions.decorator";
 import { Roles } from "../../auth/decorators/roles.decorator";
 import type { JwtPayload } from "../../auth/strategies/access-token.strategy";
 import { ExpenseEntity } from "../entities/expense.entity";
@@ -18,10 +19,12 @@ import { UpdateManualExpenseDto } from "./dto/update-manual-expense.dto";
 import { ManualExpensesService } from "./manual-expenses.service";
 
 @Roles(UserRole.OWNER, UserRole.ADMIN)
+@Permissions("finance.read")
 @Controller("manual-expenses")
 export class ManualExpensesController {
   constructor(private readonly manualExpensesService: ManualExpensesService) {}
 
+  @Permissions("finance.read", "finance.post")
   @Post()
   create(
     @CurrentUser() user: JwtPayload,
@@ -43,6 +46,7 @@ export class ManualExpensesController {
     return this.manualExpensesService.findOne(user, id);
   }
 
+  @Permissions("finance.read", "finance.post")
   @Patch(":id")
   update(
     @CurrentUser() user: JwtPayload,
@@ -52,6 +56,7 @@ export class ManualExpensesController {
     return this.manualExpensesService.update(user, id, dto);
   }
 
+  @Permissions("finance.read", "finance.post")
   @Delete(":id")
   remove(
     @CurrentUser() user: JwtPayload,

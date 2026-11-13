@@ -1,13 +1,22 @@
 import { ClassSerializerInterceptor, Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AllExceptionsFilter } from "./common/filters/all-exceptions.filter";
 import { LoggingInterceptor } from "./common/interceptors/logging.interceptor";
-import { TenantContextInterceptor } from "./common/interceptors/tenant-context.interceptor";
-import { validateEnv } from "./config/env.validation";
+import { IdempotencyInterceptor } from "./common/interceptors/idempotency.interceptor";
+import {
+  IDEMPOTENCY_STORE,
+  InMemoryIdempotencyStore,
+  type IdempotencyStore
+} from "./common/idempotency/idempotency.store";
+import {
+  IdempotencyStoreMode,
+  validateEnv,
+  type EnvironmentVariables
+} from "./config/env.validation";
 import { AiModule } from "./modules/ai/ai.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { AccessTokenGuard } from "./modules/auth/guards/access-token.guard";
@@ -65,6 +74,24 @@ import { PrismaModule } from "./prisma/prisma.module";
     { provide: APP_GUARD, useClass: RolesGuard },
     { provide: APP_GUARD, useClass: PermissionGuard },
     { provide: APP_INTERCEPTOR, useClass: TenantContextInterceptor },
+    {
+      provide: APP_INTERCEPTOR,
+      useFactory: (
+        reflector: Reflector,
+        config: ConfigService<EnvironmentVariables, true>
+      ) =>
+        // Dark by default: no store, no enforcement. `memory` is a dev/test
+        // stand-in for the IdempotencyRecord table (open problem #8) — never
+        // safe across processes in production.
+        new IdempotencyInterceptor(
+          reflector,
+          config.get("IDEMPOTENCY_STORE", { infer: true }) ===
+            IdempotencyStoreMode.Memory
+            ? new InMemoryIdempotencyStore()
+            : undefined
+        ),
+      inject: [Reflector, ConfigService]
+    },
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
     { provide: APP_FILTER, useClass: AllExceptionsFilter }

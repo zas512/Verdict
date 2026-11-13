@@ -16,6 +16,19 @@ export enum NodeEnv {
   Test = "test"
 }
 
+/**
+ * Durability of Idempotency-Key replay protection:
+ *   disabled — validate the header only, no dedup (default; safe anywhere)
+ *   memory   — in-memory store: dev/test only, resets on restart and is NOT
+ *              shared across processes
+ *   "table" is intentionally unsupported until the `IdempotencyRecord`
+ *   migration lands (see ARCHITECTURE-STATUS.md, open problem #8).
+ */
+export enum IdempotencyStoreMode {
+  Disabled = "disabled",
+  Memory = "memory"
+}
+
 export class EnvironmentVariables {
   @IsEnum(NodeEnv)
   @IsOptional()
@@ -94,6 +107,10 @@ export class EnvironmentVariables {
   @IsString()
   @IsOptional()
   AI_SERVICE_URL: string = "http://localhost:5000/api/ai";
+
+  @IsEnum(IdempotencyStoreMode)
+  @IsOptional()
+  IDEMPOTENCY_STORE: IdempotencyStoreMode = IdempotencyStoreMode.Disabled;
 }
 
 export function validateEnv(

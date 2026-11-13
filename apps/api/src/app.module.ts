@@ -12,6 +12,7 @@ import { AiModule } from "./modules/ai/ai.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { AccessTokenGuard } from "./modules/auth/guards/access-token.guard";
 import { RolesGuard } from "./modules/auth/guards/roles.guard";
+import { TenantGuard } from "./modules/auth/guards/tenant.guard";
 import { CaseDocumentsModule } from "./modules/case-documents/case-documents.module";
 import { ClientsModule } from "./modules/clients/clients.module";
 import { ExpensesModule } from "./modules/expenses/expenses.module";
@@ -60,6 +61,7 @@ import { PrismaModule } from "./prisma/prisma.module";
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_GUARD, useClass: AccessTokenGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
+    { provide: APP_GUARD, useClass: TenantGuard },
     { provide: APP_INTERCEPTOR, useClass: TenantContextInterceptor },
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },

@@ -4,7 +4,7 @@ Single source of truth for blueprint ↔ code progress. Read this first; update 
 
 Blueprint: [`ARCHITECTURE.md`](ARCHITECTURE.md) v1.0 (12 Nov 2026). Its §5.9–17 are a reconstruction marked *draft for review*; anything tagged **VERIFY** needs counsel before shipping as a default.
 
-**Last updated:** 2026-11-12 (Phase 0 complete; Phase 1 plumbing started; full local CI sequence green).
+**Last updated:** 2026-11-13 (Phase 0 complete; Phase 1 plumbing + TenantGuard landed dark; open problems + migration blockers re-verified against current HEAD).
 
 ## Phase 0 — Repair & alignment
 
@@ -22,11 +22,12 @@ Phase 0 complete ✔. One pre-existing wrong test expectation fixed (`app.securi
 
 | Item | State |
 | --- | --- |
-| AsyncLocalStorage tenant context + interceptor (additive plumbing, no enforcement) | **Added** — `common/tenant-context.ts` + global `TenantContextInterceptor`, registered in AppModule ahead of LoggingInterceptor; unit tests in `src/tenant-context.spec.ts` (4 tests, green). Full suite 31/31 |
+| AsyncLocalStorage tenant context + interceptor (additive plumbing, no enforcement) | **Added dark** — `common/tenant-context.ts` + global `TenantContextInterceptor`, registered in AppModule ahead of LoggingInterceptor; unit tests in `src/tenant-context.spec.ts` (4 tests, green). Full suite 31/31 ✔ |
+| TenantGuard (JwtAuth → Tenant → Permission) | **Added** — global guard after RolesGuard (`modules/auth/guards/tenant.guard.ts`); skips `@Public()`; SUPER_ADMIN (firmId null) passes, non-SUPER_ADMIN with null firmId → 403; registered globally in AppModule; unit tests `src/modules/auth/guards/tenant.guard.spec.ts` (8 tests, green); e2e wiring stays 39/39 ✔ |
 | RLS design draft | **Added** — `apps/api/docs/drafts/tenant-rls.sql` (NOT applied, NOT in `migrations/`) |
-| Migration: ENABLE/FORCE RLS + `tenant_isolation` policy on every `firmId` table | Blocked by "Open problems" #1/#2 — needs app role + id-type decision |
+| Migration: ENABLE/FORCE RLS + `tenant_isolation` policy on every `firmId` table | **Blocked** by "Open problems" #1/#2 — needs app role + id-type decision |
 | Prisma extension: per-request `$transaction` + `set_config('app.tenant_id')` on a separate base client | Design only; must be verified against a real DB before any RLS migration lands. Recursion trap: extended client must delegate to an unextended base |
-| Guard order JwtAuth → Tenant → Permission → MatterAccess | Throttler → AccessToken → Roles already global (AppModule); Tenant guard is trivial next step once plumbing is bench-tested; still additive |
+| Guard order JwtAuth → Tenant → Permission → MatterAccess | Throttler → AccessToken → Roles → Tenant already global (AppModule); Permission guard still absent (next step); still additive |
 | MatterAccess (READ/WRITE/MANAGE) + RESTRICTED confidentiality | Not started; Matter carries no `confidentiality` yet |
 | Refresh-token rotation families + reuse detection + Session table | Not started (schema + `issueAndPersistTokens` rework). Blueprint §5.4 `Session`, §11.2 |
 | Idempotency-Interceptor on money/capture endpoints | Not started |

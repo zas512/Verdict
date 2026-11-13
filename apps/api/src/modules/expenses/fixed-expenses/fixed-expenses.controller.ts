@@ -10,6 +10,7 @@ import {
 } from "@nestjs/common";
 import { UserRole } from "../../../generated/prisma/enums";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
+import { Permissions } from "../../auth/decorators/permissions.decorator";
 import { Roles } from "../../auth/decorators/roles.decorator";
 import type { JwtPayload } from "../../auth/strategies/access-token.strategy";
 import { ExpenseEntity } from "../entities/expense.entity";
@@ -18,12 +19,14 @@ import { UpdateFixedExpenseDto } from "./dto/update-fixed-expense.dto";
 import { FixedExpensesService } from "./fixed-expenses.service";
 
 @Roles(UserRole.OWNER, UserRole.ADMIN)
+@Permissions("finance.read")
 @Controller("fixed-expenses")
 export class FixedExpensesController {
   constructor(private readonly fixedExpensesService: FixedExpensesService) {}
 
+  @Permissions("finance.read", "finance.post")
   @Post()
-  create(
+create(
     @CurrentUser() user: JwtPayload,
     @Body() dto: CreateFixedExpenseDto
   ): Promise<ExpenseEntity> {
@@ -43,8 +46,9 @@ export class FixedExpensesController {
     return this.fixedExpensesService.findOne(user, id);
   }
 
+  @Permissions("finance.read", "finance.post")
   @Patch(":id")
-  update(
+update(
     @CurrentUser() user: JwtPayload,
     @Param("id", ParseUUIDPipe) id: string,
     @Body() dto: UpdateFixedExpenseDto
@@ -52,8 +56,9 @@ export class FixedExpensesController {
     return this.fixedExpensesService.update(user, id, dto);
   }
 
+  @Permissions("finance.read", "finance.post")
   @Delete(":id")
-  remove(
+remove(
     @CurrentUser() user: JwtPayload,
     @Param("id", ParseUUIDPipe) id: string
   ): Promise<void> {

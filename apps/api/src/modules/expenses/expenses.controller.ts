@@ -1,6 +1,7 @@
 import { Controller, Get } from "@nestjs/common";
 import { UserRole } from "../../generated/prisma/enums";
 import { CurrentUser } from "../auth/decorators/current-user.decorator";
+import { Permissions } from "../auth/decorators/permissions.decorator";
 import { Roles } from "../auth/decorators/roles.decorator";
 import type { JwtPayload } from "../auth/strategies/access-token.strategy";
 import { ExpenseEntity } from "./entities/expense.entity";
@@ -11,6 +12,7 @@ import { ExpensesService } from "./expenses.service";
  * and the `/expenses` page both consume this.
  */
 @Roles(UserRole.OWNER, UserRole.ADMIN)
+@Permissions("finance.read")
 @Controller("expenses")
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}

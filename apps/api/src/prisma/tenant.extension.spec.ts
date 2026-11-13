@@ -8,12 +8,16 @@ import { createTenantExtension } from "./tenant.extension";
  * The extension must, for a firm-scoped caller:
  *  - run on a SEPARATE base client (never the extended client),
  *  - wrap the op in base.$transaction,
- *  - set_config('app.tenant_id', firmId, true) inside that transaction,
+ *  - before any operation, execute raw set_config('app.tenant_id', firmId, true) on the tx client,
  *  - dispatch the operation on the transaction client's model delegate.
  *
  * Outside a tenant context (public routes, jobs that forgot to run()) and for
  * SUPER_ADMIN, everything passes through to the original query(args) without
  * opening a transaction.
+ *
+ * Ops dispatched on an interactive transaction client (tx) — recognised by
+ * __internalParams.transaction.kind === 'itx' — pass through to the ambient
+ * transaction instead of opening a nested one.
  */
 describe("createTenantExtension", () => {
   function makeTx(modelHandler?: jest.Mock) {
@@ -100,13 +104,14 @@ describe("createTenantExtension", () => {
     expect(untouchedQuery).not.toHaveBeenCalled();
     expect($transaction).toHaveBeenCalledTimes(1);
     // set_config executed on the tx client before the model op
-    const execOrder: string[] = [];
-    tx.$executeRaw.mock.invocationCallOrder.forEach(() => execOrder.push("setconfig"));
-    modelHandler.mock.invocationCallOrder.forEach(() => execOrder.push("model"));
-    // simpler: both were called; set_config must come first
-    expect(tx.$executeRaw).toHaveBeenCalledTimes(2);
+    expect(tx.$executeRawUnsafe).toHaveBeenCalledTimes(2);
+    expect(tx.$executeRawUnsafe).toHaveBeenNthCalledWith(
+      1,
+      "SELECT set_config('app.tenant_id', $1, true)",
+      "firm-1"
+    );
     expect(modelHandler).toHaveBeenCalledWith({ take: 5 });
-    expect(Math.min(...tx.$executeRaw.mock.invocationCallOrder)).toBeLessThan(
+    expect(Math.min(...tx.$executeRawUnsafe.mock.invocationCallOrder)).toBeLessThan(
       modelHandler.mock.invocationCallOrder[0]
     );
   });
@@ -128,11 +133,11 @@ describe("createTenantExtension", () => {
         })
     );
 
-    expect(tx.$executeRaw).toHaveBeenCalledTimes(2);
-    const setConfigCall = tx.$executeRaw.mock.calls[0];
-    // tagged-template call: first arg is strings array, subsequent args are values
+    expect(tx.$executeRawUnsafe).toHaveBeenCalledTimes(2);
+    const setConfigCall = tx.$executeRawUnsafe.mock.calls[0];
+    // positional raw call: first arg is the text, remaining args are bound values
     const values = setConfigCall.slice(1);
-    expect(values).toContain("");
+    expect(values).toEqual([""]);
     expect(modelHandler).toHaveBeenCalled();
   });
 
@@ -156,6 +161,81 @@ describe("createTenantExtension", () => {
       "Acme"
     );
     expect(result).toEqual([{ v: "firm-1" }]);
+  });
+
+  it("passes through to the ambient itx when dispatched on a transaction client", async () => {
+    const tx = makeTx();
+    const { base, $transaction } = makeBase(tx);
+    const ext = createTenantExtension(base);
+
+    const result = await tenantContext.run(
+      { firmId: "firm-1", userId: "u-1", isSuperAdmin: false },
+      () =>
+        ext.query.$allOperations({
+          model: "Firm",
+          operation: "findMany",
+          args: { take: 1 },
+          query: untouchedQuery,
+          __internalParams: { transaction: { kind: "itx", id: "tx-1" } }
+        })
+    );
+
+    expect(result).toEqual(["passthrough"]);
+    expect(untouchedQuery).toHaveBeenCalledWith({ take: 1 });
+    expect($transaction).not.toHaveBeenCalled();
+    expect(tx.$executeRawUnsafe).not.toHaveBeenCalled();
+  });
+
+  describe("client.$transaction override", () => {
+    it("pins the tenant on the outer itx and runs the callback on a base transaction", async () => {
+      const tx = makeTx();
+      const { base, $transaction } = makeBase(tx);
+      const ext = createTenantExtension(base);
+
+      const cb = jest.fn(async () => "cb-result");
+      const result = await tenantContext.run(
+        { firmId: "firm-1", userId: "u-1", isSuperAdmin: false },
+        () => ext.client.$transaction(cb)
+      );
+
+      expect(result).toBe("cb-result");
+      expect($transaction).toHaveBeenCalledTimes(1);
+      expect(tx.$executeRawUnsafe).toHaveBeenNthCalledWith(
+        1,
+        "SELECT set_config('app.tenant_id', $1, true)",
+        "firm-1"
+      );
+      expect(cb).toHaveBeenCalledWith(tx);
+    });
+
+    it("rejects the array form of $transaction in a tenant scope", async () => {
+      const tx = makeTx();
+      const { base } = makeBase(tx);
+      const ext = createTenantExtension(base);
+
+      expect(() =>
+        tenantContext.run({ firmId: "firm-1", userId: "u-1", isSuperAdmin: false }, () =>
+          ext.client.$transaction([Promise.resolve("op")])
+        )
+      ).toThrow(/array form/i);
+    });
+
+    it("runs without pinning for SUPER_ADMIN", async () => {
+      const tx = makeTx();
+      const { base, $transaction } = makeBase(tx);
+      const ext = createTenantExtension(base);
+
+      const cb = jest.fn(async () => "cb-result");
+      const result = await tenantContext.run(
+        { firmId: null, userId: "u-root", isSuperAdmin: true },
+        () => ext.client.$transaction(cb)
+      );
+
+      expect(result).toBe("cb-result");
+      expect($transaction).toHaveBeenCalledTimes(1);
+      expect(tx.$executeRawUnsafe).not.toHaveBeenCalled();
+      expect(cb).toHaveBeenCalledWith(tx);
+    });
   });
 
   it("fails closed instead of running raw SQL unscoped when the arg shape is unexpected", async () => {

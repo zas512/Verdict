@@ -18,6 +18,16 @@ import { createTenantExtension } from "../src/prisma/tenant.extension";
  *      own transaction (the firmId we ran with).
  *   4. Outside tenantContext, the extension passes through (no set_config).
  *   5. A raw op through the extension returns the pinned tenant id.
+ *   6. SUPER_ADMIN passes through without pinning.
+ *   7. The outer interactive transaction from `extended.$transaction(cb)` runs
+ *      with the tenant pinned (ops via `tx` join it).
+ *   8. A model op inside `extended.$transaction(cb)` works — no re-dispatch /
+ *      double-wrap breakage.
+ *   9. A root-style `extended.*` op from INSIDE a callback is still pinned
+ *      (it opens its own short-lived base itx — atomicity with the outer
+ *      transaction is not guaranteed, but RLS isolation still holds).
+ *  10. The array form of `$transaction` is rejected in tenant scope (it has
+ *      no callback in which the pin can be applied).
  *
  * Makes NO writes, NO schema changes. set_config with is_local = true is
  * transaction-scoped and vanishes on commit.
@@ -83,6 +93,52 @@ async function main() {
     async () => extended.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`
   );
   check("SUPER_ADMIN passes through without pinning", (sa[0]?.v ?? "") === "", { v: sa[0]?.v });
+
+  // 7. the outer itx from `extended.$transaction(cb)` is itself pinned
+  const outerPinned = await tenantContext.run(
+    { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
+    async () =>
+      extended.$transaction(async (tx) => {
+        const rows = await tx.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`;
+        return rows[0]?.v;
+      })
+  );
+  check("outer $transaction callback runs with the tenant pinned", outerPinned === "smoke-firm-1", { v: outerPinned });
+
+  // 8. model op inside `extended.$transaction(cb)` (tx client) works and is read through the itx
+  const inItx = await tenantContext.run(
+    { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
+    async () =>
+      extended.$transaction(async (tx) => tx.firm.findMany({ take: 1, select: { id: true } }))
+  );
+  check("model op inside extended.$transaction returns", Array.isArray(inItx));
+
+  // 9. root-style op from inside a callback is still pinned (own short-lived base itx)
+  const rootInCb = await tenantContext.run(
+    { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
+    async () =>
+      extended.$transaction(async () => {
+        const rows = await extended.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`;
+        return rows[0]?.v;
+      })
+  );
+  check("root-style extended.* op inside a callback is still tenant-pinned", rootInCb === "smoke-firm-1", { v: rootInCb });
+
+  // 10. array-form $transaction rejected in tenant scope (fail closed)
+  let arrayErr: string | null = null;
+  try {
+    await tenantContext.run(
+      { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
+      () => extended.$transaction([extended.firm.findMany({ take: 1 })])
+    );
+  } catch (e) {
+    arrayErr = e instanceof Error ? e.message : String(e);
+  }
+  check("array-form $transaction rejected in tenant scope", !!arrayErr && arrayErr.includes("array form"), { err: arrayErr });
+
+  // no tenant pin leaked on the base pool after all of the above
+  const leak = await base.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`;
+  check("setting does NOT leak onto the base pool", (leak[0]?.v ?? "") === "", { v: leak[0]?.v });
 
   await plain.$disconnect();
   await base.$disconnect();

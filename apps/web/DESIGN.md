@@ -20,23 +20,23 @@ colors:
   sidebar-dark: "#0D1525"
 typography:
   display:
-    fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Plus Jakarta Sans, ui-sans-serif, system-ui, sans-serif"
     fontWeight: 700
     lineHeight: 1.15
     letterSpacing: "-0.025em"
   body:
-    fontFamily: "DM Sans, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Public Sans, ui-sans-serif, system-ui, sans-serif"
     fontSize: "0.875rem"
     lineHeight: 1.5
     letterSpacing: "-0.01em"
   label:
-    fontFamily: "DM Sans, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Public Sans, ui-sans-serif, system-ui, sans-serif"
     fontSize: "0.75rem"
     fontWeight: 600
     letterSpacing: "0.04em"
     textTransform: "uppercase"
   micro:
-    fontFamily: "DM Sans, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Public Sans, ui-sans-serif, system-ui, sans-serif"
     fontSize: "0.6875rem"
     fontWeight: 600
     letterSpacing: "0.04em"

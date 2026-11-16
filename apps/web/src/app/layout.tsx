@@ -13,20 +13,23 @@ import {
 } from "@/config/site";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { DM_Sans, EB_Garamond } from "next/font/google";
+import { Plus_Jakarta_Sans, Public_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 import Providers from "./providers";
 
-const ebGaramond = EB_Garamond({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-heading",
-  weight: ["400", "500", "700"]
+  weight: ["500", "600", "700", "800"],
+  display: "swap"
 });
 
-const dmSans = DM_Sans({
+const publicSans = Public_Sans({
   subsets: ["latin"],
-  variable: "--font-sans"
+  variable: "--font-sans",
+  weight: ["400", "500", "600"],
+  display: "swap"
 });
 
 export const metadata: Metadata = {
@@ -82,13 +85,13 @@ export default function RootLayout({
       lang="en"
       className={cn(
         "h-full antialiased",
-        ebGaramond.variable,
-        dmSans.variable,
+        plusJakartaSans.variable,
+        publicSans.variable,
         "font-sans"
       )}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col bg-[#F6F3EE] text-[#1A2332]">
+      <body className="bg-background text-foreground flex min-h-full flex-col">
         <OrganizationSchema org={organization} />
         <Providers>{children}</Providers>
         <CookieConsentBanner />

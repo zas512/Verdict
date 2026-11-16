@@ -6,18 +6,19 @@ import {
   APP_INTERCEPTOR,
   Reflector
 } from "@nestjs/core";
-import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+import {
+  ThrottlerGuard,
+  ThrottlerModule,
+  getOptionsToken,
+  getStorageToken
+} from "@nestjs/throttler";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AllExceptionsFilter } from "./common/filters/all-exceptions.filter";
+import { InMemoryIdempotencyStore } from "./common/idempotency/idempotency.store";
+import { IdempotencyInterceptor } from "./common/interceptors/idempotency.interceptor";
 import { LoggingInterceptor } from "./common/interceptors/logging.interceptor";
 import { TenantContextInterceptor } from "./common/interceptors/tenant-context.interceptor";
-import { IdempotencyInterceptor } from "./common/interceptors/idempotency.interceptor";
-import {
-  IDEMPOTENCY_STORE,
-  InMemoryIdempotencyStore,
-  type IdempotencyStore
-} from "./common/idempotency/idempotency.store";
 import {
   IdempotencyStoreMode,
   validateEnv,
@@ -26,8 +27,8 @@ import {
 import { AiModule } from "./modules/ai/ai.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { AccessTokenGuard } from "./modules/auth/guards/access-token.guard";
-import { RolesGuard } from "./modules/auth/guards/roles.guard";
 import { PermissionGuard } from "./modules/auth/guards/permission.guard";
+import { RolesGuard } from "./modules/auth/guards/roles.guard";
 import { TenantGuard } from "./modules/auth/guards/tenant.guard";
 import { CaseDocumentsModule } from "./modules/case-documents/case-documents.module";
 import { ClientsModule } from "./modules/clients/clients.module";
@@ -75,7 +76,12 @@ import { PrismaModule } from "./prisma/prisma.module";
   providers: [
     Reflector,
     AppService,
-    { provide: APP_GUARD, useClass: ThrottlerGuard },
+    {
+      provide: APP_GUARD,
+      useFactory: (options: any, storage: any, reflector: Reflector) =>
+        new ThrottlerGuard(options, storage, reflector),
+      inject: [getOptionsToken(), getStorageToken(), Reflector]
+    },
     { provide: APP_GUARD, useClass: AccessTokenGuard },
     { provide: APP_GUARD, useClass: TenantGuard },
     { provide: APP_GUARD, useClass: RolesGuard },

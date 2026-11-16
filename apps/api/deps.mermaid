@@ -7,6 +7,26 @@ graph LR
   ClientsModule --> AppModule
   CloudinaryModule --> AuthModule
   CloudinaryModule --> TasksModule
+  ConfigLoadedModule --> AiModule
+  ConfigLoadedModule --> AppModule
+  ConfigLoadedModule --> AssociatesModule
+  ConfigLoadedModule --> AttendanceModule
+  ConfigLoadedModule --> AuthModule
+  ConfigLoadedModule --> CaseDocumentsModule
+  ConfigLoadedModule --> ClientsModule
+  ConfigLoadedModule --> CloudinaryModule
+  ConfigLoadedModule --> ExpensesModule
+  ConfigLoadedModule --> FirmsModule
+  ConfigLoadedModule --> FixedExpensesModule
+  ConfigLoadedModule --> HearingsModule
+  ConfigLoadedModule --> LeaveModule
+  ConfigLoadedModule --> MailModule
+  ConfigLoadedModule --> ManualExpensesModule
+  ConfigLoadedModule --> MattersModule
+  ConfigLoadedModule --> PrismaModule
+  ConfigLoadedModule --> RecurringExpensesModule
+  ConfigLoadedModule --> TasksModule
+  ConfigLoadedModule --> UsersModule
   ExpensesModule --> AppModule
   ExpensesModule --> FixedExpensesModule
   ExpensesModule --> ManualExpensesModule
@@ -28,6 +48,7 @@ graph LR
   PrismaModule --> CaseDocumentsModule
   PrismaModule --> ClientsModule
   PrismaModule --> CloudinaryModule
+  PrismaModule --> ConfigLoadedModule
   PrismaModule --> ExpensesModule
   PrismaModule --> FirmsModule
   PrismaModule --> FixedExpensesModule

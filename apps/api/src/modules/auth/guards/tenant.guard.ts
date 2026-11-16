@@ -33,7 +33,9 @@ export class TenantGuard implements CanActivate {
     const { user } = context.switchToHttp().getRequest<{ user?: JwtPayload }>();
     if (!user) {
       // Should never happen: AccessTokenGuard runs first and rejects unauthenticated.
-      throw new ForbiddenException("Access denied: missing authentication context");
+      throw new ForbiddenException(
+        "Access denied: missing authentication context"
+      );
     }
 
     // SUPER_ADMIN has firmId === null and is legitimate; let them through.
@@ -43,7 +45,9 @@ export class TenantGuard implements CanActivate {
 
     // Any other authenticated user MUST have a firmId.
     if (!user.firmId) {
-      throw new ForbiddenException("Access denied: no tenant context (firmId missing)");
+      throw new ForbiddenException(
+        "Access denied: no tenant context (firmId missing)"
+      );
     }
 
     return true;

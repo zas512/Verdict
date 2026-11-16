@@ -57,7 +57,9 @@ export const ROLE_PERMISSIONS: Record<UserRole, readonly Permission[]> = {
 };
 
 /** Returns the bundle for a role, or an empty bundle for an unknown role. */
-export function permissionsForRole(role: UserRole | undefined): readonly Permission[] {
+export function permissionsForRole(
+  role: UserRole | undefined
+): readonly Permission[] {
   if (!role) return [];
   return ROLE_PERMISSIONS[role] ?? [];
 }

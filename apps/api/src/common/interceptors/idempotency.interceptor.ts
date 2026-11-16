@@ -63,10 +63,10 @@ export class IdempotencyInterceptor implements NestInterceptor {
       return next.handle();
     }
 
-    const required = this.reflector.getAllAndOverride<boolean>(
-      IDEMPOTENT_KEY,
-      [context.getHandler(), context.getClass()]
-    );
+    const required = this.reflector.getAllAndOverride<boolean>(IDEMPOTENT_KEY, [
+      context.getHandler(),
+      context.getClass()
+    ]);
 
     // Dark passthrough: no store configured, no enforcement, no header demand.
     if (!required || !this.store) {
@@ -77,10 +77,10 @@ export class IdempotencyInterceptor implements NestInterceptor {
     const request = http.getRequest<Request & { user?: JwtPayload }>();
     const response = http.getResponse<Response>();
 
-    const isPublic = this.reflector.getAllAndOverride<boolean>(
-      IS_PUBLIC_KEY,
-      [context.getHandler(), context.getClass()]
-    );
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass()
+    ]);
 
     const rawKey = request.headers[IDEMPOTENCY_KEY_HEADER];
     const key = Array.isArray(rawKey) ? rawKey[0] : rawKey;
@@ -137,7 +137,9 @@ export class IdempotencyInterceptor implements NestInterceptor {
                 }
               }),
               catchError((error: unknown) => {
-                void this.store?.abandon(scopedKey, hash).catch(() => undefined);
+                void this.store
+                  ?.abandon(scopedKey, hash)
+                  .catch(() => undefined);
                 throw error;
               })
             );
@@ -147,10 +149,7 @@ export class IdempotencyInterceptor implements NestInterceptor {
   }
 
   /** Mirrors Nest's status resolution so the stored status matches reality. */
-  private statusFor(
-    handler: (...args: unknown[]) => unknown,
-    method: string
-  ): number {
+  private statusFor(handler: Function, method: string): number {
     const explicit = this.reflector.get<number | undefined>(
       HTTP_CODE_METADATA,
       handler

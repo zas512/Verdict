@@ -271,7 +271,10 @@ export function RegisterWizard({
       <Card className="skeuo-card bg-card text-card-foreground">
         <CardHeader className="space-y-1">
           <h1 className="text-foreground flex items-center gap-2 text-xl font-black tracking-tight">
-            <AlertTriangle className="text-destructive h-5 w-5" aria-hidden="true" />
+            <AlertTriangle
+              className="text-destructive h-5 w-5"
+              aria-hidden="true"
+            />
             Invitation unavailable
           </h1>
           <CardDescription className="text-muted-foreground text-xs font-medium">

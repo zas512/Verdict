@@ -12,7 +12,8 @@ import { AlertTriangle } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Firm operations overview: associates, attendance, expenses, and upcoming hearings.",
+  description:
+    "Firm operations overview: associates, attendance, expenses, and upcoming hearings.",
   alternates: { canonical: "/dashboard" }
 };
 

@@ -26,14 +26,17 @@ describe("createTenantExtension", () => {
       $executeRawUnsafe: jest.fn().mockResolvedValue(1),
       $queryRawUnsafe: jest.fn().mockResolvedValue([{ v: "firm-1" }]),
       firm: {
-        findMany: modelHandler ?? jest.fn().mockResolvedValue([{ id: "firm-1" }])
+        findMany:
+          modelHandler ?? jest.fn().mockResolvedValue([{ id: "firm-1" }])
       }
     };
     return tx;
   }
 
   function makeBase(tx: ReturnType<typeof makeTx>) {
-    const $transaction = jest.fn(async (cb: (t: typeof tx) => Promise<unknown>) => cb(tx));
+    const $transaction = jest.fn(
+      async (cb: (t: typeof tx) => Promise<unknown>) => cb(tx)
+    );
     return {
       $transaction,
       base: { $transaction } as unknown as PrismaClient
@@ -111,9 +114,9 @@ describe("createTenantExtension", () => {
       "firm-1"
     );
     expect(modelHandler).toHaveBeenCalledWith({ take: 5 });
-    expect(Math.min(...tx.$executeRawUnsafe.mock.invocationCallOrder)).toBeLessThan(
-      modelHandler.mock.invocationCallOrder[0]
-    );
+    expect(
+      Math.min(...tx.$executeRawUnsafe.mock.invocationCallOrder)
+    ).toBeLessThan(modelHandler.mock.invocationCallOrder[0]);
   });
 
   it("fails closed: non-SUPER_ADMIN with null firmId sets app.tenant_id to ''", async () => {
@@ -151,7 +154,13 @@ describe("createTenantExtension", () => {
       () =>
         ext.query.$allOperations({
           operation: "$queryRaw",
-          args: { strings: ["SELECT count(*)::int AS c FROM \"Firm\" WHERE name = ", ""], values: ["Acme"] },
+          args: {
+            strings: [
+              'SELECT count(*)::int AS c FROM "Firm" WHERE name = ',
+              ""
+            ],
+            values: ["Acme"]
+          },
           query: untouchedQuery
         })
     );
@@ -214,8 +223,9 @@ describe("createTenantExtension", () => {
       const ext = createTenantExtension(base);
 
       expect(() =>
-        tenantContext.run({ firmId: "firm-1", userId: "u-1", isSuperAdmin: false }, () =>
-          ext.client.$transaction([Promise.resolve("op")])
+        tenantContext.run(
+          { firmId: "firm-1", userId: "u-1", isSuperAdmin: false },
+          () => ext.client.$transaction([Promise.resolve("op")])
         )
       ).toThrow(/array form/i);
     });
@@ -244,12 +254,14 @@ describe("createTenantExtension", () => {
     const ext = createTenantExtension(base);
 
     await expect(
-      tenantContext.run({ firmId: "firm-1", userId: "u-1", isSuperAdmin: false }, () =>
-        ext.query.$allOperations({
-          operation: "$queryRaw",
-          args: "SELECT 1",
-          query: untouchedQuery
-        })
+      tenantContext.run(
+        { firmId: "firm-1", userId: "u-1", isSuperAdmin: false },
+        () =>
+          ext.query.$allOperations({
+            operation: "$queryRaw",
+            args: "SELECT 1",
+            query: untouchedQuery
+          })
       )
     ).rejects.toThrow(/unexpected arg shape/i);
     expect(untouchedQuery).not.toHaveBeenCalled();
@@ -262,13 +274,15 @@ describe("createTenantExtension", () => {
     const ext = createTenantExtension(base);
 
     await expect(
-      tenantContext.run({ firmId: "firm-1", userId: "u-1", isSuperAdmin: false }, () =>
-        ext.query.$allOperations({
-          model: "Matter",
-          operation: "findMany",
-          args: {},
-          query: untouchedQuery
-        })
+      tenantContext.run(
+        { firmId: "firm-1", userId: "u-1", isSuperAdmin: false },
+        () =>
+          ext.query.$allOperations({
+            model: "Matter",
+            operation: "findMany",
+            args: {},
+            query: untouchedQuery
+          })
       )
     ).rejects.toThrow(/no handler/i);
     expect(untouchedQuery).not.toHaveBeenCalled();

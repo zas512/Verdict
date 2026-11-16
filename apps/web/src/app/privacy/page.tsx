@@ -18,7 +18,7 @@ export default function PrivacyPage() {
           { name: "Home", href: "/" },
           { name: "Privacy Policy", href: "/privacy" }
         ]}
-        className="text-[#0B1221]/60 mb-6 text-xs font-medium"
+        className="mb-6 text-xs font-medium text-[#0B1221]/60"
       />
       <header className="mb-12 border-b border-[#0B1221]/10 pb-8">
         <div className="mb-3 flex items-center gap-3">

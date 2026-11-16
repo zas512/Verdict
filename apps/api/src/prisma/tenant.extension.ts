@@ -125,10 +125,18 @@ function withTenantPin(
   const firmId = ctx.firmId ?? "";
   return base.$transaction(async (tx) => {
     const t = tx as unknown as {
-      $executeRawUnsafe: (text: string, ...values: unknown[]) => Promise<unknown>;
+      $executeRawUnsafe: (
+        text: string,
+        ...values: unknown[]
+      ) => Promise<unknown>;
     };
-    await t.$executeRawUnsafe("SELECT set_config('app.tenant_id', $1, true)", firmId);
-    await t.$executeRawUnsafe("SELECT set_config('app.is_superadmin', 'false', true)");
+    await t.$executeRawUnsafe(
+      "SELECT set_config('app.tenant_id', $1, true)",
+      firmId
+    );
+    await t.$executeRawUnsafe(
+      "SELECT set_config('app.is_superadmin', 'false', true)"
+    );
     return fn(tx);
   }, opts as never);
 }
@@ -145,7 +153,9 @@ export interface TenantExtensionShape {
 /**
  * Builds the extension definition. `base` MUST be an unextended PrismaClient.
  */
-export function createTenantExtension(base: PrismaClient): TenantExtensionShape {
+export function createTenantExtension(
+  base: PrismaClient
+): TenantExtensionShape {
   return {
     query: {
       $allOperations: async (params: AllOperationsArgs) => {
@@ -192,9 +202,12 @@ export function createTenantExtension(base: PrismaClient): TenantExtensionShape 
             );
           }
 
-          const delegate = (tx as unknown as Record<string, Record<string, (a: unknown) => Promise<unknown>>>)[
-            delegateKey(model)
-          ];
+          const delegate = (
+            tx as unknown as Record<
+              string,
+              Record<string, (a: unknown) => Promise<unknown>>
+            >
+          )[delegateKey(model)];
           const handler = delegate?.[operation];
           if (typeof handler !== "function") {
             throw new Error(
@@ -208,7 +221,10 @@ export function createTenantExtension(base: PrismaClient): TenantExtensionShape 
     client: {
       // Prisma dispatches `extended.$transaction(...)` to the `client` block.
       // `this` is the extended client, which we intentionally do NOT call.
-      $transaction: function tenantExtensionTransaction(this: unknown, ...args: unknown[]) {
+      $transaction: function tenantExtensionTransaction(
+        this: unknown,
+        ...args: unknown[]
+      ) {
         const [first, second] = args;
 
         if (Array.isArray(first)) {
@@ -219,10 +235,12 @@ export function createTenantExtension(base: PrismaClient): TenantExtensionShape 
                 "Use the callback form instead."
             );
           }
-          return (base.$transaction as unknown as (a: unknown, o?: unknown) => Promise<unknown>)(
-            first,
-            second
-          );
+          return (
+            base.$transaction as unknown as (
+              a: unknown,
+              o?: unknown
+            ) => Promise<unknown>
+          )(first, second);
         }
 
         if (typeof first !== "function") {

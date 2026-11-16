@@ -5,7 +5,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Set Your Password",
-  description: "First-login setup: choose a new password for your Verdict account.",
+  description:
+    "First-login setup: choose a new password for your Verdict account.",
   // First-login screen behind authentication — keep out of search indexes.
   robots: { index: false, follow: false }
 };

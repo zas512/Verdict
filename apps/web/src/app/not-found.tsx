@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center bg-background px-6 py-24 text-center">
+    <main className="bg-background flex flex-1 flex-col items-center justify-center px-6 py-24 text-center">
       <div className="bg-primary/10 text-primary flex h-14 w-14 items-center justify-center rounded-2xl">
         <Scale className="h-7 w-7" aria-hidden="true" />
       </div>
@@ -33,7 +33,11 @@ export default function NotFound() {
         <Button nativeButton={false} render={<Link href="/" />}>
           Go home
         </Button>
-        <Button variant="outline" nativeButton={false} render={<Link href="/login" />}>
+        <Button
+          variant="outline"
+          nativeButton={false}
+          render={<Link href="/login" />}
+        >
           Sign in
         </Button>
       </div>

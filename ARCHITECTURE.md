@@ -16,15 +16,15 @@ A matter centric practice system for law firms and chambers. Every fact about a 
 
 ### 1.2 Personas
 
-| Persona | Primary jobs | Key screens |
-| --- | --- | --- |
-| Partner or principal | Oversee matters, approve fees and write offs, review outcomes | Dashboard, Matter overview, Finance |
-| Associate advocate | Prepare briefs, appear, draft, record outcomes | Today board, Hearing capture, Documents |
-| Junior or intern | Research, drafting support, filing runs | Tasks, Documents |
-| Clerk (munshi) | Track cause lists, certified copies, receipts, expenses | Cause list inbox, Expenses, Calendar |
-| Accountant | Invoices, client money, reconciliation | Finance |
-| Client | See status, hearing dates, documents, dues | Client portal (V2) |
-| Firm admin | Users, templates, rules, imports | Settings |
+| Persona              | Primary jobs                                                  | Key screens                             |
+| -------------------- | ------------------------------------------------------------- | --------------------------------------- |
+| Partner or principal | Oversee matters, approve fees and write offs, review outcomes | Dashboard, Matter overview, Finance     |
+| Associate advocate   | Prepare briefs, appear, draft, record outcomes                | Today board, Hearing capture, Documents |
+| Junior or intern     | Research, drafting support, filing runs                       | Tasks, Documents                        |
+| Clerk (munshi)       | Track cause lists, certified copies, receipts, expenses       | Cause list inbox, Expenses, Calendar    |
+| Accountant           | Invoices, client money, reconciliation                        | Finance                                 |
+| Client               | See status, hearing dates, documents, dues                    | Client portal (V2)                      |
+| Firm admin           | Users, templates, rules, imports                              | Settings                                |
 
 ### 1.3 Goals and non goals
 
@@ -52,66 +52,66 @@ Non goals for MVP: eFiling into courts (no uniform public API exists), replacing
 
 ### 1.5 Module map
 
-| Module | Scope | Phase |
-| --- | --- | --- |
-| Identity and tenancy | Auth, roles, offices, audit | MVP |
-| CRM | Contacts, organizations, relations, leads, KYC | MVP |
-| Conflicts | Search and decision log | MVP |
-| Matters | Matter, team, parties, engagement, vakalatnama | MVP |
-| Proceedings | Multi forum cases, stages, linking | MVP |
-| Hearings and calendar | Hearings, cause list inbox, reminders, clash detection | MVP |
-| Deadlines | Limitation rules engine, certified copy tracker | Manual deadlines MVP, engine V2 |
-| Tasks | Stage templates, assignments | MVP |
-| Documents | Versions, templates, exhibits, sharing, OCR, compare | Versions MVP, OCR and compare V2 |
-| Finance | Fee arrangements, expenses, invoices, client money, reconciliation | Basic MVP, full V2 |
-| Communications | Logs, WhatsApp, SMS, email | SMS and email MVP, WhatsApp V2 |
-| Client portal | Status, documents, payments | V2 |
-| Reports | Dashboards, outcome analytics | V2 |
-| AI assist | Summaries, voice notes, drafting | V3 |
+| Module                | Scope                                                              | Phase                            |
+| --------------------- | ------------------------------------------------------------------ | -------------------------------- |
+| Identity and tenancy  | Auth, roles, offices, audit                                        | MVP                              |
+| CRM                   | Contacts, organizations, relations, leads, KYC                     | MVP                              |
+| Conflicts             | Search and decision log                                            | MVP                              |
+| Matters               | Matter, team, parties, engagement, vakalatnama                     | MVP                              |
+| Proceedings           | Multi forum cases, stages, linking                                 | MVP                              |
+| Hearings and calendar | Hearings, cause list inbox, reminders, clash detection             | MVP                              |
+| Deadlines             | Limitation rules engine, certified copy tracker                    | Manual deadlines MVP, engine V2  |
+| Tasks                 | Stage templates, assignments                                       | MVP                              |
+| Documents             | Versions, templates, exhibits, sharing, OCR, compare               | Versions MVP, OCR and compare V2 |
+| Finance               | Fee arrangements, expenses, invoices, client money, reconciliation | Basic MVP, full V2               |
+| Communications        | Logs, WhatsApp, SMS, email                                         | SMS and email MVP, WhatsApp V2   |
+| Client portal         | Status, documents, payments                                        | V2                               |
+| Reports               | Dashboards, outcome analytics                                      | V2                               |
+| AI assist             | Summaries, voice notes, drafting                                   | V3                               |
 
 ## 2. Pakistani legal context
 
 ### 2.1 Forum map
 
-| Forum family | Examples | Why it matters to the model |
-| --- | --- | --- |
-| Supreme Court | Principal seat and branch registries | Petitions for leave, appeals, constitutional matters. Own case information system |
-| Federal Shariat Court | Islamabad | Distinct jurisdiction |
-| High Courts | Lahore, Sindh, Peshawar, Balochistan, Islamabad, with benches and circuit benches | Original and appellate sides. Each runs its own cause list system |
-| District and sessions courts | District judge, additional sessions judge, senior civil judge, civil judge, magistrate | Largest volume, civil and criminal |
-| Special courts | Banking, anti terrorism, accountability, customs and tax, consumer, anti corruption | Statute specific procedure |
-| Family and rent | Family court, rent controller | Short statutory timelines |
-| Revenue | Collector, commissioner, Board of Revenue | Land records and mutation |
-| Tribunals | Inland revenue appellate tribunal, service tribunals, labour courts, NIRC | Forum depends on the statute |
-| ADR | Arbitration, mediation | Matters without a court |
+| Forum family                 | Examples                                                                               | Why it matters to the model                                                       |
+| ---------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Supreme Court                | Principal seat and branch registries                                                   | Petitions for leave, appeals, constitutional matters. Own case information system |
+| Federal Shariat Court        | Islamabad                                                                              | Distinct jurisdiction                                                             |
+| High Courts                  | Lahore, Sindh, Peshawar, Balochistan, Islamabad, with benches and circuit benches      | Original and appellate sides. Each runs its own cause list system                 |
+| District and sessions courts | District judge, additional sessions judge, senior civil judge, civil judge, magistrate | Largest volume, civil and criminal                                                |
+| Special courts               | Banking, anti terrorism, accountability, customs and tax, consumer, anti corruption    | Statute specific procedure                                                        |
+| Family and rent              | Family court, rent controller                                                          | Short statutory timelines                                                         |
+| Revenue                      | Collector, commissioner, Board of Revenue                                              | Land records and mutation                                                         |
+| Tribunals                    | Inland revenue appellate tribunal, service tribunals, labour courts, NIRC              | Forum depends on the statute                                                      |
+| ADR                          | Arbitration, mediation                                                                 | Matters without a court                                                           |
 
 ### 2.2 Case number patterns
 
-| Pattern | Example | Stored as |
-| --- | --- | --- |
-| Civil suit | Civil Suit No. 123 of 2025 | caseType CIVIL\_SUIT, number 123, year 2025 |
-| Writ petition | W.P. No. 4567 of 2025 | caseType WRIT\_PETITION |
-| Criminal miscellaneous (bail) | Crl. Misc. No. 890 of 2025 | caseType CRL\_MISC\_BAIL |
-| FIR | FIR No. 214 of 2025, PS Civil Lines, sections 302 and 34 PPC | firNumber, policeStation, sections\[\] |
-| Appeal or revision | R.F.A. No. 12 of 2025, Civil Revision No. 40 of 2025 | by caseType |
-| Petition for leave | C.P.L.A. No. 345 of 2025 | caseType CPLA |
+| Pattern                       | Example                                                      | Stored as                                   |
+| ----------------------------- | ------------------------------------------------------------ | ------------------------------------------- |
+| Civil suit                    | Civil Suit No. 123 of 2025                                   | caseType CIVIL\_SUIT, number 123, year 2025 |
+| Writ petition                 | W.P. No. 4567 of 2025                                        | caseType WRIT\_PETITION                     |
+| Criminal miscellaneous (bail) | Crl. Misc. No. 890 of 2025                                   | caseType CRL\_MISC\_BAIL                    |
+| FIR                           | FIR No. 214 of 2025, PS Civil Lines, sections 302 and 34 PPC | firNumber, policeStation, sections\[\]      |
+| Appeal or revision            | R.F.A. No. 12 of 2025, Civil Revision No. 40 of 2025         | by caseType                                 |
+| Petition for leave            | C.P.L.A. No. 345 of 2025                                     | caseType CPLA                               |
 
 Always keep rawCaseNumber next to the parsed fields. Courts and clerks write them differently.
 
 ### 2.3 Procedure stage templates
 
-| Procedure | Stages |
-| --- | --- |
-| Civil suit | Pre suit notice, Plaint filed, Summons served, Written statement, Replication, Issues framed, Plaintiff evidence, Defendant evidence, Final arguments, Judgment, Decree, Execution |
-| Criminal trial | FIR registered, Investigation, Challan submitted, Bail, Cognizance, Charge framed, Prosecution evidence, Statement of accused, Defence evidence, Final arguments, Verdict, Appeal |
-| Bail application | Filed, Notice to prosecution, Arguments, Order |
-| Writ petition | Drafted, Filed, Notice issued, Comments filed, Rejoinder, Hearing, Order |
-| Family suit | Filing, Pre trial reconciliation, Written statement, Issues, Evidence, Arguments, Decree |
-| Rent | Ejectment petition, Reply, Tentative rent order, Evidence, Order |
-| Bank recovery | Suit, Leave to defend, Evidence, Decree, Execution |
-| Tax tribunal | Appeal filed, Notice, Hearing, Order |
-| Appeal or revision | Memo drafted, Filed, Notice, Hearing, Judgment |
-| Execution | Application, Warrants, Attachment, Auction, Satisfaction |
+| Procedure          | Stages                                                                                                                                                                             |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Civil suit         | Pre suit notice, Plaint filed, Summons served, Written statement, Replication, Issues framed, Plaintiff evidence, Defendant evidence, Final arguments, Judgment, Decree, Execution |
+| Criminal trial     | FIR registered, Investigation, Challan submitted, Bail, Cognizance, Charge framed, Prosecution evidence, Statement of accused, Defence evidence, Final arguments, Verdict, Appeal  |
+| Bail application   | Filed, Notice to prosecution, Arguments, Order                                                                                                                                     |
+| Writ petition      | Drafted, Filed, Notice issued, Comments filed, Rejoinder, Hearing, Order                                                                                                           |
+| Family suit        | Filing, Pre trial reconciliation, Written statement, Issues, Evidence, Arguments, Decree                                                                                           |
+| Rent               | Ejectment petition, Reply, Tentative rent order, Evidence, Order                                                                                                                   |
+| Bank recovery      | Suit, Leave to defend, Evidence, Decree, Execution                                                                                                                                 |
+| Tax tribunal       | Appeal filed, Notice, Hearing, Order                                                                                                                                               |
+| Appeal or revision | Memo drafted, Filed, Notice, Hearing, Judgment                                                                                                                                     |
+| Execution          | Application, Warrants, Attachment, Auction, Satisfaction                                                                                                                           |
 
 Stages are data (StageTemplate) and editable per tenant.
 
@@ -142,16 +142,16 @@ Stages are data (StageTemplate) and editable per tenant.
 
 ## 3. Global benchmark
 
-| Capability | What leading products do | Our stance |
-| --- | --- | --- |
-| Intake and conflicts | Search clients, parties, relatives and affiliates. Log the decision | MVP, add relationship graph in V2 |
-| Deadline rules | Court rules based calendaring with rule versioning | V2, Pakistani rules seeded and counsel verified |
-| Document management | Version history, check out, compare, email filing, retention | Versions MVP. Compare and email filing V2 |
-| Trust accounting | Per client ledgers, three way reconciliation, overdraft block | Ledger MVP, reconciliation V2 |
-| Billing | Time and fixed fee, LEDES for corporate clients, approvals | Fixed, per appearance, retainer. LEDES optional V3 |
-| Client portal | Secure messaging, documents, payments | V2 |
-| Analytics | Profitability, realization, aging | V2 |
-| Audit | Immutable logs | MVP |
+| Capability           | What leading products do                                            | Our stance                                         |
+| -------------------- | ------------------------------------------------------------------- | -------------------------------------------------- |
+| Intake and conflicts | Search clients, parties, relatives and affiliates. Log the decision | MVP, add relationship graph in V2                  |
+| Deadline rules       | Court rules based calendaring with rule versioning                  | V2, Pakistani rules seeded and counsel verified    |
+| Document management  | Version history, check out, compare, email filing, retention        | Versions MVP. Compare and email filing V2          |
+| Trust accounting     | Per client ledgers, three way reconciliation, overdraft block       | Ledger MVP, reconciliation V2                      |
+| Billing              | Time and fixed fee, LEDES for corporate clients, approvals          | Fixed, per appearance, retainer. LEDES optional V3 |
+| Client portal        | Secure messaging, documents, payments                               | V2                                                 |
+| Analytics            | Profitability, realization, aging                                   | V2                                                 |
+| Audit                | Immutable logs                                                      | MVP                                                |
 
 ## 4. Architecture
 
@@ -170,26 +170,26 @@ Start as a modular monolith. Run job workers as a separate process from day one.
 
 ### 4.2 Backend modules
 
-| Module | Responsibility | Key events |
-| --- | --- | --- |
-| Auth | Login, refresh rotation, 2FA, sessions | user.loggedIn |
-| Tenancy | Tenant, offices, plans, settings | tenant.updated |
-| UsersAccess | Users, roles, permissions, matter ACL | access.changed |
-| Contacts | People, organizations, relations, KYC | contact.created |
-| Conflicts | Search and decisions | conflict.decided |
-| Matters | Lifecycle, team, parties, vakalatnama | matter.opened, matter.closed |
-| Proceedings | Cases per forum, stages, links | proceeding.created, stage.changed |
-| Hearings | Hearing records, appearances, orders | hearing.recorded, order.recorded |
-| CauseList | Adapters, inbox, matching | causelist.imported |
-| Deadlines | Rules, computation, certified copies | deadline.created, deadline.due |
-| Tasks | Tasks and templates | task.assigned |
-| Documents | Folders, versions, templates, exhibits, sharing | document.versioned, document.filed |
-| Finance | Fee terms, expenses, journal, invoices, reconciliation | journal.posted, invoice.issued |
-| Comms | Communication log and channels | message.received |
-| Notifications | Rules, delivery, preferences | notification.sent |
-| Reports | KPIs and exports | report.ready |
-| Audit | Append only log | none |
-| Files | Upload, scan, storage keys | file.scanned |
+| Module        | Responsibility                                         | Key events                         |
+| ------------- | ------------------------------------------------------ | ---------------------------------- |
+| Auth          | Login, refresh rotation, 2FA, sessions                 | user.loggedIn                      |
+| Tenancy       | Tenant, offices, plans, settings                       | tenant.updated                     |
+| UsersAccess   | Users, roles, permissions, matter ACL                  | access.changed                     |
+| Contacts      | People, organizations, relations, KYC                  | contact.created                    |
+| Conflicts     | Search and decisions                                   | conflict.decided                   |
+| Matters       | Lifecycle, team, parties, vakalatnama                  | matter.opened, matter.closed       |
+| Proceedings   | Cases per forum, stages, links                         | proceeding.created, stage.changed  |
+| Hearings      | Hearing records, appearances, orders                   | hearing.recorded, order.recorded   |
+| CauseList     | Adapters, inbox, matching                              | causelist.imported                 |
+| Deadlines     | Rules, computation, certified copies                   | deadline.created, deadline.due     |
+| Tasks         | Tasks and templates                                    | task.assigned                      |
+| Documents     | Folders, versions, templates, exhibits, sharing        | document.versioned, document.filed |
+| Finance       | Fee terms, expenses, journal, invoices, reconciliation | journal.posted, invoice.issued     |
+| Comms         | Communication log and channels                         | message.received                   |
+| Notifications | Rules, delivery, preferences                           | notification.sent                  |
+| Reports       | KPIs and exports                                       | report.ready                       |
+| Audit         | Append only log                                        | none                               |
+| Files         | Upload, scan, storage keys                             | file.scanned                       |
 
 ### 4.3 Cross cutting patterns
 
@@ -227,30 +227,30 @@ Apply the same policy to every table that has tenantId. The application role mus
 
 ### 4.6 Background jobs
 
-| Job | Trigger | Notes |
-| --- | --- | --- |
-| causeList.sync | Morning and evening per forum | Adapter with retries and parser tests |
-| reminder.dispatch | Every minute | Sends due reminders |
-| deadline.recompute | Holiday or rule change | Recomputes open deadlines and flags changes |
-| ocr.process | On upload | Backoff retries |
-| search.index | On change | Batched |
-| report.build | Nightly | Refresh materialized views |
-| retention.sweep | Weekly | Flags files past retention |
-| reconcile.remind | Monthly | Prompts the accountant |
-| backup.verify | Daily | Restores a sample |
+| Job                | Trigger                       | Notes                                       |
+| ------------------ | ----------------------------- | ------------------------------------------- |
+| causeList.sync     | Morning and evening per forum | Adapter with retries and parser tests       |
+| reminder.dispatch  | Every minute                  | Sends due reminders                         |
+| deadline.recompute | Holiday or rule change        | Recomputes open deadlines and flags changes |
+| ocr.process        | On upload                     | Backoff retries                             |
+| search.index       | On change                     | Batched                                     |
+| report.build       | Nightly                       | Refresh materialized views                  |
+| retention.sweep    | Weekly                        | Flags files past retention                  |
+| reconcile.remind   | Monthly                       | Prompts the accountant                      |
+| backup.verify      | Daily                         | Restores a sample                           |
 
 ### 4.7 Integrations
 
-| Integration | Use | Phase |
-| --- | --- | --- |
-| Court case status and cause list portals | Adapters per court with manual paste fallback | MVP for two courts, more in V2 |
-| WhatsApp Business API | Reminders to lawyers and clients, inbound logging | V2 |
-| SMS gateway (local aggregator) | Hearing reminders and OTP | MVP |
-| Email | Notices, invoices, inbound filing through a forwarding address | Outbound MVP, inbound V2 |
-| eSignature | Engagement letters and other documents where acceptable | V3 |
-| Payments | Bank transfer reference matching, Raast, wallets | V2 |
-| Accounting export | CSV and journal export | V2 |
-| Calendar | ICS feed, Google and Outlook sync | V2 |
+| Integration                              | Use                                                            | Phase                          |
+| ---------------------------------------- | -------------------------------------------------------------- | ------------------------------ |
+| Court case status and cause list portals | Adapters per court with manual paste fallback                  | MVP for two courts, more in V2 |
+| WhatsApp Business API                    | Reminders to lawyers and clients, inbound logging              | V2                             |
+| SMS gateway (local aggregator)           | Hearing reminders and OTP                                      | MVP                            |
+| Email                                    | Notices, invoices, inbound filing through a forwarding address | Outbound MVP, inbound V2       |
+| eSignature                               | Engagement letters and other documents where acceptable        | V3                             |
+| Payments                                 | Bank transfer reference matching, Raast, wallets               | V2                             |
+| Accounting export                        | CSV and journal export                                         | V2                             |
+| Calendar                                 | ICS feed, Google and Outlook sync                              | V2                             |
 
 ### 4.8 Security architecture (details in section 11)
 
@@ -1121,19 +1121,19 @@ Rules:
 
 Seeded once at deployment, editable per tenant by copying rows down to tenant scope. All are versioned and effective dated where they change legal effect.
 
-| Table | Contents | Phase |
-| --- | --- | --- |
-| Forum | Forum map from section 2.1, with cause list adapter keys and status URLs | MVP |
-| CaseType | Pattern key, abbreviation, procedureCode, forum kinds from section 2.2 | MVP |
-| StageTemplate | One row per procedureCode, ordered stages with expected days and default tasks | MVP |
-| OutcomeType | Outcome codes with level (HEARING, INTERIM, FINAL), result (FAVOURABLE, UNFAVOURABLE, NEUTRAL, PARTIAL) and triggers | MVP |
-| AdjournmentReason | JUDGE_ON_LEAVE, COUNSEL_ABSENT, SERVICE_PENDING, STRIKE, TIME_SOUGHT, NOT_REACHED, OTHER | MVP |
-| LimitationRule | Effective dated limitation rules, `verified = false` until counsel signs off | V2 |
-| Holiday | Normal Pakistani holidays plus per province optional overrides | MVP |
-| DocumentTemplate | Vakalatnama, Section 80 CPC notice, plaint, written statement, certified copy application, power of attorney, affidavit | MVP |
-| NotificationTemplate | Hearing reminder, deadline reminder, invoice notice, certified copy ready, task assignment; English and Urdu bodies | MVP |
-| CourtFeeSchedule | Filing fee by forum, claim value band and province | VERIFY |
-| TaxConfiguration | Withholding and services tax parameters, default off | VERIFY |
+| Table                | Contents                                                                                                                | Phase  |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------ |
+| Forum                | Forum map from section 2.1, with cause list adapter keys and status URLs                                                | MVP    |
+| CaseType             | Pattern key, abbreviation, procedureCode, forum kinds from section 2.2                                                  | MVP    |
+| StageTemplate        | One row per procedureCode, ordered stages with expected days and default tasks                                          | MVP    |
+| OutcomeType          | Outcome codes with level (HEARING, INTERIM, FINAL), result (FAVOURABLE, UNFAVOURABLE, NEUTRAL, PARTIAL) and triggers    | MVP    |
+| AdjournmentReason    | JUDGE_ON_LEAVE, COUNSEL_ABSENT, SERVICE_PENDING, STRIKE, TIME_SOUGHT, NOT_REACHED, OTHER                                | MVP    |
+| LimitationRule       | Effective dated limitation rules, `verified = false` until counsel signs off                                            | V2     |
+| Holiday              | Normal Pakistani holidays plus per province optional overrides                                                          | MVP    |
+| DocumentTemplate     | Vakalatnama, Section 80 CPC notice, plaint, written statement, certified copy application, power of attorney, affidavit | MVP    |
+| NotificationTemplate | Hearing reminder, deadline reminder, invoice notice, certified copy ready, task assignment; English and Urdu bodies     | MVP    |
+| CourtFeeSchedule     | Filing fee by forum, claim value band and province                                                                      | VERIFY |
+| TaxConfiguration     | Withholding and services tax parameters, default off                                                                    | VERIFY |
 
 Rules are data, not code. Editing a limitation rule, a stage template or a fee schedule never requires a deploy; it creates a new version and takes effect from `effectiveFrom`.
 
@@ -1236,30 +1236,30 @@ Drafted from template with the required particulars, served per statutory mode, 
 
 Seeded per tenant, extendable. Accounts are code + name + type (ASSET, LIABILITY, INCOME, EXPENSE, EQUITY) + `isClientMoney` flag.
 
-| Code | Name | Type | Client money |
-| --- | --- | --- | --- |
-| 1000 | Cash on hand | ASSET | no |
-| 1010 | Bank — current | ASSET | no |
-| 1015 | Bank — client money | ASSET | yes |
-| 2000 | Accounts payable | LIABILITY | no |
-| 2100 | Client money held | LIABILITY | yes |
-| 3000 | Owner equity | EQUITY | no |
-| 4000 | Advocate fees — appearances | INCOME | no |
-| 4010 | Advocate fees — stages | INCOME | no |
-| 4020 | Advocate fees — retainer | INCOME | no |
-| 4030 | Advocate fees — lump sum | INCOME | no |
-| 5000 | Office expenses | EXPENSE | no |
-| 5010 | Disbursements recoverable | EXPENSE | no |
-| 1100 | Accounts receivable | ASSET | no |
+| Code | Name                        | Type      | Client money |
+| ---- | --------------------------- | --------- | ------------ |
+| 1000 | Cash on hand                | ASSET     | no           |
+| 1010 | Bank — current              | ASSET     | no           |
+| 1015 | Bank — client money         | ASSET     | yes          |
+| 2000 | Accounts payable            | LIABILITY | no           |
+| 2100 | Client money held           | LIABILITY | yes          |
+| 3000 | Owner equity                | EQUITY    | no           |
+| 4000 | Advocate fees — appearances | INCOME    | no           |
+| 4010 | Advocate fees — stages      | INCOME    | no           |
+| 4020 | Advocate fees — retainer    | INCOME    | no           |
+| 4030 | Advocate fees — lump sum    | INCOME    | no           |
+| 5000 | Office expenses             | EXPENSE   | no           |
+| 5010 | Disbursements recoverable   | EXPENSE   | no           |
+| 1100 | Accounts receivable         | ASSET     | no           |
 
 ### 8.3 Fee models and posting rules
 
-| Model | Trigger | Journal entry |
-| --- | --- | --- |
-| PER_APPEARANCE | Hearing recorded with appearance by an advocate with a fee in the FeeArrangement | Debit AR or client money (if in credit), credit 4000 |
-| PER_STAGE | Stage change confirmed by user | Debit AR or client money, credit 4010 |
-| LUMP_SUM | Milestone percent configured (on filing, on evidence, on judgment) recorded by user | As configured per milestone |
-| RETAINER | Monthly, in advance | Debit client money or AR, credit 4020 |
+| Model          | Trigger                                                                             | Journal entry                                        |
+| -------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| PER_APPEARANCE | Hearing recorded with appearance by an advocate with a fee in the FeeArrangement    | Debit AR or client money (if in credit), credit 4000 |
+| PER_STAGE      | Stage change confirmed by user                                                      | Debit AR or client money, credit 4010                |
+| LUMP_SUM       | Milestone percent configured (on filing, on evidence, on judgment) recorded by user | As configured per milestone                          |
+| RETAINER       | Monthly, in advance                                                                 | Debit client money or AR, credit 4020                |
 
 ### 8.4 Invoice states
 
@@ -1289,24 +1289,24 @@ Bank statement (imported CSV) vs client money ledger (sum of client balances) vs
 
 ### 9.2 Core endpoint families
 
-| Family | Endpoints (shape) | Phase |
-| --- | --- | --- |
-| Auth | `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`, `POST /auth/totp/verify`, `GET /auth/sessions`, `DELETE /auth/sessions/:id` | MVP |
-| Tenancy and users | `/tenants/me`, `/offices`, `/users`, `/invites`, `/roles`, `/permissions` | MVP |
-| Contacts | `/contacts`, `/contacts/:id/relations`, `/contacts/:id/kyc` | MVP |
-| Leads and conflicts | `/leads`, `/leads/:id/convert`, `POST /conflicts/check`, `POST /conflicts/:id/decision` | MVP |
-| Matters | `/matters`, `/matters/:id/team`, `/matters/:id/parties`, `/matters/:id/access`, `/matters/:id/close` | MVP |
-| Proceedings | `/proceedings`, `/proceedings/:id/stages`, `POST /proceedings/:id/links` | MVP |
-| Hearings | `POST /hearings`, `POST /hearings/:id/outcome` (one-tap capture), `GET /hearings/today`, `POST /hearings/clash-check` | MVP |
-| Cause list | `/cause-lists/inbox`, `POST /cause-lists/import`, `POST /cause-lists/:id/match`, `POST /cause-lists/:id/ignore` | MVP (two courts) |
-| Deadlines | `/deadlines`, `POST /deadlines/:id/confirm`, `POST /deadlines/:id/waive` | MVP manual, V2 engine |
-| Tasks | `/tasks`, `/tasks/:id/notes`, `/tasks/:id/complete` | MVP |
-| Documents | `POST /documents/:id/versions` (presign flow), `POST /documents/:id/versions/confirm`, `POST /shared-links`, `GET /documents/:id/download` | MVP |
-| Finance | `/fee-arrangements`, `/invoices`, `POST /invoices/:id/issue`, `POST /invoices/:id/allocations`, `POST /journal/entries`, `POST /journal/entries/:id/reverse`, `GET /reports/client-ledger/:clientId` | Basic MVP |
-| Communications | `/communications`, `/communications/inbound` (provider webhook), `/notification-templates` | MVP SMS and email |
-| Reports | `/reports/kpi`, `/reports/aging`, `/reports/realization`, `GET /reports/:id/export` | V2 |
-| Client portal | `/portal/me`, `/portal/hearings`, `/portal/invoices`, `/portal/documents` | V2 |
-| AI | `/ai/summarize`, `/ai/query`, `/ai/voice-notes` | V3, flagged |
+| Family              | Endpoints (shape)                                                                                                                                                                                    | Phase                 |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Auth                | `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`, `POST /auth/totp/verify`, `GET /auth/sessions`, `DELETE /auth/sessions/:id`                                                           | MVP                   |
+| Tenancy and users   | `/tenants/me`, `/offices`, `/users`, `/invites`, `/roles`, `/permissions`                                                                                                                            | MVP                   |
+| Contacts            | `/contacts`, `/contacts/:id/relations`, `/contacts/:id/kyc`                                                                                                                                          | MVP                   |
+| Leads and conflicts | `/leads`, `/leads/:id/convert`, `POST /conflicts/check`, `POST /conflicts/:id/decision`                                                                                                              | MVP                   |
+| Matters             | `/matters`, `/matters/:id/team`, `/matters/:id/parties`, `/matters/:id/access`, `/matters/:id/close`                                                                                                 | MVP                   |
+| Proceedings         | `/proceedings`, `/proceedings/:id/stages`, `POST /proceedings/:id/links`                                                                                                                             | MVP                   |
+| Hearings            | `POST /hearings`, `POST /hearings/:id/outcome` (one-tap capture), `GET /hearings/today`, `POST /hearings/clash-check`                                                                                | MVP                   |
+| Cause list          | `/cause-lists/inbox`, `POST /cause-lists/import`, `POST /cause-lists/:id/match`, `POST /cause-lists/:id/ignore`                                                                                      | MVP (two courts)      |
+| Deadlines           | `/deadlines`, `POST /deadlines/:id/confirm`, `POST /deadlines/:id/waive`                                                                                                                             | MVP manual, V2 engine |
+| Tasks               | `/tasks`, `/tasks/:id/notes`, `/tasks/:id/complete`                                                                                                                                                  | MVP                   |
+| Documents           | `POST /documents/:id/versions` (presign flow), `POST /documents/:id/versions/confirm`, `POST /shared-links`, `GET /documents/:id/download`                                                           | MVP                   |
+| Finance             | `/fee-arrangements`, `/invoices`, `POST /invoices/:id/issue`, `POST /invoices/:id/allocations`, `POST /journal/entries`, `POST /journal/entries/:id/reverse`, `GET /reports/client-ledger/:clientId` | Basic MVP             |
+| Communications      | `/communications`, `/communications/inbound` (provider webhook), `/notification-templates`                                                                                                           | MVP SMS and email     |
+| Reports             | `/reports/kpi`, `/reports/aging`, `/reports/realization`, `GET /reports/:id/export`                                                                                                                  | V2                    |
+| Client portal       | `/portal/me`, `/portal/hearings`, `/portal/invoices`, `/portal/documents`                                                                                                                            | V2                    |
+| AI                  | `/ai/summarize`, `/ai/query`, `/ai/voice-notes`                                                                                                                                                      | V3, flagged           |
 
 ### 9.3 Webhooks and provider callbacks
 
@@ -1416,16 +1416,16 @@ SMS (local aggregator, e.g. Telenor/Jazz Business or equivalent), email (SES/Pos
 
 ### 12.2 Event to template map
 
-| Event | Template code | Default recipients | Cadence |
-| --- | --- | --- | --- |
-| Hearing in 3/1/0 days | HEARING_REMINDER | Matter team + client (if opted in) | T-3, T-1, day-of 08:00 |
-| Deadline in 7/3/1 days | DEADLINE_REMINDER | Assignee + lead partner | T-7, T-3, T-1 |
-| Deadline breached | DEADLINE_BREACHED | Assignee + lead partner + admin | nightly |
-| Certified copy ready/received | COPY_READY, COPY_RECEIVED | Requesting clerk + matter team | immediate |
-| Invoice issued / overdue | INVOICE_ISSUED, INVOICE_OVERDUE | Client contact | issue; overdue day 7/14/30 |
-| Task assigned | TASK_ASSIGNED | Assignee | immediate |
-| Stage changed | STAGE_CHANGED | Matter team | immediate |
-| Cause list entry matched | CAUSELIST_MATCHED | Assigned counsel | on import |
+| Event                         | Template code                   | Default recipients                 | Cadence                    |
+| ----------------------------- | ------------------------------- | ---------------------------------- | -------------------------- |
+| Hearing in 3/1/0 days         | HEARING_REMINDER                | Matter team + client (if opted in) | T-3, T-1, day-of 08:00     |
+| Deadline in 7/3/1 days        | DEADLINE_REMINDER               | Assignee + lead partner            | T-7, T-3, T-1              |
+| Deadline breached             | DEADLINE_BREACHED               | Assignee + lead partner + admin    | nightly                    |
+| Certified copy ready/received | COPY_READY, COPY_RECEIVED       | Requesting clerk + matter team     | immediate                  |
+| Invoice issued / overdue      | INVOICE_ISSUED, INVOICE_OVERDUE | Client contact                     | issue; overdue day 7/14/30 |
+| Task assigned                 | TASK_ASSIGNED                   | Assignee                           | immediate                  |
+| Stage changed                 | STAGE_CHANGED                   | Matter team                        | immediate                  |
+| Cause list entry matched      | CAUSELIST_MATCHED               | Assigned counsel                   | on import                  |
 
 ### 12.3 Rules and guarantees
 
@@ -1459,16 +1459,16 @@ Reuse the separate AI service (`apps/ai`, FastAPI + RAG) behind the Nest `/ai/*`
 
 ### 14.1 KPIs (V2)
 
-| KPI | Definition |
-| --- | --- |
-| Hearings held vs scheduled | by forum, by partner |
-| Average adjournments per matter | by cause code |
-| Realization rate | fees invoiced vs fees collected per client |
-| Aging | AR by bucket 0-30/31-60/61-90/90+ |
-| Workload | open tasks and upcoming hearings per associate |
-| Outcome analytics | FAVOURABLE/UNFAVOURABLE/NEUTRAL/PARTIAL by case type and forum |
-| Deadline safety | open vs breached; % confirmed by lawyer |
-| Client money | balances, aging of unapplied advances |
+| KPI                             | Definition                                                     |
+| ------------------------------- | -------------------------------------------------------------- |
+| Hearings held vs scheduled      | by forum, by partner                                           |
+| Average adjournments per matter | by cause code                                                  |
+| Realization rate                | fees invoiced vs fees collected per client                     |
+| Aging                           | AR by bucket 0-30/31-60/61-90/90+                              |
+| Workload                        | open tasks and upcoming hearings per associate                 |
+| Outcome analytics               | FAVOURABLE/UNFAVOURABLE/NEUTRAL/PARTIAL by case type and forum |
+| Deadline safety                 | open vs breached; % confirmed by lawyer                        |
+| Client money                    | balances, aging of unapplied advances                          |
 
 ### 14.2 Delivery
 
@@ -1516,35 +1516,35 @@ Every phase additive; dual-read compat facades where old screens read legacy fie
 
 Cross-reference: blueprint (this file) vs code as of 12 Nov 2026.
 
-| Area | Blueprint | Code today | Action |
-| --- | --- | --- | --- |
-| Tenancy | RLS + set_config + policy test | app-level `firmId` scoping only; no RLS | Phase 1 |
-| MatterAccess | READ/WRITE/MANAGE + RESTRICTED | not present | Phase 1 |
-| Refresh tokens | rotation family + reuse detection | `refreshTokenHash` single, no family | Phase 1 |
-| Sessions | device list, remote revoke | not present | Phase 1 |
-| Idempotency | `Idempotency-Key` on money/capture | not present | Phase 1 |
-| Proceedings | full model with links/FIR/stages | flattened on Matter (court, courtCaseNumber) | Phase 2 |
-| Stage templates | StageTemplate with defaultTasks | CourtStage (name/order only) | Phase 2 (additive, keep CourtStage read-compat) |
-| Conflict check | ConflictCheck decision log | `AuditLog` action string only | Phase 2 |
-| Leads | Lead → CONFLICT_CHECK → convert | Lead exists in DB; schema drift now fixed | Phase 2 (wire screens) |
-| One-tap capture | outcome → next date flow | Log Outcome dialog exists, no reason/next-date bundling | Phase 3 |
-| Cause list | adapters + inbox + manual paste | not present | Phase 4 |
-| Limitation | rules engine (V2) | none | Phase 4/V2 |
-| Certified copies | CertifiedCopy model | none | Phase 4 |
-| Documents | presigned confirm pipeline + OCR/SHA/virus | Cloudinary signed uploads; no scan/hash/OCR | Phase 5 |
-| Journal/finance | double-entry + client money | expenses + payroll-ish only; no journal | Phase 6 |
-| Invoices | invoice + allocations + withholding | none | Phase 6 |
-| Notifications | dispatcher + reminders T-3/T-1 | `NotificationsService` logs stub | Phase 6 |
-| Client portal | V2 | none | Phase 7 |
-| ICS feed | V2 | none | Phase 7 |
-| Reports | KPI materialized views | expense charts only | Phase 7/V2 |
-| Audit partitioning | monthly partitions | single table, sparse coverage | Phase 1 |
-| Outbox | OutboxEvent | none | Phase 1 |
-| Search | FTS + trigram | none | Phase 5 |
-| RTL/Urdu UI | full bilingual | English only | Phase 2+ |
-| PWA offline capture | V2 | none | Phase 3 |
-| AI | V3 flagged | AI chat RAG exists (own service) | Phase 8 keep |
-| Dialer | out of scope-ish | WebRTC demo, hardcoded SIP creds | remove creds or feature-flag |
+| Area                | Blueprint                                  | Code today                                              | Action                                          |
+| ------------------- | ------------------------------------------ | ------------------------------------------------------- | ----------------------------------------------- |
+| Tenancy             | RLS + set_config + policy test             | app-level `firmId` scoping only; no RLS                 | Phase 1                                         |
+| MatterAccess        | READ/WRITE/MANAGE + RESTRICTED             | not present                                             | Phase 1                                         |
+| Refresh tokens      | rotation family + reuse detection          | `refreshTokenHash` single, no family                    | Phase 1                                         |
+| Sessions            | device list, remote revoke                 | not present                                             | Phase 1                                         |
+| Idempotency         | `Idempotency-Key` on money/capture         | not present                                             | Phase 1                                         |
+| Proceedings         | full model with links/FIR/stages           | flattened on Matter (court, courtCaseNumber)            | Phase 2                                         |
+| Stage templates     | StageTemplate with defaultTasks            | CourtStage (name/order only)                            | Phase 2 (additive, keep CourtStage read-compat) |
+| Conflict check      | ConflictCheck decision log                 | `AuditLog` action string only                           | Phase 2                                         |
+| Leads               | Lead → CONFLICT_CHECK → convert            | Lead exists in DB; schema drift now fixed               | Phase 2 (wire screens)                          |
+| One-tap capture     | outcome → next date flow                   | Log Outcome dialog exists, no reason/next-date bundling | Phase 3                                         |
+| Cause list          | adapters + inbox + manual paste            | not present                                             | Phase 4                                         |
+| Limitation          | rules engine (V2)                          | none                                                    | Phase 4/V2                                      |
+| Certified copies    | CertifiedCopy model                        | none                                                    | Phase 4                                         |
+| Documents           | presigned confirm pipeline + OCR/SHA/virus | Cloudinary signed uploads; no scan/hash/OCR             | Phase 5                                         |
+| Journal/finance     | double-entry + client money                | expenses + payroll-ish only; no journal                 | Phase 6                                         |
+| Invoices            | invoice + allocations + withholding        | none                                                    | Phase 6                                         |
+| Notifications       | dispatcher + reminders T-3/T-1             | `NotificationsService` logs stub                        | Phase 6                                         |
+| Client portal       | V2                                         | none                                                    | Phase 7                                         |
+| ICS feed            | V2                                         | none                                                    | Phase 7                                         |
+| Reports             | KPI materialized views                     | expense charts only                                     | Phase 7/V2                                      |
+| Audit partitioning  | monthly partitions                         | single table, sparse coverage                           | Phase 1                                         |
+| Outbox              | OutboxEvent                                | none                                                    | Phase 1                                         |
+| Search              | FTS + trigram                              | none                                                    | Phase 5                                         |
+| RTL/Urdu UI         | full bilingual                             | English only                                            | Phase 2+                                        |
+| PWA offline capture | V2                                         | none                                                    | Phase 3                                         |
+| AI                  | V3 flagged                                 | AI chat RAG exists (own service)                        | Phase 8 keep                                    |
+| Dialer              | out of scope-ish                           | WebRTC demo, hardcoded SIP creds                        | remove creds or feature-flag                    |
 
 ## 17. Glossary and sources
 
@@ -1579,5 +1579,4 @@ Cross-reference: blueprint (this file) vs code as of 12 Nov 2026.
 
 ---
 
-*Reconstruction notice:* Sections 5.9–17 were authored on 12 November 2026 from sections 1–5.8 and the team's implementation notes, not recovered from the original source document. Legal-rule content marked VERIFY requires counsel sign-off before it is encoded as default behavior. The frontend, API and delivery plan reflect the repository as inspected on the same date.
-
+_Reconstruction notice:_ Sections 5.9–17 were authored on 12 November 2026 from sections 1–5.8 and the team's implementation notes, not recovered from the original source document. Legal-rule content marked VERIFY requires counsel sign-off before it is encoded as default behavior. The frontend, API and delivery plan reflect the repository as inspected on the same date.

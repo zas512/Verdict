@@ -15,7 +15,7 @@ const SEGMENT_LABELS: Record<string, string> = {
   expenses: "Expenses",
   platform: "Platform",
   search: "Search",
-  team: "Team",
+  team: "Team"
 };
 
 /**

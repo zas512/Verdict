@@ -1,7 +1,11 @@
 import { ExecutionContext, ForbiddenException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { PermissionGuard } from "./permission.guard";
-import { ALL_PERMISSIONS, ROLE_PERMISSIONS, permissionsForRole } from "../permissions";
+import {
+  ALL_PERMISSIONS,
+  ROLE_PERMISSIONS,
+  permissionsForRole
+} from "../permissions";
 import { UserRole } from "../../../generated/prisma/enums";
 
 describe("permissionsForRole", () => {
@@ -69,11 +73,15 @@ describe("PermissionGuard", () => {
   }
 
   it("allows @Public() routes without checking permissions", () => {
-    expect(guard.canActivate(httpContext(undefined, ["finance.post"], true))).toBe(true);
+    expect(
+      guard.canActivate(httpContext(undefined, ["finance.post"], true))
+    ).toBe(true);
   });
 
   it("allows routes that declare no @Permissions()", () => {
-    expect(guard.canActivate(httpContext({ sub: "u", role: UserRole.ASSOCIATE }))).toBe(true);
+    expect(
+      guard.canActivate(httpContext({ sub: "u", role: UserRole.ASSOCIATE }))
+    ).toBe(true);
   });
 
   it("allows an OWNER to post finances", () => {
@@ -87,19 +95,19 @@ describe("PermissionGuard", () => {
   it("allows an ADMIN to post finances but not to manage users", () => {
     const admin = { sub: "u", role: UserRole.ADMIN, firmId: "firm-1" };
     expect(guard.canActivate(httpContext(admin, ["finance.post"]))).toBe(true);
-    expect(() => guard.canActivate(httpContext(admin, ["user.manage"]))).toThrow(
-      ForbiddenException
-    );
+    expect(() =>
+      guard.canActivate(httpContext(admin, ["user.manage"]))
+    ).toThrow(ForbiddenException);
   });
 
   it("denies an ASSOCIATE the finance bundle entirely", () => {
     const assoc = { sub: "u", role: UserRole.ASSOCIATE, firmId: "firm-1" };
-    expect(() => guard.canActivate(httpContext(assoc, ["finance.post"]))).toThrow(
-      ForbiddenException
-    );
-    expect(() => guard.canActivate(httpContext(assoc, ["finance.read"]))).toThrow(
-      ForbiddenException
-    );
+    expect(() =>
+      guard.canActivate(httpContext(assoc, ["finance.post"]))
+    ).toThrow(ForbiddenException);
+    expect(() =>
+      guard.canActivate(httpContext(assoc, ["finance.read"]))
+    ).toThrow(ForbiddenException);
   });
 
   it("denies when the role is missing", () => {

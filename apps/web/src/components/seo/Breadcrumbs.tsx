@@ -22,7 +22,9 @@ export function Breadcrumbs({
   if (items.length === 0) return null;
 
   const toAbsolute = (href: string) =>
-    href.startsWith("http") ? href : `${siteUrl}${href.startsWith("/") ? href : `/${href}`}`;
+    href.startsWith("http")
+      ? href
+      : `${siteUrl}${href.startsWith("/") ? href : `/${href}`}`;
 
   const schema = {
     "@context": "https://schema.org",
@@ -45,14 +47,20 @@ export function Breadcrumbs({
           {items.map((item, index) => {
             const isLast = index === items.length - 1;
             return (
-              <li key={`${item.href}-${index}`} className="flex items-center gap-1.5">
+              <li
+                key={`${item.href}-${index}`}
+                className="flex items-center gap-1.5"
+              >
                 {index > 0 && <span aria-hidden="true">/</span>}
                 {isLast ? (
                   <span aria-current="page" className="text-foreground/80">
                     {item.name}
                   </span>
                 ) : (
-                  <Link href={item.href} className="hover:text-foreground hover:underline">
+                  <Link
+                    href={item.href}
+                    className="hover:text-foreground hover:underline"
+                  >
                     {item.name}
                   </Link>
                 )}

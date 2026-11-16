@@ -18,7 +18,9 @@ export async function generateMetadata({
   try {
     const res = await backendFetch(`/matters/${id}`);
     if (res.ok) {
-      const matter = (await res.json().catch(() => null)) as MatterSummary | null;
+      const matter = (await res
+        .json()
+        .catch(() => null)) as MatterSummary | null;
       const label = matter?.firmCaseNumber ?? matter?.clientName;
       if (label) {
         return {

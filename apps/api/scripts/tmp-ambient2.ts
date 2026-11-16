@@ -4,15 +4,23 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { tenantContext } from "../src/common/tenant-context";
 
 const url = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
-if (!url) { console.error("No DB url"); process.exit(2); }
+if (!url) {
+  console.error("No DB url");
+  process.exit(2);
+}
 
-const base = new PrismaClient({ adapter: new PrismaPg({ connectionString: url }) });
+const base = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: url })
+});
 
 const probe = {
   name: "ambient2",
   query: {
     $allOperations: async (params: any) => {
-      if (params.operation === "$queryRaw" || params.operation === "$executeRaw") {
+      if (
+        params.operation === "$queryRaw" ||
+        params.operation === "$executeRaw"
+      ) {
         console.log(`raw op seen by extension: ${params.operation}`);
         return params.query(params.args);
       }
@@ -24,13 +32,16 @@ const probe = {
 async function main() {
   const extended: any = base.$extends(probe as never);
   try {
-    const out = await tenantContext.run({ firmId: "amb", userId: "u", isSuperAdmin: false }, () =>
-      extended.$transaction(async (tx: any) => {
-        await tx.$executeRaw`SELECT set_config('app.probe_marker', 'ambient-ok', true)`;
-        // tx is the itx client — does the extension see ops here?
-        const rows = await tx.$queryRaw`SELECT current_setting('app.probe_marker', true) AS v`;
-        return rows[0]?.v ?? null;
-      })
+    const out = await tenantContext.run(
+      { firmId: "amb", userId: "u", isSuperAdmin: false },
+      () =>
+        extended.$transaction(async (tx: any) => {
+          await tx.$executeRaw`SELECT set_config('app.probe_marker', 'ambient-ok', true)`;
+          // tx is the itx client — does the extension see ops here?
+          const rows =
+            await tx.$queryRaw`SELECT current_setting('app.probe_marker', true) AS v`;
+          return rows[0]?.v ?? null;
+        })
     );
     console.log("final marker:", JSON.stringify(out));
   } catch (e) {
@@ -38,4 +49,7 @@ async function main() {
   }
   await base.$disconnect();
 }
-main().catch((e) => { console.error(e instanceof Error ? `${e.name}: ${e.message}` : e); process.exit(2); });
+main().catch((e) => {
+  console.error(e instanceof Error ? `${e.name}: ${e.message}` : e);
+  process.exit(2);
+});

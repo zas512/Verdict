@@ -34,7 +34,10 @@ export default async function RegisterPage({
           Ask your firm administrator to send you an invite link to get started.
         </p>
         <p className="text-muted-foreground text-xs">
-          <Link href="/login" className="text-foreground font-semibold underline underline-offset-2">
+          <Link
+            href="/login"
+            className="text-foreground font-semibold underline underline-offset-2"
+          >
             Back to sign in
           </Link>
         </p>

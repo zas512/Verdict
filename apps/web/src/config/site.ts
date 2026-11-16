@@ -3,8 +3,7 @@
  * the fallback is fine for local development.
  */
 export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-  "http://localhost:3000"
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000"
 ).replace(/\/+$/, "");
 
 export const siteName = "Verdict";

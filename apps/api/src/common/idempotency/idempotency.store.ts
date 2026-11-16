@@ -67,10 +67,7 @@ const MAX_ENTRIES = 10_000;
 export class InMemoryIdempotencyStore implements IdempotencyStore {
   private readonly entries = new Map<string, MemoryEntry>();
 
-  async begin(
-    scopedKey: string,
-    requestHash: string
-  ): Promise<BeginResult> {
+  async begin(scopedKey: string, requestHash: string): Promise<BeginResult> {
     this.sweep();
     const existing = this.entries.get(scopedKey);
 

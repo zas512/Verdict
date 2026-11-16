@@ -1,11 +1,17 @@
 import { ClassSerializerInterceptor, Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
+import {
+  APP_FILTER,
+  APP_GUARD,
+  APP_INTERCEPTOR,
+  Reflector
+} from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AllExceptionsFilter } from "./common/filters/all-exceptions.filter";
 import { LoggingInterceptor } from "./common/interceptors/logging.interceptor";
+import { TenantContextInterceptor } from "./common/interceptors/tenant-context.interceptor";
 import { IdempotencyInterceptor } from "./common/interceptors/idempotency.interceptor";
 import {
   IDEMPOTENCY_STORE,
@@ -67,6 +73,7 @@ import { PrismaModule } from "./prisma/prisma.module";
   ],
   controllers: [AppController],
   providers: [
+    Reflector,
     AppService,
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_GUARD, useClass: AccessTokenGuard },

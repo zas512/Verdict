@@ -22,7 +22,6 @@ describe("TenantContextInterceptor", () => {
     } as unknown as ExecutionContext;
   }
 
-
   it("binds firmId, userId and role for an authenticated caller", async () => {
     let observed: ReturnType<typeof currentTenant>;
     const handler: CallHandler = {
@@ -62,7 +61,11 @@ describe("TenantContextInterceptor", () => {
       )
     );
 
-    expect(observed).toEqual({ firmId: null, userId: "root", isSuperAdmin: true });
+    expect(observed).toEqual({
+      firmId: null,
+      userId: "root",
+      isSuperAdmin: true
+    });
   });
 
   it("does not leak the store after the request completes", async () => {

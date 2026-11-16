@@ -45,7 +45,9 @@ function newClient() {
 async function main() {
   let failures = 0;
   const check = (label: string, ok: boolean, detail?: unknown) => {
-    console.log(`${ok ? "PASS" : "FAIL"}  ${label}${detail !== undefined ? `  [${JSON.stringify(detail)}]` : ""}`);
+    console.log(
+      `${ok ? "PASS" : "FAIL"}  ${label}${detail !== undefined ? `  [${JSON.stringify(detail)}]` : ""}`
+    );
     if (!ok) failures += 1;
   };
 
@@ -53,14 +55,27 @@ async function main() {
 
   // 1. set_config inside a tx is visible inside it
   await plain.$transaction(async (tx) => {
-    const raw = await tx.$executeRaw`SELECT set_config('app.tenant_id', 'smoke-firm-1', true)`;
-    const rows = await tx.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`;
-    check("set_config propagates inside the transaction", rows[0]?.v === "smoke-firm-1", { returned: raw, v: rows[0]?.v });
+    const raw =
+      await tx.$executeRaw`SELECT set_config('app.tenant_id', 'smoke-firm-1', true)`;
+    const rows = await tx.$queryRaw<
+      [{ v: string | null }]
+    >`SELECT current_setting('app.tenant_id', true) AS v`;
+    check(
+      "set_config propagates inside the transaction",
+      rows[0]?.v === "smoke-firm-1",
+      { returned: raw, v: rows[0]?.v }
+    );
   });
 
   // 2. no leak outside the transaction
-  const after = await plain.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`;
-  check("setting does NOT leak outside the transaction", (after[0]?.v ?? "") === "", { v: after[0]?.v });
+  const after = await plain.$queryRaw<
+    [{ v: string | null }]
+  >`SELECT current_setting('app.tenant_id', true) AS v`;
+  check(
+    "setting does NOT leak outside the transaction",
+    (after[0]?.v ?? "") === "",
+    { v: after[0]?.v }
+  );
 
   // 3/4/5. the extension path
   const base = newClient();
@@ -71,45 +86,79 @@ async function main() {
   // callback runs after the ALS store is gone and passes through unpinned.
   const scoped = await tenantContext.run(
     { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
-    async () => extended.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`
+    async () =>
+      extended.$queryRaw<
+        [{ v: string | null }]
+      >`SELECT current_setting('app.tenant_id', true) AS v`
   );
-  check("raw op through the extension sees the pinned tenant id", scoped[0]?.v === "smoke-firm-1", { v: scoped[0]?.v });
+  check(
+    "raw op through the extension sees the pinned tenant id",
+    scoped[0]?.v === "smoke-firm-1",
+    { v: scoped[0]?.v }
+  );
 
-  const unscoped = await tenantContext.run(
-    { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
-    async () => undefined
-  ).then(() => extended.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`);
-  check("raw op outside tenant context runs WITHOUT set_config", (unscoped[0]?.v ?? "") === "", { v: unscoped[0]?.v });
+  const unscoped = await tenantContext
+    .run(
+      { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
+      async () => undefined
+    )
+    .then(
+      () =>
+        extended.$queryRaw<
+          [{ v: string | null }]
+        >`SELECT current_setting('app.tenant_id', true) AS v`
+    );
+  check(
+    "raw op outside tenant context runs WITHOUT set_config",
+    (unscoped[0]?.v ?? "") === "",
+    { v: unscoped[0]?.v }
+  );
 
   const scopedModel = await tenantContext.run(
     { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
     async () => extended.firm.findMany({ take: 1, select: { id: true } })
   );
-  check("model op through the extension returns without recursion/hang", Array.isArray(scopedModel));
+  check(
+    "model op through the extension returns without recursion/hang",
+    Array.isArray(scopedModel)
+  );
 
   // 6. superadmin passthrough leaves the setting untouched
   const sa = await tenantContext.run(
     { firmId: null, userId: "smoke-root", isSuperAdmin: true },
-    async () => extended.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`
+    async () =>
+      extended.$queryRaw<
+        [{ v: string | null }]
+      >`SELECT current_setting('app.tenant_id', true) AS v`
   );
-  check("SUPER_ADMIN passes through without pinning", (sa[0]?.v ?? "") === "", { v: sa[0]?.v });
+  check("SUPER_ADMIN passes through without pinning", (sa[0]?.v ?? "") === "", {
+    v: sa[0]?.v
+  });
 
   // 7. the outer itx from `extended.$transaction(cb)` is itself pinned
   const outerPinned = await tenantContext.run(
     { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
     async () =>
       extended.$transaction(async (tx) => {
-        const rows = await tx.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`;
+        const rows = await tx.$queryRaw<
+          [{ v: string | null }]
+        >`SELECT current_setting('app.tenant_id', true) AS v`;
         return rows[0]?.v;
       })
   );
-  check("outer $transaction callback runs with the tenant pinned", outerPinned === "smoke-firm-1", { v: outerPinned });
+  check(
+    "outer $transaction callback runs with the tenant pinned",
+    outerPinned === "smoke-firm-1",
+    { v: outerPinned }
+  );
 
   // 8. model op inside `extended.$transaction(cb)` (tx client) works and is read through the itx
   const inItx = await tenantContext.run(
     { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
     async () =>
-      extended.$transaction(async (tx) => tx.firm.findMany({ take: 1, select: { id: true } }))
+      extended.$transaction(async (tx) =>
+        tx.firm.findMany({ take: 1, select: { id: true } })
+      )
   );
   check("model op inside extended.$transaction returns", Array.isArray(inItx));
 
@@ -118,11 +167,17 @@ async function main() {
     { firmId: "smoke-firm-1", userId: "smoke-user", isSuperAdmin: false },
     async () =>
       extended.$transaction(async () => {
-        const rows = await extended.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`;
+        const rows = await extended.$queryRaw<
+          [{ v: string | null }]
+        >`SELECT current_setting('app.tenant_id', true) AS v`;
         return rows[0]?.v;
       })
   );
-  check("root-style extended.* op inside a callback is still tenant-pinned", rootInCb === "smoke-firm-1", { v: rootInCb });
+  check(
+    "root-style extended.* op inside a callback is still tenant-pinned",
+    rootInCb === "smoke-firm-1",
+    { v: rootInCb }
+  );
 
   // 10. array-form $transaction rejected in tenant scope (fail closed)
   let arrayErr: string | null = null;
@@ -134,16 +189,28 @@ async function main() {
   } catch (e) {
     arrayErr = e instanceof Error ? e.message : String(e);
   }
-  check("array-form $transaction rejected in tenant scope", !!arrayErr && arrayErr.includes("array form"), { err: arrayErr });
+  check(
+    "array-form $transaction rejected in tenant scope",
+    !!arrayErr && arrayErr.includes("array form"),
+    { err: arrayErr }
+  );
 
   // no tenant pin leaked on the base pool after all of the above
-  const leak = await base.$queryRaw<[{ v: string | null }]>`SELECT current_setting('app.tenant_id', true) AS v`;
-  check("setting does NOT leak onto the base pool", (leak[0]?.v ?? "") === "", { v: leak[0]?.v });
+  const leak = await base.$queryRaw<
+    [{ v: string | null }]
+  >`SELECT current_setting('app.tenant_id', true) AS v`;
+  check("setting does NOT leak onto the base pool", (leak[0]?.v ?? "") === "", {
+    v: leak[0]?.v
+  });
 
   await plain.$disconnect();
   await base.$disconnect();
 
-  console.log(failures === 0 ? "\nAll smoke checks passed (read-only)." : `\n${failures} smoke check(s) FAILED.`);
+  console.log(
+    failures === 0
+      ? "\nAll smoke checks passed (read-only)."
+      : `\n${failures} smoke check(s) FAILED.`
+  );
   process.exit(failures === 0 ? 0 : 1);
 }
 

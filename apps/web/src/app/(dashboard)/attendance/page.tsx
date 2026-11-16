@@ -6,7 +6,8 @@ import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Attendance",
-  description: "Attendance tracking, check-ins, and leave overview for the firm.",
+  description:
+    "Attendance tracking, check-ins, and leave overview for the firm.",
   alternates: { canonical: "/attendance" }
 };
 

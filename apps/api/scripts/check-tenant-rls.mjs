@@ -63,7 +63,8 @@ function protectedTables(files) {
   const state = new Map(); // table -> { enable: bool, force: bool, policy: bool }
   const ensure = (t) => {
     const key = normalizeTable(t);
-    if (!state.has(key)) state.set(key, { enable: false, force: false, policy: false });
+    if (!state.has(key))
+      state.set(key, { enable: false, force: false, policy: false });
     return state.get(key);
   };
 
@@ -98,9 +99,15 @@ const unprotected = models.filter((table) => {
 if (args.has("--write-baseline")) {
   writeFileSync(
     baselinePath,
-    JSON.stringify({ generatedAt: new Date().toISOString(), unprotected }, null, 2) + "\n"
+    JSON.stringify(
+      { generatedAt: new Date().toISOString(), unprotected },
+      null,
+      2
+    ) + "\n"
   );
-  console.log(`Baseline written to ${baselinePath}: ${unprotected.length} unprotected tables`);
+  console.log(
+    `Baseline written to ${baselinePath}: ${unprotected.length} unprotected tables`
+  );
   process.exit(0);
 }
 
@@ -134,7 +141,9 @@ if (strict) {
     );
     process.exit(1);
   }
-  console.log("\nRLS check (--strict) passed: every firmId table has ENABLE+FORCE RLS and a POLICY.");
+  console.log(
+    "\nRLS check (--strict) passed: every firmId table has ENABLE+FORCE RLS and a POLICY."
+  );
   process.exit(0);
 }
 

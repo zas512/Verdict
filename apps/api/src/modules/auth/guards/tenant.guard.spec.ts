@@ -35,17 +35,29 @@ describe("TenantGuard", () => {
   });
 
   it("allows SUPER_ADMIN through even without firmId", () => {
-    const ctx = httpContext({ sub: "root", role: UserRole.SUPER_ADMIN, firmId: null });
+    const ctx = httpContext({
+      sub: "root",
+      role: UserRole.SUPER_ADMIN,
+      firmId: null
+    });
     expect(guard.canActivate(ctx)).toBe(true);
   });
 
   it("allows a firm-scoped OWNER through", () => {
-    const ctx = httpContext({ sub: "u-1", role: UserRole.OWNER, firmId: "firm-1" });
+    const ctx = httpContext({
+      sub: "u-1",
+      role: UserRole.OWNER,
+      firmId: "firm-1"
+    });
     expect(guard.canActivate(ctx)).toBe(true);
   });
 
   it("allows a firm-scoped ASSOCIATE through", () => {
-    const ctx = httpContext({ sub: "u-2", role: UserRole.ASSOCIATE, firmId: "firm-1" });
+    const ctx = httpContext({
+      sub: "u-2",
+      role: UserRole.ASSOCIATE,
+      firmId: "firm-1"
+    });
     expect(guard.canActivate(ctx)).toBe(true);
   });
 
@@ -55,7 +67,11 @@ describe("TenantGuard", () => {
   });
 
   it("denies a non-SUPER_ADMIN authenticated user with undefined firmId", () => {
-    const ctx = httpContext({ sub: "u-4", role: UserRole.OWNER, firmId: undefined });
+    const ctx = httpContext({
+      sub: "u-4",
+      role: UserRole.OWNER,
+      firmId: undefined
+    });
     expect(() => guard.canActivate(ctx)).toThrow(ForbiddenException);
   });
 

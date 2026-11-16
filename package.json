@@ -12,13 +12,14 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "concurrently": "^10.0.3",
-    "prettier": "^3.4.2"
+    "concurrently": "^10.0.7",
+    "prettier": "^3.10.1"
   },
   "allowScripts": {
     "bcrypt@6.0.0": true,
-    "@prisma/engines@7.9.1": true,
-    "prisma@7.9.1": true,
+    "@prisma/engines@7.10.1": true,
+    "prisma@7.10.1": true,
+    "@parcel/watcher@2.6.0": true,
     "sharp@0.34.5": true,
     "esbuild@0.28.1": true,
     "unrs-resolver@1.12.2": true
